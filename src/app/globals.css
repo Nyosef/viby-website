@@ -417,6 +417,7 @@ h3 {
 }
 
 .why,
+.demo,
 .games,
 .journey,
 .business-tools,
@@ -424,6 +425,63 @@ h3 {
 .pricing,
 .faq {
   padding: 6rem 0;
+}
+
+.demo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  padding: 2rem;
+  border: 1px solid rgba(255, 47, 131, 0.2);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255, 47, 131, 0.12), transparent 18rem),
+    linear-gradient(145deg, #ffffff, #fff1f7);
+  box-shadow: 0 18px 56px rgba(42, 24, 48, 0.08);
+}
+
+.demo h2 {
+  max-width: 720px;
+}
+
+.demo-copy p:not(.eyebrow) {
+  max-width: 620px;
+  color: var(--muted);
+  font-size: 1.12rem;
+  line-height: 1.75;
+}
+
+.qr-card {
+  display: grid;
+  justify-items: center;
+  gap: 0.85rem;
+  min-width: 260px;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 16px 44px rgba(42, 24, 48, 0.1);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.qr-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 58px rgba(255, 47, 131, 0.16);
+}
+
+.qr-card img {
+  width: min(260px, 60vw);
+  height: auto;
+}
+
+.qr-card span {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 800;
 }
 
 .flow {
@@ -876,6 +934,7 @@ details p {
   }
 
   .hero,
+  .demo,
   .platform,
   .contact {
     grid-template-columns: 1fr;
@@ -948,6 +1007,7 @@ details p {
   }
 
   .why,
+  .demo,
   .games,
   .journey,
   .platform,
@@ -958,6 +1018,15 @@ details p {
   .pricing,
   .faq {
     padding: 4rem 0;
+  }
+
+  .demo {
+    padding: 1.25rem;
+  }
+
+  .qr-card {
+    min-width: 0;
+    width: 100%;
   }
 
   .flow,

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { siteConfig } from "@/lib/site";
 
 const navItems = [
+  { label: "דמו", href: "#demo" },
   { label: "למה זה עובד", href: "#why" },
   { label: "משחקים", href: "#games" },
   { label: "חוויה", href: "#process" },
@@ -134,6 +135,8 @@ const whatsappMessage =
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
   whatsappMessage,
 )}`;
+const demoUrl =
+  "https://customer-retention-system-six.vercel.app/d/viby-VFE1A2";
 
 export default function Home() {
   const structuredData = {
@@ -238,11 +241,11 @@ export default function Home() {
             ממנה.
           </p>
           <div className="hero-actions">
-            <a className="button primary" href={whatsappUrl}>
-              דברו איתנו ב-WhatsApp
+            <a className="button primary" href={demoUrl}>
+              נסו את הדמו
             </a>
-            <a className="button secondary" href="#process">
-              לראות איך זה עובד
+            <a className="button secondary" href={whatsappUrl}>
+              דברו איתנו ב-WhatsApp
             </a>
           </div>
           <div className="hero-stats" aria-label="מדדי דוגמה">
@@ -284,6 +287,30 @@ export default function Home() {
             <strong>בכל ביקור</strong>
           </div>
         </div>
+      </section>
+
+      <section className="demo section-shell" id="demo">
+        <div className="demo-copy">
+          <p className="eyebrow">נסו בעצמכם</p>
+          <h2>סרקו את הקוד ותראו איך לקוח מרגיש את Viby בפועל.</h2>
+          <p>
+            פתחו את הדמו, שחקו כמו לקוח אחרי קנייה, ותראו איך רגע קטן של משחק
+            הופך לסיבה לחזור.
+          </p>
+          <a className="button primary" href={demoUrl}>
+            פתיחת הדמו
+          </a>
+        </div>
+        <a className="qr-card" href={demoUrl} aria-label="פתיחת דמו Viby">
+          <Image
+            src="/viby-demo-qr.svg"
+            alt="QR לפתיחת דמו Viby"
+            width={260}
+            height={260}
+            unoptimized
+          />
+          <span>אפשר לסרוק או ללחוץ</span>
+        </a>
       </section>
 
       <section className="why section-shell" id="why">
