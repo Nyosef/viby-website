@@ -14,6 +14,7 @@ export const siteConfig = {
   areaServed: "ישראל",
   whatsappNumber: "972509565137",
   whatsappDisplay: "050-956-5137",
+  businessEntranceUrl: "https://customer-retention-system-six.vercel.app/",
   launchPrice: "149",
   regularPrice: "199",
   keywords: [
