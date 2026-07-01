@@ -11,20 +11,20 @@ const navItems = [
 
 const features = [
   {
-    title: "כרטיס ניקובים דיגיטלי",
-    text: "לקוחות צוברים הטבות בלי לשמור כרטיסים פיזיים ובלי שהצוות ינהל מעקב ידני.",
+    title: "כרטיסיות דיגיטליות",
+    text: "לקוחות צוברים ניקובים והטבות בלי כרטיסי נייר ובלי מעקב ידני בקופה.",
   },
   {
-    title: "קמפיינים חוזרים",
-    text: "החזירו לקוחות לביקור נוסף עם מבצעים, תזכורות והטבות לפי התנהגות.",
+    title: "משחקי נאמנות",
+    text: "גלגל מזל, כרטיסי גירוד וחוויות משחקיות שהופכות הטבה לרגע שכיף לחזור אליו.",
+  },
+  {
+    title: "מועדון לקוחות",
+    text: "בנו רשימת לקוחות פעילה לעסק המקומי שלכם והציעו הטבות שחוזרות עם הלקוח.",
   },
   {
     title: "מדידה בזמן אמת",
-    text: "ראו כמה לקוחות חוזרים, אילו הטבות עובדות ואיפה כדאי לשפר את המועדון.",
-  },
-  {
-    title: "הפעלה מהירה",
-    text: "מתחילים עם עמוד עסק, הטבה ראשונה וקישור שיתוף בלי פיתוח פנימי.",
+    text: "ראו כמה לקוחות חוזרים, אילו משחקים עובדים ואילו הטבות מניעות ביקור נוסף.",
   },
 ];
 
@@ -36,37 +36,52 @@ const steps = [
 
 const plans = [
   {
-    name: "Starter",
+    name: "השקת Viby",
     price: "₪149",
-    description: "לעסק שרוצה להתחיל מועדון לקוחות דיגיטלי בסיסי.",
-  },
-  {
-    name: "Growth",
-    price: "₪299",
-    description: "לצוות שרוצה קמפיינים, מדידה ושיפור מתמשך.",
+    description:
+      "מחיר השקה מיוחד לחצי שנה ראשונה. לאחר מכן ₪199 לחודש.",
     featured: true,
   },
   {
-    name: "Scale",
+    name: "עסק עם כמה סניפים",
     price: "מותאם",
-    description: "לרשתות או עסקים עם צרכים מתקדמים ומספר סניפים.",
+    description:
+      "לעסקים שרוצים להפעיל משחקי נאמנות במספר נקודות מכירה או מותגים.",
   },
 ];
 
 const faqs = [
   {
     question: "האם צריך אפליקציה?",
-    answer: "לא. הגרסה הראשונה בנויה סביב חוויה דיגיטלית פשוטה וקישור נגיש.",
+    answer: "לא. הלקוח נכנס דרך קישור או QR ומקבל חוויה דיגיטלית פשוטה.",
   },
   {
-    question: "כמה מהר אפשר להתחיל?",
-    answer: "בדרך כלל אפשר להקים כרטיס והטבה ראשונה כבר באותו יום.",
+    question: "לאילו עסקים זה מתאים?",
+    answer:
+      "לבתי קפה, עגלות קפה, ברי יין, פיצריות, גלידריות, מספרות, מכוני יופי וכל עסק שיכול להפוך חזרה של לקוחות למשחק.",
   },
   {
-    question: "האם יש התחייבות?",
-    answer: "בשלב זה אלו חבילות תצוגה ראשוניות. תנאי המסחר יוגדרו בהמשך.",
+    question: "כמה זה עולה?",
+    answer:
+      "מחיר ההשקה מתחיל ב-₪149 לחודש לחצי שנה ראשונה. לאחר מכן המחיר הוא ₪199 לחודש.",
   },
 ];
+
+const targetBusinesses = [
+  "בתי קפה",
+  "עגלות קפה",
+  "ברי יין",
+  "פיצריות",
+  "גלידריות",
+  "מכוני יופי",
+  "מספרות",
+];
+
+const whatsappMessage =
+  "היי, אשמח לשמוע עוד על Viby ומערכת שימור הלקוחות לעסק שלי";
+const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+  whatsappMessage,
+)}`;
 
 export default function Home() {
   const structuredData = {
@@ -78,6 +93,18 @@ export default function Home() {
         name: siteConfig.name,
         url: siteConfig.url,
         logo: `${siteConfig.url}${siteConfig.ogImage}`,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: siteConfig.address.locality,
+          addressCountry: siteConfig.address.country,
+        },
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: `+${siteConfig.whatsappNumber}`,
+          contactType: "sales",
+          areaServed: siteConfig.areaServed,
+          availableLanguage: ["he"],
+        },
       },
       {
         "@type": "WebSite",
@@ -96,8 +123,10 @@ export default function Home() {
         operatingSystem: "Web",
         description: siteConfig.description,
         url: siteConfig.url,
+        areaServed: siteConfig.areaServed,
         offers: {
           "@type": "Offer",
+          price: siteConfig.launchPrice,
           priceCurrency: "ILS",
           availability: "https://schema.org/PreOrder",
         },
@@ -146,15 +175,15 @@ export default function Home() {
 
       <section className="hero section-shell" id="top">
         <div className="hero-copy">
-          <p className="eyebrow">מועדון לקוחות דיגיטלי לעסקים מקומיים</p>
-          <h1>הדרך הקלה להפוך ביקור חד פעמי להרגל שחוזר.</h1>
+          <p className="eyebrow">מערכת לשימור לקוחות לעסקים בישראל</p>
+          <h1>מערכת לשימור לקוחות שגורמת ללקוחות לחזור שוב ושוב</h1>
           <p className="hero-text">
-            Viby מחברת בין כרטיס ניקובים דיגיטלי, הטבות חכמות ודאטה פשוטה
-            שמראה מה באמת גורם ללקוחות לחזור.
+            משחקי נאמנות, כרטיסיות דיגיטליות, גלגל מזל, כרטיסי גירוד ומועדון
+            לקוחות - הכל במערכת אחת.
           </p>
           <div className="hero-actions">
-            <a className="button primary" href="#contact">
-              קבעו שיחת היכרות
+            <a className="button primary" href={whatsappUrl}>
+              דברו איתנו ב-WhatsApp
             </a>
             <a className="button secondary" href="#about">
               לראות איך זה עובד
@@ -162,13 +191,13 @@ export default function Home() {
           </div>
           <div className="hero-stats" aria-label="מדדי דוגמה">
             <span>
-              <strong>3</strong> דקות להקמה
+              <strong>₪149</strong> מחיר השקה
             </span>
             <span>
-              <strong>24/7</strong> מעקב דיגיטלי
+              <strong>6</strong> חודשים בהנחה
             </span>
             <span>
-              <strong>0</strong> כרטיסי נייר
+              <strong>₪199</strong> לאחר מכן
             </span>
           </div>
         </div>
@@ -183,7 +212,7 @@ export default function Home() {
               className="phone-logo"
             />
             <div className="loyalty-card">
-              <span>הכרטיס של נועה</span>
+              <span>משחק הנאמנות של נועה</span>
               <strong>7 / 10</strong>
               <div className="punch-row">
                 {Array.from({ length: 10 }).map((_, index) => (
@@ -191,7 +220,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="reward-strip">עוד 3 ביקורים לקפה חינם</div>
+            <div className="reward-strip">עוד 3 ביקורים להטבה הבאה</div>
           </div>
           <div className="floating-panel">
             <span>לקוחות חוזרים</span>
@@ -203,18 +232,24 @@ export default function Home() {
       <section className="about section-shell" id="about">
         <div>
           <p className="eyebrow">מה זה Viby?</p>
-          <h2>מועדון לקוחות שאפשר להפעיל בלי מערכת כבדה.</h2>
+          <h2>מערכת שימור לקוחות שנבנתה לעסקים שמוכרים חוויה.</h2>
         </div>
         <p>
-          במקום כרטיסי נייר, אקסלים ומבצעים שנעלמים, Viby מרכזת את החוויה
-          הדיגיטלית של הלקוח ואת הנתונים שהעסק צריך כדי לקבל החלטות.
+          Viby מתאימה לבתי קפה, עגלות קפה, ברי יין, פיצריות, גלידריות,
+          מספרות ומכוני יופי שרוצים להפוך כל ביקור להזדמנות לחזרה נוספת.
         </p>
+      </section>
+
+      <section className="businesses section-shell" aria-label="סוגי עסקים">
+        {targetBusinesses.map((business) => (
+          <span key={business}>{business}</span>
+        ))}
       </section>
 
       <section className="features section-shell" id="features">
         <div className="section-heading">
-          <p className="eyebrow">יכולות בסיס</p>
-          <h2>כל מה שצריך לגרסה ראשונה של מועדון לקוחות.</h2>
+          <p className="eyebrow">יכולות מרכזיות</p>
+          <h2>כל מה שצריך כדי להפוך נאמנות לקוחות למשחק חוזר.</h2>
         </div>
         <div className="feature-grid">
           {features.map((feature) => (
@@ -230,10 +265,10 @@ export default function Home() {
       <section className="dashboard section-shell">
         <div className="dashboard-copy">
           <p className="eyebrow">תמונת מצב פשוטה</p>
-          <h2>דאשבורד שמראה מה קורה במועדון בלי לחפור בדוחות.</h2>
+          <h2>דאשבורד שמראה אילו משחקים באמת מחזירים לקוחות.</h2>
           <p>
-            התחילו ממדדים בסיסיים: לקוחות חדשים, ביקורים חוזרים, מימושי הטבות
-            וקמפיינים פעילים.
+            התחילו ממדדים פשוטים: לקוחות חדשים, ביקורים חוזרים, מימושי הטבות
+            ומשחקי נאמנות פעילים.
           </p>
         </div>
         <div className="dashboard-preview">
@@ -258,7 +293,7 @@ export default function Home() {
       <section className="process section-shell" id="process">
         <div className="section-heading">
           <p className="eyebrow">איך זה עובד</p>
-          <h2>שלושה צעדים להתחלה.</h2>
+          <h2>שלושה צעדים שמתחילים כבר בנקודת המכירה.</h2>
         </div>
         <div className="steps">
           {steps.map((step, index) => (
@@ -273,18 +308,18 @@ export default function Home() {
       <section className="comparison section-shell">
         <div className="comparison-card paper">
           <h3>לפני</h3>
-          <p>כרטיסים פיזיים, מעקב ידני, מעט דאטה וקושי להבין מי חוזר.</p>
+          <p>כרטיסים פיזיים, מבצעים שנשכחים וקושי להפוך ביקור להרגל.</p>
         </div>
         <div className="comparison-card digital">
           <h3>עם Viby</h3>
-          <p>חוויה דיגיטלית, הטבות מדידות ותמונה ברורה של נאמנות לקוחות.</p>
+          <p>משחקים דיגיטליים, הטבות מדידות ותמריץ ברור לביקור הבא.</p>
         </div>
       </section>
 
       <section className="pricing section-shell" id="pricing">
         <div className="section-heading">
           <p className="eyebrow">מחירים</p>
-          <h2>חבילות ראשוניות לתכנון המוצר.</h2>
+          <h2>מחיר השקה פשוט לעסקים שמתחילים עכשיו.</h2>
         </div>
         <div className="pricing-grid">
           {plans.map((plan) => (
@@ -295,7 +330,7 @@ export default function Home() {
               <h3>{plan.name}</h3>
               <strong>{plan.price}</strong>
               <p>{plan.description}</p>
-              <a href="#contact">בחרו חבילה</a>
+              <a href={whatsappUrl}>דברו איתנו</a>
             </article>
           ))}
         </div>
@@ -319,23 +354,13 @@ export default function Home() {
       <section className="contact section-shell" id="contact">
         <div>
           <p className="eyebrow">רוצים לבדוק התאמה?</p>
-          <h2>השאירו פרטים ונבנה יחד את גרסת הבסיס.</h2>
+          <h2>שלחו WhatsApp ונבדוק אם Viby מתאימה לעסק שלכם.</h2>
         </div>
-        <form className="contact-form">
-          <label>
-            שם מלא
-            <input type="text" name="name" placeholder="השם שלך" />
-          </label>
-          <label>
-            טלפון או אימייל
-            <input type="text" name="contact" placeholder="איך נחזור אליך?" />
-          </label>
-          <label>
-            סוג העסק
-            <input type="text" name="business" placeholder="קפה, סטודיו, חנות..." />
-          </label>
-          <button type="button">שלחו בקשה</button>
-        </form>
+        <div className="contact-panel">
+          <span>הרצליה, ישראל</span>
+          <strong>{siteConfig.whatsappDisplay}</strong>
+          <a href={whatsappUrl}>פתיחת שיחה ב-WhatsApp</a>
+        </div>
       </section>
 
       <footer className="site-footer">
@@ -343,9 +368,17 @@ export default function Home() {
         <div>
           <a href="#features">יכולות</a>
           <a href="#pricing">מחירים</a>
-          <a href="#contact">יצירת קשר</a>
+          <a href={whatsappUrl}>WhatsApp</a>
         </div>
       </footer>
+
+      <a
+        className="whatsapp-float"
+        href={whatsappUrl}
+        aria-label="פתיחת שיחה ב-WhatsApp"
+      >
+        WhatsApp
+      </a>
     </main>
   );
 }
