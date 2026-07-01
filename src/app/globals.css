@@ -428,21 +428,22 @@ h3 {
 
 .flow {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 0.75rem;
+  grid-template-columns: repeat(6, minmax(128px, 1fr));
+  gap: 1.1rem;
+  align-items: stretch;
 }
 
 .flow span {
   position: relative;
-  min-height: 92px;
+  min-height: 78px;
   display: grid;
   place-items: center;
-  padding: 1rem;
+  padding: 0.9rem 1rem;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: white;
   color: var(--ink);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 900;
   text-align: center;
   box-shadow: 0 14px 42px rgba(42, 24, 48, 0.06);
@@ -450,10 +451,13 @@ h3 {
 
 .flow span:not(:last-child)::after {
   position: absolute;
-  left: -0.65rem;
+  left: -0.86rem;
+  top: 50%;
+  transform: translateY(-50%);
   color: var(--brand-strong);
-  content: "→";
+  content: "←";
   font-weight: 900;
+  line-height: 1;
 }
 
 .game-grid {
