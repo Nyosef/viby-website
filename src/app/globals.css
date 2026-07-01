@@ -454,18 +454,43 @@ h3 {
 }
 
 .qr-card {
+  position: relative;
+  overflow: hidden;
   display: grid;
   justify-items: center;
   gap: 0.85rem;
   min-width: 260px;
-  padding: 1rem;
+  padding: 1.35rem;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: white;
+  background:
+    radial-gradient(circle at center, white 0 24%, transparent 25%),
+    conic-gradient(
+      from 18deg,
+      var(--brand) 0 36deg,
+      var(--peach) 36deg 72deg,
+      #ffffff 72deg 108deg,
+      var(--plum) 108deg 144deg,
+      #fff2f8 144deg 180deg,
+      var(--brand) 180deg 216deg,
+      var(--peach) 216deg 252deg,
+      #ffffff 252deg 288deg,
+      var(--plum) 288deg 324deg,
+      #fff2f8 324deg 360deg
+    );
   box-shadow: 0 16px 44px rgba(42, 24, 48, 0.1);
   transition:
     transform 180ms ease,
     box-shadow 180ms ease;
+}
+
+.qr-card::before {
+  position: absolute;
+  inset: 0.65rem;
+  border: 2px solid rgba(255, 255, 255, 0.86);
+  border-radius: 999px;
+  content: "";
+  opacity: 0.72;
 }
 
 .qr-card:hover {
@@ -474,11 +499,22 @@ h3 {
 }
 
 .qr-card img {
+  position: relative;
+  z-index: 1;
   width: min(260px, 60vw);
   height: auto;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
 }
 
 .qr-card span {
+  position: relative;
+  z-index: 1;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
   color: var(--muted);
   font-size: 0.95rem;
   font-weight: 800;
