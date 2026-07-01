@@ -2,36 +2,89 @@ import Image from "next/image";
 import { siteConfig } from "@/lib/site";
 
 const navItems = [
-  { label: "מה זה", href: "#about" },
-  { label: "יכולות", href: "#features" },
-  { label: "תהליך", href: "#process" },
+  { label: "דמו", href: "#demo" },
+  { label: "למה זה עובד", href: "#why" },
+  { label: "משחקים", href: "#games" },
+  { label: "חוויה", href: "#process" },
   { label: "מחירים", href: "#pricing" },
   { label: "שאלות", href: "#faq" },
 ];
 
-const features = [
+const whyFlow = [
+  "קונים",
+  "משחקים",
+  "זוכים",
+  "מחייכים",
+  "חוזרים",
+  "משחקים שוב",
+];
+
+const games = [
   {
-    title: "כרטיסיות דיגיטליות",
-    text: "לקוחות צוברים ניקובים והטבות בלי כרטיסי נייר ובלי מעקב ידני בקופה.",
+    title: "גלגל מזל",
+    text: "יוצר רגע של התרגשות מיד אחרי הקנייה.",
+    className: "wheel",
   },
   {
-    title: "משחקי נאמנות",
-    text: "גלגל מזל, כרטיסי גירוד וחוויות משחקיות שהופכות הטבה לרגע שכיף לחזור אליו.",
+    title: "כרטיסי גירוד",
+    text: "גורמים לכל ביקור להרגיש כמו הפתעה קטנה.",
+    className: "scratch",
   },
   {
-    title: "מועדון לקוחות",
-    text: "בנו רשימת לקוחות פעילה לעסק המקומי שלכם והציעו הטבות שחוזרות עם הלקוח.",
+    title: "מתנה מסתורית",
+    text: "בונה סקרנות וציפייה עד הפעם הבאה.",
+    className: "gift",
   },
   {
-    title: "מדידה בזמן אמת",
-    text: "ראו כמה לקוחות חוזרים, אילו משחקים עובדים ואילו הטבות מניעות ביקור נוסף.",
+    title: "קוביית מזל",
+    text: "רגע משחקי קצר לפני שיוצאים מהעסק.",
+    className: "dice",
+  },
+  {
+    title: "כרטיסיית ניקוב דיגיטלית",
+    text: "ללקוחות שאוהבים לראות התקדמות ולהשלים יעד.",
+    className: "punch",
   },
 ];
 
-const steps = [
-  "מגדירים את העסק וההטבה הראשונה",
-  "משתפים קישור או QR בנקודת המכירה",
-  "לקוחות חוזרים, צוברים ומממשים",
+const customerJourney = [
+  "סורקים QR",
+  "משחקים",
+  "זוכים בהטבה",
+  "שומרים כרטיס חבר",
+  "חוזרים שוב",
+];
+
+const platformItems = [
+  "משחקי נאמנות",
+  "מועדון לקוחות דיגיטלי",
+  "כרטיסיית ניקוב דיגיטלית",
+  "תגמולים והטבות",
+  "תובנות על לקוחות חוזרים",
+];
+
+const businessTools = [
+  "מאגר לקוחות",
+  "אנליטיקה",
+  "Apple Wallet",
+  "Google Wallet",
+  "ניהול הטבות",
+  "מימוש על ידי צוות",
+  "קמפיינים בהמשך",
+];
+
+const comparisonRows = [
+  ["אוספים ניקובים", "משחקים אחרי הקנייה"],
+  ["אותה חוויה בכל ביקור", "אפשר לרענן את החוויה"],
+  ["קל לשכוח", "יש משהו קטן לצפות לו"],
+  ["כרטיסייה בלבד", "מערכת שימור לקוחות חווייתית"],
+];
+
+const beliefs = [
+  "אנחנו מאמינים שנאמנות לקוחות לא צריכה להרגיש כמו שיעורי בית.",
+  "כל ביקור צריך להרגיש מתגמל.",
+  "עסקים מקומיים צריכים כלים יפים, פשוטים ומהנים.",
+  "לקוחות צריכים לצאת עם חיוך — ועם משהו קטן לצפות לו בפעם הבאה.",
 ];
 
 const plans = [
@@ -82,6 +135,8 @@ const whatsappMessage =
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
   whatsappMessage,
 )}`;
+const demoUrl =
+  "https://customer-retention-system-six.vercel.app/d/viby-VFE1A2";
 
 export default function Home() {
   const structuredData = {
@@ -168,7 +223,7 @@ export default function Home() {
             </a>
           ))}
         </nav>
-        <a className="header-cta" href="#contact">
+        <a className="header-cta" href={whatsappUrl}>
           דברו איתנו
         </a>
       </header>
@@ -176,17 +231,21 @@ export default function Home() {
       <section className="hero section-shell" id="top">
         <div className="hero-copy">
           <p className="eyebrow">מערכת לשימור לקוחות לעסקים בישראל</p>
-          <h1>מערכת לשימור לקוחות שגורמת ללקוחות לחזור שוב ושוב</h1>
+          <h1>תנו ללקוחות סיבה לחזור.</h1>
           <p className="hero-text">
-            משחקי נאמנות, כרטיסיות דיגיטליות, גלגל מזל, כרטיסי גירוד ומועדון
-            לקוחות - הכל במערכת אחת.
+            מערכת שימור לקוחות שהופכת כל ביקור לחוויה מהנה עם משחקים, תגמולים
+            ומועדון לקוחות דיגיטלי.
+          </p>
+          <p className="core-line">
+            Viby הופכת שימור לקוחות ממשהו טכני — לחוויה שהלקוחות באמת נהנים
+            ממנה.
           </p>
           <div className="hero-actions">
-            <a className="button primary" href={whatsappUrl}>
-              דברו איתנו ב-WhatsApp
+            <a className="button primary" href={demoUrl}>
+              נסו את הדמו
             </a>
-            <a className="button secondary" href="#about">
-              לראות איך זה עובד
+            <a className="button secondary" href={whatsappUrl}>
+              דברו איתנו ב-WhatsApp
             </a>
           </div>
           <div className="hero-stats" aria-label="מדדי דוגמה">
@@ -202,8 +261,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="product-stage" aria-label="תצוגת מוצר לדוגמה">
-          <div className="phone-mock">
+        <div className="product-stage" aria-label="תצוגת חוויית לקוח לדוגמה">
+          <div className="phone-mock experience-phone">
             <Image
               src="/viby_transparent.png"
               alt=""
@@ -211,92 +270,88 @@ export default function Home() {
               height={147}
               className="phone-logo"
             />
-            <div className="loyalty-card">
-              <span>משחק הנאמנות של נועה</span>
-              <strong>7 / 10</strong>
-              <div className="punch-row">
-                {Array.from({ length: 10 }).map((_, index) => (
-                  <i key={index} className={index < 7 ? "active" : ""} />
-                ))}
-              </div>
+            <div className="play-card">
+              <span>אחרי הקנייה</span>
+              <strong>סובבו וזכו</strong>
+              <div className="mini-wheel" aria-hidden="true" />
             </div>
-            <div className="reward-strip">עוד 3 ביקורים להטבה הבאה</div>
+            <div className="reward-strip">זכיתם בהטבה לביקור הבא</div>
+            <div className="phone-steps">
+              <span>סריקה</span>
+              <span>משחק</span>
+              <span>חיוך</span>
+            </div>
           </div>
           <div className="floating-panel">
-            <span>לקוחות חוזרים</span>
-            <strong>+38%</strong>
+            <span>סיבה לחזור</span>
+            <strong>בכל ביקור</strong>
           </div>
         </div>
       </section>
 
-      <section className="about section-shell" id="about">
-        <div>
-          <p className="eyebrow">מה זה Viby?</p>
-          <h2>מערכת שימור לקוחות שנבנתה לעסקים שמוכרים חוויה.</h2>
+      <section className="demo section-shell" id="demo">
+        <div className="demo-copy">
+          <p className="eyebrow">נסו בעצמכם</p>
+          <h2>סרקו את הקוד ותראו איך לקוח מרגיש את Viby בפועל.</h2>
+          <p>
+            פתחו את הדמו, שחקו כמו לקוח אחרי קנייה, ותראו איך רגע קטן של משחק
+            הופך לסיבה לחזור.
+          </p>
+          <a className="button primary" href={demoUrl}>
+            פתיחת הדמו
+          </a>
         </div>
-        <p>
-          Viby מתאימה לבתי קפה, עגלות קפה, ברי יין, פיצריות, גלידריות,
-          מספרות ומכוני יופי שרוצים להפוך כל ביקור להזדמנות לחזרה נוספת.
-        </p>
+        <a className="qr-card" href={demoUrl} aria-label="פתיחת דמו Viby">
+          <Image
+            src="/viby-demo-qr.svg"
+            alt="QR לפתיחת דמו Viby"
+            width={260}
+            height={260}
+            unoptimized
+          />
+          <span>אפשר לסרוק או ללחוץ</span>
+        </a>
       </section>
 
-      <section className="businesses section-shell" aria-label="סוגי עסקים">
-        {targetBusinesses.map((business) => (
-          <span key={business}>{business}</span>
-        ))}
-      </section>
-
-      <section className="features section-shell" id="features">
+      <section className="why section-shell" id="why">
         <div className="section-heading">
-          <p className="eyebrow">יכולות מרכזיות</p>
-          <h2>כל מה שצריך כדי להפוך נאמנות לקוחות למשחק חוזר.</h2>
+          <p className="eyebrow">למה זה עובד</p>
+          <h2>לקוחות חוזרים בשביל חוויות, לא בשביל כרטיסיות.</h2>
+          <p>
+            כל ביקור מרגיש כמו עוד הזדמנות לזכות — לא כמו עוד מועדון לקוחות
+            שצריך לזכור.
+          </p>
         </div>
-        <div className="feature-grid">
-          {features.map((feature) => (
-            <article className="feature-card" key={feature.title}>
-              <span className="feature-icon" aria-hidden="true" />
-              <h3>{feature.title}</h3>
-              <p>{feature.text}</p>
+        <div className="flow" aria-label="מסלול חזרת לקוח">
+          {whyFlow.map((step) => (
+            <span key={step}>{step}</span>
+          ))}
+        </div>
+      </section>
+
+      <section className="games section-shell" id="games">
+        <div className="section-heading">
+          <p className="eyebrow">בחרו איך הלקוחות שלכם משחקים</p>
+          <h2>כל עסק יכול לבחור את הרגע שהלקוחות שלו הכי יאהבו.</h2>
+        </div>
+        <div className="game-grid">
+          {games.map((game) => (
+            <article className={`game-card ${game.className}`} key={game.title}>
+              <span className="game-visual" aria-hidden="true" />
+              <h3>{game.title}</h3>
+              <p>{game.text}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="dashboard section-shell">
-        <div className="dashboard-copy">
-          <p className="eyebrow">תמונת מצב פשוטה</p>
-          <h2>דאשבורד שמראה אילו משחקים באמת מחזירים לקוחות.</h2>
-          <p>
-            התחילו ממדדים פשוטים: לקוחות חדשים, ביקורים חוזרים, מימושי הטבות
-            ומשחקי נאמנות פעילים.
-          </p>
-        </div>
-        <div className="dashboard-preview">
-          <div className="metric-card">
-            <span>לקוחות פעילים</span>
-            <strong>1,284</strong>
-          </div>
-          <div className="metric-card">
-            <span>מימושים החודש</span>
-            <strong>312</strong>
-          </div>
-          <div className="chart" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-            <i />
-            <i />
-          </div>
-        </div>
-      </section>
-
-      <section className="process section-shell" id="process">
+      <section className="journey section-shell" id="process">
         <div className="section-heading">
-          <p className="eyebrow">איך זה עובד</p>
-          <h2>שלושה צעדים שמתחילים כבר בנקודת המכירה.</h2>
+          <p className="eyebrow">החוויה של הלקוח</p>
+          <h2>מהרגע שהוא משלם ועד הסיבה הבאה לחזור.</h2>
         </div>
-        <div className="steps">
-          {steps.map((step, index) => (
+        <div className="journey-grid">
+          {customerJourney.map((step, index) => (
             <article key={step}>
               <span>{index + 1}</span>
               <h3>{step}</h3>
@@ -305,15 +360,68 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="platform section-shell" id="about">
+        <div>
+          <p className="eyebrow">יותר ממועדון לקוחות</p>
+          <h2>Viby מחברת בין משחק, תגמול ודאטה כדי להגדיל ביקורים חוזרים.</h2>
+        </div>
+        <div className="platform-list">
+          {platformItems.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+      </section>
+
+      <section className="business-tools section-shell" id="features">
+        <div className="section-heading">
+          <p className="eyebrow">מאחורי הקלעים</p>
+          <h2>כל מה שהעסק צריך כדי להפעיל חוויה בלי להוסיף עבודה.</h2>
+        </div>
+        <div className="tool-grid">
+          {businessTools.map((tool) => (
+            <article key={tool}>
+              <span aria-hidden="true" />
+              <h3>{tool}</h3>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="comparison section-shell">
-        <div className="comparison-card paper">
-          <h3>לפני</h3>
-          <p>כרטיסים פיזיים, מבצעים שנשכחים וקושי להפוך ביקור להרגל.</p>
+        <div className="section-heading">
+          <p className="eyebrow">כרטיסיות רגילות vs Viby</p>
+          <h2>כרטיסייה עדיין יכולה לעבוד. Viby הופכת אותה לחוויה שלמה.</h2>
         </div>
-        <div className="comparison-card digital">
-          <h3>עם Viby</h3>
-          <p>משחקים דיגיטליים, הטבות מדידות ותמריץ ברור לביקור הבא.</p>
+        <div className="comparison-table">
+          <div className="comparison-head">
+            <span>כרטיסיות רגילות</span>
+            <span>Viby</span>
+          </div>
+          {comparisonRows.map(([traditional, viby]) => (
+            <div className="comparison-row" key={traditional}>
+              <span>{traditional}</span>
+              <strong>{viby}</strong>
+            </div>
+          ))}
         </div>
+      </section>
+
+      <section className="mission section-shell">
+        <div className="section-heading">
+          <p className="eyebrow">למה בנינו את Viby</p>
+          <h2>שימור לקוחות לא צריך להרגיש כמו תוכנה.</h2>
+        </div>
+        <div className="belief-list">
+          {beliefs.map((belief) => (
+            <p key={belief}>{belief}</p>
+          ))}
+        </div>
+      </section>
+
+      <section className="businesses section-shell" aria-label="סוגי עסקים">
+        {targetBusinesses.map((business) => (
+          <span key={business}>{business}</span>
+        ))}
       </section>
 
       <section className="pricing section-shell" id="pricing">
@@ -366,7 +474,8 @@ export default function Home() {
       <footer className="site-footer">
         <Image src="/viby_transparent.png" alt="Viby" width={130} height={87} />
         <div>
-          <a href="#features">יכולות</a>
+          <a href="#why">למה זה עובד</a>
+          <a href="#games">משחקים</a>
           <a href="#pricing">מחירים</a>
           <a href={whatsappUrl}>WhatsApp</a>
         </div>
