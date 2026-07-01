@@ -920,6 +920,78 @@ details p {
   gap: 1.25rem;
 }
 
+.support-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.48fr);
+  align-items: center;
+  gap: 3rem;
+  padding: 6rem 0 3rem;
+}
+
+.support-hero-copy p:not(.eyebrow),
+.support-topic-grid p,
+.support-contact-card p {
+  color: var(--muted);
+  font-size: 1.12rem;
+  line-height: 1.75;
+}
+
+.support-hero h1 {
+  max-width: 720px;
+}
+
+.support-contact-card {
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 47, 131, 0.22);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 56px rgba(42, 24, 48, 0.08);
+}
+
+.support-contact-card span {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--brand-strong);
+  font-weight: 900;
+}
+
+.support-contact-card strong {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 2.1rem;
+  line-height: 1;
+}
+
+.support-section {
+  padding: 5rem 0;
+}
+
+.support-topic-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.support-topic-grid article {
+  min-height: 250px;
+  padding: 1.3rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 14px 42px rgba(42, 24, 48, 0.06);
+}
+
+.support-topic-grid span {
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 1rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, var(--brand) 0 32%, transparent 33%),
+    conic-gradient(from 20deg, var(--peach), var(--plum), var(--peach));
+}
+
 @keyframes slow-spin {
   to {
     transform: rotate(360deg);
@@ -972,6 +1044,7 @@ details p {
   .hero,
   .demo,
   .platform,
+  .support-hero,
   .contact {
     grid-template-columns: 1fr;
   }
@@ -989,6 +1062,7 @@ details p {
   .flow,
   .game-grid,
   .journey-grid,
+  .support-topic-grid,
   .tool-grid,
   .pricing-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1052,8 +1126,13 @@ details p {
   .mission,
   .businesses,
   .pricing,
-  .faq {
+  .faq,
+  .support-section {
     padding: 4rem 0;
+  }
+
+  .support-hero {
+    padding: 4rem 0 2rem;
   }
 
   .demo {
@@ -1067,6 +1146,7 @@ details p {
 
   .flow,
   .game-grid,
+  .support-topic-grid,
   .pricing-grid,
   .journey-grid,
   .tool-grid,
