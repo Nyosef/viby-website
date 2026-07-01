@@ -9,6 +9,7 @@ const navItems = [
   { label: "מחירים", href: "#pricing" },
   { label: "שאלות", href: "#faq" },
   { label: "תמיכה", href: "/support" },
+  { label: "כניסת עסקים", href: siteConfig.businessEntranceUrl },
 ];
 
 const whyFlow = [
@@ -479,6 +480,7 @@ export default function Home() {
           <a href="#games">משחקים</a>
           <a href="#pricing">מחירים</a>
           <a href="/support">תמיכה</a>
+          <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
           <a href={whatsappUrl}>WhatsApp</a>
         </div>
       </footer>
