@@ -480,6 +480,8 @@ export default function Home() {
           <a href="#games">משחקים</a>
           <a href="#pricing">מחירים</a>
           <a href="/support">תמיכה</a>
+          <a href="/terms">תנאי שימוש</a>
+          <a href="/privacy">מדיניות פרטיות</a>
           <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
           <a href={whatsappUrl}>WhatsApp</a>
         </div>

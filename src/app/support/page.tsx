@@ -188,6 +188,8 @@ export default function SupportPage() {
           <Link href="/">בית</Link>
           <Link href="/#pricing">מחירים</Link>
           <Link href="/support">תמיכה</Link>
+          <Link href="/terms">תנאי שימוש</Link>
+          <Link href="/privacy">מדיניות פרטיות</Link>
           <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
           <a href={whatsappUrl}>WhatsApp</a>
         </div>
