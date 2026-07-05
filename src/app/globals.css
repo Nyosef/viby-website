@@ -696,7 +696,7 @@ h3 {
 .fair-card {
   position: relative;
   overflow: hidden;
-  min-height: 260px;
+  min-height: 240px;
   padding: 1.55rem;
   border: 1px solid rgba(42, 24, 48, 0.1);
   border-radius: 8px;
@@ -760,8 +760,21 @@ h3 {
 .fair-card p {
   position: relative;
   z-index: 1;
+  margin-bottom: 0.75rem;
   color: var(--muted);
   line-height: 1.65;
+}
+
+.fair-card .fair-cost {
+  display: inline-flex;
+  margin-bottom: 0.9rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 227, 189, 0.62);
+  color: var(--ink);
+  font-size: 0.98rem;
+  font-weight: 900;
+  line-height: 1.2;
 }
 
 .fair-card a {
@@ -789,6 +802,21 @@ h3 {
   transform: translateY(-2px);
   border-color: rgba(255, 47, 131, 0.32);
   box-shadow: 0 12px 28px rgba(255, 47, 131, 0.12);
+}
+
+.fair-package-note {
+  position: relative;
+  z-index: 1;
+  margin: 0.25rem 0 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255, 47, 131, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.55;
+  text-align: center;
 }
 
 .section-heading {
