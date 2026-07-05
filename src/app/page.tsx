@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { RotatingBusinessChips } from "@/components/RotatingBusinessChips";
 import { siteConfig } from "@/lib/site";
 
 const navItems = [
@@ -6,7 +7,9 @@ const navItems = [
   { label: "למה זה עובד", href: "#why" },
   { label: "משחקים", href: "#games" },
   { label: "חוויה", href: "#process" },
+  { label: "תשלום לפי שימוש", href: "#fair" },
   { label: "מחירים", href: "#pricing" },
+  { label: "למה Viby", href: "#comparison" },
   { label: "שאלות", href: "#faq" },
   { label: "תמיכה", href: "/support" },
   { label: "כניסת עסקים", href: siteConfig.businessEntranceUrl },
@@ -57,24 +60,6 @@ const customerJourney = [
   "חוזרים שוב",
 ];
 
-const platformItems = [
-  "משחקי נאמנות",
-  "מועדון לקוחות דיגיטלי",
-  "כרטיסיית ניקוב דיגיטלית",
-  "תגמולים והטבות",
-  "תובנות על לקוחות חוזרים",
-];
-
-const businessTools = [
-  "מאגר לקוחות",
-  "אנליטיקה",
-  "Apple Wallet",
-  "Google Wallet",
-  "ניהול הטבות",
-  "מימוש על ידי צוות",
-  "קמפיינים בהמשך",
-];
-
 const comparisonRows = [
   ["אוספים ניקובים", "משחקים אחרי הקנייה"],
   ["אותה חוויה בכל ביקור", "אפשר לרענן את החוויה"],
@@ -83,10 +68,26 @@ const comparisonRows = [
 ];
 
 const beliefs = [
-  "אנחנו מאמינים שנאמנות לקוחות לא צריכה להרגיש כמו שיעורי בית.",
-  "כל ביקור צריך להרגיש מתגמל.",
-  "עסקים מקומיים צריכים כלים יפים, פשוטים ומהנים.",
-  "לקוחות צריכים לצאת עם חיוך — ועם משהו קטן לצפות לו בפעם הבאה.",
+  {
+    label: "בלי מאמץ",
+    title: "נאמנות לא צריכה להרגיש כמו שיעורי בית.",
+    text: "הלקוח לא צריך לזכור כרטיסייה, סיסמה או תהליך מסובך. הוא סורק, משחק ומבין מיד מה קורה.",
+  },
+  {
+    label: "רגע מתגמל",
+    title: "כל ביקור צריך להרגיש כמו הזדמנות.",
+    text: "גם קנייה קטנה יכולה להפוך לרגע של הפתעה, פרס קטן או סיבה טובה לחזור שוב.",
+  },
+  {
+    label: "לעסקים מקומיים",
+    title: "כלים יפים ופשוטים, בלי מערכת כבדה.",
+    text: "בתי קפה, מספרות, גלידריות ומכוני יופי צריכים חוויה שנראית טוב ועובדת מהר לצוות.",
+  },
+  {
+    label: "סיבה לחזור",
+    title: "החיוך לא נגמר כשהלקוח יוצא מהעסק.",
+    text: "המטרה היא להשאיר משהו קטן לצפות לו בפעם הבאה, בלי להרגיש כמו עוד קמפיין שיווקי.",
+  },
 ];
 
 const plans = [
@@ -116,26 +117,56 @@ const faqs = [
       "לבתי קפה, עגלות קפה, ברי יין, פיצריות, גלידריות, מספרות, מכוני יופי וכל עסק שיכול להפוך חזרה של לקוחות למשחק.",
   },
   {
+    question: "מה זה Viby Fair?",
+    answer:
+      "Viby Fair הוא מסלול תשלום לפי שימוש: קונים חבילת משחקי פרס, נותנים ללקוחות לשחק, ועוקבים אחרי כמה משחקים נשארו.",
+  },
+  {
+    question: "האם חייבים להתחייב למנוי חודשי?",
+    answer:
+      "לא. אפשר להתחיל עם חבילת Viby Fair בתשלום חד-פעמי לפי שימוש. מי שרוצה מערכת מלאה לשימור לקוחות יכול לבחור במסלול החודשי.",
+  },
+  {
     question: "כמה זה עולה?",
     answer:
       "מחיר ההשקה מתחיל ב-₪149 לחודש לחצי שנה ראשונה. לאחר מכן המחיר הוא ₪199 לחודש.",
   },
 ];
 
-const targetBusinesses = [
-  "בתי קפה",
-  "עגלות קפה",
-  "ברי יין",
-  "פיצריות",
-  "גלידריות",
-  "מכוני יופי",
-  "מספרות",
+const fairPackages = [
+  {
+    name: "חבילת פתיחה",
+    price: "₪59",
+    games: "500 משחקי פרס",
+    description:
+      "קונים קרדיטים למשחקי פרס ומשתמשים בהם בקצב של העסק, בלי התחייבות חודשית.",
+  },
+  {
+    name: "חבילת חשיפה",
+    price: "₪99",
+    games: "1,000 משחקי פרס",
+    description:
+      "יותר משחקים לעסקים שרוצים להריץ פעילות ארוכה יותר, או לתת ליותר לקוחות לשחק.",
+    featured: true,
+  },
+];
+
+const fairSteps = [
+  "העסק קונה חבילת שימוש",
+  "לקוחות משחקים ומקבלים פרסים",
+  "העסק עוקב אחרי היתרה שנשארה",
+  "בהמשך: ניהול עצמאי וטעינה מחדש",
 ];
 
 const whatsappMessage =
   "היי, אשמח לשמוע עוד על Viby ומערכת שימור הלקוחות לעסק שלי";
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
   whatsappMessage,
+)}`;
+const fairWhatsappMessage =
+  "היי, אשמח לשמוע על Viby Fair ותשלום לפי שימוש לעסק שלי";
+const fairWhatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+  fairWhatsappMessage,
 )}`;
 const demoUrl =
   "https://customer-retention-system-six.vercel.app/d/viby-VFE1A2";
@@ -362,68 +393,51 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="platform section-shell" id="about">
-        <div>
-          <p className="eyebrow">יותר ממועדון לקוחות</p>
-          <h2>Viby מחברת בין משחק, תגמול ודאטה כדי להגדיל ביקורים חוזרים.</h2>
+      <section className="fair section-shell" id="fair">
+        <div className="fair-scene" aria-hidden="true">
+          <span className="fair-sun" />
+          <span className="fair-tent" />
+          <span className="fair-booth" />
+          <span className="fair-flags" />
         </div>
-        <div className="platform-list">
-          {platformItems.map((item) => (
-            <span key={item}>{item}</span>
-          ))}
+        <div className="fair-copy">
+          <div className="fair-sign">
+            <span>Viby</span>
+            <strong>Fair</strong>
+          </div>
+          <p className="eyebrow">תשלום לפי שימוש לעסקים קטנים</p>
+          <h2>משלמים לפי שימוש, לא לפי חודש.</h2>
+          <p>
+            חבילות משחקי פרס לעסקים קטנים שרוצים להתחיל בקטן: קונים כמות
+            משחקים, נותנים ללקוחות לשחק, ורואים כמה קרדיטים נשארו. בלי מנוי
+            חודשי ובלי התחייבות לפני שיודעים שזה עובד.
+          </p>
+          <div className="fair-steps" aria-label="איך Viby Fair עובד">
+            {fairSteps.map((step, index) => (
+              <span key={step}>
+                <strong>{index + 1}</strong>
+                {step}
+              </span>
+            ))}
+          </div>
+          <a className="button primary" href={fairWhatsappUrl}>
+            התחילו בתשלום לפי שימוש
+          </a>
         </div>
-      </section>
-
-      <section className="business-tools section-shell" id="features">
-        <div className="section-heading">
-          <p className="eyebrow">מאחורי הקלעים</p>
-          <h2>כל מה שהעסק צריך כדי להפעיל חוויה בלי להוסיף עבודה.</h2>
-        </div>
-        <div className="tool-grid">
-          {businessTools.map((tool) => (
-            <article key={tool}>
-              <span aria-hidden="true" />
-              <h3>{tool}</h3>
+        <div className="fair-packages" aria-label="חבילות Viby Fair">
+          {fairPackages.map((plan) => (
+            <article
+              className={`fair-card ${plan.featured ? "featured" : ""}`}
+              key={plan.name}
+            >
+              <span>{plan.name}</span>
+              <strong>{plan.price}</strong>
+              <h3>{plan.games}</h3>
+              <p>{plan.description}</p>
+              <a href={fairWhatsappUrl}>קניית חבילה</a>
             </article>
           ))}
         </div>
-      </section>
-
-      <section className="comparison section-shell">
-        <div className="section-heading">
-          <p className="eyebrow">כרטיסיות רגילות vs Viby</p>
-          <h2>כרטיסייה עדיין יכולה לעבוד. Viby הופכת אותה לחוויה שלמה.</h2>
-        </div>
-        <div className="comparison-table">
-          <div className="comparison-head">
-            <span>כרטיסיות רגילות</span>
-            <span>Viby</span>
-          </div>
-          {comparisonRows.map(([traditional, viby]) => (
-            <div className="comparison-row" key={traditional}>
-              <span>{traditional}</span>
-              <strong>{viby}</strong>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mission section-shell">
-        <div className="section-heading">
-          <p className="eyebrow">למה בנינו את Viby</p>
-          <h2>שימור לקוחות לא צריך להרגיש כמו תוכנה.</h2>
-        </div>
-        <div className="belief-list">
-          {beliefs.map((belief) => (
-            <p key={belief}>{belief}</p>
-          ))}
-        </div>
-      </section>
-
-      <section className="businesses section-shell" aria-label="סוגי עסקים">
-        {targetBusinesses.map((business) => (
-          <span key={business}>{business}</span>
-        ))}
       </section>
 
       <section className="pricing section-shell" id="pricing">
@@ -445,6 +459,50 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <section className="comparison section-shell" id="comparison">
+        <div className="section-heading">
+          <p className="eyebrow">כרטיסיות רגילות vs Viby</p>
+          <h2>כרטיסייה עדיין יכולה לעבוד. Viby הופכת אותה לחוויה שלמה.</h2>
+        </div>
+        <div className="comparison-table">
+          <div className="comparison-head">
+            <span>כרטיסיות רגילות</span>
+            <span>Viby</span>
+          </div>
+          {comparisonRows.map(([traditional, viby]) => (
+            <div className="comparison-row" key={traditional}>
+              <span>{traditional}</span>
+              <strong>{viby}</strong>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mission section-shell">
+        <div className="mission-heading">
+          <div>
+            <p className="eyebrow">למה בנינו את Viby</p>
+            <h2>שימור לקוחות לא צריך להרגיש כמו תוכנה.</h2>
+          </div>
+          <p>
+            Viby בנויה סביב רגעים קטנים שהלקוחות מבינים מיד והעסק יכול להפעיל
+            בלי להפוך את היום לעוד מסך ניהול.
+          </p>
+        </div>
+        <div className="belief-list">
+          {beliefs.map((belief, index) => (
+            <article key={belief.title}>
+              <span>{belief.label}</span>
+              <strong aria-hidden="true">{index + 1}</strong>
+              <h3>{belief.title}</h3>
+              <p>{belief.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <RotatingBusinessChips />
 
       <section className="faq section-shell" id="faq">
         <div className="section-heading">
@@ -478,6 +536,7 @@ export default function Home() {
         <div>
           <a href="#why">למה זה עובד</a>
           <a href="#games">משחקים</a>
+          <a href="#fair">Viby Fair</a>
           <a href="#pricing">מחירים</a>
           <a href="/support">תמיכה</a>
           <a href="/terms">תנאי שימוש</a>
