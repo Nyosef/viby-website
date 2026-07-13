@@ -1,16 +1,21 @@
 import Image from "next/image";
+import { LandingNav } from "@/components/LandingNav";
 import { RotatingBusinessChips } from "@/components/RotatingBusinessChips";
 import { siteConfig } from "@/lib/site";
 
 const navItems = [
   { label: "דמו", href: "#demo" },
+  { label: "איך זה עובד", href: "/how-it-works" },
+  { label: "מחירים", href: "#pricing" },
+  { label: "שאלות", href: "#faq" },
+];
+
+const secondaryNavItems = [
   { label: "למה זה עובד", href: "#why" },
   { label: "משחקים", href: "#games" },
-  { label: "חוויה", href: "#process" },
+  { label: "החוויה", href: "#process" },
   { label: "תשלום לפי שימוש", href: "#fair" },
-  { label: "מחירים", href: "#pricing" },
   { label: "למה Viby", href: "#comparison" },
-  { label: "שאלות", href: "#faq" },
   { label: "תמיכה", href: "/support" },
   { label: "כניסת עסקים", href: siteConfig.businessEntranceUrl },
 ];
@@ -264,13 +269,7 @@ export default function Home() {
             priority
           />
         </a>
-        <nav className="desktop-nav" aria-label="ניווט ראשי">
-          {navItems.map((item) => (
-            <a key={item.href} href={item.href}>
-              {item.label}
-            </a>
-          ))}
-        </nav>
+        <LandingNav primaryItems={navItems} secondaryItems={secondaryNavItems} />
         <a className="header-cta" href={whatsappUrl}>
           דברו איתנו
         </a>
@@ -358,6 +357,20 @@ export default function Home() {
             unoptimized
           />
           <span>אפשר לסרוק או ללחוץ</span>
+        </a>
+      </section>
+
+      <section className="video-cta section-shell">
+        <div>
+          <p className="eyebrow">רוצים לראות את כל התמונה?</p>
+          <h2>צפו בהסבר המלא על העבודה עם Viby.</h2>
+          <p>
+            סרטון אחד שמראה את זרימת הלקוח, עבודת הצוות בעסק, מימוש הטבות
+            והדרך שבה Viby משתלבת ביום-יום.
+          </p>
+        </div>
+        <a className="button secondary" href="/how-it-works">
+          צפייה בסרטון ההסבר
         </a>
       </section>
 
@@ -554,6 +567,7 @@ export default function Home() {
         <Image src="/viby_transparent.png" alt="Viby" width={130} height={87} />
         <div>
           <a href="#why">למה זה עובד</a>
+          <a href="/how-it-works">איך זה עובד</a>
           <a href="#games">משחקים</a>
           <a href="#fair">Viby Fair</a>
           <a href="#pricing">מחירים</a>

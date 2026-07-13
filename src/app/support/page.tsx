@@ -127,6 +127,9 @@ export default function SupportPage() {
             <a className="button primary" href={whatsappUrl}>
               פתיחת שיחת תמיכה ב-WhatsApp
             </a>
+            <Link className="button secondary" href="/how-it-works">
+              צפייה בסרטון ההסבר
+            </Link>
             <Link className="button secondary" href="/">
               חזרה לאתר
             </Link>
@@ -137,6 +140,20 @@ export default function SupportPage() {
           <strong>{siteConfig.whatsappDisplay}</strong>
           <p>זמינים לעזרה בהפעלה, תפעול, תקלות ושינויים לעסק.</p>
         </aside>
+      </section>
+
+      <section className="video-cta section-shell">
+        <div>
+          <p className="eyebrow">הדרכת צוות</p>
+          <h2>סרטון קצר שמסביר איך עובדים עם Viby.</h2>
+          <p>
+            מתאים לעובדים חדשים, לבעלי עסקים שרוצים להבין את התהליך ולכל מי
+            שצריך לראות את זרימת העבודה לפני שפונים לתמיכה.
+          </p>
+        </div>
+        <Link className="button secondary" href="/how-it-works">
+          פתיחת סרטון ההסבר
+        </Link>
       </section>
 
       <section className="support-section section-shell">
@@ -186,6 +203,7 @@ export default function SupportPage() {
         <Image src="/viby_transparent.png" alt="Viby" width={130} height={87} />
         <div>
           <Link href="/">בית</Link>
+          <Link href="/how-it-works">איך זה עובד</Link>
           <Link href="/#pricing">מחירים</Link>
           <Link href="/support">תמיכה</Link>
           <Link href="/terms">תנאי שימוש</Link>
