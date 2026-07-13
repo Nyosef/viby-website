@@ -3,6 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site";
 
+const vimeoPlayerUrl = "https://player.vimeo.com/video/1209541694";
+const vimeoPreviewImage =
+  "https://i.vimeocdn.com/filter/overlay?src0=https%3A%2F%2Fi.vimeocdn.com%2Fvideo%2F2179157172-36e9256af007177ec189b94ef719547c0b258fe880ea05093b17c35d816fde0b-d_200x150%3Fregion%3Dus&src1=http%3A%2F%2Ff.vimeocdn.com%2Fp%2Fimages%2Fcrawler_play.png";
+
 export const metadata: Metadata = {
   title: "איך Viby עובדת",
   description:
@@ -11,10 +15,42 @@ export const metadata: Metadata = {
     canonical: "/how-it-works",
   },
   openGraph: {
+    type: "video.other",
     title: "איך Viby עובדת | Viby",
     description:
       "צפו בהסבר מלא על זרימת הלקוח, עבודת הצוות, מימוש הטבות והפעלת Viby בעסק.",
     url: "/how-it-works",
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
+    images: [
+      {
+        url: vimeoPreviewImage,
+        width: 200,
+        height: 356,
+        alt: "סרטון הסבר על Viby",
+      },
+    ],
+    videos: [
+      {
+        url: vimeoPlayerUrl,
+        secureUrl: vimeoPlayerUrl,
+        type: "text/html",
+        width: 1080,
+        height: 1920,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "איך Viby עובדת | Viby",
+    description:
+      "צפו בסרטון ההסבר המלא על Viby: זרימת הלקוח, עבודת הצוות, מימוש הטבות והפעלת העסק.",
+    images: [
+      {
+        url: vimeoPreviewImage,
+        alt: "סרטון הסבר על Viby",
+      },
+    ],
   },
 };
 
@@ -26,7 +62,7 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURI
 const demoUrl =
   "https://customer-retention-system-six.vercel.app/d/viby-VFE1A2";
 const vimeoEmbedUrl =
-  "https://player.vimeo.com/video/1209541694?badge=0&autopause=0&player_id=0&app_id=58479";
+  `${vimeoPlayerUrl}?badge=0&autopause=0&autoplay=1&muted=1&player_id=0&app_id=58479`;
 
 const chapters = [
   {
@@ -55,6 +91,9 @@ export default function HowItWorksPage() {
     description:
       "סרטון הסבר מלא על Viby לעובדים, לקוחות פוטנציאליים ובעלי עסקים.",
     embedUrl: vimeoEmbedUrl,
+    thumbnailUrl: [vimeoPreviewImage],
+    duration: "PT1M33S",
+    uploadDate: "2026-07-13T10:01:52+03:00",
     url: `${siteConfig.url}/how-it-works`,
     inLanguage: siteConfig.language,
     publisher: {
@@ -95,8 +134,17 @@ export default function HowItWorksPage() {
         </a>
       </header>
 
-      <section className="video-hero section-shell">
-        <div>
+      <section className="video-hero section-shell" aria-label="סרטון הסבר Viby">
+        <div className="video-frame">
+          <iframe
+            src={vimeoEmbedUrl}
+            title="Viby_Main_Video"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </div>
+        <div className="video-hero-copy">
           <p className="eyebrow">סרטון הסבר מלא</p>
           <h1>איך Viby עובדת בפועל.</h1>
           <p>
@@ -112,18 +160,6 @@ export default function HowItWorksPage() {
               שאלות ב-WhatsApp
             </a>
           </div>
-        </div>
-      </section>
-
-      <section className="section-shell" aria-label="סרטון הסבר Viby">
-        <div className="video-frame">
-          <iframe
-            src={vimeoEmbedUrl}
-            title="Viby_Main_Video"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          />
         </div>
       </section>
 

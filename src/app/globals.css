@@ -1487,10 +1487,14 @@ details p {
 }
 
 .video-hero {
-  padding: 6rem 0 2rem;
+  display: grid;
+  grid-template-columns: minmax(260px, 520px) minmax(0, 1fr);
+  align-items: center;
+  gap: 3rem;
+  padding: 3.5rem 0 3rem;
 }
 
-.video-hero p:not(.eyebrow) {
+.video-hero-copy p:not(.eyebrow) {
   max-width: 760px;
   color: var(--muted);
   font-size: 1.22rem;
@@ -1803,6 +1807,7 @@ details p {
   .hero,
   .demo,
   .video-cta,
+  .video-hero,
   .fair,
   .mission-heading,
   .support-hero,
