@@ -270,6 +270,10 @@ export default function Home() {
           />
         </a>
         <LandingNav primaryItems={navItems} secondaryItems={secondaryNavItems} />
+        <a className="mobile-video-cta" href="/how-it-works">
+          <span aria-hidden="true">▶</span>
+          איך זה עובד
+        </a>
         <a className="header-cta" href={whatsappUrl}>
           דברו איתנו
         </a>
@@ -290,6 +294,10 @@ export default function Home() {
           <div className="hero-actions">
             <a className="button primary" href={demoUrl}>
               נסו את הדמו
+            </a>
+            <a className="button video-button" href="/how-it-works">
+              <span aria-hidden="true">▶</span>
+              צפו בסרטון קצר
             </a>
             <a className="button secondary" href={whatsappUrl}>
               דברו איתנו ב-WhatsApp
@@ -369,7 +377,8 @@ export default function Home() {
             והדרך שבה Viby משתלבת ביום-יום.
           </p>
         </div>
-        <a className="button secondary" href="/how-it-works">
+        <a className="button video-button" href="/how-it-works">
+          <span aria-hidden="true">▶</span>
           צפייה בסרטון ההסבר
         </a>
       </section>
