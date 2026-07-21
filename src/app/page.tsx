@@ -1,23 +1,47 @@
 import Image from "next/image";
 import { LandingNav } from "@/components/LandingNav";
-import { RotatingBusinessChips } from "@/components/RotatingBusinessChips";
 import { siteConfig } from "@/lib/site";
 
 const navItems = [
-  { label: "דמו", href: "#demo" },
   { label: "איך זה עובד", href: "/how-it-works" },
+  { label: "דוגמאות", href: "#games" },
   { label: "מחירים", href: "#pricing" },
-  { label: "שאלות", href: "#faq" },
+  { label: "Instagram", href: siteConfig.instagramUrl },
 ];
 
 const secondaryNavItems = [
+  { label: "דמו", href: "#demo" },
   { label: "למה זה עובד", href: "#why" },
   { label: "משחקים", href: "#games" },
   { label: "החוויה", href: "#process" },
-  { label: "תשלום לפי שימוש", href: "#fair" },
-  { label: "למה Viby", href: "#comparison" },
+  { label: "WhatsApp", href: "" },
+  { label: "שאלות", href: "#faq" },
   { label: "תמיכה", href: "/support" },
   { label: "כניסת עסקים", href: siteConfig.businessEntranceUrl },
+];
+
+const mobileNavItems = [
+  { label: "איך זה עובד", href: "/how-it-works" },
+  { label: "דוגמאות", href: "#games" },
+  { label: "מחירים", href: "#pricing" },
+  { label: "WhatsApp", href: "" },
+  { label: "כניסת עסקים", href: siteConfig.businessEntranceUrl },
+];
+
+const heroFeatures = [
+  "ללא אפליקציה",
+  "Apple Wallet",
+  "Google Wallet",
+  "כרטיסייה דיגיטלית",
+];
+
+const heroProofBusinesses = [
+  "בתי קפה",
+  "פיצריות",
+  "מספרות",
+  "מכוני יופי",
+  "מאמנים",
+  "סטודיואים",
 ];
 
 const whyFlow = [
@@ -65,42 +89,12 @@ const customerJourney = [
   "חוזרים שוב",
 ];
 
-const comparisonRows = [
-  ["אוספים ניקובים", "משחקים אחרי הקנייה"],
-  ["אותה חוויה בכל ביקור", "אפשר לרענן את החוויה"],
-  ["קל לשכוח", "יש משהו קטן לצפות לו"],
-  ["כרטיסייה בלבד", "מערכת שימור לקוחות חווייתית"],
-];
-
-const beliefs = [
-  {
-    label: "בלי מאמץ",
-    title: "נאמנות לא צריכה להרגיש כמו שיעורי בית.",
-    text: "הלקוח לא צריך לזכור כרטיסייה, סיסמה או תהליך מסובך. הוא סורק, משחק ומבין מיד מה קורה.",
-  },
-  {
-    label: "רגע מתגמל",
-    title: "כל ביקור צריך להרגיש כמו הזדמנות.",
-    text: "גם קנייה קטנה יכולה להפוך לרגע של הפתעה, פרס קטן או סיבה טובה לחזור שוב.",
-  },
-  {
-    label: "לעסקים מקומיים",
-    title: "כלים יפים ופשוטים, בלי מערכת כבדה.",
-    text: "בתי קפה, מספרות, גלידריות ומכוני יופי צריכים חוויה שנראית טוב ועובדת מהר לצוות.",
-  },
-  {
-    label: "סיבה לחזור",
-    title: "החיוך לא נגמר כשהלקוח יוצא מהעסק.",
-    text: "המטרה היא להשאיר משהו קטן לצפות לו בפעם הבאה, בלי להרגיש כמו עוד קמפיין שיווקי.",
-  },
-];
-
 const plans = [
   {
-    name: "השקת Viby",
-    price: "₪149",
+    name: "מסלול התחלה",
+    price: "החל מ-₪49 לחודש",
     description:
-      "מחיר השקה מיוחד לחצי שנה ראשונה. לאחר מכן ₪199 לחודש.",
+      "מסלול התחלה לעסק שרוצה כרטיסיות דיגיטליות, Wallet וחוויות החזרת לקוחות.",
     featured: true,
   },
   {
@@ -122,71 +116,16 @@ const faqs = [
       "לבתי קפה, עגלות קפה, ברי יין, פיצריות, גלידריות, מספרות, מכוני יופי וכל עסק שיכול להפוך חזרה של לקוחות למשחק.",
   },
   {
-    question: "מה זה Viby Fair?",
-    answer:
-      "Viby Fair הוא מסלול תשלום לפי שימוש: רוכשים חבילת משחקי פרס חד-פעמית ומשתמשים בה בקצב של העסק.",
-  },
-  {
-    question: "האם חייבים להתחייב למנוי חודשי?",
-    answer:
-      "לא. ב-Viby Fair רוכשים חבילת משחקי פרס ומשתמשים בה בקצב של העסק. מסלול המנוי מתאים לעסקים שמעדיפים משחקי פרס ללא הגבלה במסלול חודשי.",
-  },
-  {
-    question: "מה קורה כשנגמרים משחקי הפרס?",
-    answer:
-      "המשחקים נעצרים עד לרכישת חבילה נוספת. כרטיסיות הניקוב וכל שאר המידע במערכת נשארים פעילים, ואפשר להמשיך מאותה נקודה לאחר הטעינה.",
-  },
-  {
     question: "כמה זה עולה?",
     answer:
-      "מחיר ההשקה מתחיל ב-₪149 לחודש לחצי שנה ראשונה. לאחר מכן המחיר הוא ₪199 לחודש.",
+      "המחירים מתחילים ב-₪49 לחודש במסלול התחלה לעסק שרוצה כרטיסיות דיגיטליות, Wallet וחוויות החזרת לקוחות.",
   },
-];
-
-const fairPackages = [
-  {
-    name: "Starter",
-    price: "₪49",
-    games: "200 משחקי פרס",
-    cost: "≈ ₪0.25 למשחק",
-    description:
-      "חבילה קטנה להתחלה מהירה בלי התחייבות חודשית.",
-  },
-  {
-    name: "Growth",
-    price: "₪99",
-    games: "500 משחקי פרס",
-    cost: "≈ ₪0.20 למשחק",
-    description:
-      "החבילה המומלצת לעסקים שרוצים מספיק משחקים כדי לבדוק פעילות אמיתית.",
-    featured: true,
-  },
-  {
-    name: "Pro",
-    price: "₪179",
-    games: "1,000 משחקי פרס",
-    cost: "≈ ₪0.18 למשחק",
-    description:
-      "לעסקים עם יותר תנועה שרוצים יותר משחקים במחיר נמוך יותר למשחק.",
-  },
-];
-
-const fairSteps = [
-  "העסק קונה חבילת שימוש",
-  "לקוחות משחקים ומקבלים פרסים",
-  "העסק עוקב אחרי היתרה שנשארה",
-  "בהמשך: ניהול עצמאי וטעינה מחדש",
 ];
 
 const whatsappMessage =
   "היי, אשמח לשמוע עוד על Viby ומערכת שימור הלקוחות לעסק שלי";
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
   whatsappMessage,
-)}`;
-const fairWhatsappMessage =
-  "היי, אשמח לשמוע על Viby Fair ותשלום לפי שימוש לעסק שלי";
-const fairWhatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-  fairWhatsappMessage,
 )}`;
 const demoUrl =
   "https://customer-retention-system-six.vercel.app/d/viby-VFE1A2";
@@ -269,77 +208,102 @@ export default function Home() {
             priority
           />
         </a>
-        <LandingNav primaryItems={navItems} secondaryItems={secondaryNavItems} />
-        <a className="mobile-video-cta" href="/how-it-works">
-          <span aria-hidden="true">▶</span>
-          איך זה עובד
-        </a>
-        <a className="header-cta" href={whatsappUrl}>
-          דברו איתנו
-        </a>
+        <LandingNav
+          primaryItems={navItems}
+          secondaryItems={secondaryNavItems.map((item) =>
+            item.label === "WhatsApp" ? { ...item, href: whatsappUrl } : item,
+          )}
+          mobileItems={mobileNavItems.map((item) =>
+            item.label === "WhatsApp" ? { ...item, href: whatsappUrl } : item,
+          )}
+        />
       </header>
 
       <section className="hero section-shell" id="top">
         <div className="hero-copy">
-          <p className="eyebrow">מערכת לשימור לקוחות לעסקים בישראל</p>
-          <h1>תנו ללקוחות סיבה לחזור.</h1>
-          <p className="hero-text">
-            מערכת שימור לקוחות שהופכת כל ביקור לחוויה מהנה עם משחקים, תגמולים
-            ומועדון לקוחות דיגיטלי.
+          <p className="eyebrow">מערכת שמחזירה לקוחות</p>
+          <h1>העסק שלכם. בארנק של הלקוח.</h1>
+          <p className="hero-text hero-punch">
+            Apple Wallet או Google Wallet - ושם Viby מחזירה אותם אליכם.
           </p>
-          <p className="core-line">
-            Viby הופכת שימור לקוחות ממשהו טכני — לחוויה שהלקוחות באמת נהנים
-            ממנה.
+          <p className="curiosity-line">
+            הלקוחות שלכם כבר לא צריכים להוריד אפליקציה. הם פשוט שומרים את
+            העסק בארנק שלהם.
           </p>
+          <div className="hero-feature-strip" aria-label="יכולות מרכזיות">
+            {heroFeatures.map((feature) => (
+              <span key={feature}>{feature}</span>
+            ))}
+          </div>
           <div className="hero-actions">
             <a className="button primary" href={demoUrl}>
-              נסו את הדמו
+              נסו את החוויה כלקוח
             </a>
             <a className="button video-button" href="/how-it-works">
               <span aria-hidden="true">▶</span>
               צפו בסרטון קצר
             </a>
-            <a className="button secondary" href={whatsappUrl}>
-              דברו איתנו ב-WhatsApp
-            </a>
           </div>
-          <div className="hero-stats" aria-label="מדדי דוגמה">
-            <span>
-              <strong>₪149</strong> מחיר השקה
-            </span>
-            <span>
-              <strong>6</strong> חודשים בהנחה
-            </span>
-            <span>
-              <strong>₪199</strong> לאחר מכן
-            </span>
+          <p className="hero-benefit-line">
+            יותר לקוחות חוזרים, פחות כרטיסיות נייר, והכול נשמר בארנק של הלקוח.
+          </p>
+          <div className="hero-proof" aria-label="הוכחה חברתית">
+            <strong>★★★★★</strong>
+            <span>בשימוש בעשרות לקוחות בישראל</span>
+            <div>
+              {heroProofBusinesses.map((business) => (
+                <em key={business}>{business}</em>
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="product-stage" aria-label="תצוגת חוויית לקוח לדוגמה">
           <div className="phone-mock experience-phone">
-            <Image
-              src="/viby_transparent.png"
-              alt=""
-              width={220}
-              height={147}
-              className="phone-logo"
-            />
-            <div className="play-card">
-              <span>אחרי הקנייה</span>
-              <strong>סובבו וזכו</strong>
-              <div className="mini-wheel" aria-hidden="true" />
+            <div className="wallet-screen">
+              <div className="phone-status" aria-hidden="true">
+                <span>9:41</span>
+                <span>Wallet</span>
+              </div>
+              <div className="wallet-pass">
+                <div>
+                  <span>Viby Wallet</span>
+                  <strong>קפה השכונה</strong>
+                </div>
+                <Image
+                  src="/viby_transparent.png"
+                  alt=""
+                  width={96}
+                  height={64}
+                  className="wallet-logo"
+                />
+              </div>
+              <div className="wallet-badges" aria-label="ארנקים נתמכים">
+                <span>Apple Wallet</span>
+                <span>Google Wallet</span>
+              </div>
+              <div className="wallet-punch-card">
+                <div>
+                  <span>כרטיסיית ניקוב</span>
+                  <strong>7/10</strong>
+                </div>
+                <div className="wallet-punch-row" aria-hidden="true">
+                  {Array.from({ length: 10 }, (_, index) => (
+                    <i
+                      className={index < 7 ? "active" : ""}
+                      key={`punch-${index}`}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="wallet-reward-card">
+                <div>
+                  <span>הטבה לביקור הבא</span>
+                  <strong>גלגל מזל פתוח</strong>
+                </div>
+                <div className="mini-wheel" aria-hidden="true" />
+              </div>
             </div>
-            <div className="reward-strip">זכיתם בהטבה לביקור הבא</div>
-            <div className="phone-steps">
-              <span>סריקה</span>
-              <span>משחק</span>
-              <span>חיוך</span>
-            </div>
-          </div>
-          <div className="floating-panel">
-            <span>סיבה לחזור</span>
-            <strong>בכל ביקור</strong>
           </div>
         </div>
       </section>
@@ -365,21 +329,6 @@ export default function Home() {
             unoptimized
           />
           <span>אפשר לסרוק או ללחוץ</span>
-        </a>
-      </section>
-
-      <section className="video-cta section-shell">
-        <div>
-          <p className="eyebrow">רוצים לראות את כל התמונה?</p>
-          <h2>צפו בהסבר המלא על העבודה עם Viby.</h2>
-          <p>
-            סרטון אחד שמראה את זרימת הלקוח, עבודת הצוות בעסק, מימוש הטבות
-            והדרך שבה Viby משתלבת ביום-יום.
-          </p>
-        </div>
-        <a className="button video-button" href="/how-it-works">
-          <span aria-hidden="true">▶</span>
-          צפייה בסרטון ההסבר
         </a>
       </section>
 
@@ -430,61 +379,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="fair section-shell" id="fair">
-        <div className="fair-scene" aria-hidden="true">
-          <span className="fair-sun" />
-          <span className="fair-tent" />
-          <span className="fair-booth" />
-          <span className="fair-flags" />
-        </div>
-        <div className="fair-copy">
-          <div className="fair-sign">
-            <span>Viby</span>
-            <strong>Fair</strong>
-          </div>
-          <p className="eyebrow">תשלום לפי שימוש לעסקים קטנים</p>
-          <h2>משלמים לפי שימוש, לא לפי חודש.</h2>
-          <p>
-            Viby Fair מיועד לעסקים שרוצים להתחיל בלי התחייבות חודשית. רוכשים
-            חבילת משחקי פרס חד-פעמית, מפעילים אותה בקצב של העסק, ואם יום אחד
-            תעדיפו משחקים ללא הגבלה, תמיד תוכלו לעבור למסלול המנוי.
-          </p>
-          <div className="fair-steps" aria-label="איך Viby Fair עובד">
-            {fairSteps.map((step, index) => (
-              <span key={step}>
-                <strong>{index + 1}</strong>
-                {step}
-              </span>
-            ))}
-          </div>
-          <a className="button primary" href={fairWhatsappUrl}>
-            התחילו בתשלום לפי שימוש
-          </a>
-        </div>
-        <div className="fair-packages" aria-label="חבילות Viby Fair">
-          {fairPackages.map((plan) => (
-            <article
-              className={`fair-card ${plan.featured ? "featured" : ""}`}
-              key={plan.name}
-            >
-              <span>{`${plan.name}${plan.featured ? " · מומלץ" : ""}`}</span>
-              <strong>{plan.price}</strong>
-              <h3>{plan.games}</h3>
-              <p className="fair-cost">{plan.cost}</p>
-              <p>{plan.description}</p>
-              <a href={fairWhatsappUrl}>קניית חבילה</a>
-            </article>
-          ))}
-          <p className="fair-package-note">
-            החבילות אינן מוגבלות בזמן – משתמשים בהן בקצב של העסק.
-          </p>
-        </div>
-      </section>
-
       <section className="pricing section-shell" id="pricing">
         <div className="section-heading">
           <p className="eyebrow">מחירים</p>
-          <h2>מחיר השקה פשוט לעסקים שמתחילים עכשיו.</h2>
+          <h2>מחירים פשוטים לעסקים שמתחילים עכשיו.</h2>
         </div>
         <div className="pricing-grid">
           {plans.map((plan) => (
@@ -495,55 +393,11 @@ export default function Home() {
               <h3>{plan.name}</h3>
               <strong>{plan.price}</strong>
               <p>{plan.description}</p>
-              <a href={whatsappUrl}>דברו איתנו</a>
+              <a href={demoUrl}>נסו את החוויה</a>
             </article>
           ))}
         </div>
       </section>
-
-      <section className="comparison section-shell" id="comparison">
-        <div className="section-heading">
-          <p className="eyebrow">כרטיסיות רגילות vs Viby</p>
-          <h2>כרטיסייה עדיין יכולה לעבוד. Viby הופכת אותה לחוויה שלמה.</h2>
-        </div>
-        <div className="comparison-table">
-          <div className="comparison-head">
-            <span>כרטיסיות רגילות</span>
-            <span>Viby</span>
-          </div>
-          {comparisonRows.map(([traditional, viby]) => (
-            <div className="comparison-row" key={traditional}>
-              <span>{traditional}</span>
-              <strong>{viby}</strong>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mission section-shell">
-        <div className="mission-heading">
-          <div>
-            <p className="eyebrow">למה בנינו את Viby</p>
-            <h2>שימור לקוחות לא צריך להרגיש כמו תוכנה.</h2>
-          </div>
-          <p>
-            Viby בנויה סביב רגעים קטנים שהלקוחות מבינים מיד והעסק יכול להפעיל
-            בלי להפוך את היום לעוד מסך ניהול.
-          </p>
-        </div>
-        <div className="belief-list">
-          {beliefs.map((belief, index) => (
-            <article key={belief.title}>
-              <span>{belief.label}</span>
-              <strong aria-hidden="true">{index + 1}</strong>
-              <h3>{belief.title}</h3>
-              <p>{belief.text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <RotatingBusinessChips />
 
       <section className="faq section-shell" id="faq">
         <div className="section-heading">
@@ -578,12 +432,12 @@ export default function Home() {
           <a href="#why">למה זה עובד</a>
           <a href="/how-it-works">איך זה עובד</a>
           <a href="#games">משחקים</a>
-          <a href="#fair">Viby Fair</a>
           <a href="#pricing">מחירים</a>
           <a href="/support">תמיכה</a>
           <a href="/terms">תנאי שימוש</a>
           <a href="/privacy">מדיניות פרטיות</a>
           <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
+          <a href={siteConfig.instagramUrl}>Instagram</a>
           <a href={whatsappUrl}>WhatsApp</a>
         </div>
       </footer>

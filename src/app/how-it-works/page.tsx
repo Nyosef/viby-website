@@ -62,7 +62,7 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURI
 const demoUrl =
   "https://customer-retention-system-six.vercel.app/d/viby-VFE1A2";
 const vimeoEmbedUrl =
-  `${vimeoPlayerUrl}?badge=0&autopause=0&autoplay=1&muted=1&player_id=0&app_id=58479`;
+  `${vimeoPlayerUrl}?badge=0&autopause=0&autoplay=1&muted=0&player_id=0&app_id=58479`;
 
 const chapters = [
   {
