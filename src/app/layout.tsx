@@ -33,9 +33,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: siteConfig.ogImage,
-        width: 1536,
-        height: 1024,
-        alt: "Viby",
+        width: 1200,
+        height: 630,
+        alt: "Viby - הלקוחות חוזרים בלי אפליקציה",
       },
     ],
   },

@@ -1,0 +1,1278 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import {
+  isServiceId,
+  serviceGroups,
+  serviceIds,
+  services,
+  type DetailItem,
+  type ServiceContent,
+  type ServiceId,
+} from "@/lib/services";
+import { siteConfig } from "@/lib/site";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+type MultiServiceLandingProps = {
+  initialService: ServiceId;
+};
+
+const companyLine =
+  "Viby עוזרת לעסקים להחזיר לקוחות, לבנות מאגר לקוחות ולשמור על קשר איתם — בלי אפליקציה.";
+
+const businessCategories = [
+  "בתי קפה",
+  "מסעדות",
+  "גלידריות",
+  "שטיפות רכב",
+  "חנויות",
+  "משחקיות",
+];
+
+const rotatingRewards = [
+  {
+    id: "coffee",
+    emoji: "☕",
+    label: "קפה מתנה",
+    progressText: "עוד 3 ביקורים לקפה מתנה",
+  },
+  {
+    id: "car-wash",
+    emoji: "🚙",
+    label: "שטיפת רכב מתנה",
+    progressText: "עוד 3 ביקורים לשטיפה מתנה",
+  },
+  {
+    id: "croissant",
+    emoji: "🥐",
+    label: "קרואסון מתנה",
+    progressText: "עוד 3 ביקורים לקרואסון מתנה",
+  },
+  {
+    id: "nails",
+    emoji: "💅",
+    label: "טיפול ציפורניים מתנה",
+    progressText: "עוד 3 ביקורים לטיפול מתנה",
+  },
+  {
+    id: "pizza",
+    emoji: "🍕",
+    label: "פיצה מתנה",
+    progressText: "עוד 3 ביקורים לפיצה מתנה",
+  },
+] as const;
+
+const serviceHeaderIcons: Record<ServiceId, string> = {
+  "punch-card": "🎟️",
+  "smart-wheel": "🎡",
+  wallet: "💳",
+  "viby-rate": "⭐",
+  "viby-tap": "📲",
+};
+
+const serviceHeaderDescriptions: Record<ServiceId, string> = {
+  "punch-card": "כרטיסיית נאמנות דיגיטלית",
+  "smart-wheel": "משחק שמחזיר לקוחות",
+  wallet: "העסק בארנק של הלקוח",
+  "viby-rate": "יותר ביקורות ב-Google",
+  "viby-tap": "טאפ אחד לכל יעד",
+};
+
+const walletPromoContent: Record<
+  ServiceId,
+  {
+    eyebrow: string;
+    mobileEyebrow: string;
+    title: string;
+    mobileTitle: string;
+    highlight: string;
+    body: string;
+    cta: string;
+  }
+> = {
+  "punch-card": {
+    eyebrow: "כרטיסיות דיגיטליות ב־Apple Wallet + Google Wallet",
+    mobileEyebrow: "הכרטיסייה שלכם ב־Wallet",
+    title: "הכרטיסייה הדיגיטלית שלכם",
+    mobileTitle: "הכרטיסייה שלכם",
+    highlight: "ישר ל־Wallet!",
+    body: "כרטיסיית הניקובים של Viby נשמרת ב־Apple Wallet או Google Wallet. הלקוח רואה כמה ניקובים צבר ומה ההטבה הבאה — בלי אפליקציה.",
+    cta: "ראו איך הכרטיסייה נשמרת",
+  },
+  "smart-wheel": {
+    eyebrow: "הפרסים מהגלגל נשמרים ב־Wallet",
+    mobileEyebrow: "הפרס מהגלגל ב־Wallet",
+    title: "הפרס שהלקוח זכה בו",
+    mobileTitle: "הפרס מהגלגל",
+    highlight: "נשמר ב־Wallet!",
+    body: "אחרי הסיבוב, הלקוח שומר את ההטבה שזכה בה בטלפון ורואה בדיוק מה קיבל ומתי כדאי לחזור לממש.",
+    cta: "ראו איך שומרים את הפרס",
+  },
+  wallet: {
+    eyebrow: "כרטיס המתנה ב־Apple Wallet + Google Wallet",
+    mobileEyebrow: "כרטיס המתנה ב־Wallet",
+    title: "כרטיס המתנה והיתרה שלכם",
+    mobileTitle: "כרטיס המתנה שלכם",
+    highlight: "תמיד מחכים ב־Wallet!",
+    body: "הלקוח משלם 200 ₪, מקבל כרטיס בשווי 230 ₪ ושומר אותו בארנק שבטלפון עד לרגע המימוש.",
+    cta: "ראו איך קונים ושומרים",
+  },
+  "viby-rate": {
+    eyebrow: "VibyRate + הארנק הדיגיטלי",
+    mobileEyebrow: "VibyRate ממשיך ב־Wallet",
+    title: "אחרי שהלקוח מדרג",
+    mobileTitle: "אחרי הדירוג",
+    highlight: "העסק נשאר ב־Wallet!",
+    body: "VibyRate מקל על הלקוח להשאיר ביקורת, וכרטיס העסק הדיגיטלי נותן לו דרך קבועה ונוחה לחזור אליכם.",
+    cta: "הכירו את כרטיס העסק",
+  },
+  "viby-tap": {
+    eyebrow: "VibyTap + Apple Wallet + Google Wallet",
+    mobileEyebrow: "טאפ אחד ל־Wallet",
+    title: "בטאפ אחד שומרים את העסק",
+    mobileTitle: "טאפ אחד",
+    highlight: "ישר ב־Wallet!",
+    body: "VibyTap יכול להפנות את הלקוח לכרטיס העסק הדיגיטלי, כדי שהפרטים והקישור הנכון יישארו זמינים בטלפון.",
+    cta: "ראו את כרטיס העסק",
+  },
+};
+
+const starterHighlights: Record<ServiceId, string[]> = {
+  "punch-card": [
+    "כרטיסייה בעיצוב העסק",
+    "נשמרת ב־Apple או Google Wallet",
+    "עוזרת לבנות מאגר לקוחות",
+  ],
+  "smart-wheel": [
+    "פרסים שהעסק בוחר",
+    "משחק שנותן סיבה לחזור",
+    "פעילות לקוחות במקום אחד",
+  ],
+  wallet: [
+    "מכירת כרטיסי מתנה",
+    "Apple Wallet ו־Google Wallet",
+    "Apple Pay ו־Google Pay",
+  ],
+  "viby-rate": [
+    "עובד באמצעות NFC או QR",
+    "מוביל ישר לביקורות Google",
+    "כרטיס ממותג לעסק",
+  ],
+  "viby-tap": [
+    "כל הקישורים בעמוד אחד",
+    "עובד באמצעות NFC או QR",
+    "משנים קישורים גם אחרי ההדפסה",
+  ],
+};
+
+const customerLogos: Array<{
+  name: string;
+  src?: string;
+  alt: string;
+  href?: string;
+  style: string;
+}> = [
+  { name: "Eat i", alt: "Eat i", style: "eat-i" },
+  { name: "OREN OR", alt: "OREN OR Hairdressing Spa", style: "oren-or" },
+  { name: "נרדית", alt: "נרדית", style: "nardit" },
+  { name: "Bbikini’s", alt: "Bbikini’s", style: "bbikinis" },
+  { name: "קפה נוגה", alt: "קפה נוגה", style: "noga" },
+  { name: "MAGIC WASH", alt: "Magic Wash", style: "magic-wash" },
+  { name: "אימפריה אדם", alt: "שטיפת רכב אימפריה אדם", style: "imperia" },
+  { name: "CAFETERIA", alt: "Cafeteria", style: "cafeteria" },
+  { name: "אנבלה", alt: "אנבלה — עגלה בחורש", style: "anabella" },
+];
+
+function getWhatsappUrl(message: string) {
+  return `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+
+function WhatsAppIcon() {
+  return (
+    <span className="v2-whatsapp-icon" aria-hidden="true">
+      ☎
+    </span>
+  );
+}
+
+function ServiceVisualIcon({ id }: { id: ServiceId }) {
+  if (id === "wallet") {
+    return <span className="v2-wallet-glyph" aria-hidden="true" />;
+  }
+
+  return <>{serviceHeaderIcons[id]}</>;
+}
+
+export function MultiServiceLanding({
+  initialService,
+}: MultiServiceLandingProps) {
+  const [activeId, setActiveId] = useState<ServiceId>(initialService);
+  const [isSelectorOpen, setIsSelectorOpen] = useState(false);
+  const [isHeaderSelectorOpen, setIsHeaderSelectorOpen] = useState(false);
+  const [announcement, setAnnouncement] = useState("");
+  const mainRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const selectorRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const headerSelectorRef = useRef<HTMLDivElement>(null);
+  const headerTriggerRef = useRef<HTMLButtonElement>(null);
+  const optionRefs = useRef(new Map<ServiceId, HTMLButtonElement>());
+  const announcementTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const service = services[activeId];
+  const walletPromo = walletPromoContent[activeId];
+  const priceHighlights = starterHighlights[activeId];
+  const whatsappUrl = useMemo(
+    () => getWhatsappUrl(service.cta.message),
+    [service.cta.message],
+  );
+
+  useEffect(() => {
+    function handlePointerDown(event: PointerEvent) {
+      if (!selectorRef.current?.contains(event.target as Node)) {
+        setIsSelectorOpen(false);
+      }
+      if (!headerSelectorRef.current?.contains(event.target as Node)) {
+        setIsHeaderSelectorOpen(false);
+      }
+    }
+
+    function handlePopState() {
+      const value = new URL(window.location.href).searchParams.get("service");
+      setActiveId(isServiceId(value) ? value : "punch-card");
+      setIsSelectorOpen(false);
+      setIsHeaderSelectorOpen(false);
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("popstate", handlePopState);
+      if (announcementTimer.current) {
+        clearTimeout(announcementTimer.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const root = mainRef.current;
+    if (!root) {
+      return;
+    }
+
+    const revealItems = Array.from(
+      root.querySelectorAll<HTMLElement>(".v2-reveal"),
+    );
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    root.classList.add("v2-reveal-enabled");
+
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.13,
+        rootMargin: "0px 0px -7% 0px",
+      },
+    );
+
+    revealItems.forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, [activeId]);
+
+  function focusOption(id: ServiceId) {
+    window.requestAnimationFrame(() => optionRefs.current.get(id)?.focus());
+  }
+
+  function chooseService(nextId: ServiceId) {
+    if (nextId === activeId) {
+      setIsSelectorOpen(false);
+      setIsHeaderSelectorOpen(false);
+      return;
+    }
+
+    const heroIsVisible = (heroRef.current?.getBoundingClientRect().bottom ?? 0) > 80;
+    setActiveId(nextId);
+    setIsSelectorOpen(false);
+    setIsHeaderSelectorOpen(false);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("service", nextId);
+    window.history.pushState({ service: nextId }, "", url);
+
+    setAnnouncement(`עכשיו מציגים: ${services[nextId].label}`);
+    if (announcementTimer.current) {
+      clearTimeout(announcementTimer.current);
+    }
+    announcementTimer.current = setTimeout(() => setAnnouncement(""), 2600);
+
+    if (!heroIsVisible) {
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      window.requestAnimationFrame(() => {
+        heroRef.current?.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start",
+        });
+      });
+    }
+  }
+
+  function handleWalletPromoClick() {
+    if (activeId !== "wallet") {
+      chooseService("wallet");
+      return;
+    }
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    document.getElementById("how-it-works")?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }
+
+  function handleSelectorKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setIsSelectorOpen(false);
+      triggerRef.current?.focus();
+      return;
+    }
+
+    if (!isSelectorOpen) {
+      if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        setIsSelectorOpen(true);
+        focusOption(activeId);
+      }
+      return;
+    }
+
+    const currentIndex = serviceIds.findIndex(
+      (id) => optionRefs.current.get(id) === document.activeElement,
+    );
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      focusOption(serviceIds[(Math.max(currentIndex, -1) + 1) % serviceIds.length]);
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      const nextIndex =
+        currentIndex <= 0 ? serviceIds.length - 1 : currentIndex - 1;
+      focusOption(serviceIds[nextIndex]);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      focusOption(serviceIds[0]);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      focusOption(serviceIds[serviceIds.length - 1]);
+    }
+  }
+
+  function handleHeaderSelectorKeyDown(
+    event: React.KeyboardEvent<HTMLDivElement>,
+  ) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setIsHeaderSelectorOpen(false);
+      headerTriggerRef.current?.focus();
+    }
+  }
+
+  return (
+    <main className={`landing-v2 service-${activeId}`} ref={mainRef}>
+      <section className="v2-hero v2-grid-bg" ref={heroRef} id="top">
+        <div className="v2-orb v2-orb-one" aria-hidden="true" />
+        <div className="v2-orb v2-orb-two" aria-hidden="true" />
+        <div className="v2-sparkles" aria-hidden="true">
+          <i>★</i>
+          <i>★</i>
+          <i>★</i>
+          <i>★</i>
+        </div>
+
+        <div className="v2-shell">
+          <div className="v2-brand-row">
+            <Link href="/" aria-label="Viby - דף הבית">
+              <Image
+                src="/viby_logo_clean.jpg"
+                alt="Viby"
+                width={230}
+                height={154}
+                priority
+                unoptimized
+              />
+            </Link>
+            <div className="v2-header-controls">
+              <div
+                className={`v2-header-service service-pill-${activeId}`}
+                ref={headerSelectorRef}
+                onKeyDown={handleHeaderSelectorKeyDown}
+              >
+                <button
+                  type="button"
+                  className="v2-header-service-trigger"
+                  ref={headerTriggerRef}
+                  aria-haspopup="listbox"
+                  aria-expanded={isHeaderSelectorOpen}
+                  onClick={() =>
+                    setIsHeaderSelectorOpen((current) => !current)
+                  }
+                >
+                  <span className="v2-header-service-kicker">
+                    מציגים עכשיו
+                  </span>
+                  <span className="v2-header-service-field">
+                    <i aria-hidden="true">
+                      <ServiceVisualIcon id={activeId} />
+                    </i>
+                    <span>
+                      <strong>{service.shortLabel}</strong>
+                      <small>לחצו כדי להחליף שירות</small>
+                    </span>
+                    <b aria-hidden="true">
+                      {isHeaderSelectorOpen ? "⌃" : "⌄"}
+                    </b>
+                  </span>
+                </button>
+
+                {isHeaderSelectorOpen ? (
+                  <div
+                    className="v2-header-service-menu"
+                    role="listbox"
+                    aria-label="בחירת השירות המוצג"
+                  >
+                    {serviceGroups.map((group) => (
+                      <div className="v2-header-service-group" key={group.id}>
+                        <p>
+                          <span aria-hidden="true">{group.emoji}</span>
+                          {group.label}
+                        </p>
+                        {serviceIds
+                          .filter((id) => services[id].group === group.id)
+                          .map((id) => (
+                            <button
+                              type="button"
+                              role="option"
+                              aria-selected={id === activeId}
+                              className={id === activeId ? "is-active" : ""}
+                              onClick={() => chooseService(id)}
+                              key={id}
+                            >
+                              <i aria-hidden="true">
+                                <ServiceVisualIcon id={id} />
+                              </i>
+                              <span>
+                                <strong>{services[id].shortLabel}</strong>
+                                <small>{serviceHeaderDescriptions[id]}</small>
+                              </span>
+                              <b aria-hidden="true">
+                                {id === activeId ? "✓" : "←"}
+                              </b>
+                            </button>
+                          ))}
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+              <a
+                className="v2-business-link"
+                href={siteConfig.businessEntranceUrl}
+              >
+                כניסת עסקים
+              </a>
+            </div>
+          </div>
+
+          <div className="v2-hero-grid">
+            <div className="v2-hero-copy" key={`copy-${activeId}`}>
+              <p className="v2-company-line">{companyLine}</p>
+              <span className="v2-badge">{service.badge}</span>
+              <h1>{service.hero.title}</h1>
+              <p className="v2-hero-text">{service.hero.text}</p>
+              <div className="v2-actions">
+                <a
+                  className="v2-button v2-button-whatsapp"
+                  href={whatsappUrl}
+                >
+                  <WhatsAppIcon />
+                  <span>
+                    {service.cta.buttonLabel ?? "דברו איתנו ב־WhatsApp"}
+                  </span>
+                </a>
+                <a className="v2-button v2-button-ghost" href="#how-it-works">
+                  איך זה עובד
+                </a>
+              </div>
+            </div>
+
+            <div className="v2-hero-art" key={`art-${activeId}`}>
+              <HeroProductVisual service={service} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="v2-story">
+        <div
+          className="v2-selector-wrap"
+          ref={selectorRef}
+          onKeyDown={handleSelectorKeyDown}
+        >
+          <div className="v2-service-selector">
+            <span className="v2-selector-kicker">בחרו פתרון</span>
+            <button
+              type="button"
+              className="v2-selector-trigger"
+              ref={triggerRef}
+              aria-haspopup="listbox"
+              aria-expanded={isSelectorOpen}
+              onClick={() => {
+                setIsSelectorOpen((current) => !current);
+                if (!isSelectorOpen) {
+                  focusOption(activeId);
+                }
+              }}
+            >
+              <span className="v2-selector-current-icon" aria-hidden="true">
+                <ServiceVisualIcon id={activeId} />
+              </span>
+              <span className="v2-selector-current-copy">
+                <strong>{service.label}</strong>
+                <small>{serviceHeaderDescriptions[activeId]}</small>
+              </span>
+              <i aria-hidden="true">{isSelectorOpen ? "−" : "+"}</i>
+            </button>
+
+            {isSelectorOpen ? (
+              <div
+                className="v2-selector-menu"
+                role="listbox"
+                aria-label="בחירת שירות Viby"
+              >
+                {serviceGroups.map((group) => (
+                  <div className="v2-selector-group" key={group.id}>
+                    <p>
+                      <span aria-hidden="true">{group.emoji}</span>
+                      {group.label}
+                    </p>
+                    {serviceIds
+                      .filter((id) => services[id].group === group.id)
+                      .map((id) => (
+                        <button
+                          type="button"
+                          role="option"
+                          aria-selected={id === activeId}
+                          key={id}
+                          ref={(node) => {
+                            if (node) optionRefs.current.set(id, node);
+                          }}
+                          onClick={() => chooseService(id)}
+                        >
+                          <i
+                            className="v2-selector-option-icon"
+                            aria-hidden="true"
+                          >
+                            <ServiceVisualIcon id={id} />
+                          </i>
+                          <span className="v2-selector-option-copy">
+                            <strong>{services[id].label}</strong>
+                            <small>{serviceHeaderDescriptions[id]}</small>
+                          </span>
+                          <b aria-hidden="true">
+                            {id === activeId ? "✓" : "←"}
+                          </b>
+                        </button>
+                      ))}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="v2-live-region" aria-live="polite" aria-atomic="true">
+          {announcement ? <span>{announcement}</span> : null}
+        </div>
+
+        <TrustStrip />
+
+        <section
+          className="v2-wallet-promo v2-grid-bg"
+          aria-labelledby="wallet-promo-title"
+        >
+          <div
+            className="v2-shell v2-wallet-promo-inner v2-reveal"
+            key={`wallet-promo-${activeId}`}
+          >
+            <div className="v2-wallet-promo-copy">
+              <span className="v2-wallet-promo-eyebrow">
+                <b aria-hidden="true">💳</b>
+                <span className="v2-wallet-eyebrow-desktop">
+                  {walletPromo.eyebrow}
+                </span>
+                <span className="v2-wallet-eyebrow-mobile">
+                  {walletPromo.mobileEyebrow}
+                </span>
+              </span>
+              <h2 id="wallet-promo-title">
+                <span className="v2-wallet-title-desktop">
+                  {walletPromo.title}
+                  <strong>{walletPromo.highlight}</strong>
+                </span>
+                <span className="v2-wallet-title-mobile">
+                  {walletPromo.mobileTitle}
+                  <strong>{walletPromo.highlight}</strong>
+                </span>
+              </h2>
+              <p>{walletPromo.body}</p>
+              <button
+                type="button"
+                className="v2-wallet-promo-button"
+                onClick={handleWalletPromoClick}
+              >
+                <span aria-hidden="true">💳</span>
+                {walletPromo.cta}
+                <b aria-hidden="true">←</b>
+              </button>
+            </div>
+
+            <div className="v2-wallet-promo-media">
+              <Image
+                src="/apple-wallet-google-wallet.jpg"
+                alt="הוספת כרטיס העסק ל-Apple Wallet ול-Google Wallet"
+                width={1828}
+                height={1028}
+                sizes="(max-width: 760px) 88vw, 620px"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="v2-section v2-how" id="how-it-works">
+          <div className="v2-shell">
+            <div className="v2-how-intro v2-reveal">
+              <div className="v2-how-portrait">
+                <Image
+                  src="/bar_viby.jpg"
+                  alt="לקוחה משתמשת ב-Viby בעסק"
+                  width={320}
+                  height={320}
+                  sizes="(max-width: 760px) 190px, 280px"
+                />
+              </div>
+              <span>איך זה עובד</span>
+              <h2>שלושה צעדים. זה כל הסיפור.</h2>
+              <p key={`how-copy-${activeId}`}>
+                כך משתמשים ב־{service.label} של Viby — פשוט ללקוח, ברור
+                לעסק, ובלי אפליקציה.
+              </p>
+            </div>
+            <div
+              className="v2-step-grid v2-reveal v2-reveal-children"
+              key={`steps-${activeId}`}
+            >
+              {service.howItWorks.map((step, index) => (
+                <article key={step.title}>
+                  <div className="v2-step-visual" aria-hidden="true">
+                    <b>{step.icon ?? "✦"}</b>
+                    <span>{index + 1}</span>
+                  </div>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="v2-demo v2-grid-bg" aria-label={service.media.title}>
+          <div className="v2-shell">
+            <SectionHeading
+              light
+              eyebrow={service.media.eyebrow}
+              title={service.media.title}
+              text={service.media.text}
+            />
+            <div className="v2-phone v2-reveal">
+              <div className="v2-phone-speaker" aria-hidden="true" />
+              <ServiceDemo service={service} />
+            </div>
+          </div>
+        </section>
+
+        <section className="v2-section v2-benefits">
+          <div className="v2-shell">
+            <SectionHeading
+              eyebrow="למה זה עובד לעסק"
+              title={`הערך מאחורי ${service.label}`}
+              text={
+                service.group === "retention"
+                  ? "לא רק חוויה ללקוח — גם מאגר מסודר, פעילות שאפשר להבין וקשר שאפשר להמשיך."
+                  : "פעולה קצרה וברורה שמורידה חיכוך ומחברת את המקום הפיזי לחוויה הדיגיטלית."
+              }
+            />
+            <div
+              className="v2-benefit-grid v2-reveal v2-reveal-children"
+              key={`benefits-${activeId}`}
+            >
+              {service.benefits.map((benefit) => (
+                <article key={benefit.title}>
+                  <span aria-hidden="true">{benefit.icon}</span>
+                  <h3>{benefit.title}</h3>
+                  <p>{benefit.text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section
+          className="v2-price-strip"
+          aria-label={`מחיר התחלתי עבור ${service.label}`}
+        >
+          <div className="v2-shell v2-price-strip-inner v2-reveal">
+            <div className="v2-price-product">
+              <i aria-hidden="true">
+                <ServiceVisualIcon id={activeId} />
+              </i>
+              <span>
+                <small>מתחילים קטן עם</small>
+                <strong>{service.label}</strong>
+              </span>
+            </div>
+
+            <div className="v2-price-amount">
+              <span>החל מ־</span>
+              <strong>49</strong>
+              <span>₪ לחודש</span>
+              <small>לכל כלי בנפרד</small>
+            </div>
+
+            <div className="v2-price-highlights">
+              {priceHighlights.map((highlight) => (
+                <span key={highlight}>
+                  <b aria-hidden="true">✓</b>
+                  {highlight}
+                </span>
+              ))}
+            </div>
+
+            <a
+              className="v2-price-action"
+              href={whatsappUrl}
+              aria-label={`קבלת פרטים על ${service.label} החל מ־49 שקלים לחודש`}
+            >
+              <WhatsAppIcon />
+              <span>
+                {service.cta.buttonLabel ?? "אני רוצה להתחיל"}
+              </span>
+            </a>
+          </div>
+        </section>
+
+        <ServiceDetail service={service} />
+      </div>
+
+      <section className="v2-final-cta v2-grid-bg" id="contact">
+        <div className="v2-shell v2-reveal">
+          <span className="v2-badge">אפשר להתחיל בפשטות</span>
+          <h2>{service.cta.finalTitle}</h2>
+          <p>{service.cta.finalText}</p>
+          <div className="v2-actions">
+            <a className="v2-button v2-button-whatsapp" href={whatsappUrl}>
+              <WhatsAppIcon />
+              <span>
+                {service.cta.buttonLabel ?? "דברו איתנו ב־WhatsApp"}
+              </span>
+            </a>
+            <a
+              className="v2-button v2-button-ghost"
+              href={`tel:+${siteConfig.whatsappNumber}`}
+            >
+              {siteConfig.whatsappDisplay}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className="v2-footer">
+        <div className="v2-shell">
+          <Image
+            src="/viby_transparent.png"
+            alt="Viby"
+            width={140}
+            height={94}
+          />
+          <nav aria-label="קישורים שימושיים">
+            <a
+              className="v2-instagram-link"
+              href={siteConfig.instagramUrl}
+              aria-label="Viby באינסטגרם"
+            >
+              <Image
+                className="v2-instagram-image"
+                src="/insta_logo.png"
+                alt=""
+                width={72}
+                height={72}
+              />
+            </a>
+            <Link href="/support">תמיכה</Link>
+            <Link href="/terms">תנאי שימוש</Link>
+            <Link href="/privacy">מדיניות פרטיות</Link>
+            <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
+          </nav>
+          <p>© {new Date().getFullYear()} Viby. כל הזכויות שמורות.</p>
+        </div>
+      </footer>
+    </main>
+  );
+}
+
+function SectionHeading({
+  eyebrow,
+  title,
+  text,
+  light = false,
+}: {
+  eyebrow: string;
+  title: string;
+  text: string;
+  light?: boolean;
+}) {
+  return (
+    <div
+      className={`v2-section-heading v2-reveal ${light ? "is-light" : ""}`}
+    >
+      <span>{eyebrow}</span>
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+  );
+}
+
+function TrustStrip() {
+  if (customerLogos.length > 0) {
+    return (
+      <section className="v2-trust v2-reveal" aria-label="לקוחות Viby">
+        <div className="v2-trust-heading v2-shell">
+          <span>עסקים שכבר בחרו Viby</span>
+          <h2>הלקוחות שלנו</h2>
+        </div>
+        <div className="v2-logo-viewport">
+          <div className="v2-logo-track">
+            {[...customerLogos, ...customerLogos].map((logo, index) => {
+              const content = logo.src ? (
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={140}
+                  height={90}
+                  unoptimized
+                />
+              ) : (
+                <strong
+                  className={`v2-customer-wordmark ${logo.style}`}
+                  aria-label={logo.alt}
+                >
+                  {logo.name}
+                </strong>
+              );
+              return logo.href ? (
+                <a href={logo.href} key={`${logo.alt}-${index}`}>
+                  {content}
+                </a>
+              ) : (
+                <span key={`${logo.alt}-${index}`}>{content}</span>
+              );
+            })}
+          </div>
+        </div>
+        <p className="v2-trust-note">
+          עסקים מקומיים מתחומים שונים משתמשים ב־Viby כדי לגרום ללקוחות לחזור.
+        </p>
+      </section>
+    );
+  }
+
+  return (
+    <section
+      className="v2-category-strip v2-reveal"
+      aria-label="עסקים מתאימים"
+    >
+      <div className="v2-shell">
+        <strong>מתאים לעסקים מכל הסוגים</strong>
+        <div>
+          {businessCategories.map((category) => (
+            <span key={category}>{category}</span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeroProductVisual({ service }: { service: ServiceContent }) {
+  switch (service.layout.heroVisual) {
+    case "smart-wheel":
+      return (
+        <div className="v2-product-scene wheel-scene" aria-label="המחשת גלגל חכם">
+          <div className="v2-wheel">
+            <i />
+            <strong>סובבו</strong>
+          </div>
+          <div className="v2-floating-card wheel-prize">
+            <span>הפרס שלך</span>
+            <strong>קפה מתנה בביקור הבא</strong>
+          </div>
+        </div>
+      );
+    case "wallet":
+      return (
+        <div className="v2-product-scene wallet-scene" aria-label="המחשת ארנק דיגיטלי">
+          <div className="v2-real-wallet">
+            <div className="v2-real-wallet-card">
+              <span>כרטיס מתנה</span>
+              <strong>230 ₪</strong>
+              <small>שילמתם 200 ₪</small>
+            </div>
+            <div className="v2-real-wallet-pocket">
+              <Image src="/viby_transparent.png" alt="" width={84} height={56} />
+              <span>הארנק של Viby</span>
+              <i aria-hidden="true" />
+            </div>
+          </div>
+          <div className="v2-wallet-platforms">
+            <span> Apple Wallet</span>
+            <span>Google Wallet</span>
+          </div>
+        </div>
+      );
+    case "viby-rate":
+      return (
+        <div className="v2-product-scene rate-scene" aria-label="המחשת VibyRate">
+          <div className="v2-nfc-card">
+            <span className="v2-stars">★★★★★</span>
+            <strong>Tap אחד</strong>
+            <b>ושימו דירוג!</b>
+            <i aria-hidden="true">G</i>
+            <small>VibyRate</small>
+          </div>
+          <div className="v2-rating-card">
+            <strong>4.9</strong>
+            <span>דירוג ממוצע</span>
+            <i aria-hidden="true">★</i>
+          </div>
+        </div>
+      );
+    case "viby-tap":
+      return (
+        <div className="v2-product-scene tap-scene" aria-label="המחשת VibyTap">
+          <div className="v2-tap-card">
+            <span>NFC</span>
+            <strong>VibyTap</strong>
+            <small>פשוט מצמידים</small>
+          </div>
+          <div className="v2-destination-cloud">
+            <span>⭐ ביקורות</span>
+            <span>📷 Instagram</span>
+            <span>👍 Facebook</span>
+            <span>🎵 TikTok</span>
+            <span>🌐 אתר</span>
+            <span>💬 WhatsApp</span>
+            <span>📍 Waze</span>
+          </div>
+        </div>
+      );
+    default:
+      return (
+        <div className="v2-product-scene punch-scene" aria-label="המחשת כרטיסייה דיגיטלית">
+          <RotatingPunchReward />
+        </div>
+      );
+  }
+}
+
+function RotatingPunchReward() {
+  const [rewardIndex, setRewardIndex] = useState(0);
+  const reward = rotatingRewards[rewardIndex];
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (reduceMotion) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setRewardIndex((current) => (current + 1) % rotatingRewards.length);
+    }, 3000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return (
+    <>
+      <div
+        className={`v2-reward-showpiece reward-${reward.id}`}
+        key={`showpiece-${reward.id}`}
+        aria-label={reward.label}
+      >
+        <span aria-hidden="true">{reward.emoji}</span>
+        <i aria-hidden="true" />
+        <i aria-hidden="true" />
+        <i aria-hidden="true" />
+      </div>
+
+      <div className="v2-punch-pass pass-one">
+        <span>הכרטיסייה שלי</span>
+        <strong>7 מתוך 10</strong>
+        <div aria-hidden="true">
+          {Array.from({ length: 10 }, (_, index) => (
+            <i className={index < 7 ? "filled" : ""} key={index} />
+          ))}
+        </div>
+      </div>
+
+      <div
+        className="v2-punch-pass pass-two v2-changing-reward"
+        key={`pass-${reward.id}`}
+      >
+        <div className="v2-mini-reward-icon" aria-hidden="true">
+          {reward.emoji}
+        </div>
+        <strong>{reward.progressText}</strong>
+      </div>
+
+      <div
+        className="v2-floating-card punch-reward v2-changing-reward"
+        key={`label-${reward.id}`}
+      >
+        <span>ההטבה הבאה</span>
+        <strong>{reward.label}</strong>
+      </div>
+    </>
+  );
+}
+
+function ServiceDemo({ service }: { service: ServiceContent }) {
+  if (service.media.videoUrl) {
+    return (
+      <iframe
+        src={service.media.videoUrl}
+        title="סרטון הסבר על הכרטיסיות הדיגיטליות של Viby"
+        allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+      />
+    );
+  }
+
+  if (service.id === "smart-wheel") {
+    return (
+      <div className="v2-demo-screen demo-wheel">
+        <Image src="/viby_transparent.png" alt="" width={90} height={60} />
+        <p>הפרס הבא שלכם מחכה</p>
+        <div className="v2-wheel">
+          <i />
+          <strong>סובבו</strong>
+        </div>
+        <span className="v2-demo-action">לסובב את הגלגל</span>
+      </div>
+    );
+  }
+
+  if (service.id === "wallet") {
+    return (
+      <div className="v2-demo-screen demo-wallet">
+        <div className="v2-phone-status"><span>9:41</span><span>Wallet</span></div>
+        <div className="v2-gift-card-purchase">
+          <span className="v2-gift-kicker">כרטיס מתנה לעסק</span>
+          <h3>קונים יותר. מקבלים יותר.</h3>
+          <div className="v2-gift-value-flow">
+            <div>
+              <small>משלמים</small>
+              <strong>200 ₪</strong>
+            </div>
+            <b aria-hidden="true">←</b>
+            <div className="is-bonus">
+              <small>מקבלים</small>
+              <strong>230 ₪</strong>
+            </div>
+          </div>
+          <span className="v2-gift-buy-button">קניית כרטיס מתנה</span>
+        </div>
+        <div className="v2-wallet-pay-options" aria-label="אפשרויות תשלום ושמירה">
+          <span> Pay</span>
+          <span>G Pay</span>
+        </div>
+        <div className="v2-wallet-save-note">
+          <strong>אחרי הקנייה שומרים בטלפון</strong>
+          <span>Apple Wallet או Google Wallet</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (service.id === "viby-rate") {
+    return (
+      <div className="v2-demo-screen demo-rate">
+        <span className="v2-tap-rings" aria-hidden="true">)))</span>
+        <div className="v2-mini-nfc">
+          <strong>VibyRate</strong>
+          <span>Tap</span>
+        </div>
+        <p>איך הייתה החוויה שלכם?</p>
+        <div className="v2-review-stars" aria-label="חמישה כוכבים">★★★★★</div>
+        <span className="v2-demo-action">כתיבת ביקורת ב-Google</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="v2-demo-screen demo-tap">
+      <div className="v2-tap-business-cover">
+        <span className="v2-tap-open">פתוח עכשיו</span>
+        <div className="v2-tap-cover-art" aria-hidden="true">
+          <i>☕</i>
+          <i>🥐</i>
+        </div>
+      </div>
+      <div className="v2-tap-business-profile">
+        <div className="v2-tap-business-avatar" aria-hidden="true">נ</div>
+        <span>VibyTap של</span>
+        <h3>קפה נוגה</h3>
+        <p>קפה טוב • מאפים טריים • אווירה שכונתית</p>
+      </div>
+      <div className="v2-tap-quick-actions">
+        <span><b aria-hidden="true">💬</b> דברו איתנו</span>
+        <span><b aria-hidden="true">📍</b> נווטו אלינו</span>
+      </div>
+      <div className="v2-tap-customer-links">
+        {[
+          ["⭐", "כתבו לנו ביקורת", "Google"],
+          ["📷", "עקבו אחרינו", "Instagram"],
+          ["🌐", "בקרו באתר שלנו", "אתר העסק"],
+          ["👍", "הצטרפו לקהילה", "Facebook"],
+          ["🎵", "צפו בסרטונים", "TikTok"],
+        ].map(([icon, label, destination]) => (
+          <span key={destination}>
+            <i aria-hidden="true">{icon}</i>
+            <b>{label}</b>
+            <small>{destination}</small>
+            <em aria-hidden="true">←</em>
+          </span>
+        ))}
+      </div>
+      <small className="v2-tap-powered">מופעל באמצעות VibyTap</small>
+    </div>
+  );
+}
+
+function DetailGrid({
+  items,
+  className = "",
+}: {
+  items: DetailItem[];
+  className?: string;
+}) {
+  return (
+    <div
+      className={`v2-detail-grid v2-reveal v2-reveal-children ${className}`}
+    >
+      {items.map((item) => (
+        <article key={item.title}>
+          <span aria-hidden="true">{item.icon}</span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function ServiceDetail({ service }: { service: ServiceContent }) {
+  let title = "";
+  let text = "";
+  let items: DetailItem[] = [];
+
+  if (service.customerJourney) {
+    title = "מהכרטיסייה למערכת יחסים עם הלקוח";
+    text = "כל ניקוב מספר לעסק משהו ועוזר להפוך ביקורים חוזרים לקשר מסודר.";
+    items = service.customerJourney.map((item, index) => ({
+      ...item,
+      icon: String(index + 1),
+    }));
+  } else if (service.rewards) {
+    title = service.rewards.title;
+    text = service.rewards.text;
+    items = service.rewards.items;
+  } else if (service.walletCapabilities) {
+    title = "ככה פשוט קונים ושומרים";
+    text = "ארבעה צעדים ברורים — מבחירת כרטיס המתנה ועד שהוא מחכה ללקוח בתוך הארנק בטלפון.";
+    items = service.walletCapabilities;
+  } else if (service.physicalProduct) {
+    title = service.physicalProduct.title;
+    text = service.physicalProduct.text;
+    items = service.physicalProduct.items;
+  } else if (service.destinations) {
+    title = "כל הקישורים שהלקוח צריך";
+    text = "הלקוח רואה עמוד אחד פשוט ובוחר לאן להמשיך. בלי לחפש את העסק ובלי להקליד כתובות.";
+    items = service.destinations;
+  }
+
+  return (
+    <>
+      <section className={`v2-section v2-detail tone-${service.layout.detailTone}`}>
+        <div className="v2-shell">
+          <SectionHeading eyebrow="מותאם לשירות" title={title} text={text} light={service.layout.detailTone === "dark"} />
+          <DetailGrid items={items} />
+        </div>
+      </section>
+
+      {service.proof ? (
+        <section className="v2-proof-note">
+          <div className="v2-shell v2-reveal">
+            <strong>{service.proof.title}</strong>
+            <p>{service.proof.text}</p>
+          </div>
+        </section>
+      ) : null}
+
+      {service.useCases ? (
+        <section className="v2-section v2-use-cases">
+          <div className="v2-shell">
+            <SectionHeading
+              eyebrow="איפה משתמשים"
+              title="VibyTap מתאים את עצמו לרגע"
+              text="בחרו את המיקום, הפעולה והיעד שמתאימים לחוויית הלקוח."
+            />
+            <DetailGrid items={service.useCases} />
+          </div>
+        </section>
+      ) : null}
+    </>
+  );
+}
