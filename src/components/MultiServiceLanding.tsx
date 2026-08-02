@@ -196,12 +196,364 @@ function WhatsAppIcon() {
   );
 }
 
+function NfcHeroNote() {
+  return (
+    <aside className="v2-nfc-hero-note" aria-label="טכנולוגיית NFC של Viby">
+      <span className="v2-nfc-hero-art" aria-hidden="true">
+        <svg viewBox="0 0 120 96" role="presentation">
+          <rect x="75" y="11" width="33" height="74" rx="9" />
+          <path d="M85 21h13M86 74h11" />
+          <path
+            className="v2-nfc-wave v2-nfc-wave-one"
+            d="M62 38c7 6 7 14 0 20"
+          />
+          <path
+            className="v2-nfc-wave v2-nfc-wave-two"
+            d="M49 28c16 12 16 28 0 40"
+          />
+          <path
+            className="v2-nfc-wave v2-nfc-wave-three"
+            d="M34 18c26 19 26 41 0 60"
+          />
+        </svg>
+      </span>
+      <strong>טכנולוגיית NFC מתקדמת ומהירה</strong>
+    </aside>
+  );
+}
+
 function ServiceVisualIcon({ id }: { id: ServiceId }) {
   if (id === "wallet") {
     return <span className="v2-wallet-glyph" aria-hidden="true" />;
   }
 
   return <>{serviceHeaderIcons[id]}</>;
+}
+
+function BenefitIllustration({ icon }: { icon: string }) {
+  let artwork;
+
+  switch (icon) {
+    case "↩":
+      artwork = (
+        <>
+          <path
+            className="v2-benefit-line"
+            pathLength="1"
+            d="M96 30H50C31 30 20 42 20 58s12 27 31 27h24"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="m39 16-17 14 17 14"
+          />
+          <path
+            className="v2-benefit-accent"
+            d="m79 72 5 9 10 2-7 7 2 10-10-5-9 5 2-10-8-7 11-2Z"
+          />
+        </>
+      );
+      break;
+    case "◎":
+      artwork = (
+        <>
+          <ellipse
+            className="v2-benefit-line"
+            pathLength="1"
+            cx="60"
+            cy="25"
+            rx="36"
+            ry="14"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="M24 25v22c0 8 16 14 36 14s36-6 36-14V25"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-later"
+            pathLength="1"
+            d="M24 47v22c0 8 16 14 36 14s36-6 36-14V47"
+          />
+          <circle className="v2-benefit-accent" cx="43" cy="25" r="4" />
+        </>
+      );
+      break;
+    case "◫":
+    case "📱":
+      artwork = (
+        <>
+          <rect
+            className="v2-benefit-line"
+            pathLength="1"
+            x="35"
+            y="10"
+            width="50"
+            height="76"
+            rx="12"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="M51 21h18M53 73h14"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-later"
+            pathLength="1"
+            d="m48 50 8 8 18-21"
+          />
+          <circle className="v2-benefit-accent" cx="83" cy="20" r="7" />
+        </>
+      );
+      break;
+    case "✦":
+    case "★":
+      artwork = (
+        <>
+          <path
+            className="v2-benefit-line"
+            pathLength="1"
+            d="m60 10 8 25 24 9-24 9-8 27-8-27-24-9 24-9Z"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="m91 12 3 9 9 3-9 3-3 10-3-10-9-3 9-3ZM27 66l3 8 8 3-8 3-3 8-3-8-8-3 8-3Z"
+          />
+          <circle className="v2-benefit-accent" cx="60" cy="44" r="7" />
+        </>
+      );
+      break;
+    case "⚙":
+      artwork = (
+        <>
+          <circle
+            className="v2-benefit-line"
+            pathLength="1"
+            cx="60"
+            cy="48"
+            r="25"
+          />
+          <circle
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            cx="60"
+            cy="48"
+            r="10"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-later"
+            pathLength="1"
+            d="M60 10v11M60 75v11M22 48h11M87 48h11M33 21l8 8M79 67l8 8M87 21l-8 8M41 67l-8 8"
+          />
+          <circle className="v2-benefit-accent" cx="60" cy="48" r="5" />
+        </>
+      );
+      break;
+    case "🎁":
+      artwork = (
+        <>
+          <rect
+            className="v2-benefit-line"
+            pathLength="1"
+            x="23"
+            y="39"
+            width="74"
+            height="47"
+            rx="7"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="M17 39h86v17H17zM60 39v47"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-later"
+            pathLength="1"
+            d="M59 38C47 36 38 29 40 22c2-8 15-5 20 16Zm2 0c12-2 21-9 19-16-2-8-15-5-20 16Z"
+          />
+          <circle className="v2-benefit-accent" cx="60" cy="48" r="5" />
+        </>
+      );
+      break;
+    case "₪":
+      artwork = (
+        <>
+          <circle
+            className="v2-benefit-line"
+            pathLength="1"
+            cx="60"
+            cy="48"
+            r="38"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="M43 65V31c14 0 17 9 17 20v14M77 31v34c-14 0-17-9-17-20V31"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-later"
+            pathLength="1"
+            d="M35 74h50"
+          />
+          <circle className="v2-benefit-accent" cx="91" cy="22" r="7" />
+        </>
+      );
+      break;
+    case "📲":
+    case "N":
+      artwork = (
+        <>
+          <rect
+            className="v2-benefit-line"
+            pathLength="1"
+            x="22"
+            y="14"
+            width="43"
+            height="72"
+            rx="11"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="M35 74h17M76 38c8 4 8 16 0 20M84 28c19 10 19 30 0 40"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-later"
+            pathLength="1"
+            d="M93 18c29 16 29 44 0 60"
+          />
+          <circle className="v2-benefit-accent" cx="72" cy="48" r="5" />
+        </>
+      );
+      break;
+    case "💳":
+      artwork = (
+        <>
+          <rect
+            className="v2-benefit-line"
+            pathLength="1"
+            x="14"
+            y="22"
+            width="92"
+            height="59"
+            rx="12"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="M14 39h92M29 58h28M29 68h17"
+          />
+          <rect
+            className="v2-benefit-accent"
+            x="76"
+            y="53"
+            width="16"
+            height="12"
+            rx="4"
+          />
+        </>
+      );
+      break;
+    case "G":
+      artwork = (
+        <>
+          <path
+            className="v2-benefit-line"
+            pathLength="1"
+            d="M18 19h84v54H63L43 88V73H18Z"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="m60 29 5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1Z"
+          />
+          <circle className="v2-benefit-accent" cx="88" cy="29" r="5" />
+        </>
+      );
+      break;
+    case "🎨":
+      artwork = (
+        <>
+          <path
+            className="v2-benefit-line"
+            pathLength="1"
+            d="M60 12c-25 0-44 16-44 36s18 37 41 37c9 0 13-5 10-12-3-8 2-15 11-15h11c10 0 16-8 13-17C97 23 80 12 60 12Z"
+          />
+          <circle
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            cx="40"
+            cy="38"
+            r="5"
+          />
+          <circle
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            cx="59"
+            cy="28"
+            r="5"
+          />
+          <circle className="v2-benefit-accent" cx="78" cy="37" r="6" />
+        </>
+      );
+      break;
+    case "🔗":
+      artwork = (
+        <>
+          <path
+            className="v2-benefit-line"
+            pathLength="1"
+            d="m50 62-8 8c-9 9-23 9-32 0s-9-23 0-32l14-14c9-9 23-9 32 0 4 4 6 9 6 14"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="m70 34 8-8c9-9 23-9 32 0s9 23 0 32L96 72c-9 9-23 9-32 0-4-4-6-9-6-14"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-later"
+            pathLength="1"
+            d="m41 57 38-18"
+          />
+          <circle className="v2-benefit-accent" cx="60" cy="48" r="5" />
+        </>
+      );
+      break;
+    case "🏪":
+      artwork = (
+        <>
+          <path
+            className="v2-benefit-line"
+            pathLength="1"
+            d="M21 38h78v49H21ZM14 38l11-24h70l11 24"
+          />
+          <path
+            className="v2-benefit-line v2-benefit-line-late"
+            pathLength="1"
+            d="M14 38c0 9 13 12 20 4 7 8 19 8 26 0 7 8 19 8 26 0 7 8 20 5 20-4M34 87V61h24v26M72 61h14"
+          />
+          <circle className="v2-benefit-accent" cx="79" cy="68" r="5" />
+        </>
+      );
+      break;
+    default:
+      artwork = (
+        <path
+          className="v2-benefit-line"
+          pathLength="1"
+          d="m60 12 9 26 27 10-27 10-9 26-9-26-27-10 27-10Z"
+        />
+      );
+  }
+
+  return (
+    <span className="v2-benefit-illustration" aria-hidden="true">
+      <svg viewBox="0 0 120 96" role="presentation">
+        {artwork}
+      </svg>
+    </span>
+  );
 }
 
 export function MultiServiceLanding({
@@ -413,12 +765,11 @@ export function MultiServiceLanding({
           <div className="v2-brand-row">
             <Link href="/" aria-label="Viby - דף הבית">
               <Image
-                src="/viby_logo_clean.jpg"
+                src="/viby-logo-white.png"
                 alt="Viby"
                 width={230}
                 height={154}
                 priority
-                unoptimized
               />
             </Link>
             <div className="v2-header-controls">
@@ -527,6 +878,7 @@ export function MultiServiceLanding({
 
             <div className="v2-hero-art" key={`art-${activeId}`}>
               <HeroProductVisual service={service} />
+              <NfcHeroNote />
             </div>
           </div>
         </div>
@@ -720,7 +1072,7 @@ export function MultiServiceLanding({
           </div>
         </section>
 
-        <section className="v2-section v2-benefits">
+        <section className="v2-section v2-benefits" id="benefits">
           <div className="v2-shell">
             <SectionHeading
               eyebrow="למה זה עובד לעסק"
@@ -737,7 +1089,7 @@ export function MultiServiceLanding({
             >
               {service.benefits.map((benefit) => (
                 <article key={benefit.title}>
-                  <span aria-hidden="true">{benefit.icon}</span>
+                  <BenefitIllustration icon={benefit.icon} />
                   <h3>{benefit.title}</h3>
                   <p>{benefit.text}</p>
                 </article>
