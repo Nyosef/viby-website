@@ -2822,7 +2822,6 @@ details p {
 .v2-brand-row img {
   width: 142px;
   height: auto;
-  filter: brightness(0) invert(1);
 }
 
 .v2-business-link {
@@ -3138,6 +3137,65 @@ details p {
   margin-top: 2rem;
 }
 
+.v2-nfc-hero-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: min(100%, 380px);
+  margin-top: 1.35rem;
+  padding: 0.58rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  backdrop-filter: blur(12px);
+}
+
+.v2-nfc-hero-art {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 78px;
+  aspect-ratio: 1;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.v2-nfc-hero-art svg {
+  width: 68px;
+  height: 56px;
+  overflow: visible;
+}
+
+.v2-nfc-hero-art rect,
+.v2-nfc-hero-art path,
+.v2-nfc-hero-art circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4.5;
+}
+
+.v2-nfc-hero-art circle {
+  fill: var(--v2-yellow);
+  stroke-width: 3;
+}
+
+.v2-nfc-hero-note strong {
+  color: white;
+  font-size: 1.02rem;
+  font-weight: 900;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.v2-nfc-wave {
+  opacity: 1;
+  stroke-width: 7;
+}
+
 .v2-button {
   display: inline-flex;
   align-items: center;
@@ -3245,10 +3303,23 @@ details p {
 }
 
 .v2-hero-art {
+  position: relative;
   display: grid;
   place-items: center;
   min-height: 580px;
   animation: v2-art-in 700ms 80ms ease both;
+}
+
+.v2-hero-art .v2-nfc-hero-note {
+  position: absolute;
+  bottom: -68px;
+  left: 50%;
+  z-index: 5;
+  width: min(380px, 88%);
+  margin: 0;
+  background: rgba(199, 15, 94, 0.34);
+  box-shadow: 0 18px 40px rgba(116, 0, 48, 0.17);
+  transform: translateX(-50%);
 }
 
 .v2-product-scene {
@@ -5549,8 +5620,11 @@ details p {
   min-height: 54px;
   padding: 0.7rem 1rem;
   border-radius: 16px;
-  background: var(--v2-pink);
-  box-shadow: 0 14px 28px rgba(255, 47, 131, 0.2);
+  background:
+    linear-gradient(135deg, #2cdf72 0%, #25d366 52%, #18b956 100%);
+  box-shadow:
+    0 14px 30px rgba(18, 155, 73, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
   color: white;
   font-size: 0.86rem;
   font-weight: 950;
@@ -5562,13 +5636,17 @@ details p {
 }
 
 .v2-price-action:hover {
+  background:
+    linear-gradient(135deg, #31e879 0%, #29d96c 52%, #19bd59 100%);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 18px 34px rgba(255, 47, 131, 0.27);
+  box-shadow:
+    0 18px 38px rgba(18, 155, 73, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
 }
 
 .v2-price-action:focus-visible {
-  outline: 4px solid rgba(255, 47, 131, 0.25);
+  outline: 4px solid rgba(37, 211, 102, 0.28);
   outline-offset: 3px;
 }
 
@@ -6299,8 +6377,6 @@ details p {
   width: 120%;
   max-width: none;
   height: auto;
-  filter: invert(1) grayscale(1) contrast(100);
-  mix-blend-mode: screen;
   transform: translate(-50%, -50%);
 }
 
@@ -6980,6 +7056,32 @@ details p {
 
   .landing-v2 .v2-button-whatsapp .v2-whatsapp-icon {
     width: 35px;
+  }
+
+  .landing-v2 .v2-nfc-hero-note {
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 999px;
+  }
+
+  .landing-v2 .v2-hero-art .v2-nfc-hero-note {
+    bottom: -42px;
+    width: min(350px, 94%);
+  }
+
+  .landing-v2 .v2-nfc-hero-art {
+    width: 66px;
+  }
+
+  .landing-v2 .v2-nfc-hero-art svg {
+    width: 57px;
+    height: 48px;
+  }
+
+  .landing-v2 .v2-nfc-hero-note strong {
+    font-size: 0.9rem;
+    white-space: normal;
   }
 
   .landing-v2 .v2-hero-art {
@@ -7783,11 +7885,292 @@ details p {
   }
 }
 
+/* Illustrated benefit cards: one complete RTL beat per card. */
+
+.landing-v2 .v2-benefit-grid {
+  gap: 1.5rem;
+}
+
+.landing-v2 .v2-benefit-grid article {
+  position: relative;
+  display: flex;
+  min-height: 365px;
+  flex-direction: column;
+  padding: 2.35rem;
+  border: 1px solid rgba(255, 47, 131, 0.2);
+  border-radius: 32px;
+  background:
+    radial-gradient(
+      circle at 12% 92%,
+      rgba(255, 47, 131, 0.13),
+      transparent 35%
+    ),
+    linear-gradient(145deg, #fff7fb, #ffeaf3);
+  box-shadow:
+    0 24px 60px rgba(75, 28, 65, 0.1),
+    inset 0 1px 0 white;
+  overflow: hidden;
+}
+
+.landing-v2 .v2-benefit-grid article:nth-child(2) {
+  --benefit-draw-delay: 1780ms;
+  background:
+    radial-gradient(
+      circle at 12% 92%,
+      rgba(255, 199, 65, 0.16),
+      transparent 36%
+    ),
+    linear-gradient(145deg, #fff9fc, #fff1f6);
+}
+
+.landing-v2 .v2-benefit-grid article:nth-child(3) {
+  --benefit-draw-delay: 2980ms;
+  background:
+    radial-gradient(
+      circle at 12% 92%,
+      rgba(143, 89, 255, 0.11),
+      transparent 36%
+    ),
+    linear-gradient(145deg, #fff8fc, #f8efff);
+}
+
+.landing-v2 .v2-benefit-grid article:nth-child(4) {
+  --benefit-draw-delay: 4180ms;
+  background:
+    radial-gradient(
+      circle at 12% 92%,
+      rgba(255, 47, 131, 0.12),
+      transparent 36%
+    ),
+    linear-gradient(145deg, #fff8fb, #ffeef5);
+}
+
+.landing-v2 .v2-benefit-grid article:nth-child(1) {
+  --benefit-draw-delay: 580ms;
+}
+
+.landing-v2 .v2-benefit-grid article::after {
+  position: absolute;
+  top: -64px;
+  left: -58px;
+  width: 150px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 47, 131, 0.13);
+  border-radius: 50%;
+  content: "";
+}
+
+.landing-v2 .v2-benefit-grid article:hover {
+  border-color: rgba(255, 47, 131, 0.36);
+  box-shadow:
+    0 30px 72px rgba(75, 28, 65, 0.15),
+    inset 0 1px 0 white;
+}
+
+.landing-v2 .v2-benefit-grid article > .v2-benefit-illustration {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  align-self: flex-start;
+  width: 146px;
+  height: 118px;
+  margin: 0;
+  border: 1px solid rgba(255, 47, 131, 0.18);
+  border-radius: 30px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.25)),
+    var(--v2-blush);
+  color: var(--v2-deep-pink);
+  box-shadow:
+    0 18px 40px rgba(215, 22, 104, 0.12),
+    inset 0 1px 0 white;
+}
+
+.landing-v2 .v2-benefit-illustration svg {
+  width: 112px;
+  height: 90px;
+  overflow: visible;
+}
+
+.landing-v2 .v2-benefit-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.landing-v2 .v2-benefit-accent {
+  fill: var(--v2-yellow);
+  stroke: var(--v2-deep-pink);
+  stroke-width: 2.5;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.landing-v2 .v2-benefit-grid h3 {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.7rem;
+  font-size: clamp(1.6rem, 2vw, 2rem);
+  line-height: 1.08;
+}
+
+.landing-v2 .v2-benefit-grid p {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.35rem;
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+.landing-v2.v2-reveal-enabled .v2-benefit-grid.v2-reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.landing-v2.v2-reveal-enabled
+  .v2-benefit-grid.v2-reveal-children:not(.is-visible)
+  > article {
+  opacity: 0;
+  transform: translateX(130px) translateY(22px) rotate(4deg) scale(0.93);
+}
+
+.landing-v2.v2-reveal-enabled
+  .v2-benefit-grid.v2-reveal-children.is-visible
+  > article {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 560ms ease,
+    transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.landing-v2.v2-reveal-enabled
+  .v2-benefit-grid.v2-reveal-children.is-visible
+  > article:nth-child(1) {
+  transition-delay: 0ms;
+}
+
+.landing-v2.v2-reveal-enabled
+  .v2-benefit-grid.v2-reveal-children.is-visible
+  > article:nth-child(2) {
+  transition-delay: 1200ms;
+}
+
+.landing-v2.v2-reveal-enabled
+  .v2-benefit-grid.v2-reveal-children.is-visible
+  > article:nth-child(3) {
+  transition-delay: 2400ms;
+}
+
+.landing-v2.v2-reveal-enabled
+  .v2-benefit-grid.v2-reveal-children.is-visible
+  > article:nth-child(4) {
+  transition-delay: 3600ms;
+}
+
+.landing-v2.v2-reveal-enabled .v2-benefit-line {
+  opacity: 0;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition:
+    stroke-dashoffset 620ms cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 160ms ease;
+}
+
+.landing-v2.v2-reveal-enabled .v2-benefit-accent {
+  opacity: 0;
+  transform: scale(0.25) rotate(-20deg);
+  transition:
+    opacity 180ms ease,
+    transform 440ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.landing-v2.v2-reveal-enabled
+  .v2-benefit-grid.is-visible
+  .v2-benefit-line {
+  opacity: 1;
+  stroke-dashoffset: 0;
+  transition-delay: var(--benefit-draw-delay);
+}
+
+.landing-v2.v2-reveal-enabled
+  .v2-benefit-grid.is-visible
+  .v2-benefit-accent {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--benefit-draw-delay) + 360ms);
+}
+
+.landing-v2.v2-reveal-enabled
+  .v2-benefit-grid.is-visible
+  .v2-benefit-line-late {
+  transition-delay: calc(var(--benefit-draw-delay) + 120ms);
+}
+
+.landing-v2.v2-reveal-enabled
+  .v2-benefit-grid.is-visible
+  .v2-benefit-line-later {
+  transition-delay: calc(var(--benefit-draw-delay) + 230ms);
+}
+
+@media (max-width: 760px) {
+  .landing-v2 .v2-benefit-grid {
+    gap: 1.1rem;
+  }
+
+  .landing-v2 .v2-benefit-grid article {
+    display: flex;
+    min-height: 280px;
+    padding: 1.55rem;
+    border-radius: 25px;
+  }
+
+  .landing-v2 .v2-benefit-grid article > .v2-benefit-illustration {
+    width: 116px;
+    height: 94px;
+    border-radius: 24px;
+  }
+
+  .landing-v2 .v2-benefit-illustration svg {
+    width: 88px;
+    height: 72px;
+  }
+
+  .landing-v2 .v2-benefit-grid h3 {
+    margin-top: 1.25rem;
+    font-size: 1.55rem;
+  }
+
+  .landing-v2 .v2-benefit-grid p {
+    margin-top: 0.25rem;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .landing-v2.v2-reveal-enabled
+    .v2-benefit-grid.v2-reveal-children:not(.is-visible)
+    > article {
+    transform: translateX(85px) translateY(16px) rotate(3deg) scale(0.95);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .landing-v2.v2-reveal-enabled .v2-reveal,
-  .landing-v2.v2-reveal-enabled .v2-reveal-children > * {
+  .landing-v2.v2-reveal-enabled .v2-reveal-children > *,
+  .landing-v2.v2-reveal-enabled .v2-benefit-line,
+  .landing-v2.v2-reveal-enabled .v2-benefit-accent {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+
+  .landing-v2.v2-reveal-enabled .v2-benefit-line {
+    stroke-dashoffset: 0 !important;
   }
 }
