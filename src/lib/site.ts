@@ -6,7 +6,7 @@ export const siteConfig = {
   url: getSiteUrl(),
   locale: "he_IL",
   language: "he",
-  ogImage: "/viby_transparent.png",
+  ogImage: "/og.png",
   address: {
     locality: "הרצליה",
     country: "ישראל",
