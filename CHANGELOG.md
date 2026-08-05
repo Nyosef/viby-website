@@ -46,26 +46,28 @@ All notable changes to the Viby website are documented here.
   - Submission date and time in the Israel timezone.
 - Created and verified the private `@vibyleads_bot` Telegram bot.
 - Connected and tested the private Telegram destination successfully.
-- Added `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` as encrypted, Production-only environment variables in the Vercel `viby-website` project.
+- Added multi-chat delivery through `TELEGRAM_CHAT_IDS`.
+- Added `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_IDS` as encrypted, Production-only environment variables in the Vercel `viby-website` project.
 - Kept Telegram credentials out of tracked source files.
 
 ### Email notifications
 
 - Added optional transactional lead-email delivery through Resend.
-- Configured lead emails to target `vibyisrael@gmail.com`.
+- Configured lead emails to target `nyosef@gmail.com`, `vibyisrael@gmail.com`, and `baraassor@gmail.com`.
 - Added plain-text and RTL HTML email versions with a clickable phone number.
-- Documented the required `RESEND_API_KEY` and `PURCHASE_LEAD_FROM_EMAIL` variables.
+- Documented the required `RESEND_API_KEY`, `PURCHASE_LEAD_FROM_EMAIL`, and `LEAD_EMAIL_RECIPIENTS` variables.
 
-### Removed
+### WhatsApp notifications
 
-- Removed the Green API integration completely.
-- Removed all Green API credentials, environment-variable declarations, server requests, and automatic WhatsApp-message behavior.
-- Removed UI copy and success states that promised an automatically opened WhatsApp conversation.
-- No Green API references or secrets remain in runtime code or configuration.
+- Added Green API as an internal lead-alert channel.
+- Configured alerts for exactly two fixed Viby team WhatsApp chats.
+- Kept the Green API token server-side and outside tracked source files.
+- Customer-facing copy does not promise an automatic customer WhatsApp message.
 
 ### Configuration
 
 - Added `.env.example` containing variable names only.
+- Added production configuration names for multi-recipient email, Telegram, and Green API delivery.
 - Linked the local workspace to the correct Vercel project:
   - Team: `nir-josephs-projects`
   - Project: `viby-website`
@@ -78,13 +80,12 @@ All notable changes to the Viby website are documented here.
 - Confirmed TypeScript compilation succeeds.
 - Confirmed ESLint succeeds.
 - Confirmed the Telegram Bot API connection and test-message delivery.
+- Confirmed the Green API instance is authorized and accepted test messages for both configured WhatsApp chats.
 - Confirmed no secrets are included in tracked files.
 
 ### Required before production deployment
 
 - Add Cloudflare Turnstile production site and secret keys.
-- Configure Resend and a verified sender if email/Gmail alerts are required.
+- Configure Resend and a verified sender to activate email/Gmail alerts.
 - Replace the temporary externally hosted Isracard logo with a brand-approved local merchant asset.
-- Review the Privacy Policy disclosure for lead data sent through Telegram and Resend.
-- Perform one end-to-end production test after deployment.
-- Deploy the current code changes; production deployment has not yet been triggered.
+- Review the Privacy Policy disclosure for lead data sent through Telegram, Green API, and Resend.
