@@ -52,10 +52,11 @@ All notable changes to the Viby website are documented here.
 
 ### Email notifications
 
-- Added optional transactional lead-email delivery through Resend.
+- Reused Viby’s existing Gmail SMTP delivery configuration from the `customer-retention-100` Firebase Functions project.
 - Configured lead emails to target `nyosef@gmail.com`, `vibyisrael@gmail.com`, and `baraassor@gmail.com`.
+- Sends each recipient a separate message so recipient addresses are not exposed to one another.
 - Added plain-text and RTL HTML email versions with a clickable phone number.
-- Documented the required `RESEND_API_KEY`, `PURCHASE_LEAD_FROM_EMAIL`, and `LEAD_EMAIL_RECIPIENTS` variables.
+- Documented the required `VIBY_GMAIL_USER`, `VIBY_GMAIL_APP_PASSWORD`, and `LEAD_EMAIL_RECIPIENTS` variables.
 
 ### WhatsApp notifications
 
@@ -67,7 +68,7 @@ All notable changes to the Viby website are documented here.
 ### Configuration
 
 - Added `.env.example` containing variable names only.
-- Added production configuration names for multi-recipient email, Telegram, and Green API delivery.
+- Added production configuration names for Gmail SMTP, multi-recipient email, Telegram, and Green API delivery.
 - Linked the local workspace to the correct Vercel project:
   - Team: `nir-josephs-projects`
   - Project: `viby-website`
@@ -81,6 +82,7 @@ All notable changes to the Viby website are documented here.
 - Confirmed ESLint succeeds.
 - Confirmed the Telegram Bot API connection and test-message delivery.
 - Confirmed the Green API instance is authorized and accepted test messages for both configured WhatsApp chats.
+- Confirmed Gmail SMTP accepted a separate test email for each of the three configured inboxes.
 - Deployed the updated lead API to `www.joinviby.co.il`.
 - Confirmed an end-to-end production lead submission returned HTTP 200 with no channel errors in the production function logs.
 - Confirmed no secrets are included in tracked files.
@@ -88,6 +90,5 @@ All notable changes to the Viby website are documented here.
 ### Required before production deployment
 
 - Add Cloudflare Turnstile production site and secret keys.
-- Configure Resend and a verified sender to activate email/Gmail alerts.
 - Replace the temporary externally hosted Isracard logo with a brand-approved local merchant asset.
-- Review the Privacy Policy disclosure for lead data sent through Telegram, Green API, and Resend.
+- Review the Privacy Policy disclosure for lead data sent through Telegram, Green API, and Gmail.

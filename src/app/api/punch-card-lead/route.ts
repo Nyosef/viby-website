@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";
 
@@ -108,9 +109,9 @@ async function verifyTurnstile(token: string, ip: string) {
 }
 
 async function sendLeadEmail(name: string, phone: string, submittedAt: string) {
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.PURCHASE_LEAD_FROM_EMAIL;
-  if (!apiKey || !from) {
+  const gmailUser = process.env.VIBY_GMAIL_USER;
+  const gmailPassword = process.env.VIBY_GMAIL_APP_PASSWORD;
+  if (!gmailUser || !gmailPassword) {
     return false;
   }
 
@@ -123,37 +124,55 @@ async function sendLeadEmail(name: string, phone: string, submittedAt: string) {
       : DEFAULT_EMAIL_RECIPIENTS;
   const safeName = escapeHtml(name);
   const safePhone = escapeHtml(phone);
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to: recipients,
-      subject: `💳 בקשה לקישור תשלום — ${name}`,
-      text: `בקשה חדשה לקישור תשלום\n\nשם: ${name}\nטלפון: +${phone}\nמסלול: כרטיסייה דיגיטלית — 69 ₪ לחודש\nנשלח: ${submittedAt}`,
-      html: `
-        <div dir="rtl" style="font-family:Arial,sans-serif;line-height:1.7">
-          <h2>💳 בקשה חדשה לקישור תשלום</h2>
-          <p><strong>שם:</strong> ${safeName}</p>
-          <p><strong>טלפון:</strong> <a href="tel:+${safePhone}">+${safePhone}</a></p>
-          <p><strong>מסלול:</strong> כרטיסייה דיגיטלית — 69 ₪ לחודש</p>
-          <p><strong>נשלח:</strong> ${escapeHtml(submittedAt)}</p>
-        </div>
-      `,
+  const subject = `💳 בקשה לקישור תשלום — ${name}`;
+  const text = `בקשה חדשה לקישור תשלום\n\nשם: ${name}\nטלפון: +${phone}\nמסלול: כרטיסייה דיגיטלית — 69 ₪ לחודש\nנשלח: ${submittedAt}`;
+  const html = `
+    <div dir="rtl" style="font-family:Arial,sans-serif;line-height:1.7">
+      <h2>💳 בקשה חדשה לקישור תשלום</h2>
+      <p><strong>שם:</strong> ${safeName}</p>
+      <p><strong>טלפון:</strong> <a href="tel:+${safePhone}">+${safePhone}</a></p>
+      <p><strong>מסלול:</strong> כרטיסייה דיגיטלית — 69 ₪ לחודש</p>
+      <p><strong>נשלח:</strong> ${escapeHtml(submittedAt)}</p>
+    </div>
+  `;
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: { user: gmailUser, pass: gmailPassword },
+    connectionTimeout: 8000,
+    greetingTimeout: 8000,
+    socketTimeout: 8000,
+  });
+  const results = await Promise.allSettled(
+    recipients.map(async (recipient) => {
+      const result = await transport.sendMail({
+        from: `Viby <${gmailUser}>`,
+        replyTo: gmailUser,
+        to: recipient,
+        subject,
+        text,
+        html,
+      });
+      const accepted = result.accepted
+        .map((value) =>
+          typeof value === "string" ? value : value.address,
+        )
+        .map((value) => value.trim().toLowerCase());
+      return accepted.includes(recipient.toLowerCase());
     }),
-    signal: AbortSignal.timeout(8000),
+  );
+
+  results.forEach((result, index) => {
+    if (result.status === "rejected" || result.value !== true) {
+      console.error(
+        `[punch-card-lead] Email recipient ${index + 1} failed.`,
+      );
+    }
   });
 
-  if (!response.ok) {
-    console.error(
-      `[punch-card-lead] Email delivery failed (${response.status}).`,
-    );
-  }
-
-  return response.ok;
+  transport.close();
+  return results.some(
+    (result) => result.status === "fulfilled" && result.value === true,
+  );
 }
 
 async function sendTelegramAlert(
