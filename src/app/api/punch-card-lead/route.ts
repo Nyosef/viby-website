@@ -137,32 +137,47 @@ async function sendTelegramAlert(
   submittedAt: string,
 ) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!botToken || !chatId) {
+  const chatIds = (
+    process.env.TELEGRAM_CHAT_IDS ||
+    process.env.TELEGRAM_CHAT_ID ||
+    ""
+  )
+    .split(",")
+    .map((chatId) => chatId.trim())
+    .filter(Boolean);
+
+  if (!botToken || chatIds.length === 0) {
     return false;
   }
 
-  const response = await fetch(
-    `https://api.telegram.org/bot${botToken}/sendMessage`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: [
-          "💳 בקשה חדשה לקישור תשלום",
-          "",
-          `שם: ${name}`,
-          `טלפון: +${phone}`,
-          "מסלול: 69 ₪ לחודש",
-          `נשלח: ${submittedAt}`,
-        ].join("\n"),
-      }),
-      signal: AbortSignal.timeout(8000),
-    },
+  const text = [
+    "💳 בקשה חדשה לקישור תשלום",
+    "",
+    `שם: ${name}`,
+    `טלפון: +${phone}`,
+    "מסלול: 69 ₪ לחודש",
+    `נשלח: ${submittedAt}`,
+  ].join("\n");
+
+  const results = await Promise.allSettled(
+    chatIds.map(async (chatId) => {
+      const response = await fetch(
+        `https://api.telegram.org/bot${botToken}/sendMessage`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: chatId, text }),
+          signal: AbortSignal.timeout(8000),
+        },
+      );
+
+      return response.ok;
+    }),
   );
 
-  return response.ok;
+  return results.some(
+    (result) => result.status === "fulfilled" && result.value === true,
+  );
 }
 
 export async function POST(request: NextRequest) {

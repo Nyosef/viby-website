@@ -46,7 +46,8 @@ All notable changes to the Viby website are documented here.
   - Submission date and time in the Israel timezone.
 - Created and verified the private `@vibyleads_bot` Telegram bot.
 - Connected and tested the private Telegram destination successfully.
-- Added `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` as encrypted, Production-only environment variables in the Vercel `viby-website` project.
+- Added support for notifying multiple private Telegram recipients from one lead submission.
+- Added `TELEGRAM_BOT_TOKEN` and the comma-separated `TELEGRAM_CHAT_IDS` as encrypted, Production-only environment variables in the Vercel `viby-website` project.
 - Kept Telegram credentials out of tracked source files.
 
 ### Email notifications
