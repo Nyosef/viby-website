@@ -81,6 +81,8 @@ All notable changes to the Viby website are documented here.
 - Confirmed ESLint succeeds.
 - Confirmed the Telegram Bot API connection and test-message delivery.
 - Confirmed the Green API instance is authorized and accepted test messages for both configured WhatsApp chats.
+- Deployed the updated lead API to `www.joinviby.co.il`.
+- Confirmed an end-to-end production lead submission returned HTTP 200 with no channel errors in the production function logs.
 - Confirmed no secrets are included in tracked files.
 
 ### Required before production deployment
