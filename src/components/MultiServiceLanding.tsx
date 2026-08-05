@@ -13,6 +13,7 @@ import {
 } from "@/lib/services";
 import { siteConfig } from "@/lib/site";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { PunchCardLeadSection } from "@/components/PunchCardLeadSection";
 
 type MultiServiceLandingProps = {
   initialService: ServiceId;
@@ -1115,7 +1116,7 @@ export function MultiServiceLanding({
 
             <div className="v2-price-amount">
               <span>החל מ־</span>
-              <strong>49</strong>
+              <strong>{activeId === "punch-card" ? "69" : "49"}</strong>
               <span>₪ לחודש</span>
               <small>לכל כלי בנפרד</small>
             </div>
@@ -1132,7 +1133,9 @@ export function MultiServiceLanding({
             <a
               className="v2-price-action"
               href={whatsappUrl}
-              aria-label={`קבלת פרטים על ${service.label} החל מ־49 שקלים לחודש`}
+              aria-label={`קבלת פרטים על ${service.label} החל מ־${
+                activeId === "punch-card" ? "69" : "49"
+              } שקלים לחודש`}
             >
               <WhatsAppIcon />
               <span>
@@ -1166,6 +1169,8 @@ export function MultiServiceLanding({
           </div>
         </div>
       </section>
+
+      {activeId === "punch-card" ? <PunchCardLeadSection /> : null}
 
       <footer className="v2-footer">
         <div className="v2-shell">
