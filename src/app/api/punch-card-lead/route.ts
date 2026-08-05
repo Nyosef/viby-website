@@ -12,6 +12,18 @@ type LeadRequest = {
 const attempts = new Map<string, number[]>();
 const ATTEMPT_WINDOW_MS = 10 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
+const DEFAULT_EMAIL_RECIPIENTS = [
+  "nyosef@gmail.com",
+  "vibyisrael@gmail.com",
+  "baraassor@gmail.com",
+];
+
+function parseRecipientList(value: string | undefined) {
+  return (value ?? "")
+    .split(",")
+    .map((recipient) => recipient.trim())
+    .filter(Boolean);
+}
 
 function normalizePhone(value: string) {
   let digits = value.replace(/\D/g, "");
@@ -102,6 +114,13 @@ async function sendLeadEmail(name: string, phone: string, submittedAt: string) {
     return false;
   }
 
+  const configuredRecipients = parseRecipientList(
+    process.env.LEAD_EMAIL_RECIPIENTS,
+  );
+  const recipients =
+    configuredRecipients.length > 0
+      ? configuredRecipients
+      : DEFAULT_EMAIL_RECIPIENTS;
   const safeName = escapeHtml(name);
   const safePhone = escapeHtml(phone);
   const response = await fetch("https://api.resend.com/emails", {
@@ -112,7 +131,7 @@ async function sendLeadEmail(name: string, phone: string, submittedAt: string) {
     },
     body: JSON.stringify({
       from,
-      to: ["vibyisrael@gmail.com"],
+      to: recipients,
       subject: `💳 בקשה לקישור תשלום — ${name}`,
       text: `בקשה חדשה לקישור תשלום\n\nשם: ${name}\nטלפון: +${phone}\nמסלול: כרטיסייה דיגיטלית — 69 ₪ לחודש\nנשלח: ${submittedAt}`,
       html: `
@@ -128,6 +147,12 @@ async function sendLeadEmail(name: string, phone: string, submittedAt: string) {
     signal: AbortSignal.timeout(8000),
   });
 
+  if (!response.ok) {
+    console.error(
+      `[punch-card-lead] Email delivery failed (${response.status}).`,
+    );
+  }
+
   return response.ok;
 }
 
@@ -137,32 +162,87 @@ async function sendTelegramAlert(
   submittedAt: string,
 ) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!botToken || !chatId) {
+  const chatIds = parseRecipientList(
+    process.env.TELEGRAM_CHAT_IDS || process.env.TELEGRAM_CHAT_ID,
+  );
+  if (!botToken || chatIds.length === 0) {
     return false;
   }
 
-  const response = await fetch(
-    `https://api.telegram.org/bot${botToken}/sendMessage`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: [
-          "💳 בקשה חדשה לקישור תשלום",
-          "",
-          `שם: ${name}`,
-          `טלפון: +${phone}`,
-          "מסלול: 69 ₪ לחודש",
-          `נשלח: ${submittedAt}`,
-        ].join("\n"),
+  const message = [
+    "💳 בקשה חדשה לקישור תשלום",
+    "",
+    `שם: ${name}`,
+    `טלפון: +${phone}`,
+    "מסלול: 69 ₪ לחודש",
+    `נשלח: ${submittedAt}`,
+  ].join("\n");
+  const results = await Promise.allSettled(
+    chatIds.map((chatId) =>
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: message }),
+        signal: AbortSignal.timeout(8000),
       }),
-      signal: AbortSignal.timeout(8000),
-    },
+    ),
   );
 
-  return response.ok;
+  return results.some(
+    (result) => result.status === "fulfilled" && result.value.ok,
+  );
+}
+
+async function sendGreenApiAlerts(
+  name: string,
+  phone: string,
+  submittedAt: string,
+) {
+  const apiUrl = process.env.GREEN_API_URL?.replace(/\/+$/, "");
+  const instanceId = process.env.GREEN_API_INSTANCE_ID;
+  const apiToken = process.env.GREEN_API_TOKEN;
+  const recipients = parseRecipientList(process.env.GREEN_API_RECIPIENTS);
+
+  if (!apiUrl || !instanceId || !apiToken || recipients.length === 0) {
+    return false;
+  }
+
+  const message = [
+    "💳 בקשה חדשה לקישור תשלום",
+    "",
+    `שם: ${name}`,
+    `טלפון: +${phone}`,
+    "מסלול: 69 ₪ לחודש",
+    `נשלח: ${submittedAt}`,
+  ].join("\n");
+  const endpoint = `${apiUrl}/waInstance${instanceId}/sendMessage/${apiToken}`;
+  const results = await Promise.allSettled(
+    recipients.map((recipient) =>
+      fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chatId: `${recipient.replace(/\D/g, "")}@c.us`,
+          message,
+        }),
+        signal: AbortSignal.timeout(8000),
+      }),
+    ),
+  );
+
+  results.forEach((result, index) => {
+    if (result.status === "rejected" || !result.value.ok) {
+      const status =
+        result.status === "fulfilled" ? result.value.status : "network error";
+      console.error(
+        `[punch-card-lead] Green API recipient ${index + 1} failed (${status}).`,
+      );
+    }
+  });
+
+  return results.some(
+    (result) => result.status === "fulfilled" && result.value.ok,
+  );
 }
 
 export async function POST(request: NextRequest) {
@@ -235,16 +315,20 @@ export async function POST(request: NextRequest) {
       timeZone: "Asia/Jerusalem",
     }).format(new Date());
 
-    const [emailResult, telegramResult] = await Promise.allSettled([
-      sendLeadEmail(name, phone, submittedAt),
-      sendTelegramAlert(name, phone, submittedAt),
-    ]);
+    const [emailResult, telegramResult, greenApiResult] =
+      await Promise.allSettled([
+        sendLeadEmail(name, phone, submittedAt),
+        sendTelegramAlert(name, phone, submittedAt),
+        sendGreenApiAlerts(name, phone, submittedAt),
+      ]);
 
     const emailSent =
       emailResult.status === "fulfilled" && emailResult.value === true;
     const telegramSent =
       telegramResult.status === "fulfilled" && telegramResult.value === true;
-    if (!emailSent && !telegramSent) {
+    const greenApiSent =
+      greenApiResult.status === "fulfilled" && greenApiResult.value === true;
+    if (!emailSent && !telegramSent && !greenApiSent) {
       return NextResponse.json(
         {
           ok: false,
