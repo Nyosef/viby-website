@@ -1,22 +1,16 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "תמיכה | Viby",
+const supportSeo = {
+  path: "/support" as const,
+  title: "תמיכה",
   description:
     "תמיכה ב-Viby לעסקים: עזרה בהתחלה והגדרה, סריקת QR, מימוש הטבות, חיוב ומנוי, ובקשות שינוי לעסק.",
-  alternates: {
-    canonical: "/support",
-  },
-  openGraph: {
-    title: "תמיכה | Viby",
-    description:
-      "מרכז התמיכה של Viby לעסקים: עזרה בהגדרה, תקלות, מימוש הטבות, חיוב ומנוי.",
-    url: "/support",
-  },
 };
+
+export const metadata = createPageMetadata(supportSeo);
 
 const supportMessage =
   "היי, אני צריך/ה עזרה עם Viby. אשמח לתמיכה בנושא:";
@@ -73,25 +67,40 @@ const supportFaqs = [
 export default function SupportPage() {
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "ContactPage",
-    name: "תמיכה ב-Viby",
-    url: `${siteConfig.url}/support`,
-    inLanguage: siteConfig.language,
-    about: siteConfig.name,
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: `+${siteConfig.whatsappNumber}`,
-      contactType: "customer support",
-      areaServed: siteConfig.areaServed,
-      availableLanguage: ["he"],
-    },
+    "@graph": [
+      {
+        "@type": "ContactPage",
+        name: "תמיכה ב-Viby",
+        url: `${siteConfig.url}/support`,
+        inLanguage: siteConfig.language,
+        about: siteConfig.name,
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: `+${siteConfig.whatsappNumber}`,
+          contactType: "customer support",
+          areaServed: "IL",
+          availableLanguage: [siteConfig.availableLanguage],
+        },
+      },
+      {
+        "@type": "FAQPage",
+        inLanguage: siteConfig.language,
+        mainEntity: supportFaqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      },
+    ],
   };
 
   return (
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+        }}
       />
       <header className="site-header">
         <Link className="brand" href="/" aria-label="Viby">

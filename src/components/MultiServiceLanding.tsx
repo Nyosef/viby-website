@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
-  isServiceId,
   serviceGroups,
   serviceIds,
   services,
@@ -11,6 +11,7 @@ import {
   type ServiceContent,
   type ServiceId,
 } from "@/lib/services";
+import { getProductPath } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PunchCardLeadSection } from "@/components/PunchCardLeadSection";
@@ -560,6 +561,7 @@ function BenefitIllustration({ icon }: { icon: string }) {
 export function MultiServiceLanding({
   initialService,
 }: MultiServiceLandingProps) {
+  const router = useRouter();
   const [activeId, setActiveId] = useState<ServiceId>(initialService);
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
   const [isHeaderSelectorOpen, setIsHeaderSelectorOpen] = useState(false);
@@ -590,19 +592,10 @@ export function MultiServiceLanding({
       }
     }
 
-    function handlePopState() {
-      const value = new URL(window.location.href).searchParams.get("service");
-      setActiveId(isServiceId(value) ? value : "punch-card");
-      setIsSelectorOpen(false);
-      setIsHeaderSelectorOpen(false);
-    }
-
     document.addEventListener("pointerdown", handlePointerDown);
-    window.addEventListener("popstate", handlePopState);
 
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
-      window.removeEventListener("popstate", handlePopState);
       if (announcementTimer.current) {
         clearTimeout(announcementTimer.current);
       }
@@ -664,9 +657,7 @@ export function MultiServiceLanding({
     setIsSelectorOpen(false);
     setIsHeaderSelectorOpen(false);
 
-    const url = new URL(window.location.href);
-    url.searchParams.set("service", nextId);
-    window.history.pushState({ service: nextId }, "", url);
+    router.push(getProductPath(nextId), { scroll: false });
 
     setAnnouncement(`עכשיו מציגים: ${services[nextId].label}`);
     if (announcementTimer.current) {

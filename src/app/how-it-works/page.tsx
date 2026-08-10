@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
 const vimeoPlayerUrl = "https://player.vimeo.com/video/1209541694";
 const vimeoPreviewImage =
   "https://i.vimeocdn.com/filter/overlay?src0=https%3A%2F%2Fi.vimeocdn.com%2Fvideo%2F2179157172-36e9256af007177ec189b94ef719547c0b258fe880ea05093b17c35d816fde0b-d_200x150%3Fregion%3Dus&src1=http%3A%2F%2Ff.vimeocdn.com%2Fp%2Fimages%2Fcrawler_play.png";
 
-export const metadata: Metadata = {
+const howItWorksSeo = {
+  path: "/how-it-works" as const,
   title: "איך Viby עובדת",
   description:
     "סרטון הסבר מלא על Viby לעובדים, לקוחות פוטנציאליים ובעלי עסקים שרוצים להבין איך המערכת עובדת בפועל.",
-  alternates: {
-    canonical: "/how-it-works",
-  },
+};
+const baseMetadata = createPageMetadata(howItWorksSeo, "/video-og.jpg");
+
+export const metadata: Metadata = {
+  ...baseMetadata,
   openGraph: {
+    ...baseMetadata.openGraph,
     type: "video.other",
     title: "איך Viby עובדת | Viby",
     description:
@@ -24,9 +29,9 @@ export const metadata: Metadata = {
     locale: siteConfig.locale,
     images: [
       {
-        url: vimeoPreviewImage,
-        width: 200,
-        height: 356,
+        url: "/video-og.jpg",
+        width: 1200,
+        height: 630,
         alt: "סרטון הסבר על Viby",
       },
     ],
@@ -40,18 +45,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "איך Viby עובדת | Viby",
-    description:
-      "צפו בסרטון ההסבר המלא על Viby: זרימת הלקוח, עבודת הצוות, מימוש הטבות והפעלת העסק.",
-    images: [
-      {
-        url: vimeoPreviewImage,
-        alt: "סרטון הסבר על Viby",
-      },
-    ],
-  },
+  twitter: baseMetadata.twitter,
 };
 
 const whatsappMessage =
@@ -102,7 +96,7 @@ export default function HowItWorksPage() {
       url: siteConfig.url,
       logo: {
         "@type": "ImageObject",
-        url: `${siteConfig.url}${siteConfig.ogImage}`,
+        url: `${siteConfig.url}${siteConfig.logo}`,
       },
     },
   };
@@ -111,7 +105,9 @@ export default function HowItWorksPage() {
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+        }}
       />
       <header className="site-header">
         <Link className="brand" href="/" aria-label="Viby">

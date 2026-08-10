@@ -1,36 +1,41 @@
 import type { MetadataRoute } from "next";
+import { productSeoEntries } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const productPages: MetadataRoute.Sitemap = productSeoEntries.map(
+    (entry) => ({
+      url: `${siteConfig.url}${entry.path === "/" ? "" : entry.path}`,
+      changeFrequency: "monthly",
+      priority: entry.path === "/" ? 1 : 0.9,
+      alternates: {
+        languages: {
+          "he-IL": `${siteConfig.url}${entry.path === "/" ? "" : entry.path}`,
+        },
+      },
+    }),
+  );
+
   return [
-    {
-      url: siteConfig.url,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
+    ...productPages,
     {
       url: `${siteConfig.url}/support`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${siteConfig.url}/how-it-works`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.75,
     },
     {
       url: `${siteConfig.url}/terms`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "yearly",
       priority: 0.5,
     },
     {
       url: `${siteConfig.url}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "yearly",
       priority: 0.5,
     },
   ];

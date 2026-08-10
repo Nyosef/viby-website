@@ -2,7 +2,9 @@
 
 import Script from "next/script";
 import Image from "next/image";
+import Link from "next/link";
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { trackAnalyticsEvent } from "@/lib/analytics";
 
 declare global {
   interface Window {
@@ -90,6 +92,9 @@ export function PunchCardLeadSection() {
       setStatus("success");
       setName("");
       setPhone("");
+      trackAnalyticsEvent("generate_lead", {
+        lead_type: "punch_card_payment_link",
+      });
     } catch (error) {
       setStatus("error");
       setErrorMessage(
@@ -246,7 +251,7 @@ export function PunchCardLeadSection() {
                 <small className="v2-punch-lead-consent">
                   בלחיצה על הכפתור אני מאשר/ת ל־Viby ליצור איתי קשר
                   ב־WhatsApp ובטלפון לגבי השירות.{" "}
-                  <a href="/privacy">מדיניות הפרטיות</a>
+                  <Link href="/privacy">מדיניות הפרטיות</Link>
                 </small>
               </form>
 
