@@ -14,9 +14,27 @@ function isSectionNote(text: string) {
 export function LegalDocumentPage({ documentKey }: LegalDocumentPageProps) {
   const document: LegalDocument = legalDocuments[documentKey];
   const isTerms = documentKey === "terms";
+  const path = isTerms ? "/terms" : "/privacy";
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: document.title,
+    description: document.description,
+    url: `${siteConfig.url}${path}`,
+    inLanguage: siteConfig.language,
+    isPartOf: { "@id": `${siteConfig.url}/#website` },
+    about: { "@id": `${siteConfig.url}/#organization` },
+    dateModified: document.updated.split(".").reverse().join("-"),
+  };
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+        }}
+      />
       <header className="site-header">
         <Link className="brand" href="/" aria-label="Viby">
           <Image

@@ -5,8 +5,10 @@ export const siteConfig = {
     "Viby מחזירה לקוחות עם כרטיסי Apple Wallet ו-Google Wallet, כרטיסיות דיגיטליות, משחקי פרס ומועדון לקוחות ללא הורדת אפליקציה.",
   url: getSiteUrl(),
   locale: "he_IL",
-  language: "he",
-  ogImage: "/og.png",
+  language: "he-IL",
+  availableLanguage: "he",
+  ogImage: "/og.jpg",
+  logo: "/viby-logo-white.png",
   address: {
     locality: "הרצליה",
     country: "ישראל",
@@ -53,23 +55,19 @@ export const siteConfig = {
 };
 
 function getSiteUrl() {
+  const canonicalUrl = "https://joinviby.co.il";
   const explicitUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  const vercelProductionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-  const vercelPreviewUrl = process.env.VERCEL_URL;
 
-  if (explicitUrl) {
-    return normalizeUrl(explicitUrl);
+  if (
+    process.env.VERCEL_ENV === "production" &&
+    normalizeUrl(explicitUrl ?? "") !== canonicalUrl
+  ) {
+    throw new Error(
+      `NEXT_PUBLIC_SITE_URL must be ${canonicalUrl} for production builds.`,
+    );
   }
 
-  if (vercelProductionUrl) {
-    return normalizeUrl(`https://${vercelProductionUrl}`);
-  }
-
-  if (vercelPreviewUrl) {
-    return normalizeUrl(`https://${vercelPreviewUrl}`);
-  }
-
-  return "http://localhost:3000";
+  return canonicalUrl;
 }
 
 function normalizeUrl(url: string) {
