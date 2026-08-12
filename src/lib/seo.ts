@@ -8,7 +8,8 @@ export type ProductSeo = {
   title: string;
   internalLinkLabel: string;
   description: string;
-  targetIntents: readonly string[];
+  primaryIntent: string;
+  supportingIntents: readonly string[];
   schemaId: string;
 };
 
@@ -19,8 +20,13 @@ export const productSeoByService = {
     title: "כרטיסייה דיגיטלית לעסק",
     internalLinkLabel: "כרטיסייה דיגיטלית לעסק",
     description:
-      "כרטיסיית ניקובים דיגיטלית לעסקים בישראל, שנשמרת ב־Apple Wallet או Google Wallet ועוזרת ללקוחות לחזור — בלי אפליקציה.",
-    targetIntents: ["כרטיסייה דיגיטלית לעסק", "כרטיס ניקובים דיגיטלי"],
+      "כרטיסייה דיגיטלית לעסק שמחליפה כרטיס ניקוב מנייר, נשמרת ב־Apple Wallet או Google Wallet ועוזרת להחזיר לקוחות — בלי אפליקציה.",
+    primaryIntent: "כרטיסייה דיגיטלית לעסק",
+    supportingIntents: [
+      "כרטיס ניקוב דיגיטלי",
+      "כרטיסיית נאמנות דיגיטלית",
+      "כרטיסיית נייר",
+    ],
     schemaId: "digital-punch-card",
   },
   "smart-wheel": {
@@ -29,38 +35,60 @@ export const productSeoByService = {
     title: "גלגל מזל דיגיטלי לעסקים",
     internalLinkLabel: "גלגל מזל דיגיטלי לעסקים",
     description:
-      "גלגל חכם לעסקים בישראל שהופך כל קנייה למשחק, מעניק פרס שהעסק בוחר ונותן ללקוחות סיבה לחזור בביקור הבא.",
-    targetIntents: ["גלגל מזל לעסקים", "משחק שיווקי לעסק"],
+      "גלגל מזל דיגיטלי לעסקים שמופעל בסריקת QR, מעניק פרסים שהעסק מגדיר והופך כל קנייה לסיבה לחזור בביקור הבא.",
+    primaryIntent: "גלגל מזל דיגיטלי לעסקים",
+    supportingIntents: [
+      "משחק פרסים לעסק",
+      "משחק שיווקי לעסק",
+      "גלגל חכם",
+      "QR",
+    ],
     schemaId: "smart-wheel",
   },
   wallet: {
     serviceId: "wallet",
     path: "/digital-wallet",
-    title: "כרטיס מתנה דיגיטלי וארנק דיגיטלי לעסק",
+    title: "כרטיס מתנה דיגיטלי לעסק",
     internalLinkLabel: "כרטיס מתנה דיגיטלי לעסק",
     description:
-      "כרטיס מתנה דיגיטלי לעסקים בישראל שנשמר ב־Apple Wallet או Google Wallet ומאפשר ללקוחות לקנות, לשמור ולממש בלי אפליקציה.",
-    targetIntents: ["כרטיס מתנה דיגיטלי", "ארנק דיגיטלי לעסק"],
+      "מערכת כרטיסי מתנה דיגיטליים לעסק: מוכרים מתנה או יתרה עם בונוס, ושומרים את הכרטיס ב־Apple Wallet או Google Wallet — בלי אפליקציה.",
+    primaryIntent: "כרטיס מתנה דיגיטלי לעסק",
+    supportingIntents: [
+      "מערכת כרטיסי מתנה לעסק",
+      "יתרה עם בונוס",
+      "Apple Wallet",
+      "Google Wallet",
+    ],
     schemaId: "digital-wallet",
   },
   "viby-rate": {
     serviceId: "viby-rate",
     path: "/viby-rate",
-    title: "כרטיס NFC לביקורות Google לעסק",
+    title: "כרטיס NFC לביקורות גוגל לעסק",
     internalLinkLabel: "כרטיס NFC לביקורות גוגל",
     description:
-      "VibyRate הוא כרטיס NFC לעסקים בישראל שמוביל לקוחות ישירות לעמוד הביקורות ב־Google ומקצר את הדרך לדירוג אמיתי.",
-    targetIntents: ["כרטיס NFC לביקורות Google", "ביקורות גוגל לעסק"],
+      "כרטיס NFC לביקורות גוגל שמוביל לקוחות ישירות לעמוד הדירוג של העסק ומקצר את הדרך לביקורת אמיתית — בלי חיפוש ובלי הקלדה.",
+    primaryIntent: "כרטיס NFC לביקורות גוגל",
+    supportingIntents: [
+      "שלט NFC לביקורות גוגל",
+      "כרטיס ביקורות גוגל לעסק",
+      "Google Reviews",
+    ],
     schemaId: "viby-rate",
   },
   "viby-tap": {
     serviceId: "viby-tap",
     path: "/viby-tap",
-    title: "כרטיס NFC ועמוד קישורים לעסק",
-    internalLinkLabel: "כרטיס NFC ועמוד קישורים לעסק",
+    title: "שלט NFC ועמוד קישורים לעסק",
+    internalLinkLabel: "שלט NFC ועמוד קישורים לעסק",
     description:
-      "VibyTap מרכז לעסקים בישראל את Instagram, WhatsApp, Waze, האתר וקישורים חשובים בעמוד אחד שנפתח באמצעות NFC או QR.",
-    targetIntents: ["כרטיס NFC לעסק", "עמוד קישורים לעסק"],
+      "שלט NFC לעסק עם QR שפותח עמוד קישורים ממותג לביקורות גוגל, Instagram, WhatsApp, Waze ואתר העסק — בעמוד אחד שניתן לעדכן.",
+    primaryIntent: "שלט NFC לעסק",
+    supportingIntents: [
+      "עמוד קישורים לעסק",
+      "מדבקת NFC לעסק",
+      "QR לעסק",
+    ],
     schemaId: "viby-tap",
   },
 } as const satisfies Record<ServiceId, ProductSeo>;

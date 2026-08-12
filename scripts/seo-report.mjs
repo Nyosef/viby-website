@@ -15,14 +15,87 @@ const routes = [
   "/terms",
   "/privacy",
 ];
-const productLinks = [
-  { path: "/", label: "כרטיסייה דיגיטלית לעסק" },
-  { path: "/smart-wheel", label: "גלגל מזל דיגיטלי לעסקים" },
-  { path: "/digital-wallet", label: "כרטיס מתנה דיגיטלי לעסק" },
-  { path: "/viby-rate", label: "כרטיס NFC לביקורות גוגל" },
-  { path: "/viby-tap", label: "כרטיס NFC ועמוד קישורים לעסק" },
+const productExpectations = [
+  {
+    path: "/",
+    label: "כרטיסייה דיגיטלית לעסק",
+    title: "כרטיסייה דיגיטלית לעסק | Viby",
+    h1: "כרטיסייה דיגיטלית לעסק שגורמת ללקוחות לחזור",
+    description:
+      "כרטיסייה דיגיטלית לעסק שמחליפה כרטיס ניקוב מנייר, נשמרת ב־Apple Wallet או Google Wallet ועוזרת להחזיר לקוחות — בלי אפליקציה.",
+    primaryIntent: "כרטיסייה דיגיטלית לעסק",
+    requiredVisibleTerms: [
+      "כרטיס ניקוב דיגיטלי",
+      "כרטיסיית נאמנות דיגיטלית",
+      "כרטיסיית נייר",
+    ],
+    alternateName: "כרטיסיות דיגיטליות",
+  },
+  {
+    path: "/smart-wheel",
+    label: "גלגל מזל דיגיטלי לעסקים",
+    title: "גלגל מזל דיגיטלי לעסקים | Viby",
+    h1: "גלגל מזל דיגיטלי שהופך כל קנייה לסיבה לחזור",
+    description:
+      "גלגל מזל דיגיטלי לעסקים שמופעל בסריקת QR, מעניק פרסים שהעסק מגדיר והופך כל קנייה לסיבה לחזור בביקור הבא.",
+    primaryIntent: "גלגל מזל דיגיטלי לעסקים",
+    requiredVisibleTerms: [
+      "משחק פרסים לעסק",
+      "משחק שיווקי לעסק",
+      "גלגל חכם",
+      "QR",
+    ],
+    alternateName: "גלגל חכם",
+  },
+  {
+    path: "/digital-wallet",
+    label: "כרטיס מתנה דיגיטלי לעסק",
+    title: "כרטיס מתנה דיגיטלי לעסק | Viby",
+    h1: "כרטיס מתנה דיגיטלי לעסק שנשמר ישר בטלפון",
+    description:
+      "מערכת כרטיסי מתנה דיגיטליים לעסק: מוכרים מתנה או יתרה עם בונוס, ושומרים את הכרטיס ב־Apple Wallet או Google Wallet — בלי אפליקציה.",
+    primaryIntent: "כרטיס מתנה דיגיטלי לעסק",
+    requiredVisibleTerms: [
+      "מערכת כרטיסי מתנה לעסק",
+      "יתרה עם בונוס",
+      "Apple Wallet",
+      "Google Wallet",
+    ],
+    alternateName: "ארנק דיגיטלי",
+  },
+  {
+    path: "/viby-rate",
+    label: "כרטיס NFC לביקורות גוגל",
+    title: "כרטיס NFC לביקורות גוגל לעסק | Viby",
+    h1: "כרטיס NFC לביקורות גוגל — טאפ אחד והלקוח מדרג",
+    description:
+      "כרטיס NFC לביקורות גוגל שמוביל לקוחות ישירות לעמוד הדירוג של העסק ומקצר את הדרך לביקורת אמיתית — בלי חיפוש ובלי הקלדה.",
+    primaryIntent: "כרטיס NFC לביקורות גוגל",
+    requiredVisibleTerms: [
+      "שלט NFC לביקורות גוגל",
+      "כרטיס ביקורות גוגל לעסק",
+      "Google Reviews",
+    ],
+    alternateName: "VibyRate",
+  },
+  {
+    path: "/viby-tap",
+    label: "שלט NFC ועמוד קישורים לעסק",
+    title: "שלט NFC ועמוד קישורים לעסק | Viby",
+    h1: "שלט NFC לעסק שמרכז את כל הקישורים במקום אחד",
+    description:
+      "שלט NFC לעסק עם QR שפותח עמוד קישורים ממותג לביקורות גוגל, Instagram, WhatsApp, Waze ואתר העסק — בעמוד אחד שניתן לעדכן.",
+    primaryIntent: "שלט NFC לעסק",
+    requiredVisibleTerms: ["עמוד קישורים לעסק", "מדבקת NFC לעסק", "QR לעסק"],
+    disallowedVisibleTerms: ["כרטיס ביקור דיגיטלי"],
+    alternateName: "VibyTap",
+  },
 ];
+const productLinks = productExpectations.map(({ path, label }) => ({ path, label }));
 const productRoutes = new Set(productLinks.map((product) => product.path));
+const productExpectationByPath = new Map(
+  productExpectations.map((product) => [product.path, product]),
+);
 const errors = [];
 
 function assert(condition, message) {
@@ -31,6 +104,32 @@ function assert(condition, message) {
 
 function matches(html, expression) {
   return [...html.matchAll(expression)];
+}
+
+function decodeHtml(value) {
+  return value
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)))
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number.parseInt(code, 10)))
+    .replace(/&nbsp;/g, " ")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
+function normalizeText(value) {
+  return decodeHtml(value).replace(/\s+/g, " ").trim();
+}
+
+function textContent(html) {
+  return normalizeText(
+    html
+      .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style\b[\s\S]*?<\/style>/gi, " ")
+      .replace(/<!--([\s\S]*?)-->/g, " ")
+      .replace(/<[^>]+>/g, " "),
+  );
 }
 
 function expectedCanonical(pathname) {
@@ -57,8 +156,9 @@ async function checkPage(pathname, titles) {
   const titleTags = matches(html, /<title>([^<]+)<\/title>/g);
   const descriptions = matches(html, /<meta name="description" content="([^"]+)"\s*\/>/g);
   const canonicals = matches(html, /<link rel="canonical" href="([^"]+)"\s*\/>/g);
-  const headings = matches(html, /<h1(?:\s[^>]*)?>/g);
+  const headings = matches(html, /<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/g);
   const jsonLd = matches(html, /<script type="application\/ld\+json">([^<]+)<\/script>/g);
+  const parsedJsonLd = [];
 
   assert(titleTags.length === 1, `${pathname}: expected one title, got ${titleTags.length}`);
   assert(descriptions.length === 1, `${pathname}: expected one description, got ${descriptions.length}`);
@@ -69,7 +169,7 @@ async function checkPage(pathname, titles) {
 
   for (const script of jsonLd) {
     try {
-      JSON.parse(script[1]);
+      parsedJsonLd.push(JSON.parse(script[1]));
     } catch {
       assert(false, `${pathname}: invalid JSON-LD`);
     }
@@ -83,6 +183,39 @@ async function checkPage(pathname, titles) {
   assert(!html.includes("viby-website.vercel.app"), `${pathname}: contains project alias`);
 
   if (productRoutes.has(pathname)) {
+    const expectation = productExpectationByPath.get(pathname);
+    const description = descriptions[0]?.[1];
+    const h1 = headings[0] ? textContent(headings[0][1]) : undefined;
+    const visibleText = textContent(html);
+
+    assert(title === expectation?.title, `${pathname}: title is ${title ?? "missing"}`);
+    assert(
+      description === expectation?.description,
+      `${pathname}: meta description does not match the approved copy`,
+    );
+    assert(h1 === expectation?.h1, `${pathname}: H1 is ${h1 ?? "missing"}`);
+    assert(
+      Boolean(expectation?.primaryIntent) && visibleText.includes(expectation.primaryIntent),
+      `${pathname}: primary intent is not visible: ${expectation?.primaryIntent ?? "missing"}`,
+    );
+    for (const term of expectation?.requiredVisibleTerms ?? []) {
+      assert(visibleText.includes(term), `${pathname}: required visible term is missing: ${term}`);
+    }
+    for (const term of expectation?.disallowedVisibleTerms ?? []) {
+      assert(!visibleText.includes(term), `${pathname}: disallowed visible term is present: ${term}`);
+    }
+
+    const structuredNodes = parsedJsonLd.flatMap((document) =>
+      Array.isArray(document?.["@graph"]) ? document["@graph"] : [document],
+    );
+    const serviceNode = structuredNodes.find((node) => node?.["@type"] === "Service");
+    assert(Boolean(serviceNode), `${pathname}: missing Service structured data`);
+    assert(serviceNode?.name === expectation?.title.replace(/ \| Viby$/, ""), `${pathname}: wrong Service schema name`);
+    assert(serviceNode?.alternateName === expectation?.alternateName, `${pathname}: wrong Service schema alternateName`);
+    assert(serviceNode?.description === expectation?.description, `${pathname}: wrong Service schema description`);
+    assert(serviceNode?.url === expectedCanonical(pathname), `${pathname}: wrong Service schema URL`);
+    assert(serviceNode?.inLanguage === "he-IL", `${pathname}: wrong Service schema language`);
+
     for (const product of productLinks) {
       const href = product.path;
       const escapedHref = href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -104,6 +237,18 @@ async function checkPage(pathname, titles) {
       !/href="[^"]*\?[^"#]*service=/.test(html),
       `${pathname}: contains legacy product service query link`,
     );
+
+    if (pathname === "/") {
+      const itemList = structuredNodes.find((node) => node?.["@type"] === "ItemList");
+      assert(Boolean(itemList), "/: missing product ItemList structured data");
+      for (const product of productExpectations) {
+        const item = itemList?.itemListElement?.find(
+          (entry) => entry?.url === expectedCanonical(product.path),
+        );
+        assert(item?.name === product.label, `/: wrong ItemList name for ${product.path}`);
+        assert(item?.description === product.description, `/: wrong ItemList description for ${product.path}`);
+      }
+    }
   }
 
   const internalLinks = matches(html, /href="(\/(?!\/)[^"#?]*)[^\"]*"/g)
