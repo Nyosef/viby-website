@@ -58,8 +58,11 @@ export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
     {
       "@type": "Service",
       "@id": `${siteConfig.url}/#${seo.schemaId}`,
-      name: service.label,
-      description: service.hero.text,
+      name: seo.title,
+      ...(service.label !== seo.title
+        ? { alternateName: service.label }
+        : {}),
+      description: seo.description,
       url: pageUrl,
       inLanguage: siteConfig.language,
       areaServed: { "@type": "Country", name: "ישראל" },
@@ -77,8 +80,8 @@ export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
         return {
           "@type": "ListItem",
           position: index + 1,
-          name: item.label,
-          description: item.hero.text,
+          name: itemSeo.internalLinkLabel,
+          description: itemSeo.description,
           url: `${siteConfig.url}${itemSeo.path === "/" ? "" : itemSeo.path}`,
         };
       }),

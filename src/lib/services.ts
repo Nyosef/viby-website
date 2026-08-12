@@ -98,8 +98,8 @@ export const services: Record<ServiceId, ServiceContent> = {
     shortLabel: "כרטיסיות",
     badge: "כרטיסייה חכמה, בלי נייר ובלי אפליקציה",
     hero: {
-      title: "כרטיסיות דיגיטליות שגורמות ללקוחות לחזור",
-      text: "הלקוחות מצטרפים בסריקה, שומרים את הכרטיסייה בארנק הדיגיטלי ורואים בדיוק כמה נשאר להם עד ההטבה הבאה.",
+      title: "כרטיסייה דיגיטלית לעסק שגורמת ללקוחות לחזור",
+      text: "כרטיס ניקוב דיגיטלי שמחליף את כרטיסיית הנייר: הלקוחות מצטרפים בסריקת QR, שומרים כרטיסיית נאמנות ב־Apple Wallet או Google Wallet ורואים כמה נשאר עד ההטבה הבאה — בלי אפליקציה.",
     },
     howItWorks: [
       {
@@ -132,7 +132,7 @@ export const services: Record<ServiceId, ServiceContent> = {
       {
         icon: "◫",
         title: "בלי אפליקציה",
-        text: "הלקוח לא צריך להוריד דבר או לזכור להביא כרטיס נייר.",
+        text: "הלקוח לא צריך להוריד דבר או לזכור להביא כרטיסיית נייר.",
       },
       {
         icon: "✦",
@@ -142,7 +142,7 @@ export const services: Record<ServiceId, ServiceContent> = {
     ],
     media: {
       eyebrow: "החוויה בפועל",
-      title: "תראו כמה זה פשוט",
+      title: "כרטיסיית נאמנות דיגיטלית, בלי כרטיס נייר",
       text: "מסריקה ראשונה ועד כרטיסייה שחיה בארנק של הלקוח.",
       kind: "punch-card",
       videoUrl:
@@ -178,8 +178,8 @@ export const services: Record<ServiceId, ServiceContent> = {
     shortLabel: "גלגל חכם",
     badge: "הופכים כל קנייה לרגע של משחק",
     hero: {
-      title: "גלגל חכם שהופך כל קנייה לסיבה לחזור",
-      text: "הלקוח משחק אחרי הקנייה, זוכה בפרס שהעסק הגדיר וחוזר כדי לממש אותו.",
+      title: "גלגל מזל דיגיטלי שהופך כל קנייה לסיבה לחזור",
+      text: "הגלגל החכם של Viby הוא משחק פרסים לעסק: הלקוח סורק QR אחרי הקנייה, מסובב, זוכה בפרס שהעסק הגדיר וחוזר לממש אותו בביקור הבא.",
     },
     howItWorks: [
       {
@@ -222,7 +222,7 @@ export const services: Record<ServiceId, ServiceContent> = {
     ],
     media: {
       eyebrow: "המשחק בפעולה",
-      title: "מסובבים. זוכים. חוזרים.",
+      title: "כך עובד גלגל המזל הדיגיטלי",
       text: "חוויה מהירה וברורה שמתאימה למסך של כל טלפון.",
       kind: "smart-wheel",
     },
@@ -235,7 +235,7 @@ export const services: Record<ServiceId, ServiceContent> = {
     },
     rewards: {
       title: "הפרסים עובדים בשביל העסק",
-      text: "הגלגל לא נועד רק לבדר. כל תוצאה יכולה להוביל לפעולה עסקית ברורה.",
+      text: "כמשחק שיווקי לעסק, הגלגל לא נועד רק לבדר. כל תוצאה יכולה להוביל לפעולה עסקית ברורה.",
       items: [
         {
           icon: "☕",
@@ -261,10 +261,10 @@ export const services: Record<ServiceId, ServiceContent> = {
     group: "retention",
     label: "ארנק דיגיטלי",
     shortLabel: "ארנק דיגיטלי",
-    badge: "כרטיסי מתנה והטבות — ישר לארנק שבטלפון",
+    badge: "משלמים 200 ₪. מקבלים 230 ₪ לארנק.",
     hero: {
-      title: "משלמים 200 ₪. מקבלים 230 ₪ לארנק.",
-      text: "הלקוח קונה כרטיס מתנה לעסק, מקבל יותר כסף למימוש ושומר אותו מיד ב־Apple Wallet או Google Wallet — בלי אפליקציה.",
+      title: "כרטיס מתנה דיגיטלי לעסק שנשמר ישר בטלפון",
+      text: "העסק מוכר כרטיסי מתנה דיגיטליים ללקוחות שרוצים לפנק אדם אחר או לרכוש לעצמם יתרה עם בונוס. הכרטיס נשמר ב־Apple Wallet או Google Wallet, מוכן למימוש ובלי אפליקציה.",
     },
     howItWorks: [
       {
@@ -307,8 +307,8 @@ export const services: Record<ServiceId, ServiceContent> = {
     ],
     media: {
       eyebrow: "רואים ומבינים בשנייה",
-      title: "כך קונים כרטיס מתנה לארנק",
-      text: "200 ₪ נכנסים, 230 ₪ מחכים ללקוח בתוך Apple Wallet או Google Wallet.",
+      title: "כך קונים ושומרים כרטיס מתנה דיגיטלי",
+      text: "מערכת כרטיסי מתנה לעסק מאפשרת לקנות ב־200 ₪ ולקבל 230 ₪ בתוך Apple Wallet או Google Wallet.",
       kind: "wallet",
     },
     cta: {
@@ -349,8 +349,8 @@ export const services: Record<ServiceId, ServiceContent> = {
     shortLabel: "VibyRate",
     badge: "יותר ביקורות אמיתיות, בפחות חיכוך",
     hero: {
-      title: "טאפ אחד והלקוח משאיר דירוג לעסק שלכם",
-      text: "כרטיס NFC שמוביל את הלקוח ישירות לעמוד הביקורות ומוריד את החיכוך בדרך לדירוג.",
+      title: "כרטיס NFC לביקורות גוגל — טאפ אחד והלקוח מדרג",
+      text: "VibyRate הוא כרטיס NFC לביקורות גוגל שמוביל לקוחות ישירות לעמוד הדירוג של העסק, בלי לחפש או להקליד. כך קל יותר לבקש ביקורת אמיתית ברגע הנכון.",
     },
     howItWorks: [
       {
@@ -393,8 +393,8 @@ export const services: Record<ServiceId, ServiceContent> = {
     ],
     media: {
       eyebrow: "פשוט מצמידים",
-      title: "מהדלפק לעמוד הביקורות בטאפ אחד",
-      text: "הלקוח לא צריך לסרוק, לחפש או להקליד את שם העסק.",
+      title: "כך כרטיס NFC לביקורות גוגל עובד",
+      text: "הלקוח מגיע ישירות ל־Google Reviews בלי לסרוק, לחפש או להקליד את שם העסק.",
       kind: "viby-rate",
     },
     cta: {
@@ -405,8 +405,8 @@ export const services: Record<ServiceId, ServiceContent> = {
       finalText: "נכין את הכרטיס ונחבר אותו ישירות לעמוד הביקורות של העסק.",
     },
     physicalProduct: {
-      title: "כרטיס חכם שעובד ליד הקופה",
-      text: "VibyRate בנוי לרגע שבו הלקוח כבר מרוצה והצוות יכול להזמין אותו לפרגן.",
+      title: "שלט NFC לביקורות גוגל שעובד ליד הקופה",
+      text: "כרטיס ביקורות גוגל לעסק בנוי לרגע שבו הלקוח כבר מרוצה והצוות יכול להזמין אותו לפרגן.",
       items: [
         {
           icon: "N",
@@ -438,8 +438,8 @@ export const services: Record<ServiceId, ServiceContent> = {
     shortLabel: "VibyTap",
     badge: "NFC או QR — כל הקישורים במקום אחד",
     hero: {
-      title: "כל הקישורים החשובים של העסק במקום אחד.",
-      text: "הלקוח מצמיד את הטלפון ובוחר לאן להמשיך — לעקוב, ליצור קשר, לנווט או לבקר באתר.",
+      title: "שלט NFC לעסק שמרכז את כל הקישורים במקום אחד",
+      text: "VibyTap הוא שלט או מדבקת NFC לעסק עם QR, שפותחים עמוד קישורים אחד ובו ביקורות גוגל, Instagram, WhatsApp, Waze, אתר העסק ועוד.",
     },
     howItWorks: [
       {
@@ -461,7 +461,7 @@ export const services: Record<ServiceId, ServiceContent> = {
     benefits: [
       {
         icon: "📱",
-        title: "עובד ב־NFC או QR",
+        title: "עובד ב־NFC או QR לעסק",
         text: "אפשר להצמיד את הטלפון או לסרוק. שתי הדרכים מובילות לאותו עמוד.",
       },
       {
@@ -482,7 +482,7 @@ export const services: Record<ServiceId, ServiceContent> = {
     ],
     media: {
       eyebrow: "פשוט מצמידים ובוחרים",
-      title: "כך הלקוח מגיע לכל מקום שחשוב לעסק",
+      title: "עמוד קישורים לעסק שמתעדכן גם אחרי ההדפסה",
       text: "עמוד אחד ברור: ביקורות, רשתות חברתיות, אתר, WhatsApp וניווט.",
       kind: "viby-tap",
     },

@@ -2,6 +2,31 @@
 
 All notable changes to the Viby website are documented here.
 
+## [Hebrew SEO terminology alignment] — 2026-08-13
+
+### Search intent and visible copy
+
+- Assigned one distinct primary Hebrew search intent and supporting terminology set to each of the five commercial pages.
+- Aligned every product title, meta description, H1, hero introduction, and supporting heading around the same product category.
+- Preserved conversion-focused messaging while making every H1 descriptive without relying on metadata alone.
+- Positioned the digital wallet as a gift-card system for gifts or self-purchased credit with a bonus.
+- Positioned VibyTap as an in-store NFC/QR sign and links page rather than a digital business card.
+- Standardized VibyRate's primary terminology on “ביקורות גוגל” while retaining a natural “Google Reviews” variant and honest-review language.
+
+### Internal links and structured data
+
+- Updated VibyTap's centralized crawlable label to “שלט NFC ועמוד קישורים לעסק”.
+- Aligned each `Service` schema name and description with its page metadata while preserving the product label as `alternateName`.
+- Updated the homepage product `ItemList` to use the same descriptive product labels and SEO descriptions.
+
+### SEO validation and tracking
+
+- Extended the automated SEO report with exact per-route title, meta-description, H1, visible-term, internal-link, and structured-data assertions.
+- Added visible-text extraction so approved phrases must exist outside scripts, styles, and JSON-LD.
+- Added a regression guard preventing VibyTap from being misclassified as a digital business card.
+- Recorded the approved search-intent matrix and implementation status in `plans/hebrew-seo-main-problems.md`.
+- Confirmed PR 1's crawlable product links are present on every live commercial page, including `/how-it-works`, without legacy `?service=` links.
+
 ## [Hebrew SEO internal linking] — 2026-08-12
 
 ### Crawlable product navigation

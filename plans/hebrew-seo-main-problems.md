@@ -3,20 +3,28 @@
 **Audit date:** 12 August 2026  
 **Website:** `https://joinviby.co.il`  
 **Scope:** Hebrew organic-search readiness for the public marketing website  
-**Status:** Problem-definition document. This is not yet a PRD or implementation specification.
+
+**Status:** Living SEO problem and delivery tracker
+
+**Last updated:** 13 August 2026
+
+Checklist convention:
+
+- `[x]` Developed and verified in the repository.
+- `[ ]` Not yet completed or dependent on post-deployment/external work.
 
 ## 1. Executive summary
 
 The website has a sound technical SEO foundation, especially for an implementation that was launched only a few days before this audit. The important commercial pages are publicly accessible, statically rendered, indexable, canonicalized, described with unique Hebrew metadata, and included in the sitemap. The canonical-host redirects, 404 behavior, preview protection, structured data, and automated SEO checks are also working.
 
-The website should nevertheless be described as **SEO-ready, not yet SEO-performing**. The current implementation makes the pages eligible to be crawled and indexed, but eligibility alone does not create rankings. The main weaknesses are:
+The website should nevertheless be described as **SEO-ready, not yet SEO-performing**. The current implementation makes the pages eligible to be crawled and indexed, but eligibility alone does not create rankings. The tracked weaknesses are:
 
-1. The five product pages are not connected by normal crawlable HTML links.
-2. Several pages target useful Hebrew phrases in their metadata but do not use those phrases clearly in the visible page content.
-3. Product content is still at sales-landing-page depth and does not answer enough pre-purchase questions.
-4. Search Console indexing and query data have not been included in the audit, so actual Google visibility cannot yet be measured.
-5. The website has limited first-party evidence, authority, and trust content.
-6. There is not yet an operating process for choosing, measuring, and improving Hebrew search topics.
+- [x] Connect the five product pages with normal, descriptive, crawlable HTML links.
+- [x] Align visible Hebrew page content with the useful phrases currently targeted in metadata.
+- [ ] Expand product content beyond sales-landing-page depth to answer pre-purchase questions.
+- [ ] Establish Search Console indexing and query-data visibility.
+- [ ] Add stronger first-party evidence, authority, and trust content.
+- [ ] Establish an operating process for choosing, measuring, and improving Hebrew search topics.
 
 The highest-value first phase is therefore not a redesign and not more metadata. It is to improve page discovery, align each page with one clear Hebrew search intent, submit and inspect the URLs in Search Console, and add genuinely useful information to the commercial pages.
 
@@ -45,38 +53,41 @@ The website currently has five dedicated commercial URLs:
 |---|---|---|
 | Digital punch card | `/` | `כרטיסייה דיגיטלית לעסק | Viby` |
 | Smart wheel | `/smart-wheel` | `גלגל מזל דיגיטלי לעסקים | Viby` |
-| Digital wallet / gift card | `/digital-wallet` | `כרטיס מתנה דיגיטלי וארנק דיגיטלי לעסק | Viby` |
-| Google review NFC card | `/viby-rate` | `כרטיס NFC לביקורות Google לעסק | Viby` |
-| NFC links page | `/viby-tap` | `כרטיס NFC ועמוד קישורים לעסק | Viby` |
+| Digital wallet / gift card | `/digital-wallet` | `כרטיס מתנה דיגיטלי לעסק | Viby` |
+| Google review NFC card | `/viby-rate` | `כרטיס NFC לביקורות גוגל לעסק | Viby` |
+| NFC links page | `/viby-tap` | `שלט NFC ועמוד קישורים לעסק | Viby` |
 
-All five returned HTTP `200` during the audit. Each returned:
+All five returned HTTP `200` during the audit. Completed technical foundations:
 
-- One unique Hebrew title.
-- One unique meta description.
-- One H1.
-- A self-referencing absolute canonical URL.
-- `lang="he-IL"` and `dir="rtl"` on the document.
-- Index/follow instructions.
-- Open Graph and Twitter metadata.
-- Server-rendered Hebrew content in the initial HTML.
-- Valid JSON-LD serialization.
+- [x] One unique Hebrew title per page.
+- [x] One unique meta description per page.
+- [x] One H1 per page.
+- [x] A self-referencing absolute canonical URL.
+- [x] `lang="he-IL"` and `dir="rtl"` on the document.
+- [x] Index/follow instructions.
+- [x] Open Graph and Twitter metadata.
+- [x] Server-rendered Hebrew content in the initial HTML.
+- [x] Valid JSON-LD serialization.
 
 ### 3.2 Crawl and canonical controls
 
-- `robots.txt` allows the public website and disallows `/api/`.
-- `robots.txt` advertises `https://joinviby.co.il/sitemap.xml`.
-- The sitemap contains the five product URLs plus support, how-it-works, terms, and privacy.
-- `www.joinviby.co.il` redirects to the non-`www` canonical host with HTTP `308`.
-- The Vercel production alias redirects to the canonical domain with HTTP `308`.
-- Unknown URLs return HTTP `404` and include `noindex, nofollow`.
-- Vercel preview hosts and API responses receive `X-Robots-Tag: noindex, nofollow, noarchive`.
-- Product routes are statically generated, reducing dependence on JavaScript rendering for primary content.
+- [x] `robots.txt` allows the public website and disallows `/api/`.
+- [x] `robots.txt` advertises `https://joinviby.co.il/sitemap.xml`.
+- [x] The sitemap contains the five product URLs plus support, how-it-works, terms, and privacy.
+- [x] `www.joinviby.co.il` redirects to the non-`www` canonical host with HTTP `308`.
+- [x] The Vercel production alias redirects to the canonical domain with HTTP `308`.
+- [x] Unknown URLs return HTTP `404` and include `noindex, nofollow`.
+- [x] Vercel preview hosts and API responses receive `X-Robots-Tag: noindex, nofollow, noarchive`.
+- [x] Product routes are statically generated, reducing dependence on JavaScript rendering for primary content.
 
 These controls are strong and should be preserved during subsequent work.
 
 ## 4. Problem 1: Weak crawlable internal linking
 
-**Severity:** High  
+**Status:** Resolved in the repository on 12 August 2026 and verified in production on 13 August 2026
+
+**Severity before resolution:** High
+
 **Effort to improve:** Low  
 **Affected URLs:** All five product pages
 
@@ -98,91 +109,107 @@ Internal links serve three separate SEO functions:
 
 Google states that it can generally crawl a link when it is an `<a>` element with an `href`, while links implemented only through script events may not be reliably extracted. The current product switcher is therefore a usability control, but not a strong SEO navigation system.
 
-### 4.3 Recommended direction
+### 4.3 Implemented solution
 
-- Make every service option a real Next.js `Link` or place a crawlable link inside the option.
-- Preserve the current visual behavior while ensuring the URL is present in the initial HTML.
-- Add a visible "פתרונות נוספים לעסק" section to every product page.
-- Add all five product links to the global footer.
-- Use descriptive Hebrew anchors, for example:
+- [x] Preserved both existing interactive service selectors and their visual, URL, scroll, and keyboard behavior.
+- [x] Added a permanently rendered "פתרונות נוספים לעסק" section to every commercial product page.
+- [x] Added four related-product cards on each page, excluding the current product.
+- [x] Added all five product links to the commercial-page footer.
+- [x] Split the footer into labelled `פתרונות Viby` and `קישורים שימושיים` navigation groups.
+- [x] Marked the current footer product with `aria-current="page"`.
+- [x] Centralized descriptive Hebrew link labels in the product SEO configuration:
   - `כרטיסייה דיגיטלית לעסק`
   - `גלגל מזל דיגיטלי לעסקים`
   - `כרטיס מתנה דיגיטלי לעסק`
   - `כרטיס NFC לביקורות גוגל`
-  - `כרטיס NFC ועמוד קישורים לעסק`
-- Add a crawlable link to `/how-it-works` from the commercial-page navigation or footer.
+  - `שלט NFC ועמוד קישורים לעסק`
+- [x] Added a crawlable footer link to `/how-it-works`.
+- [x] Added responsive four-, two-, and one-column related-card layouts.
+- [x] Added visible keyboard focus states and reduced-motion handling.
+- [x] Avoided invisible SEO-only navigation and legacy `?service=` product URLs.
 
-### 4.4 Acceptance criteria for a future PRD
+### 4.4 Acceptance criteria
 
-- Every commercial page contains normal anchors to every other commercial page in its server-rendered HTML.
-- Link labels explain the subject of their destination without relying on surrounding JavaScript state.
-- Links remain usable with JavaScript disabled.
-- No new duplicate or query-string product URLs are created.
-- The automated SEO report checks the expected product links.
+- [x] Every commercial page contains normal anchors to every other commercial page in its server-rendered HTML.
+- [x] Link labels explain the subject of their destination without relying on surrounding JavaScript state.
+- [x] Links remain usable without client-side JavaScript because they are present in the initial static HTML.
+- [x] No new duplicate or query-string product URLs are created.
+- [x] Product destinations resolve directly with HTTP `200` in the automated audit.
+- [x] The automated SEO report checks all expected product labels and links.
+- [x] The automated SEO report checks `/how-it-works` and rejects legacy service-query links.
+- [x] ESLint, the production build, the SEO audit, and `git diff --check` pass.
+
+### 4.5 Remaining external follow-up
+
+- [x] Confirmed all five product links and `/how-it-works` in the deployed production HTML on every commercial page; no legacy `?service=` product links were present.
+- [ ] Inspect one commercial URL in Google Search Console to confirm Google sees the rendered links.
+- [ ] Request one recrawl for each of the five commercial pages after deployment.
 
 ## 5. Problem 2: Metadata and visible Hebrew terminology are not fully aligned
 
-**Severity:** High  
-**Effort to improve:** Low to medium  
-**Affected URLs:** Primarily `/smart-wheel`, `/digital-wallet`, `/viby-rate`, and `/viby-tap`
+**Status:** Resolved in the repository on 13 August 2026
 
-### 5.1 Evidence by page
+**Severity before resolution:** High
 
-#### Homepage: digital punch cards
+**Effort to improve:** Low to medium
 
-The page strongly uses `כרטיסיות דיגיטליות`, which is good. However, the adjacent target phrase `כרטיס ניקובים דיגיטלי` appears in SEO configuration but not in the visible body. The page should explain naturally that the product replaces a paper punch card and is also known as a digital punch/stamp card.
+**Affected URLs:** All five commercial pages
 
-#### Smart wheel
+### 5.1 Search-intent decisions
 
-The title targets `גלגל מזל דיגיטלי לעסקים`, while the H1 and body repeatedly use the branded phrase `גלגל חכם`. The exact phrase `גלגל מזל` was absent from the rendered body during the audit.
+Each commercial route now owns one distinct primary Hebrew intent. Supporting terminology is included only where it accurately describes the same product.
 
-This creates a mismatch between the wording used by a potential searcher and the wording emphasized by the page. `גלגל חכם` can remain the product name, but the page should clearly explain that it is a digital prize or fortune wheel for businesses.
+| Route | Primary intent | Supporting terminology | Intentionally excluded positioning |
+|---|---|---|---|
+| `/` | `כרטיסייה דיגיטלית לעסק` | `כרטיס ניקוב דיגיטלי`, `כרטיסיית נאמנות דיגיטלית`, `כרטיסיית נייר` | Broad ownership of `מועדון לקוחות לעסק` |
+| `/smart-wheel` | `גלגל מזל דיגיטלי לעסקים` | `משחק פרסים לעסק`, `משחק שיווקי לעסק`, `גלגל חכם`, `QR` | Event wheels, ecommerce popups, and generic raffle software |
+| `/digital-wallet` | `כרטיס מתנה דיגיטלי לעסק` | `מערכת כרטיסי מתנה לעסק`, `יתרה עם בונוס`, `Apple Wallet`, `Google Wallet` | Generic financial or payment-wallet searches |
+| `/viby-rate` | `כרטיס NFC לביקורות גוגל` | `שלט NFC לביקורות גוגל`, `כרטיס ביקורות גוגל לעסק`, `Google Reviews` | Purchased, incentivized, filtered, or guaranteed reviews |
+| `/viby-tap` | `שלט NFC לעסק` | `עמוד קישורים לעסק`, `מדבקת NFC לעסק`, `QR לעסק` | `כרטיס ביקור דיגיטלי`, because VibyTap is an in-store sign or sticker |
 
-#### Digital wallet / gift card
+### 5.2 Implemented alignment
 
-The title targets `כרטיס מתנה דיגיטלי`, but the exact phrase was absent from the rendered body. The H1, `משלמים 200 ₪. מקבלים 230 ₪ לארנק.`, is persuasive campaign copy but does not independently describe the product.
+- [x] Replaced the general intent arrays with a documented `primaryIntent` and `supportingIntents` for every product.
+- [x] Aligned every metadata title and description with its page's approved primary intent.
+- [x] Rewrote every H1 as a hybrid category-and-benefit heading.
+- [x] Added the primary intent and accurate supporting variants to the visible hero and section copy.
+- [x] Kept the selector labels `גלגל חכם`, `ארנק דיגיטלי`, `VibyRate`, and `VibyTap` as short product names rather than competing search targets.
+- [x] Positioned the wallet as a digital gift-card system supporting both gifts and self-purchased credit with a bonus.
+- [x] Positioned VibyTap as an in-store NFC/QR sign and links page, not a digital business card.
+- [x] Standardized VibyRate's primary Hebrew wording on `גוגל` while retaining `Google Reviews` naturally in supporting content.
+- [x] Preserved VibyRate's honest-review language and its explicit statement that the product does not promise ratings.
+- [x] Updated the VibyTap internal-link label to `שלט NFC ועמוד קישורים לעסק` across related cards and the footer.
 
-The current page also combines two potentially different intents:
+### 5.3 Structured-data alignment
 
-- A business looking for a system that sells and manages digital gift cards.
-- A business looking for general Apple Wallet or Google Wallet capabilities.
+- [x] Changed each `Service` schema name from the short selector label to the matching unbranded SEO title.
+- [x] Preserved the short product label as `alternateName`.
+- [x] Changed each `Service` schema description to the matching meta description.
+- [x] Updated the homepage product `ItemList` to use the centralized internal-link labels and SEO descriptions.
 
-The primary intent should be chosen explicitly. Based on the current offer, `כרטיס מתנה דיגיטלי לעסק` should probably be the lead topic, with wallet support as a major feature rather than a competing primary topic.
+### 5.4 Automated regression coverage
 
-#### VibyRate
+- [x] Added exact per-route expectations for the title, meta description, H1, primary intent, supporting terms, internal-link label, and structured-data fields.
+- [x] Required every approved term to appear in visible body text after scripts, styles, JSON-LD, comments, and markup are excluded.
+- [x] Added a guard preventing VibyTap from being described as `כרטיס ביקור דיגיטלי`.
+- [x] Preserved all metadata, canonical, internal-link, redirect, sitemap, robots, preview, schema-serialization, and 404 checks.
+- [x] Kept the audit focused on term presence rather than phrase density or keyword repetition.
 
-The page uses `ביקורות Google`, while many Israeli users will search with the Hebrew spelling `ביקורות גוגל`. Both forms should appear naturally. The page should also state `כרטיס NFC לביקורות גוגל` prominently in visible text rather than leaving most of that phrase to metadata.
+### 5.5 Acceptance criteria
 
-#### VibyTap
+- [x] Every product page has one documented, distinct primary Hebrew intent and accurate supporting variants.
+- [x] Titles, H1s, introductions, supporting headings, internal links, descriptions, and `Service` schema describe the same core product.
+- [x] Approved phrases are present in the initial server-rendered visible HTML.
+- [x] Copy remains natural Hebrew and retains the strongest conversion benefit in each hero.
+- [x] No page is deliberately assigned another Viby page's primary intent.
+- [x] Existing routes, canonical URLs, interactive selectors, CTA behavior, and crawlable product navigation remain unchanged.
+- [x] ESLint, the production build, the SEO audit, static-HTML inspection, and `git diff --check` pass.
 
-The title targets `כרטיס NFC` and `עמוד קישורים לעסק`, but neither exact phrase appeared in the rendered body during the audit. The H1, `כל הקישורים החשובים של העסק במקום אחד.`, describes the benefit but not the product category.
+### 5.6 Remaining post-deployment follow-up
 
-This page may also overlap with the common category `כרטיס ביקור דיגיטלי`. The eventual keyword research should decide whether VibyTap is best positioned as:
-
-- A digital business card.
-- An NFC business card.
-- An NFC links page.
-- A link-in-bio page for physical customer touchpoints.
-
-### 5.2 Why it matters
-
-Google can understand synonyms and does not require exact-match repetition. Nevertheless, a commercial landing page should make its subject unambiguous in its title, H1, introductory paragraph, supporting headings, and internal anchor text. A large mismatch gives Google more reason to rewrite the title or rank a competitor whose page more directly answers the query.
-
-### 5.3 Recommended direction
-
-- Assign one primary Hebrew search intent and two to four supporting variants to every page.
-- Make the H1 both persuasive and descriptive.
-- Use the primary phrase naturally in the introduction and at least one supporting section.
-- Include common Hebrew and English-brand spellings where users genuinely use both, such as `Google` and `גוגל`.
-- Do not mechanically repeat phrases and do not optimize the meta-keywords tag; Google does not use it for web rankings.
-
-### 5.4 Acceptance criteria for a future PRD
-
-- Every product page has a documented primary intent and secondary query variants.
-- The title, H1, introduction, section headings, and internal links describe the same core product.
-- Copy remains natural Hebrew and does not read like a list of keywords.
-- A page does not unintentionally compete with another Viby page for the same primary intent.
-- Title and H1 changes are reviewed for conversion impact as well as search relevance.
+- [ ] Confirm the revised metadata, H1s, visible phrases, internal labels, and structured data in production HTML.
+- [ ] Inspect the five revised URLs in Google Search Console and request one recrawl after deployment.
+- [ ] Review query impressions, title rewrites, CTR, and cannibalization after 14–28 days of data.
 
 ## 6. Problem 3: Commercial pages do not yet answer the full buying journey
 
@@ -359,38 +386,38 @@ These items may be useful, but they should not displace the high-priority work a
 
 ### Phase 1: Discovery and alignment
 
-1. Search Console verification, sitemap submission, and URL inspection.
-2. Crawlable product navigation and footer links.
-3. One documented search intent per product page.
-4. H1, introduction, and supporting-copy alignment.
-5. Extend automated SEO checks to cover crawlable product links.
+- [ ] Search Console verification, sitemap submission, and URL inspection.
+- [x] Crawlable product navigation and footer links.
+- [x] One documented search intent per product page.
+- [x] H1, introduction, and supporting-copy alignment.
+- [x] Extend automated SEO checks to cover crawlable product links.
 
 ### Phase 2: Page usefulness and conversion evidence
 
-1. Product-specific FAQs.
-2. Operational and compatibility details.
-3. Clearer pricing inclusions and purchase expectations.
-4. About/company page.
-5. First customer case study.
-6. Organic conversion tracking.
+- [ ] Product-specific FAQs.
+- [ ] Operational and compatibility details.
+- [ ] Clearer pricing inclusions and purchase expectations.
+- [ ] About/company page.
+- [ ] First customer case study.
+- [ ] Organic conversion tracking.
 
 ### Phase 3: Data-led content and authority
 
-1. Review 14-28 days of Search Console query data.
-2. Refine page targets without creating internal competition.
-3. Publish only content that answers a demonstrated customer question or search opportunity.
-4. Build legitimate links through customers, partners, profiles, and original first-party material.
-5. Monitor Core Web Vitals and fix only evidence-backed performance problems.
+- [ ] Review 14-28 days of Search Console query data.
+- [ ] Refine page targets without creating internal competition.
+- [ ] Publish only content that answers a demonstrated customer question or search opportunity.
+- [ ] Build legitimate links through customers, partners, profiles, and original first-party material.
+- [ ] Monitor Core Web Vitals and fix only evidence-backed performance problems.
 
 ## 12. Suggested PRD split
 
 The problems are best converted into several focused PRDs rather than one broad SEO project:
 
-1. **PRD: Crawlable service navigation and internal-link architecture**
-2. **PRD: Hebrew query targeting and on-page copy alignment**
-3. **PRD: Product FAQ and buying-information expansion**
-4. **PRD: Search Console baseline and organic conversion measurement**
-5. **PRD: About page, customer proof, and first case study**
+- [x] **PRD: Crawlable service navigation and internal-link architecture**
+- [x] **PRD: Hebrew query targeting and on-page copy alignment**
+- [ ] **PRD: Product FAQ and buying-information expansion**
+- [ ] **PRD: Search Console baseline and organic conversion measurement**
+- [ ] **PRD: About page, customer proof, and first case study**
 
 The first two PRDs are the recommended starting point because they combine high expected impact with relatively low implementation effort.
 
