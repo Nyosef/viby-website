@@ -2,6 +2,32 @@
 
 All notable changes to the Viby website are documented here.
 
+## [Hebrew SEO internal linking] — 2026-08-12
+
+### Crawlable product navigation
+
+- Added permanent, server-rendered links between all five commercial product pages.
+- Added a visible “פתרונות נוספים לעסק” section to every product page with four related-solution cards.
+- Used descriptive Hebrew anchor text aligned with each product’s search intent.
+- Kept product URLs canonical and free of tracking parameters or legacy `?service=` query strings.
+- Preserved the existing animated service selectors, client-side URL updates, keyboard controls, and active-service announcements.
+
+### Commercial-page footer
+
+- Redesigned the commercial-page footer into separate “פתרונות Viby” and “קישורים שימושיים” navigation groups.
+- Added crawlable footer links to all five products and the “איך Viby עובדת” page.
+- Marked the current product link with `aria-current="page"`.
+- Preserved the Viby logo, copyright, Instagram, support, legal, and business-login links.
+- Added responsive desktop, tablet, and mobile layouts with visible keyboard focus and reduced-motion support.
+
+### SEO configuration and validation
+
+- Added centralized `internalLinkLabel` values to the product SEO configuration.
+- Extended the automated SEO report to verify that every commercial page includes all five descriptive product links in its initial HTML.
+- Added checks for a crawlable `/how-it-works` link, direct HTTP 200 product destinations, and the absence of legacy service-query links.
+- Confirmed ESLint, the production build, the full SEO audit, and `git diff --check` succeed.
+- Added the detailed Hebrew SEO problem report at `plans/hebrew-seo-main-problems.md` as the basis for subsequent SEO PRDs.
+
 ## [Unreleased] — 2026-08-05
 
 ### Punch Card purchase flow

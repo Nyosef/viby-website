@@ -15,6 +15,14 @@ const routes = [
   "/terms",
   "/privacy",
 ];
+const productLinks = [
+  { path: "/", label: "כרטיסייה דיגיטלית לעסק" },
+  { path: "/smart-wheel", label: "גלגל מזל דיגיטלי לעסקים" },
+  { path: "/digital-wallet", label: "כרטיס מתנה דיגיטלי לעסק" },
+  { path: "/viby-rate", label: "כרטיס NFC לביקורות גוגל" },
+  { path: "/viby-tap", label: "כרטיס NFC ועמוד קישורים לעסק" },
+];
+const productRoutes = new Set(productLinks.map((product) => product.path));
 const errors = [];
 
 function assert(condition, message) {
@@ -74,12 +82,39 @@ async function checkPage(pathname, titles) {
   assert(!html.includes("www.joinviby.co.il"), `${pathname}: contains forbidden www hostname`);
   assert(!html.includes("viby-website.vercel.app"), `${pathname}: contains project alias`);
 
+  if (productRoutes.has(pathname)) {
+    for (const product of productLinks) {
+      const href = product.path;
+      const escapedHref = href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const escapedLabel = product.label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const linkedLabel = new RegExp(
+        `<a\\b[^>]*href="${escapedHref}"[^>]*>[\\s\\S]*?${escapedLabel}[\\s\\S]*?<\\/a>`,
+      );
+      assert(
+        linkedLabel.test(html),
+        `${pathname}: missing crawlable product link ${href} with label ${product.label}`,
+      );
+    }
+
+    assert(
+      /<a\b[^>]*href="\/how-it-works"[^>]*>/.test(html),
+      `${pathname}: missing crawlable /how-it-works link`,
+    );
+    assert(
+      !/href="[^"]*\?[^"#]*service=/.test(html),
+      `${pathname}: contains legacy product service query link`,
+    );
+  }
+
   const internalLinks = matches(html, /href="(\/(?!\/)[^"#?]*)[^\"]*"/g)
     .map((match) => match[1])
     .filter((href) => !href.startsWith("/api/"));
   for (const href of new Set(internalLinks)) {
     const linked = await fetch(`${origin}${href}`, { redirect: "manual" });
     assert(linked.status < 400, `${pathname}: broken internal link ${href} (${linked.status})`);
+    if (productRoutes.has(pathname) && productRoutes.has(href)) {
+      assert(linked.status === 200, `${pathname}: product link ${href} must resolve directly with 200, got ${linked.status}`);
+    }
   }
 }
 

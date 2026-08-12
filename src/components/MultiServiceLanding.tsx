@@ -11,7 +11,7 @@ import {
   type ServiceContent,
   type ServiceId,
 } from "@/lib/services";
-import { getProductPath } from "@/lib/seo";
+import { getProductPath, productSeoEntries } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PunchCardLeadSection } from "@/components/PunchCardLeadSection";
@@ -1137,6 +1137,8 @@ export function MultiServiceLanding({
         </section>
 
         <ServiceDetail service={service} />
+
+        <RelatedSolutions activeId={activeId} />
       </div>
 
       <section className="v2-final-cta v2-grid-bg" id="contact">
@@ -1165,35 +1167,97 @@ export function MultiServiceLanding({
 
       <footer className="v2-footer">
         <div className="v2-shell">
-          <Image
-            src="/viby_transparent.png"
-            alt="Viby"
-            width={140}
-            height={94}
-          />
-          <nav aria-label="קישורים שימושיים">
-            <a
-              className="v2-instagram-link"
-              href={siteConfig.instagramUrl}
-              aria-label="Viby באינסטגרם"
-            >
-              <Image
-                className="v2-instagram-image"
-                src="/insta_logo.png"
-                alt=""
-                width={72}
-                height={72}
-              />
-            </a>
-            <Link href="/support">תמיכה</Link>
-            <Link href="/terms">תנאי שימוש</Link>
-            <Link href="/privacy">מדיניות פרטיות</Link>
-            <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
+          <div className="v2-footer-brand">
+            <Image
+              src="/viby_transparent.png"
+              alt="Viby"
+              width={140}
+              height={94}
+            />
+            <p>© {new Date().getFullYear()} Viby. כל הזכויות שמורות.</p>
+          </div>
+
+          <nav className="v2-footer-group" aria-label="פתרונות Viby">
+            <strong>פתרונות Viby</strong>
+            <div>
+              {productSeoEntries.map((entry) => (
+                <Link
+                  href={entry.path}
+                  aria-current={entry.serviceId === activeId ? "page" : undefined}
+                  key={entry.serviceId}
+                >
+                  {entry.internalLinkLabel}
+                </Link>
+              ))}
+            </div>
           </nav>
-          <p>© {new Date().getFullYear()} Viby. כל הזכויות שמורות.</p>
+
+          <nav className="v2-footer-group" aria-label="קישורים שימושיים">
+            <strong>קישורים שימושיים</strong>
+            <div>
+              <Link href="/how-it-works">איך Viby עובדת</Link>
+              <Link href="/support">תמיכה</Link>
+              <a
+                className="v2-instagram-link"
+                href={siteConfig.instagramUrl}
+                aria-label="Viby באינסטגרם"
+              >
+                <Image
+                  className="v2-instagram-image"
+                  src="/insta_logo.png"
+                  alt=""
+                  width={72}
+                  height={72}
+                />
+                <span>Instagram</span>
+              </a>
+              <Link href="/terms">תנאי שימוש</Link>
+              <Link href="/privacy">מדיניות פרטיות</Link>
+              <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
+            </div>
+          </nav>
         </div>
       </footer>
     </main>
+  );
+}
+
+function RelatedSolutions({ activeId }: { activeId: ServiceId }) {
+  const relatedProducts = productSeoEntries.filter(
+    (entry) => entry.serviceId !== activeId,
+  );
+
+  return (
+    <section className="v2-section v2-related-solutions">
+      <div className="v2-shell">
+        <SectionHeading
+          eyebrow="כל הפתרונות של Viby"
+          title="פתרונות נוספים לעסק"
+          text="הכירו כלים נוספים של Viby לשימור לקוחות, ביקורות וחיבור העסק לטלפון."
+        />
+        <nav
+          className="v2-related-grid v2-reveal v2-reveal-children"
+          aria-label="פתרונות נוספים של Viby"
+        >
+          {relatedProducts.map((entry) => (
+            <Link
+              className={`v2-related-card related-${entry.serviceId}`}
+              href={entry.path}
+              key={entry.serviceId}
+            >
+              <i aria-hidden="true">
+                <ServiceVisualIcon id={entry.serviceId} />
+              </i>
+              <span>
+                <strong>{entry.internalLinkLabel}</strong>
+                <small>{serviceHeaderDescriptions[entry.serviceId]}</small>
+              </span>
+              <b aria-hidden="true">←</b>
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </section>
   );
 }
 
