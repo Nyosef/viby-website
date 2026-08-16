@@ -2,6 +2,37 @@
 
 All notable changes to the Viby website are documented here.
 
+## [Hebrew SEO buying-journey content] — 2026-08-16
+
+### Product buying guides
+
+- Added a detailed, server-rendered Hebrew buying guide to all five commercial product pages.
+- Added product definitions, best-fit business categories, exact deliverables, and separate customer, employee, and owner workflows.
+- Added purchase facts covering starting price, guided setup, app requirements, Wallet/NFC/QR compatibility, customer details, changes, support, phone replacement, and multiple branches.
+- Added a factual comparison between each Viby product and its simpler paper, manual, printed, or static-QR alternative.
+- Preserved the existing customer-logo strip without introducing unverified testimonials, metrics, or product attribution.
+
+### Pricing, setup, and physical products
+
+- Preserved the 69 ₪ monthly starting price for the digital punch card and the 49 ₪ monthly starting price for each other tool.
+- Added the approved guided setup commitment for launching the digital product by the next business day after receiving all required business details, branding, and settings.
+- Clarified that VibyRate and VibyTap physical format, quantity, production cost, and delivery timing are confirmed separately from digital setup.
+- Avoided implying that extra branches, physical products, payment-processing costs, or shipping are included in the displayed monthly starting price.
+
+### Product FAQs and accessibility
+
+- Added six unique Hebrew pre-purchase FAQs to each commercial page using native `details` and `summary` elements.
+- Kept every question and answer in the initial HTML and usable without client-side JavaScript.
+- Added visible keyboard focus, responsive one-, two-, and three-column layouts, and bidirectional isolation for mixed Hebrew and LTR product terminology.
+- Linked relevant data explanations to the privacy policy and operational-recovery answers to support.
+- Did not add product FAQ structured data because these FAQs are intended as visible buying information rather than rich-result markup.
+
+### SEO validation and tracking
+
+- Extended the automated SEO report with per-route buying-guide headings, prices, operational roles, compatibility, customer-data, comparison, and exact FAQ assertions.
+- Added checks for six non-empty native FAQ entries, required privacy/support links, physical-delivery separation, VibyRate review-integrity language, and the absence of product `FAQPage` schema.
+- Recorded Problem 3 as resolved in the repository while leaving production verification, Search Console inspection, and post-deployment measurement open.
+
 ## [Hebrew SEO terminology alignment] — 2026-08-13
 
 ### Search intent and visible copy
