@@ -6,7 +6,7 @@
 
 **Status:** Living SEO problem and delivery tracker
 
-**Last updated:** 13 August 2026
+**Last updated:** 16 August 2026
 
 Checklist convention:
 
@@ -21,7 +21,7 @@ The website should nevertheless be described as **SEO-ready, not yet SEO-perform
 
 - [x] Connect the five product pages with normal, descriptive, crawlable HTML links.
 - [x] Align visible Hebrew page content with the useful phrases currently targeted in metadata.
-- [ ] Expand product content beyond sales-landing-page depth to answer pre-purchase questions.
+- [x] Expand product content beyond sales-landing-page depth to answer pre-purchase questions.
 - [ ] Establish Search Console indexing and query-data visibility.
 - [ ] Add stronger first-party evidence, authority, and trust content.
 - [ ] Establish an operating process for choosing, measuring, and improving Hebrew search topics.
@@ -213,6 +213,8 @@ Each commercial route now owns one distinct primary Hebrew intent. Supporting te
 
 ## 6. Problem 3: Commercial pages do not yet answer the full buying journey
 
+**Status:** Resolved in the repository on 16 August 2026
+
 **Severity:** Medium to high  
 **Effort to improve:** Medium  
 **Affected URLs:** All five product pages
@@ -240,24 +242,52 @@ Important questions are absent or answered only indirectly:
 
 Competitors visible for relevant Hebrew searches provide longer explanations, FAQs, pricing details, product specifications, and use cases. Word count itself is not a ranking objective, but unanswered questions make a page less complete and less useful.
 
-### 6.2 Recommended direction
+### 6.2 Implemented solution
 
-Add four types of content to each product page:
+- [x] Added one centralized buying-guide model to the shared product-content configuration.
+- [x] Added a product definition and explicit best-fit business categories to every commercial page.
+- [x] Added a visible "מה העסק מקבל" section describing the digital and physical deliverables.
+- [x] Documented the customer, authorized employee, and owner workflow for every product.
+- [x] Added purchase facts covering starting price, guided setup, compatibility, customer registration or data, support, changes, and multiple branches.
+- [x] Published the approved guided setup promise: after all required business details, branding, and settings are received, the digital product is launched by the next business day.
+- [x] Kept physical production and delivery timing separate from the digital setup promise for VibyRate and VibyTap.
+- [x] Preserved the starting prices of 69 ₪ per month for the punch card and 49 ₪ per month for each other tool, without implying that physical products, processing fees, or extra branches are included.
+- [x] Added a factual comparison with the simpler alternative for each product without naming competitors or adding performance claims.
+- [x] Added six unique Hebrew pre-purchase FAQs to every product page.
+- [x] Used native `details` and `summary` elements so questions and answers remain available in the initial HTML without JavaScript.
+- [x] Linked data explanations to the privacy policy and operational-recovery answers to support.
+- [x] Kept phone-recovery language conditional on the device and Wallet provider rather than promising automatic restoration.
+- [x] Kept punch, reward, and balance actions staff-controlled and described correction as support-assisted without claiming automatic fraud prevention.
+- [x] Preserved the existing customer-logo strip as the only first-party proof and did not introduce testimonials or unsupported results.
+- [x] Did not add product `FAQPage` structured data because the content is intended for buyers rather than rich-result eligibility.
 
-1. **Product definition:** A plain-language paragraph stating what the product is, who it is for, and the main outcome.
-2. **Operational detail:** What the owner, employee, and customer each do.
-3. **Purchase questions:** Setup, price, compatibility, customization, support, and cancellation.
-4. **Relevant proof:** A real business example, screenshot, testimonial, or measurable result.
+### 6.3 Product-specific coverage
 
-Each page should also include four to six genuine Hebrew FAQs based on sales and support conversations. FAQs should be written for users, not primarily to obtain a rich result. Google generally limits visible FAQ rich results to authoritative government and health sites.
+| Route | Definition and comparison | Key purchase coverage |
+|---|---|---|
+| `/` | Digital loyalty card compared with a paper punch card | 69 ₪ starting price, staff punches, Wallet compatibility, name and phone, phone recovery |
+| `/smart-wheel` | Configurable digital prize game compared with a generic discount or manual raffle | 49 ₪ starting price, prizes and probabilities, staff validation, browser use, customer details |
+| `/digital-wallet` | Digital gifts and stored value compared with a printed voucher or manual balance | 49 ₪ starting price, gifting and self-purchase, payments, Wallet storage, staff balance updates |
+| `/viby-rate` | Branded NFC/QR review product compared with manual search or a generic QR | Separate physical cost and delivery, NFC fallback, no battery, no registration, honest-review safeguards |
+| `/viby-tap` | Editable branded links hub compared with a single static QR | Separate physical cost and delivery, editable links, NFC/QR compatibility, branch-specific pages |
 
-### 6.3 Acceptance criteria for a future PRD
+### 6.4 Repository acceptance criteria
 
-- Each product page answers the questions most frequently asked before purchase.
-- Claims are factual, supportable, and specific to Viby.
-- Page content does not copy or lightly rewrite competitor content.
-- FAQs are visible in the HTML and useful even without structured data.
-- Any prices, compatibility claims, or operational promises have a defined owner and update process.
+- [x] Every commercial page answers the main questions raised before purchase.
+- [x] Claims use approved Viby facts and avoid unsupported performance, delivery, payment-processing, compatibility, or fraud-prevention guarantees.
+- [x] Buying content is unique to each product and does not copy competitor text.
+- [x] Every page exposes exactly six visible FAQs in its server-rendered HTML.
+- [x] Pricing, compatibility, data, setup, comparison, operational roles, and FAQ questions are protected by the automated SEO audit.
+- [x] Existing metadata, schema, routes, selectors, CTAs, crawlable internal links, sitemap, redirects, robots, preview protection, and 404 behavior remain intact.
+- [x] ESLint, the production build, the SEO audit, static-HTML inspection, and `git diff --check` pass.
+
+Pricing, setup, compatibility, and operational copy are owned by the product and marketing team and must be reviewed whenever the product changes and at least quarterly.
+
+### 6.5 Remaining post-deployment follow-up
+
+- [ ] Confirm all five buying guides, purchase facts, comparisons, and FAQs in production HTML.
+- [ ] Inspect the five revised URLs in Google Search Console and request one recrawl after deployment.
+- [ ] Review question-based queries, supporting terms, CTR, title rewrites, organic lead actions, and cannibalization after 14–28 days.
 
 ## 7. Problem 4: Indexing and performance cannot yet be measured reliably
 
@@ -394,9 +424,9 @@ These items may be useful, but they should not displace the high-priority work a
 
 ### Phase 2: Page usefulness and conversion evidence
 
-- [ ] Product-specific FAQs.
-- [ ] Operational and compatibility details.
-- [ ] Clearer pricing inclusions and purchase expectations.
+- [x] Product-specific FAQs.
+- [x] Operational and compatibility details.
+- [x] Clearer pricing inclusions and purchase expectations.
 - [ ] About/company page.
 - [ ] First customer case study.
 - [ ] Organic conversion tracking.
@@ -415,7 +445,7 @@ The problems are best converted into several focused PRDs rather than one broad 
 
 - [x] **PRD: Crawlable service navigation and internal-link architecture**
 - [x] **PRD: Hebrew query targeting and on-page copy alignment**
-- [ ] **PRD: Product FAQ and buying-information expansion**
+- [x] **PRD: Product FAQ and buying-information expansion**
 - [ ] **PRD: Search Console baseline and organic conversion measurement**
 - [ ] **PRD: About page, customer proof, and first case study**
 

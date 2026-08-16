@@ -29,6 +29,22 @@ const productExpectations = [
       "כרטיסיית נאמנות דיגיטלית",
       "כרטיסיית נייר",
     ],
+    buyingGuide: {
+      definitionHeading: "כרטיסייה דיגיטלית לעסקים עם ביקורים חוזרים",
+      price: "החל מ־69 ₪ לחודש",
+      operationalTerms: ["הלקוח מצטרף ושומר", "הצוות מנקב ומממש", "בעל העסק מנהל"],
+      compatibilityTerms: ["Apple Wallet", "Google Wallet", "בלי להוריד אפליקציית Viby"],
+      dataTerm: "נשמרים שם ומספר טלפון",
+      comparisonTerm: "כרטיסיית נייר יכולה ללכת לאיבוד",
+      faqs: [
+        "מה העסק מקבל עם הכרטיסייה הדיגיטלית?",
+        "האם הלקוח או הצוות צריכים להוריד אפליקציה?",
+        "איך מוסיפים ניקוב ואיך מממשים את ההטבה?",
+        "אילו פרטי לקוח נשמרים בכרטיסייה?",
+        "מה קורה אם הלקוח מחליף או מאבד את הטלפון?",
+        "כמה עולה הכרטיסייה וכמה זמן לוקח להתחיל?",
+      ],
+    },
     alternateName: "כרטיסיות דיגיטליות",
   },
   {
@@ -45,6 +61,22 @@ const productExpectations = [
       "גלגל חכם",
       "QR",
     ],
+    buyingGuide: {
+      definitionHeading: "משחק פרסים דיגיטלי שמחבר בין הקנייה לביקור הבא",
+      price: "החל מ־49 ₪ לחודש",
+      operationalTerms: ["הלקוח סורק ומשחק", "הצוות מאמת את הפרס", "בעל העסק שולט במשחק"],
+      compatibilityTerms: ["נפתח בדפדפן", "אינו צריך להוריד אפליקציית Viby"],
+      dataTerm: "הלקוח מזין שם ומספר טלפון",
+      comparisonTerm: "הנחה כללית או הגרלה ידנית",
+      faqs: [
+        "מה מקבלים עם גלגל המזל הדיגיטלי?",
+        "איך העסק בוחר פרסים והסתברויות?",
+        "איך הצוות מאמת זכייה ומונע מימוש בטעות?",
+        "האם הלקוח צריך אפליקציה ואילו פרטים הוא מזין?",
+        "אפשר לשנות פרסים או להפעיל גלגל שונה בכל סניף?",
+        "כמה עולה הגלגל וכמה זמן לוקח להפעיל אותו?",
+      ],
+    },
     alternateName: "גלגל חכם",
   },
   {
@@ -61,6 +93,22 @@ const productExpectations = [
       "Apple Wallet",
       "Google Wallet",
     ],
+    buyingGuide: {
+      definitionHeading: "מערכת למכירת מתנות ויתרה דיגיטלית לעסק",
+      price: "החל מ־49 ₪ לחודש",
+      operationalTerms: ["הלקוח קונה ושומר", "הצוות בודק ומממש", "בעל העסק מגדיר"],
+      compatibilityTerms: ["Apple Pay", "Google Pay", "Apple Wallet", "Google Wallet"],
+      dataTerm: "נשמרים שם ומספר טלפון",
+      comparisonTerm: "שובר מודפס או יתרה שנרשמת ידנית",
+      faqs: [
+        "אפשר לקנות את כרטיס המתנה למישהו אחר וגם לעצמי?",
+        "מה העסק מקבל עם מערכת כרטיסי המתנה?",
+        "איך משלמים ואיפה הכרטיס נשמר?",
+        "איך הצוות בודק ומעדכן את היתרה במימוש?",
+        "מה קורה במקרה של טלפון חדש או מימוש שגוי?",
+        "כמה עולה המערכת וכמה זמן לוקח להתחיל?",
+      ],
+    },
     alternateName: "ארנק דיגיטלי",
   },
   {
@@ -76,6 +124,22 @@ const productExpectations = [
       "כרטיס ביקורות גוגל לעסק",
       "Google Reviews",
     ],
+    buyingGuide: {
+      definitionHeading: "כרטיס או שלט NFC שמקצר את הדרך לביקורת אמיתית",
+      price: "מתחילה ב־49 ₪ לחודש",
+      operationalTerms: ["הלקוח מצמיד או סורק", "הצוות מזמין לביקורת", "בעל העסק מאשר את היעד"],
+      compatibilityTerms: ["NFC עובד בטלפון תואם", "QR משמש חלופה", "בסוללה או בטעינה"],
+      dataTerm: "אינו נדרש להירשם ל־Viby",
+      comparisonTerm: "לחפש את העסק ידנית",
+      faqs: [
+        "מה מקבלים בהזמנה של VibyRate?",
+        "האם הכרטיס עובד גם ב־NFC וגם ב־QR?",
+        "האם צריך אפליקציה, סוללה או טעינה?",
+        "האם VibyRate מבטיח ביקורות או דירוג גבוה יותר?",
+        "אפשר לשנות את קישור הביקורות או להזמין לכמה סניפים?",
+        "כמה עולה VibyRate ומתי הוא מוכן לשימוש?",
+      ],
+    },
     alternateName: "VibyRate",
   },
   {
@@ -88,6 +152,22 @@ const productExpectations = [
     primaryIntent: "שלט NFC לעסק",
     requiredVisibleTerms: ["עמוד קישורים לעסק", "מדבקת NFC לעסק", "QR לעסק"],
     disallowedVisibleTerms: ["כרטיס ביקור דיגיטלי"],
+    buyingGuide: {
+      definitionHeading: "שלט NFC ועמוד קישורים שמחברים את העסק לטלפון",
+      price: "מתחיל ב־49 ₪ לחודש",
+      operationalTerms: ["הלקוח מצמיד ובוחר", "הצוות רק מציג את השלט", "בעל העסק שולט בתוכן"],
+      compatibilityTerms: ["NFC עובד בטלפון תואם", "QR נפתח באמצעות המצלמה", "אינו צריך להוריד אפליקציית Viby"],
+      dataTerm: "אין צורך להירשם ל־Viby",
+      comparisonTerm: "QR סטטי פותח בדרך כלל יעד קבוע אחד",
+      faqs: [
+        "מה העסק מקבל עם VibyTap?",
+        "אילו קישורים אפשר להציג בעמוד?",
+        "אפשר לשנות קישורים אחרי שהשלט כבר הודפס?",
+        "איך VibyTap עובד בעסק עם כמה סניפים?",
+        "האם צריך NFC או שאפשר להשתמש גם ב־QR?",
+        "כמה עולה VibyTap וכמה זמן לוקח להקים ולקבל אותו?",
+      ],
+    },
     alternateName: "VibyTap",
   },
 ];
@@ -96,6 +176,8 @@ const productRoutes = new Set(productLinks.map((product) => product.path));
 const productExpectationByPath = new Map(
   productExpectations.map((product) => [product.path, product]),
 );
+const guidedSetupPromise =
+  "לאחר שקיבלנו את פרטי העסק, הלוגו וההגדרות הנדרשות, Viby מלווה את ההקמה ומעלה את המוצר הדיגיטלי לאוויר עד יום העסקים הבא.";
 const errors = [];
 
 function assert(condition, message) {
@@ -120,6 +202,10 @@ function decodeHtml(value) {
 
 function normalizeText(value) {
   return decodeHtml(value).replace(/\s+/g, " ").trim();
+}
+
+function includesIgnoringWhitespace(value, expected) {
+  return value.replace(/\s+/g, "").includes(expected.replace(/\s+/g, ""));
 }
 
 function textContent(html) {
@@ -205,8 +291,68 @@ async function checkPage(pathname, titles) {
       assert(!visibleText.includes(term), `${pathname}: disallowed visible term is present: ${term}`);
     }
 
+    const buyingGuide = expectation?.buyingGuide;
+    assert(
+      Boolean(buyingGuide?.definitionHeading) && visibleText.includes(buyingGuide.definitionHeading),
+      `${pathname}: buying-guide definition heading is missing`,
+    );
+    assert(visibleText.includes("מה העסק מקבל"), `${pathname}: buying-guide deliverables heading is missing`);
+    assert(visibleText.includes("כך עובדים עם המוצר ביום־יום"), `${pathname}: operations heading is missing`);
+    assert(visibleText.includes("מחיר, התאמה והקמה"), `${pathname}: purchase-facts heading is missing`);
+    assert(visibleText.includes("מה ההבדל מהפתרון הרגיל"), `${pathname}: comparison heading is missing`);
+    assert(visibleText.includes(guidedSetupPromise), `${pathname}: guided setup promise is missing`);
+    assert(
+      includesIgnoringWhitespace(visibleText, buyingGuide?.price ?? ""),
+      `${pathname}: approved starting price is missing`,
+    );
+    assert(
+      includesIgnoringWhitespace(visibleText, buyingGuide?.dataTerm ?? ""),
+      `${pathname}: approved data statement is missing`,
+    );
+    assert(visibleText.includes(buyingGuide?.comparisonTerm ?? ""), `${pathname}: comparison alternative is missing`);
+    for (const term of buyingGuide?.operationalTerms ?? []) {
+      assert(visibleText.includes(term), `${pathname}: operational role is missing: ${term}`);
+    }
+    for (const term of buyingGuide?.compatibilityTerms ?? []) {
+      assert(visibleText.includes(term), `${pathname}: compatibility statement is missing: ${term}`);
+    }
+
+    const faqEntries = matches(html, /<details(?:\s[^>]*)?>([\s\S]*?)<\/details>/g);
+    assert(faqEntries.length === 6, `${pathname}: expected six visible FAQ entries, got ${faqEntries.length}`);
+    const faqQuestions = faqEntries.map((entry) => {
+      const summary = entry[1].match(/<summary(?:\s[^>]*)?>([\s\S]*?)<\/summary>/);
+      return summary ? textContent(summary[1]) : "";
+    });
+    for (const question of buyingGuide?.faqs ?? []) {
+      assert(faqQuestions.includes(question), `${pathname}: FAQ question is missing: ${question}`);
+      const faqEntry = faqEntries.find((entry) => {
+        const summary = entry[1].match(/<summary(?:\s[^>]*)?>([\s\S]*?)<\/summary>/);
+        return summary ? textContent(summary[1]) === question : false;
+      });
+      const answer = faqEntry?.[1].match(/<p(?:\s[^>]*)?>([\s\S]*?)<\/p>/);
+      assert(Boolean(answer && textContent(answer[1]).length > 20), `${pathname}: FAQ answer is empty: ${question}`);
+    }
+
+    assert(/<a\b[^>]*href="\/privacy"[^>]*>/.test(html), `${pathname}: buying content must link to privacy`);
+    if (pathname !== "/viby-tap") {
+      assert(/<a\b[^>]*href="\/support"[^>]*>/.test(html), `${pathname}: buying content must link to support`);
+    }
+    if (pathname === "/viby-rate" || pathname === "/viby-tap") {
+      assert(
+        visibleText.includes("זמן הייצור והמשלוח") && visibleText.includes("מאושר בנפרד"),
+        `${pathname}: physical production and delivery must be separated from digital setup`,
+      );
+    }
+    if (pathname === "/viby-rate") {
+      assert(visibleText.includes("בלי תמריץ, בלי סינון"), `${pathname}: honest-review safeguard is missing`);
+    }
+
     const structuredNodes = parsedJsonLd.flatMap((document) =>
       Array.isArray(document?.["@graph"]) ? document["@graph"] : [document],
+    );
+    assert(
+      !structuredNodes.some((node) => node?.["@type"] === "FAQPage"),
+      `${pathname}: product pages must not add FAQPage structured data`,
     );
     const serviceNode = structuredNodes.find((node) => node?.["@type"] === "Service");
     assert(Boolean(serviceNode), `${pathname}: missing Service structured data`);

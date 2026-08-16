@@ -11,7 +11,11 @@ import {
   type ServiceContent,
   type ServiceId,
 } from "@/lib/services";
-import { getProductPath, productSeoEntries } from "@/lib/seo";
+import {
+  getProductPath,
+  productSeoByService,
+  productSeoEntries,
+} from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PunchCardLeadSection } from "@/components/PunchCardLeadSection";
@@ -1138,6 +1142,8 @@ export function MultiServiceLanding({
 
         <ServiceDetail service={service} />
 
+        <BuyingGuideSection service={service} />
+
         <RelatedSolutions activeId={activeId} />
       </div>
 
@@ -1256,6 +1262,138 @@ function RelatedSolutions({ activeId }: { activeId: ServiceId }) {
             </Link>
           ))}
         </nav>
+      </div>
+    </section>
+  );
+}
+
+const mixedDirectionPattern =
+  /(Google Business Profile|Google Reviews|Google Wallet|Apple Wallet|Google Pay|Apple Pay|Instagram|WhatsApp|Facebook|TikTok|VibyRate|VibyTap|Wallet|Viby|Waze|NFC|QR|\d+ ₪)/g;
+const mixedDirectionTokenPattern =
+  /^(Google Business Profile|Google Reviews|Google Wallet|Apple Wallet|Google Pay|Apple Pay|Instagram|WhatsApp|Facebook|TikTok|VibyRate|VibyTap|Wallet|Viby|Waze|NFC|QR|\d+ ₪)$/;
+
+function MixedDirectionText({ text }: { text: string }) {
+  return text.split(mixedDirectionPattern).map((part, index) =>
+    mixedDirectionTokenPattern.test(part) ? (
+      <bdi dir="ltr" key={`${part}-${index}`}>
+        {part}
+      </bdi>
+    ) : (
+      part
+    ),
+  );
+}
+
+function BuyingGuideSection({ service }: { service: ServiceContent }) {
+  const guide = service.buyingGuide;
+  const seo = productSeoByService[service.id];
+  const sectionId = `buying-guide-${service.id}`;
+  const faqId = `buying-faq-${service.id}`;
+  const roleIcons = { customer: "📲", staff: "✓", owner: "⚙" } as const;
+
+  return (
+    <section
+      className={`v2-section v2-buying-guide service-${service.id}`}
+      aria-labelledby={sectionId}
+    >
+      <div className="v2-shell">
+        <div className="v2-buying-intro v2-reveal">
+          <span>לפני שמתחילים</span>
+          <h2 id={sectionId}>כל מה שחשוב לדעת על {service.label}</h2>
+          <h3>{guide.definition.title}</h3>
+          <p>
+            <MixedDirectionText text={guide.definition.text} />
+          </p>
+          <div className="v2-best-for">
+            <strong>מתאים במיוחד ל־</strong>
+            <ul>
+              {guide.bestFor.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <section className="v2-buying-block" aria-labelledby={`${sectionId}-included`}>
+          <h3 id={`${sectionId}-included`}>מה העסק מקבל</h3>
+          <div className="v2-buying-card-grid v2-reveal v2-reveal-children">
+            {guide.included.map((item) => (
+              <article key={item.title}>
+                <span aria-hidden="true">{item.icon}</span>
+                <h4>{item.title}</h4>
+                <p>
+                  <MixedDirectionText text={item.text} />
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="v2-buying-block" aria-labelledby={`${sectionId}-operations`}>
+          <h3 id={`${sectionId}-operations`}>כך עובדים עם המוצר ביום־יום</h3>
+          <div className="v2-buying-role-grid v2-reveal v2-reveal-children">
+            {guide.operations.map((operation) => (
+              <article className={`role-${operation.role}`} key={operation.role}>
+                <span aria-hidden="true">{roleIcons[operation.role]}</span>
+                <h4>{operation.title}</h4>
+                <p>
+                  <MixedDirectionText text={operation.text} />
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="v2-buying-block" aria-labelledby={`${sectionId}-facts`}>
+          <h3 id={`${sectionId}-facts`}>מחיר, התאמה והקמה</h3>
+          <dl className="v2-buying-facts v2-reveal">
+            {guide.purchaseFacts.map((fact) => (
+              <div key={fact.label}>
+                <dt>{fact.label}</dt>
+                <dd>
+                  <MixedDirectionText text={fact.value} />{" "}
+                  {fact.link ? <Link href={fact.link.href}>{fact.link.label}</Link> : null}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section className="v2-buying-block" aria-labelledby={`${sectionId}-comparison`}>
+          <h3 id={`${sectionId}-comparison`}>מה ההבדל מהפתרון הרגיל</h3>
+          <div className="v2-buying-comparison v2-reveal">
+            <article>
+              <span>החלופה הפשוטה</span>
+              <p>
+                <MixedDirectionText text={guide.comparison.alternative} />
+              </p>
+            </article>
+            <article>
+              <span>הפתרון של Viby</span>
+              <p>
+                <MixedDirectionText text={guide.comparison.vibyDifference} />
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section className="v2-buying-faq" aria-labelledby={faqId}>
+          <div className="v2-buying-faq-heading v2-reveal">
+            <span>שאלות לפני שמצטרפים</span>
+            <h2 id={faqId}>שאלות נפוצות על {seo.primaryIntent}</h2>
+          </div>
+          <div className="v2-buying-faq-list v2-reveal">
+            {guide.faqs.map((faq) => (
+              <details key={faq.question}>
+                <summary>{faq.question}</summary>
+                <p>
+                  <MixedDirectionText text={faq.answer} />{" "}
+                  {faq.link ? <Link href={faq.link.href}>{faq.link.label}</Link> : null}
+                </p>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
     </section>
   );
@@ -1607,7 +1745,7 @@ function DetailGrid({
   items,
   className = "",
 }: {
-  items: DetailItem[];
+  items: readonly DetailItem[];
   className?: string;
 }) {
   return (
