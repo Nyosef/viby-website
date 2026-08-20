@@ -119,7 +119,7 @@ export default function SupportPage() {
             תמיכה
           </Link>
         </nav>
-        <a className="header-cta" href={whatsappUrl}>
+        <a className="header-cta" href={whatsappUrl} data-analytics-location="support_page">
           WhatsApp
         </a>
       </header>
@@ -133,7 +133,7 @@ export default function SupportPage() {
             הודעה ונעזור לכם להחזיר את העסק לעבודה רגילה.
           </p>
           <div className="hero-actions">
-            <a className="button primary" href={whatsappUrl}>
+            <a className="button primary" href={whatsappUrl} data-analytics-location="support_page">
               פתיחת שיחת תמיכה ב-WhatsApp
             </a>
             <Link className="button secondary" href="/how-it-works">
@@ -204,7 +204,7 @@ export default function SupportPage() {
         <div className="contact-panel">
           <span>תמיכה ב-WhatsApp</span>
           <strong>{siteConfig.whatsappDisplay}</strong>
-          <a href={whatsappUrl}>פתיחת שיחת תמיכה</a>
+          <a href={whatsappUrl} data-analytics-location="support_page">פתיחת שיחת תמיכה</a>
         </div>
       </section>
 
@@ -218,13 +218,14 @@ export default function SupportPage() {
           <Link href="/terms">תנאי שימוש</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
           <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
-          <a href={whatsappUrl}>WhatsApp</a>
+          <a href={whatsappUrl} data-analytics-location="support_page">WhatsApp</a>
         </div>
       </footer>
 
       <a
         className="whatsapp-float"
         href={whatsappUrl}
+        data-analytics-location="support_page"
         aria-label="פתיחת שיחת תמיכה ב-WhatsApp"
       >
         WhatsApp

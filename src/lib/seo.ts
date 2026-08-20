@@ -11,6 +11,7 @@ export type ProductSeo = {
   primaryIntent: string;
   supportingIntents: readonly string[];
   schemaId: string;
+  lastModified: string;
 };
 
 export const productSeoByService = {
@@ -28,6 +29,7 @@ export const productSeoByService = {
       "כרטיסיית נייר",
     ],
     schemaId: "digital-punch-card",
+    lastModified: "2026-08-16",
   },
   "smart-wheel": {
     serviceId: "smart-wheel",
@@ -44,6 +46,7 @@ export const productSeoByService = {
       "QR",
     ],
     schemaId: "smart-wheel",
+    lastModified: "2026-08-16",
   },
   wallet: {
     serviceId: "wallet",
@@ -60,6 +63,7 @@ export const productSeoByService = {
       "Google Wallet",
     ],
     schemaId: "digital-wallet",
+    lastModified: "2026-08-16",
   },
   "viby-rate": {
     serviceId: "viby-rate",
@@ -75,6 +79,7 @@ export const productSeoByService = {
       "Google Reviews",
     ],
     schemaId: "viby-rate",
+    lastModified: "2026-08-16",
   },
   "viby-tap": {
     serviceId: "viby-tap",
@@ -90,6 +95,7 @@ export const productSeoByService = {
       "QR לעסק",
     ],
     schemaId: "viby-tap",
+    lastModified: "2026-08-16",
   },
 } as const satisfies Record<ServiceId, ProductSeo>;
 

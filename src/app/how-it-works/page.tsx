@@ -125,7 +125,7 @@ export default function HowItWorksPage() {
           <Link href="/#pricing">מחירים</Link>
           <Link href="/support">תמיכה</Link>
         </nav>
-        <a className="header-cta" href={whatsappUrl}>
+        <a className="header-cta" href={whatsappUrl} data-analytics-location="how_it_works">
           דברו איתנו
         </a>
       </header>
@@ -152,7 +152,7 @@ export default function HowItWorksPage() {
             <a className="button primary" href={demoUrl}>
               פתיחת הדמו
             </a>
-            <a className="button secondary" href={whatsappUrl}>
+            <a className="button secondary" href={whatsappUrl} data-analytics-location="how_it_works">
               שאלות ב-WhatsApp
             </a>
           </div>
@@ -177,7 +177,7 @@ export default function HowItWorksPage() {
         <div className="contact-panel">
           <span>שיחה עם Viby</span>
           <strong>{siteConfig.whatsappDisplay}</strong>
-          <a href={whatsappUrl}>פתיחת שיחה ב-WhatsApp</a>
+          <a href={whatsappUrl} data-analytics-location="how_it_works">פתיחת שיחה ב-WhatsApp</a>
         </div>
       </section>
 
@@ -190,13 +190,14 @@ export default function HowItWorksPage() {
           <Link href="/terms">תנאי שימוש</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
           <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
-          <a href={whatsappUrl}>WhatsApp</a>
+          <a href={whatsappUrl} data-analytics-location="how_it_works">WhatsApp</a>
         </div>
       </footer>
 
       <a
         className="whatsapp-float"
         href={whatsappUrl}
+        data-analytics-location="how_it_works"
         aria-label="פתיחת שיחה ב-WhatsApp"
       >
         WhatsApp

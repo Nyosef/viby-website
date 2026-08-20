@@ -2,8 +2,12 @@ import { spawn } from "node:child_process";
 import { access } from "node:fs/promises";
 
 const port = 3417;
-const origin = `http://127.0.0.1:${port}`;
 const canonicalOrigin = "https://joinviby.co.il";
+const configuredOrigin = process.env.SEO_REPORT_ORIGIN;
+const productionMode = Boolean(configuredOrigin);
+const origin = productionMode
+  ? validateProductionOrigin(configuredOrigin)
+  : `http://127.0.0.1:${port}`;
 const routes = [
   "/",
   "/smart-wheel",
@@ -178,7 +182,37 @@ const productExpectationByPath = new Map(
 );
 const guidedSetupPromise =
   "לאחר שקיבלנו את פרטי העסק, הלוגו וההגדרות הנדרשות, Viby מלווה את ההקמה ומעלה את המוצר הדיגיטלי לאוויר עד יום העסקים הבא.";
+const commercialLastModified = "2026-08-16";
+const analyticsLocations = new Set([
+  "header",
+  "hero",
+  "price_strip",
+  "mid_page_cta",
+  "final_cta",
+  "footer",
+  "buying_guide",
+  "support_page",
+  "how_it_works",
+  "punch_card_lead_form",
+]);
 const errors = [];
+
+function validateProductionOrigin(value) {
+  const url = new URL(value);
+  if (
+    url.protocol !== "https:" ||
+    url.username ||
+    url.password ||
+    url.search ||
+    url.hash ||
+    (url.pathname !== "/" && url.pathname !== "")
+  ) {
+    throw new Error(
+      "SEO_REPORT_ORIGIN must be an HTTPS origin without credentials, path, query, or fragment.",
+    );
+  }
+  return url.origin;
+}
 
 function assert(condition, message) {
   if (!condition) errors.push(message);
@@ -252,6 +286,17 @@ async function checkPage(pathname, titles) {
   assert(canonicals[0]?.[1] === expectedCanonical(pathname), `${pathname}: canonical is ${canonicals[0]?.[1] ?? "missing"}`);
   assert(headings.length === 1, `${pathname}: expected one H1, got ${headings.length}`);
   assert(jsonLd.length >= 1, `${pathname}: missing structured data`);
+  const contactAnchors = matches(
+    html,
+    /<a\b[^>]*href="(?:https:\/\/wa\.me\/[^\"]+|tel:[^\"]+)"[^>]*>/g,
+  );
+  for (const [contactAnchor] of contactAnchors) {
+    const location = contactAnchor.match(/data-analytics-location="([^"]+)"/)?.[1];
+    assert(
+      Boolean(location) && analyticsLocations.has(location),
+      `${pathname}: contact link has missing or invalid analytics location`,
+    );
+  }
 
   for (const script of jsonLd) {
     try {
@@ -410,9 +455,15 @@ async function checkPage(pathname, titles) {
 }
 
 async function checkRedirect(url, expectedPath, host = "joinviby.co.il") {
-  const response = await fetch(`${origin}${url}`, {
+  const requestOrigin = productionMode && host !== new URL(origin).hostname
+    ? `https://${host}`
+    : origin;
+  const headers = productionMode
+    ? undefined
+    : { "x-forwarded-host": host, "x-forwarded-proto": "https" };
+  const response = await fetch(`${requestOrigin}${url}`, {
     redirect: "manual",
-    headers: { "x-forwarded-host": host, "x-forwarded-proto": "https" },
+    headers,
   });
   assert(response.status === 308, `${url} on ${host}: expected 308, got ${response.status}`);
   const location = response.headers.get("location");
@@ -421,17 +472,21 @@ async function checkRedirect(url, expectedPath, host = "joinviby.co.il") {
 }
 
 async function run() {
-  await access(".next/BUILD_ID");
-  const server = spawn("npm", ["run", "start", "--", "-p", String(port)], {
-    stdio: ["ignore", "pipe", "pipe"],
-    env: { ...process.env, PORT: String(port) },
-  });
+  let server;
   let serverOutput = "";
-  server.stdout.on("data", (chunk) => { serverOutput += chunk; });
-  server.stderr.on("data", (chunk) => { serverOutput += chunk; });
+
+  if (!productionMode) {
+    await access(".next/BUILD_ID");
+    server = spawn("npm", ["run", "start", "--", "-p", String(port)], {
+      stdio: ["ignore", "pipe", "pipe"],
+      env: { ...process.env, PORT: String(port) },
+    });
+    server.stdout.on("data", (chunk) => { serverOutput += chunk; });
+    server.stderr.on("data", (chunk) => { serverOutput += chunk; });
+  }
 
   try {
-    await waitForServer();
+    if (!productionMode) await waitForServer();
     const titles = new Set();
     for (const route of routes) await checkPage(route, titles);
 
@@ -439,7 +494,27 @@ async function run() {
     for (const route of routes) {
       assert(sitemap.includes(`<loc>${expectedCanonical(route)}</loc>`), `sitemap: missing ${route}`);
     }
-    assert(!sitemap.includes("<lastmod>"), "sitemap: contains artificial lastModified values");
+    const sitemapEntries = matches(sitemap, /<url>([\s\S]*?)<\/url>/g).map((match) => match[1]);
+    for (const route of routes) {
+      const canonical = expectedCanonical(route);
+      const entry = sitemapEntries.find((candidate) => candidate.includes(`<loc>${canonical}</loc>`));
+      const lastModified = entry?.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
+      if (productRoutes.has(route)) {
+        assert(
+          lastModified === commercialLastModified,
+          `sitemap: ${route} lastmod is ${lastModified ?? "missing"}`,
+        );
+      } else {
+        assert(!lastModified, `sitemap: ${route} has a fabricated lastmod`);
+      }
+      if (lastModified) {
+        assert(/^\d{4}-\d{2}-\d{2}$/.test(lastModified), `sitemap: ${route} lastmod is not ISO date-only`);
+        assert(
+          Date.parse(`${lastModified}T00:00:00Z`) <= Date.now(),
+          `sitemap: ${route} lastmod is in the future`,
+        );
+      }
+    }
 
     const robots = await (await fetch(`${origin}/robots.txt`)).text();
     assert(robots.includes("Disallow: /api/"), "robots: /api/ is not disallowed");
@@ -450,10 +525,19 @@ async function run() {
     await checkRedirect("/support?utm_source=test", "/support?utm_source=test", "www.joinviby.co.il");
     await checkRedirect("/viby-rate", "/viby-rate", "viby-website.vercel.app");
 
-    const preview = await fetch(`${origin}/support`, {
-      headers: { "x-forwarded-host": "viby-git-test-team.vercel.app" },
-    });
-    assert(preview.headers.get("x-robots-tag")?.includes("noindex"), "preview: missing X-Robots-Tag noindex");
+    const preview = productionMode
+      ? await fetch("https://viby-website.vercel.app/support", { redirect: "manual" })
+      : await fetch(`${origin}/support`, {
+          headers: { "x-forwarded-host": "viby-git-test-team.vercel.app" },
+        });
+    const previewNoindex = preview.headers.get("x-robots-tag")?.includes("noindex");
+    const previewCanonicalRedirect = productionMode
+      && [307, 308].includes(preview.status)
+      && preview.headers.get("location")?.startsWith(canonicalOrigin);
+    assert(
+      previewNoindex || previewCanonicalRedirect,
+      "preview: neither noindex nor a canonical-host redirect is active",
+    );
 
     const api = await fetch(`${origin}/api/punch-card-lead`, { method: "GET" });
     assert(api.headers.get("x-robots-tag")?.includes("noindex"), "api: missing X-Robots-Tag noindex");
@@ -463,7 +547,7 @@ async function run() {
     assert(missing.status === 404, `404: expected 404, got ${missing.status}`);
     assert(/name="robots" content="noindex, nofollow"/.test(missingHtml), "404: missing noindex, nofollow");
   } finally {
-    server.kill("SIGTERM");
+    server?.kill("SIGTERM");
   }
 
   if (errors.length > 0) {
@@ -471,7 +555,7 @@ async function run() {
     errors.forEach((error) => console.error(`- ${error}`));
     process.exitCode = 1;
   } else {
-    console.log(`SEO audit passed: ${routes.length} canonical routes, redirects, robots, sitemap, schema, and 404 behavior verified.`);
+    console.log(`SEO audit passed against ${origin}: ${routes.length} canonical routes, redirects, robots, sitemap, schema, and 404 behavior verified.`);
   }
 
   if (errors.length > 0 && serverOutput) console.error(serverOutput);

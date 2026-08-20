@@ -322,11 +322,27 @@ Repeated indexing requests should not be used as a substitute for internal links
 
 ### 7.3 Acceptance criteria for a future PRD
 
-- Search Console domain ownership is confirmed.
-- The sitemap shows a successful fetch.
-- All five product URLs have a documented inspection result.
-- Organic landing-page conversions are measurable.
-- A baseline report exists for clicks, impressions, CTR, average position, indexed pages, and Core Web Vitals.
+- [ ] Search Console domain ownership and a backup Viby-controlled owner are confirmed.
+- [ ] The sitemap shows a successful Search Console fetch.
+- [ ] All five product URLs have a documented inspection result and successful live test.
+- [ ] Search Console is linked to the production GA4 stream.
+- [ ] GA4 custom dimensions and the separate `contact_intent` and `generate_lead` key events are confirmed in the property.
+- [x] The briefly enabled Vercel Speed Insights service was disabled before collecting data and removed from the repository; Search Console remains the field-performance source.
+- [x] Organic contact and successful-lead instrumentation is implemented in the repository.
+- [x] Accurate commercial sitemap modification dates and a read-only production audit are implemented.
+- [x] A detailed operating runbook and dated Day 0 baseline exist for indexing, search, conversions, and Core Web Vitals.
+
+### 7.4 Repository implementation completed on 17 August 2026
+
+- [x] Preserved explicit GA4 consent and added `click_phone` plus a channel-neutral `contact_intent` event.
+- [x] Added controlled CTA locations and canonical product/page parameters without analytics PII or WhatsApp message data.
+- [x] Preserved `click_whatsapp` history and successful-API-only `generate_lead` behavior.
+- [x] Kept paid performance monitoring out of the implementation; Search Console insufficient-data states are documented without substituting a paid service.
+- [x] Added product-only `2026-08-16` sitemap dates and prevented fabricated non-product dates.
+- [x] Added `npm run seo:report:production` for repeatable, non-mutating production verification.
+- [x] Added `plans/hebrew-seo-indexing-measurement-runbook.md` and `plans/hebrew-seo-baseline-2026-08-17.md`.
+
+Problem 4 remains **open** until the authenticated Search Console and GA4 acceptance items above are complete. Repository instrumentation is not evidence that Google has indexed a URL or that account-level configuration is active.
 
 ## 8. Problem 5: Limited authority, proof, and company trust content
 
@@ -407,7 +423,7 @@ These items may be useful, but they should not displace the high-priority work a
 
 - All product pages currently share the same Open Graph image. Product-specific images could improve social-share clarity but are unlikely to materially change rankings.
 - Self-referencing `hreflang="he-IL"` is valid but largely redundant while Hebrew is the only language version.
-- The sitemap intentionally omits artificial `lastmod` timestamps. This is preferable to publishing inaccurate dates. Accurate modification dates may be added later if the content system can maintain them.
+- The sitemap now publishes maintained `lastmod` dates for the five commercial pages only. Support, how-it-works, terms, and privacy remain undated so that the sitemap does not invent freshness.
 - Terms and privacy pages are indexable and included in the sitemap. This is not a material problem for a website of this size, though the sitemap could eventually focus more narrowly on search-relevant pages.
 - Structured data is technically sound, but it should not be treated as a substitute for visible content, internal links, or authority.
 - The meta-keywords list has no Google ranking value and should not consume optimization time.
@@ -416,7 +432,7 @@ These items may be useful, but they should not displace the high-priority work a
 
 ### Phase 1: Discovery and alignment
 
-- [ ] Search Console verification, sitemap submission, and URL inspection.
+- [ ] Search Console owner confirmation, sitemap submission, and URL inspection.
 - [x] Crawlable product navigation and footer links.
 - [x] One documented search intent per product page.
 - [x] H1, introduction, and supporting-copy alignment.
@@ -429,7 +445,8 @@ These items may be useful, but they should not displace the high-priority work a
 - [x] Clearer pricing inclusions and purchase expectations.
 - [ ] About/company page.
 - [ ] First customer case study.
-- [ ] Organic conversion tracking.
+- [x] Organic conversion tracking instrumentation.
+- [ ] GA4 custom dimensions, key events, retention, DebugView validation, and Search Console linkage.
 
 ### Phase 3: Data-led content and authority
 

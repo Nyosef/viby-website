@@ -860,6 +860,7 @@ export function MultiServiceLanding({
                 <a
                   className="v2-button v2-button-whatsapp"
                   href={whatsappUrl}
+                  data-analytics-location="hero"
                 >
                   <WhatsAppIcon />
                   <span>
@@ -1128,6 +1129,7 @@ export function MultiServiceLanding({
             <a
               className="v2-price-action"
               href={whatsappUrl}
+              data-analytics-location="price_strip"
               aria-label={`קבלת פרטים על ${service.label} החל מ־${
                 activeId === "punch-card" ? "69" : "49"
               } שקלים לחודש`}
@@ -1153,7 +1155,11 @@ export function MultiServiceLanding({
           <h2>{service.cta.finalTitle}</h2>
           <p>{service.cta.finalText}</p>
           <div className="v2-actions">
-            <a className="v2-button v2-button-whatsapp" href={whatsappUrl}>
+            <a
+              className="v2-button v2-button-whatsapp"
+              href={whatsappUrl}
+              data-analytics-location="final_cta"
+            >
               <WhatsAppIcon />
               <span>
                 {service.cta.buttonLabel ?? "דברו איתנו ב־WhatsApp"}
@@ -1162,6 +1168,7 @@ export function MultiServiceLanding({
             <a
               className="v2-button v2-button-ghost"
               href={`tel:+${siteConfig.whatsappNumber}`}
+              data-analytics-location="final_cta"
             >
               {siteConfig.whatsappDisplay}
             </a>

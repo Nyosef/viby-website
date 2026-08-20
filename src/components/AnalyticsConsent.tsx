@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useSyncExternalStore } from "react";
 import {
   ANALYTICS_CONSENT_KEY,
+  isAnalyticsCtaLocation,
   trackAnalyticsEvent,
   type AnalyticsConsent as ConsentValue,
 } from "@/lib/analytics";
@@ -61,14 +62,30 @@ export function AnalyticsConsent({ measurementId }: { measurementId?: string }) 
       if (!link) return;
 
       const url = new URL(link.href, window.location.origin);
-      const eventParameters = { page_path: window.location.pathname };
+      const pagePath = window.location.pathname;
+      const productId = productSeoByPath.get(pagePath)?.serviceId ?? "none";
 
-      if (url.hostname === "wa.me") {
-        trackAnalyticsEvent("click_whatsapp", eventParameters);
+      if (url.hostname === "wa.me" || url.protocol === "tel:") {
+        const ctaLocation = link.dataset.analyticsLocation;
+        if (!isAnalyticsCtaLocation(ctaLocation)) return;
+
+        const contactMethod = url.protocol === "tel:" ? "phone" : "whatsapp";
+        const eventParameters = {
+          contact_method: contactMethod,
+          product_id: productId,
+          cta_location: ctaLocation,
+          page_path: pagePath,
+        };
+
+        trackAnalyticsEvent(
+          contactMethod === "phone" ? "click_phone" : "click_whatsapp",
+          eventParameters,
+        );
+        trackAnalyticsEvent("contact_intent", eventParameters);
       } else if (url.hostname === "myviby.co.il" && url.pathname === "/login") {
-        trackAnalyticsEvent("click_business_login", eventParameters);
+        trackAnalyticsEvent("click_business_login", { page_path: pagePath });
       } else if (url.pathname.startsWith("/d/") && url.origin !== window.location.origin) {
-        trackAnalyticsEvent("click_demo", eventParameters);
+        trackAnalyticsEvent("click_demo", { page_path: pagePath });
       }
     }
 
