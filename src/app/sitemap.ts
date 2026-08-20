@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const productPages: MetadataRoute.Sitemap = productSeoEntries.map(
     (entry) => ({
       url: `${siteConfig.url}${entry.path === "/" ? "" : entry.path}`,
+      lastModified: entry.lastModified,
       changeFrequency: "monthly",
       priority: entry.path === "/" ? 1 : 0.9,
       alternates: {

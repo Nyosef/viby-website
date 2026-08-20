@@ -2,6 +2,27 @@
 
 All notable changes to the Viby website are documented here.
 
+## [Search baseline and organic conversion measurement] — 2026-08-17
+
+### Organic conversion instrumentation
+
+- Added consent-gated `click_phone` and `contact_intent` events while preserving the historical `click_whatsapp` event.
+- Added controlled CTA locations, canonical product IDs, contact method, and canonical page paths to contact events without sending phone numbers, message text, query strings, form contents, or external URLs.
+- Expanded successful `generate_lead` events with the punch-card product, lead-form location, and canonical page path while retaining API-success-only behavior.
+- Documented the required GA4 custom dimensions, key events, retention setting, validation procedure, and the distinction between consented GA4 sessions and Search Console clicks.
+
+### Sitemap freshness and performance baseline
+
+- Added accurate `2026-08-16` modification dates to the five commercial sitemap entries while leaving support, legal, and how-it-works routes undated.
+- Kept real-user performance reporting limited to Search Console Core Web Vitals; no paid performance-monitoring service is included in this release.
+
+### Audit and operations
+
+- Added a read-only production SEO audit command with validated HTTPS-origin handling and the existing page, link, redirect, sitemap, schema, robots, preview, API, and 404 checks.
+- Added regression checks for commercial sitemap dates, non-product date omission, future dates, and explicit analytics locations on contact links.
+- Added a Search Console/GA4/Vercel operating runbook and a dated Day 0 baseline with indexing, property health, search, conversion, and Core Web Vitals tables.
+- Kept Problem 4 open until authenticated Search Console, GA4 Admin, and Vercel acceptance work is completed.
+
 ## [Hebrew SEO buying-journey content] — 2026-08-16
 
 ### Product buying guides

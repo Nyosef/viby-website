@@ -94,6 +94,9 @@ export function PunchCardLeadSection() {
       setPhone("");
       trackAnalyticsEvent("generate_lead", {
         lead_type: "punch_card_payment_link",
+        product_id: "punch-card",
+        cta_location: "punch_card_lead_form",
+        page_path: "/",
       });
     } catch (error) {
       setStatus("error");
