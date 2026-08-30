@@ -173,21 +173,34 @@ const starterHighlights: Record<ServiceId, string[]> = {
 };
 
 const customerLogos: Array<{
-  name: string;
-  src?: string;
+  src: string;
   alt: string;
-  href?: string;
-  style: string;
 }> = [
-  { name: "Eat i", alt: "Eat i", style: "eat-i" },
-  { name: "OREN OR", alt: "OREN OR Hairdressing Spa", style: "oren-or" },
-  { name: "נרדית", alt: "נרדית", style: "nardit" },
-  { name: "Bbikini’s", alt: "Bbikini’s", style: "bbikinis" },
-  { name: "קפה נוגה", alt: "קפה נוגה", style: "noga" },
-  { name: "MAGIC WASH", alt: "Magic Wash", style: "magic-wash" },
-  { name: "אימפריה אדם", alt: "שטיפת רכב אימפריה אדם", style: "imperia" },
-  { name: "CAFETERIA", alt: "Cafeteria", style: "cafeteria" },
-  { name: "אנבלה", alt: "אנבלה — עגלה בחורש", style: "anabella" },
+  { src: "/customer-logos/aliza-deli.jpg", alt: "עליזה דלי" },
+  { src: "/customer-logos/alon-sasi.jpg", alt: "אלון סאסי" },
+  { src: "/customer-logos/arbel-bowling.jpg", alt: "ארבל באולינג" },
+  { src: "/customer-logos/bbikinis.jpg", alt: "Bbikinis" },
+  { src: "/customer-logos/burekas-baba.jpg", alt: "בורקס בבא" },
+  { src: "/customer-logos/cafeteria.jpg", alt: "Cafeteria" },
+  { src: "/customer-logos/cleaners-laundry.jpg", alt: "Cleaners Laundry" },
+  {
+    src: "/customer-logos/empire-adam-carwash.jpg",
+    alt: "שטיפת רכב אימפריה אדם",
+  },
+  { src: "/customer-logos/freddo.jpg", alt: "Freddo" },
+  { src: "/customer-logos/glidat-arye.jpg", alt: "גלידת אריה" },
+  { src: "/customer-logos/haofe-bair.jpg", alt: "האופה בעיר" },
+  { src: "/customer-logos/ingale.jpg", alt: "אינגלה" },
+  { src: "/customer-logos/kiosk-tastes.jpg", alt: "Kiosk Tastes" },
+  { src: "/customer-logos/le-drink.jpg", alt: "Le Drink" },
+  { src: "/customer-logos/lihi-cafe.jpg", alt: "קפה ליהי" },
+  { src: "/customer-logos/magic-wash.jpg", alt: "Magic Wash" },
+  { src: "/customer-logos/melody.jpg", alt: "Melody" },
+  { src: "/customer-logos/mokaya.jpg", alt: "Mokaya" },
+  { src: "/customer-logos/nahat-herzliya.jpg", alt: "נחת הרצליה" },
+  { src: "/customer-logos/noga-cafe.jpg", alt: "קפה נוגה" },
+  { src: "/customer-logos/noga-flowers.jpg", alt: "נוגה פרחים" },
+  { src: "/customer-logos/oren-or.jpg", alt: "Oren Or Hairdressing Spa" },
 ];
 
 function getWhatsappUrl(message: string) {
@@ -1439,28 +1452,21 @@ function TrustStrip() {
         <div className="v2-logo-viewport">
           <div className="v2-logo-track">
             {[...customerLogos, ...customerLogos].map((logo, index) => {
-              const content = logo.src ? (
-                <Image
-                  src={logo.src}
-                  alt={logo.alt}
-                  width={140}
-                  height={90}
-                  unoptimized
-                />
-              ) : (
-                <strong
-                  className={`v2-customer-wordmark ${logo.style}`}
-                  aria-label={logo.alt}
+              const isDuplicate = index >= customerLogos.length;
+
+              return (
+                <span
+                  key={`${logo.src}-${index}`}
+                  aria-hidden={isDuplicate || undefined}
                 >
-                  {logo.name}
-                </strong>
-              );
-              return logo.href ? (
-                <a href={logo.href} key={`${logo.alt}-${index}`}>
-                  {content}
-                </a>
-              ) : (
-                <span key={`${logo.alt}-${index}`}>{content}</span>
+                  <Image
+                    src={logo.src}
+                    alt={isDuplicate ? "" : logo.alt}
+                    width={400}
+                    height={400}
+                    sizes="(max-width: 700px) 90px, 116px"
+                  />
+                </span>
               );
             })}
           </div>
