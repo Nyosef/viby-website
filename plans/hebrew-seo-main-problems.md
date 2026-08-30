@@ -294,13 +294,15 @@ Pricing, setup, compatibility, and operational copy are owned by the product and
 **Severity:** High for measurement, unknown for actual indexing  
 **Effort to improve:** Low if Search Console access exists
 
+**Status:** Measurement setup completed on 30 August 2026; indexing and consent-granted event validation continue as scheduled operational follow-up
+
 ### 7.1 Evidence
 
-- Sampled public searches did not surface the domain for `site:` or selected branded/product searches.
-- The site has a valid public sitemap, but this audit cannot confirm that it has been submitted in Google Search Console.
-- The live page includes GA4, but analytics alone does not provide index coverage, impressions, average position, or Google query data.
-- No Search Console export was available for this report.
-- Field Core Web Vitals and Page Experience were not available. A PageSpeed API attempt was quota-limited, so no score is recorded here.
+- Earlier sampled public searches did not surface the domain for `site:` or selected branded/product searches; authenticated URL Inspection on 30 August 2026 supersedes that diagnostic sample.
+- The valid public sitemap is submitted in Search Console with status `Success`; it was submitted 10 August 2026, last read 24 August 2026, and reports nine discovered pages.
+- The production GA4 stream is now confirmed and linked to Search Console; Search Console remains authoritative for index coverage, impressions, clicks, CTR, position, and queries.
+- The first authenticated 28-day Search Console baseline records 6 clicks, 46 impressions, 13% CTR, and average position 10.8 for the available 9–27 August 2026 data.
+- Search Console reports insufficient mobile and desktop Core Web Vitals traffic rather than a performance failure.
 
 ### 7.2 Recommended direction
 
@@ -322,15 +324,19 @@ Repeated indexing requests should not be used as a substitute for internal links
 
 ### 7.3 Acceptance criteria for a future PRD
 
-- [ ] Search Console domain ownership and a backup Viby-controlled owner are confirmed.
-- [ ] The sitemap shows a successful Search Console fetch.
-- [ ] All five product URLs have a documented inspection result and successful live test.
-- [ ] Search Console is linked to the production GA4 stream.
-- [ ] GA4 custom dimensions and the separate `contact_intent` and `generate_lead` key events are confirmed in the property.
+- [x] At least one durable DNS-verified Viby Search Console owner is confirmed; verified through the domain-name provider and confirmed in Search Console on 30 August 2026.
+- [x] The sitemap shows a successful Search Console fetch; submitted 10 August 2026, last read 24 August 2026, with nine discovered pages and zero discovered videos.
+- [x] All five product URLs have documented inspection results; the homepage and `/viby-tap` were indexed, while `/smart-wheel`, `/digital-wallet`, `/viby-rate`, and `/viby-tap` received one indexing or recrawl request on 30 August 2026.
+- [x] Search Console is linked to production stream `Viby Website` (`G-YLFYE45LK7`), and both organic-search reports are published; completed 30 August 2026.
+- [x] GA4 custom dimensions, 14-month event retention, and the separate `contact_intent` and `generate_lead` key events are confirmed in the property without default monetary values; completed 30 August 2026.
 - [x] The briefly enabled Vercel Speed Insights service was disabled before collecting data and removed from the repository; Search Console remains the field-performance source.
 - [x] Organic contact and successful-lead instrumentation is implemented in the repository.
 - [x] Accurate commercial sitemap modification dates and a read-only production audit are implemented.
 - [x] A detailed operating runbook and dated Day 0 baseline exist for indexing, search, conversions, and Core Web Vitals.
+
+Recommended operational resilience, but not a blocker for measurement completion:
+
+- [ ] Confirm a second independently verified Viby-controlled Search Console owner without replacing the current DNS verification token.
 
 ### 7.4 Repository implementation completed on 17 August 2026
 
@@ -341,8 +347,9 @@ Repeated indexing requests should not be used as a substitute for internal links
 - [x] Added product-only `2026-08-16` sitemap dates and prevented fabricated non-product dates.
 - [x] Added `npm run seo:report:production` for repeatable, non-mutating production verification.
 - [x] Added `plans/hebrew-seo-indexing-measurement-runbook.md` and `plans/hebrew-seo-baseline-2026-08-17.md`.
+- [x] Confirmed the instrumented production deployment with a passing production SEO audit on 30 August 2026.
 
-Problem 4 remains **open** until the authenticated Search Console and GA4 acceptance items above are complete. Repository instrumentation is not evidence that Google has indexed a URL or that account-level configuration is active.
+Problem 4 is **resolved as a measurement-setup problem** on 30 August 2026. Search Console and GA4 configuration are active and the dated baseline contains authenticated evidence. Indexing rechecks and GA4 Realtime/DebugView processing validation remain scheduled operational follow-ups; setup completion does not guarantee that every URL will be indexed or that traffic will increase.
 
 ## 8. Problem 5: Limited authority, proof, and company trust content
 
@@ -432,7 +439,7 @@ These items may be useful, but they should not displace the high-priority work a
 
 ### Phase 1: Discovery and alignment
 
-- [ ] Search Console owner confirmation, sitemap submission, and URL inspection.
+- [x] Search Console owner confirmation, sitemap submission, and URL inspection.
 - [x] Crawlable product navigation and footer links.
 - [x] One documented search intent per product page.
 - [x] H1, introduction, and supporting-copy alignment.
@@ -446,7 +453,8 @@ These items may be useful, but they should not displace the high-priority work a
 - [ ] About/company page.
 - [ ] First customer case study.
 - [x] Organic conversion tracking instrumentation.
-- [ ] GA4 custom dimensions, key events, retention, DebugView validation, and Search Console linkage.
+- [x] GA4 custom dimensions, key events, retention, and Search Console linkage.
+- [ ] Consent-granted Realtime/DebugView validation after the new GA4 definitions have processed.
 
 ### Phase 3: Data-led content and authority
 
