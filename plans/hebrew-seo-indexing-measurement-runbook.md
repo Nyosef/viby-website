@@ -31,10 +31,11 @@ No process in this document guarantees crawling, indexing, rankings, traffic, or
 Before changing configuration, confirm:
 
 - The responsible Viby Google account is a verified owner of the domain property.
-- A second Viby-controlled account is a verified backup owner.
 - The DNS verification token remains present and is not controlled only by a former employee or agency.
 - The operator linking GA4 has Editor or Administrator access.
 - The chosen GA4 stream has the production URL and measurement ID above; never use a preview or Vercel-alias stream.
+
+A second independently verified Viby-controlled owner is recommended operational resilience, not a blocker for SEO measurement. When adding one, preserve the existing DNS token and add the second account's token alongside it.
 
 Record owners by role in the private company access register. Do not put personal email addresses or credentials in this repository.
 
@@ -79,6 +80,14 @@ Never send a name, phone number, form field, WhatsApp prefilled message, query s
 5. With consent granted, validate events and parameters in Realtime and DebugView. Repeat with consent denied and confirm that GA4 does not load or emit events.
 6. Recheck custom dimensions after 24–48 hours; this processing delay is normal.
 
+On 30 August 2026, the production property was configured as follows:
+
+- Property `customer-retention-100`, web stream `Viby Website`, stream ID `15136665247`, measurement ID `G-YLFYE45LK7`.
+- Event-scoped custom dimensions `product_id`, `contact_method`, `cta_location`, and `lead_type`.
+- `contact_intent` and `generate_lead` created with the **Create with code** path and marked as key events, using once-per-event counting and no default monetary value.
+- Event-data retention set to 14 months.
+- Consent-denied production validation confirmed that the Google tag does not load. Realtime and DebugView validation with consent granted remains part of the 24–48-hour processing recheck.
+
 ## 4. Search Console setup
 
 ### Sitemap
@@ -111,9 +120,13 @@ For each URL:
 
 At setup and monthly thereafter, record Page Indexing filtered to the sitemap, Manual Actions, Security Issues, HTTPS, mobile and desktop Core Web Vitals, enhancements, and unparseable structured data. The target is no manual action, no security issue, healthy HTTPS, and all five commercial canonical URLs indexed without `www`, preview, query-string, or alternate-route variants.
 
+The 30 August 2026 setup check found 4 indexed and 5 `Discovered - currently not indexed` sitemap URLs in the Page Indexing report last updated 21 August, no manual actions, no security issues, 3 HTTPS and 0 non-HTTPS URLs, no HTTPS issues in the prior 90 days, and insufficient mobile and desktop Core Web Vitals data.
+
 ### GA4 linkage
 
 Create one link from `sc-domain:joinviby.co.il` to the production GA4 web stream `G-YLFYE45LK7`. Publish **Google Organic Search Queries** and **Google Organic Search Traffic** in the GA4 Reports library. Record the linkage date and do not create a second link to a preview stream.
+
+The link was created on 30 August 2026 for the `Viby Website` stream. GA4 automatically published the Search Console collection with **Queries** and **Google organic search traffic**, and both reports returned data immediately.
 
 ## 5. Indexing troubleshooting matrix
 
@@ -166,10 +179,11 @@ The five commercial sitemap `lastmod` dates are maintained in the centralized pr
 
 ## 8. Reporting process
 
-- Day 0: configuration and indexing snapshot.
-- Day 7: inspection-status recheck only.
-- Day 14: preliminary query and page review.
-- Day 28: first complete post-change comparison.
+- D0: authenticated configuration, live inspections, indexing requests, and baseline snapshot.
+- D+2: sitemap/indexing processing, GA4 custom-definition availability, consent-granted Realtime/DebugView validation, and linked-report availability.
+- D+7: inspection-status recheck only.
+- D+14: preliminary query and landing-page review.
+- D+28: first decision-quality query-to-page comparison.
 - Monthly: latest complete 28 days versus previous 28 days.
 - Quarterly: owners, GA4 event definitions, sitemap health, query-to-page mapping, and product modification dates.
 
@@ -178,6 +192,26 @@ Monthly reporting must include indexing, sitemap/property health, search perform
 Use Search Console for clicks, impressions, CTR, queries, and position; use GA4 for consented organic sessions and on-site actions. Compare products at landing-page level. Prioritize clicks and impressions over daily position movement. Do not treat anonymized or absent queries as zero demand, and do not retarget a page using less than 14 days of post-recrawl data unless there is a clear technical indexing defect.
 
 API automation and Looker Studio are deferred until monthly manual work becomes burdensome.
+
+### D+14 preliminary review
+
+Export Search Console queries and landing pages for the five commercial URLs. Record clicks, impressions, CTR, average position, country, and device. Group Hebrew wording, English terms, transliterations, singular/plural forms, and spelling variants by meaning. Separate business-owner purchase intent from consumer searches and informational research.
+
+Treat D+14 evidence as directional. Do not change a page's target unless there is a clear technical or search-intent mismatch.
+
+### D+28 opportunity review
+
+For each meaningful query cluster:
+
+1. Record its impressions, clicks, CTR, average position, country, and device evidence.
+2. Assign exactly one preferred canonical Viby landing page.
+3. Reject irrelevant or consumer-only intent.
+4. Check whether another Viby page is competing for the same commercial intent.
+5. Evaluate the title/snippet proposition and whether the page answers the searcher's need.
+6. Classify the response as improving an existing page, adding a useful section or FAQ, creating a genuinely distinct informational page, or making no change.
+7. Prioritize commercially relevant clusters with meaningful impressions and positions roughly 8–30, plus pages with impressions and unusually weak CTR.
+
+The first data-led backlog must contain: query cluster, grouped variants, intent, preferred landing page, evidence, current mismatch, recommended change, conversion relevance, priority, and earliest review date. Every subsequent SEO PR must state the observed query or customer need, preferred landing page, metric expected to change, earliest evaluation date, and safeguard against internal keyword competition.
 
 ## 9. Official references
 

@@ -4448,7 +4448,7 @@ details p {
   display: flex;
   width: max-content;
   gap: 1rem;
-  animation: v2-logo-scroll 28s linear infinite;
+  animation: v2-logo-scroll 68s linear infinite;
 }
 
 .v2-logo-track > * {
@@ -4462,82 +4462,10 @@ details p {
   background: white;
 }
 
-.v2-customer-wordmark {
-  display: grid;
-  place-items: center;
+.v2-logo-track img {
   width: 100%;
   height: 100%;
-  color: #161316;
-  font-size: 1.18rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: 1.05;
-  text-align: center;
-}
-
-.v2-customer-wordmark.eat-i {
-  font-family: Georgia, serif;
-  font-size: 1.65rem;
-  font-style: italic;
-}
-
-.v2-customer-wordmark.oren-or {
-  font-family: Georgia, serif;
-  font-size: 1.05rem;
-  letter-spacing: -0.04em;
-}
-
-.v2-customer-wordmark.nardit {
-  font-size: 1.65rem;
-  letter-spacing: 0.08em;
-}
-
-.v2-customer-wordmark.bbikinis {
-  font-family: "Brush Script MT", cursive;
-  font-size: 1.7rem;
-}
-
-.v2-customer-wordmark.noga {
   border-radius: 12px;
-  background: #174b52;
-  color: #fff9f4;
-  font-size: 1.55rem;
-}
-
-.v2-customer-wordmark.magic-wash {
-  border-radius: 12px;
-  background: #171717;
-  color: #f1d92f;
-  font-size: 1.05rem;
-  letter-spacing: 0.03em;
-}
-
-.v2-customer-wordmark.imperia {
-  border-radius: 12px;
-  background: #060b19;
-  color: #f5f7ff;
-  font-size: 1.15rem;
-}
-
-.v2-customer-wordmark.cafeteria {
-  border-radius: 12px;
-  background: #080906;
-  color: white;
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 0.09em;
-}
-
-.v2-customer-wordmark.anabella {
-  border-radius: 999px;
-  background: #5a3b29;
-  color: #d8bc86;
-  font-size: 1.5rem;
-}
-
-.v2-logo-track img {
-  max-width: 100%;
-  max-height: 100%;
   object-fit: contain;
 }
 
