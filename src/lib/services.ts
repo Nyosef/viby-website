@@ -262,7 +262,7 @@ export const services: Record<ServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: "החל מ־69 ₪ לחודש לכלי. התאמה לכמה סניפים מתומחרת בנפרד.",
+          value: "החל מ־79 ₪ לחודש לכלי. התאמה לכמה סניפים מתומחרת בנפרד.",
         },
         {
           label: "זמן הקמה",
@@ -319,7 +319,7 @@ export const services: Record<ServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה הכרטיסייה וכמה זמן לוקח להתחיל?",
-          answer: `המחיר מתחיל ב־69 ₪ לחודש לכלי. ${guidedSetupPromise} התאמה לכמה סניפים נסגרת בנפרד לפני ההפעלה.`,
+          answer: `המחיר מתחיל ב־79 ₪ לחודש לכלי. ${guidedSetupPromise} התאמה לכמה סניפים נסגרת בנפרד לפני ההפעלה.`,
         },
       ],
     },

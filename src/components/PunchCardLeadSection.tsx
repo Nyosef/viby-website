@@ -143,7 +143,7 @@ export function PunchCardLeadSection() {
           <div className="v2-punch-lead-offer" aria-label="מחיר המנוי">
             <span>מסלול הכרטיסייה המלא של Viby</span>
             <strong>
-              <b>69</b>
+              <b>79</b>
               <small>₪ לחודש</small>
             </strong>
             <ul>
