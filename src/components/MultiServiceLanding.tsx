@@ -1125,7 +1125,7 @@ export function MultiServiceLanding({
 
             <div className="v2-price-amount">
               <span>החל מ־</span>
-              <strong>{activeId === "punch-card" ? "69" : "49"}</strong>
+              <strong>{activeId === "punch-card" ? "79" : "49"}</strong>
               <span>₪ לחודש</span>
               <small>לכל כלי בנפרד</small>
             </div>
@@ -1144,7 +1144,7 @@ export function MultiServiceLanding({
               href={whatsappUrl}
               data-analytics-location="price_strip"
               aria-label={`קבלת פרטים על ${service.label} החל מ־${
-                activeId === "punch-card" ? "69" : "49"
+                activeId === "punch-card" ? "79" : "49"
               } שקלים לחודש`}
             >
               <WhatsAppIcon />

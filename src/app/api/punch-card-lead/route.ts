@@ -125,13 +125,13 @@ async function sendLeadEmail(name: string, phone: string, submittedAt: string) {
   const safeName = escapeHtml(name);
   const safePhone = escapeHtml(phone);
   const subject = `💳 בקשה לקישור תשלום — ${name}`;
-  const text = `בקשה חדשה לקישור תשלום\n\nשם: ${name}\nטלפון: +${phone}\nמסלול: כרטיסייה דיגיטלית — 69 ₪ לחודש\nנשלח: ${submittedAt}`;
+  const text = `בקשה חדשה לקישור תשלום\n\nשם: ${name}\nטלפון: +${phone}\nמסלול: כרטיסייה דיגיטלית — 79 ₪ לחודש\nנשלח: ${submittedAt}`;
   const html = `
     <div dir="rtl" style="font-family:Arial,sans-serif;line-height:1.7">
       <h2>💳 בקשה חדשה לקישור תשלום</h2>
       <p><strong>שם:</strong> ${safeName}</p>
       <p><strong>טלפון:</strong> <a href="tel:+${safePhone}">+${safePhone}</a></p>
-      <p><strong>מסלול:</strong> כרטיסייה דיגיטלית — 69 ₪ לחודש</p>
+      <p><strong>מסלול:</strong> כרטיסייה דיגיטלית — 79 ₪ לחודש</p>
       <p><strong>נשלח:</strong> ${escapeHtml(submittedAt)}</p>
     </div>
   `;
@@ -193,7 +193,7 @@ async function sendTelegramAlert(
     "",
     `שם: ${name}`,
     `טלפון: +${phone}`,
-    "מסלול: 69 ₪ לחודש",
+    "מסלול: 79 ₪ לחודש",
     `נשלח: ${submittedAt}`,
   ].join("\n");
   const results = await Promise.allSettled(
@@ -231,7 +231,7 @@ async function sendGreenApiAlerts(
     "",
     `שם: ${name}`,
     `טלפון: +${phone}`,
-    "מסלול: 69 ₪ לחודש",
+    "מסלול: 79 ₪ לחודש",
     `נשלח: ${submittedAt}`,
   ].join("\n");
   const endpoint = `${apiUrl}/waInstance${instanceId}/sendMessage/${apiToken}`;

@@ -35,7 +35,7 @@ const productExpectations = [
     ],
     buyingGuide: {
       definitionHeading: "כרטיסייה דיגיטלית לעסקים עם ביקורים חוזרים",
-      price: "החל מ־69 ₪ לחודש",
+      price: "החל מ־79 ₪ לחודש",
       operationalTerms: ["הלקוח מצטרף ושומר", "הצוות מנקב ומממש", "בעל העסק מנהל"],
       compatibilityTerms: ["Apple Wallet", "Google Wallet", "בלי להוריד אפליקציית Viby"],
       dataTerm: "נשמרים שם ומספר טלפון",
