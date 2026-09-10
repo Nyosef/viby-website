@@ -65,6 +65,17 @@ export const productSeoByService = {
     schemaId: "digital-wallet",
     lastModified: "2026-08-16",
   },
+  "viby-up": {
+    serviceId: "viby-up",
+    path: "/viby-up",
+    title: "Viby UP — קשרי לקוחות ב־WhatsApp בעזרת AI",
+    internalLinkLabel: "Viby UP — קשרי לקוחות בעזרת AI",
+    description: "וייבי אפ ממשיכה את הקשר אחרי הביקור: שיחה אישית ב־WhatsApp, הבנת חוויית הלקוח באמצעות AI ועדכון לבעל העסק כשצריך תשומת לב אישית.",
+    primaryIntent: "קשרי לקוחות ב־WhatsApp",
+    supportingIntents: ["וייבי אפ", "Viby UP", "מעקב אחרי חוויית לקוח", "AI לעסקים"],
+    schemaId: "viby-up",
+    lastModified: "2026-09-10",
+  },
   "viby-rate": {
     serviceId: "viby-rate",
     path: "/viby-rate",

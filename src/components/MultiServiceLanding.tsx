@@ -7,6 +7,8 @@ import {
   serviceGroups,
   serviceIds,
   services,
+  serviceCatalog,
+  type LegacyServiceId,
   type DetailItem,
   type ServiceContent,
   type ServiceId,
@@ -19,9 +21,10 @@ import {
 import { siteConfig } from "@/lib/site";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PunchCardLeadSection } from "@/components/PunchCardLeadSection";
+import { UpIcon } from "@/components/UpIcon";
 
 type MultiServiceLandingProps = {
-  initialService: ServiceId;
+  initialService: LegacyServiceId;
 };
 
 const companyLine =
@@ -70,6 +73,7 @@ const rotatingRewards = [
 ] as const;
 
 const serviceHeaderIcons: Record<ServiceId, string> = {
+  "viby-up": "✦↗",
   "punch-card": "🎟️",
   "smart-wheel": "🎡",
   wallet: "💳",
@@ -78,6 +82,7 @@ const serviceHeaderIcons: Record<ServiceId, string> = {
 };
 
 const serviceHeaderDescriptions: Record<ServiceId, string> = {
+  "viby-up": "שיחות אישיות. קשר שממשיך.",
   "punch-card": "כרטיסיית נאמנות דיגיטלית",
   "smart-wheel": "משחק שמחזיר לקוחות",
   wallet: "העסק בארנק של הלקוח",
@@ -86,7 +91,7 @@ const serviceHeaderDescriptions: Record<ServiceId, string> = {
 };
 
 const walletPromoContent: Record<
-  ServiceId,
+  LegacyServiceId,
   {
     eyebrow: string;
     mobileEyebrow: string;
@@ -144,7 +149,7 @@ const walletPromoContent: Record<
   },
 };
 
-const starterHighlights: Record<ServiceId, string[]> = {
+const starterHighlights: Record<LegacyServiceId, string[]> = {
   "punch-card": [
     "כרטיסייה בעיצוב העסק",
     "נשמרת ב־Apple או Google Wallet",
@@ -242,6 +247,7 @@ function NfcHeroNote() {
 }
 
 function ServiceVisualIcon({ id }: { id: ServiceId }) {
+  if (id === "viby-up") return <UpIcon />;
   if (id === "wallet") {
     return <span className="v2-wallet-glyph" aria-hidden="true" />;
   }
@@ -579,7 +585,7 @@ export function MultiServiceLanding({
   initialService,
 }: MultiServiceLandingProps) {
   const router = useRouter();
-  const [activeId, setActiveId] = useState<ServiceId>(initialService);
+  const [activeId, setActiveId] = useState<LegacyServiceId>(initialService);
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
   const [isHeaderSelectorOpen, setIsHeaderSelectorOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("");
@@ -663,6 +669,12 @@ export function MultiServiceLanding({
   }
 
   function chooseService(nextId: ServiceId) {
+    if (nextId === "viby-up") {
+      setIsSelectorOpen(false);
+      setIsHeaderSelectorOpen(false);
+      router.push(getProductPath(nextId));
+      return;
+    }
     if (nextId === activeId) {
       setIsSelectorOpen(false);
       setIsHeaderSelectorOpen(false);
@@ -793,6 +805,7 @@ export function MultiServiceLanding({
                   ref={headerTriggerRef}
                   aria-haspopup="listbox"
                   aria-expanded={isHeaderSelectorOpen}
+                  aria-label={`החלפת שירות — מוצג עכשיו: ${service.shortLabel}`}
                   onClick={() =>
                     setIsHeaderSelectorOpen((current) => !current)
                   }
@@ -806,10 +819,11 @@ export function MultiServiceLanding({
                     </i>
                     <span>
                       <strong>{service.shortLabel}</strong>
-                      <small>לחצו כדי להחליף שירות</small>
+                      <small>גלו עוד פתרונות לעסק שלכם</small>
                     </span>
-                    <b aria-hidden="true">
-                      {isHeaderSelectorOpen ? "⌃" : "⌄"}
+                    <b className="v2-switch-action" aria-hidden="true">
+                      <span>{isHeaderSelectorOpen ? "סגירת התפריט" : "החלפת שירות"}</span>
+                      <svg viewBox="0 0 20 20" fill="none"><path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </b>
                   </span>
                 </button>
@@ -821,13 +835,13 @@ export function MultiServiceLanding({
                     aria-label="בחירת השירות המוצג"
                   >
                     {serviceGroups.map((group) => (
-                      <div className="v2-header-service-group" key={group.id}>
+                      <div className="v2-header-service-group" data-group={group.id} key={group.id}>
                         <p>
                           <span aria-hidden="true">{group.emoji}</span>
                           {group.label}
                         </p>
                         {serviceIds
-                          .filter((id) => services[id].group === group.id)
+                          .filter((id) => serviceCatalog[id].group === group.id)
                           .map((id) => (
                             <button
                               type="button"
@@ -841,7 +855,7 @@ export function MultiServiceLanding({
                                 <ServiceVisualIcon id={id} />
                               </i>
                               <span>
-                                <strong>{services[id].shortLabel}</strong>
+                                <strong>{serviceCatalog[id].shortLabel}{id === "viby-up" ? <span className="up-menu-badge">AI</span> : null}</strong>
                                 <small>{serviceHeaderDescriptions[id]}</small>
                               </span>
                               <b aria-hidden="true">
@@ -932,13 +946,13 @@ export function MultiServiceLanding({
                 aria-label="בחירת שירות Viby"
               >
                 {serviceGroups.map((group) => (
-                  <div className="v2-selector-group" key={group.id}>
+                  <div className="v2-selector-group" data-group={group.id} key={group.id}>
                     <p>
                       <span aria-hidden="true">{group.emoji}</span>
                       {group.label}
                     </p>
                     {serviceIds
-                      .filter((id) => services[id].group === group.id)
+                      .filter((id) => serviceCatalog[id].group === group.id)
                       .map((id) => (
                         <button
                           type="button"
@@ -957,7 +971,7 @@ export function MultiServiceLanding({
                             <ServiceVisualIcon id={id} />
                           </i>
                           <span className="v2-selector-option-copy">
-                            <strong>{services[id].label}</strong>
+                            <strong>{serviceCatalog[id].label}{id === "viby-up" ? <span className="up-menu-badge">AI</span> : null}</strong>
                             <small>{serviceHeaderDescriptions[id]}</small>
                           </span>
                           <b aria-hidden="true">

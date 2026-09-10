@@ -6,7 +6,11 @@
 
 **Status:** Living SEO problem and delivery tracker
 
-**Last updated:** 16 August 2026
+**Last updated:** 6 September 2026
+
+## Current delivery roadmap
+
+Use the [90-day SEO and discoverability roadmap](./seo-discoverability-90-day-plan.md) for the next implementation tasks. Start with **Roadmap Problem 1: Mandatory Hebrew branded discovery**, then tackle each problem separately. The roadmap's eight problem numbers are independent of this historical audit's six problem numbers. Measurement setup was completed on 30 August 2026; indexing and event validation remain operational follow-ups. Earlier unchecked setup items and delivery recommendations below are historical and should be read alongside the later status updates and the new roadmap.
 
 Checklist convention:
 
@@ -394,10 +398,33 @@ For a new commercial domain, good metadata is not enough to outrank established 
 
 ## 9. Problem 6: No documented Hebrew keyword and iteration process
 
-**Severity:** Medium  
+**Severity:** High for branded discovery; medium for the ongoing non-branded process
+
 **Effort to improve:** Low to establish; ongoing thereafter
 
-### 9.1 Current starting clusters
+### 9.1 Mandatory Hebrew branded-discovery cluster
+
+The first keyword task is to make the basic Hebrew ways that customers refer to Viby unambiguous and findable. These phrases are mandatory brand-navigation targets even before Search Console has enough volume to estimate broader non-branded demand.
+
+| Exact phrase | Preferred canonical page | Purpose |
+|---|---|---|
+| `וייבי` | `/` | Main Hebrew brand/entity query |
+| `וייבי מועדון הטבות` | Future company/category hub, with `/` as the interim destination | Broad understanding of Viby as a customer-benefits and retention platform |
+| `וייבי כרטיסיות` | `/` | Branded search for Viby digital punch cards |
+| `וייבי ארנקים` | `/digital-wallet` | Branded search for Viby digital wallets and gift cards |
+| `וייבי גלגל` | `/smart-wheel` | Branded search for Viby's digital prize wheel |
+
+Implementation requirements:
+
+- [ ] Include each assigned phrase naturally in the preferred page's visible, server-rendered Hebrew text; do not rely on `meta keywords`, JSON-LD, image alt text, or JavaScript-only UI.
+- [ ] Keep the existing non-branded primary intent of each product page. The branded phrase is a supporting intent, not a replacement title or a reason to repeat keywords unnaturally.
+- [ ] Give each branded product phrase exactly one preferred canonical landing page and avoid targeting it from competing Viby pages.
+- [ ] Ensure `וייבי` and `Viby` are connected in visible company copy so search engines and answer systems can understand that both names refer to the same company.
+- [ ] Add automated production checks for the exact phrase-to-page mapping and confirm that every destination remains indexable, canonical, and internally linked.
+- [ ] Monitor these exact phrases and close spelling variants in Search Console by query and landing page. Record impressions, clicks, CTR, position, and the selected landing page without treating absent or anonymized query rows as zero demand.
+- [ ] Test the five phrases manually in Google and representative AI search products after recrawling, recording whether Viby appears and which URL is cited rather than assuming that on-page inclusion guarantees visibility.
+
+### 9.2 Current non-branded starting clusters
 
 The following are hypotheses for investigation, not claims about search volume:
 
@@ -409,7 +436,7 @@ The following are hypotheses for investigation, not claims about search volume:
 | `/viby-rate` | `כרטיס NFC לביקורות גוגל` | `שלט NFC לביקורות`, `כרטיס ביקורות גוגל`, `איך להגדיל ביקורות בגוגל` |
 | `/viby-tap` | To be validated | `כרטיס NFC לעסק`, `כרטיס ביקור דיגיטלי`, `עמוד קישורים לעסק`, `כרטיס ביקור NFC` |
 
-### 9.2 Recommended decision process
+### 9.3 Recommended decision process
 
 After 14-28 days of Search Console data:
 
@@ -444,6 +471,7 @@ These items may be useful, but they should not displace the high-priority work a
 - [x] One documented search intent per product page.
 - [x] H1, introduction, and supporting-copy alignment.
 - [x] Extend automated SEO checks to cover crawlable product links.
+- [ ] Add and verify the mandatory Hebrew branded phrases: `וייבי`, `וייבי מועדון הטבות`, `וייבי כרטיסיות`, `וייבי ארנקים`, and `וייבי גלגל`.
 
 ### Phase 2: Page usefulness and conversion evidence
 
@@ -471,6 +499,7 @@ The problems are best converted into several focused PRDs rather than one broad 
 - [x] **PRD: Crawlable service navigation and internal-link architecture**
 - [x] **PRD: Hebrew query targeting and on-page copy alignment**
 - [x] **PRD: Product FAQ and buying-information expansion**
+- [ ] **PRD: Mandatory Hebrew branded-discovery coverage**
 - [ ] **PRD: Search Console baseline and organic conversion measurement**
 - [ ] **PRD: About page, customer proof, and first case study**
 

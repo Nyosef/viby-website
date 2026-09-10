@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MultiServiceLanding } from "@/components/MultiServiceLanding";
 import { ProductStructuredData } from "@/components/ProductStructuredData";
+import { VibyUpLanding } from "@/components/VibyUpLanding";
 import {
   createPageMetadata,
   productSeoByPath,
@@ -39,7 +40,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <>
       <ProductStructuredData serviceId={seo.serviceId} />
-      <MultiServiceLanding key={seo.serviceId} initialService={seo.serviceId} />
+      {seo.serviceId === "viby-up" ? <VibyUpLanding /> : <MultiServiceLanding key={seo.serviceId} initialService={seo.serviceId} />}
     </>
   );
 }

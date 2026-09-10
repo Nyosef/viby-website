@@ -1,11 +1,12 @@
-export type ServiceId =
+export type LegacyServiceId =
   | "punch-card"
   | "smart-wheel"
   | "wallet"
   | "viby-rate"
   | "viby-tap";
 
-export type ServiceGroup = "retention" | "nfc";
+export type ServiceId = LegacyServiceId | "viby-up";
+export type ServiceGroup = "retention" | "ai" | "nfc";
 
 export type JourneyStep = {
   icon?: string;
@@ -70,7 +71,7 @@ export type MediaContent = {
   eyebrow: string;
   title: string;
   text: string;
-  kind: ServiceId;
+  kind: LegacyServiceId;
   videoUrl?: string;
 };
 
@@ -83,12 +84,12 @@ export type CTAContent = {
 };
 
 export type ServiceLayoutOptions = {
-  heroVisual: ServiceId;
+  heroVisual: LegacyServiceId;
   detailTone: "blush" | "white" | "dark";
 };
 
 export type ServiceContent = {
-  id: ServiceId;
+  id: LegacyServiceId;
   group: ServiceGroup;
   label: string;
   shortLabel: string;
@@ -132,10 +133,11 @@ export const serviceGroups: Array<{
   emoji: string;
 }> = [
   { id: "retention", label: "שימור לקוחות", emoji: "💗" },
+  { id: "ai", label: "AI וקשרי לקוחות", emoji: "✦" },
   { id: "nfc", label: "פתרונות NFC לעסק", emoji: "📲" },
 ];
 
-export const services: Record<ServiceId, ServiceContent> = {
+export const services: Record<LegacyServiceId, ServiceContent> = {
   "punch-card": {
     id: "punch-card",
     group: "retention",
@@ -1113,7 +1115,12 @@ export const services: Record<ServiceId, ServiceContent> = {
   },
 };
 
-export const serviceIds = Object.keys(services) as ServiceId[];
+export const serviceCatalog = {
+  ...services,
+  "viby-up": { id: "viby-up", group: "ai", label: "Viby UP", shortLabel: "Viby UP" },
+} as const;
+
+export const serviceIds: ServiceId[] = ["punch-card", "smart-wheel", "wallet", "viby-up", "viby-rate", "viby-tap"];
 
 export function isServiceId(value: string | null | undefined): value is ServiceId {
   return Boolean(value && serviceIds.includes(value as ServiceId));
