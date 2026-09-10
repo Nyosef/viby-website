@@ -1,9 +1,9 @@
-import { services, type ServiceId } from "@/lib/services";
+import { serviceCatalog, serviceIds, type ServiceId } from "@/lib/services";
 import { productSeoByService } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
 export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
-  const service = services[serviceId];
+  const service = serviceCatalog[serviceId];
   const seo = productSeoByService[serviceId];
   const pageUrl = `${siteConfig.url}${seo.path === "/" ? "" : seo.path}`;
   const organizationId = `${siteConfig.url}/#organization`;
@@ -75,8 +75,8 @@ export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
     graph.push({
       "@type": "ItemList",
       name: "פתרונות Viby לעסקים",
-      itemListElement: Object.values(services).map((item, index) => {
-        const itemSeo = productSeoByService[item.id];
+      itemListElement: serviceIds.map((id, index) => {
+        const itemSeo = productSeoByService[id];
         return {
           "@type": "ListItem",
           position: index + 1,

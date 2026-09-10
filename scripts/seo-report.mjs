@@ -14,6 +14,7 @@ const routes = [
   "/digital-wallet",
   "/viby-rate",
   "/viby-tap",
+  "/viby-up",
   "/how-it-works",
   "/support",
   "/terms",
@@ -176,6 +177,7 @@ const productExpectations = [
   },
 ];
 const productLinks = productExpectations.map(({ path, label }) => ({ path, label }));
+productLinks.push({ path: "/viby-up", label: "Viby UP — קשרי לקוחות בעזרת AI" });
 const productRoutes = new Set(productLinks.map((product) => product.path));
 const productExpectationByPath = new Map(
   productExpectations.map((product) => [product.path, product]),
@@ -313,7 +315,27 @@ async function checkPage(pathname, titles) {
   assert(!html.includes("www.joinviby.co.il"), `${pathname}: contains forbidden www hostname`);
   assert(!html.includes("viby-website.vercel.app"), `${pathname}: contains project alias`);
 
-  if (productRoutes.has(pathname)) {
+  if (pathname === "/viby-up") {
+    const visible = textContent(html);
+    assert(title === "Viby UP — קשרי לקוחות ב־WhatsApp בעזרת AI | Viby", "UP: wrong title");
+    assert(textContent(headings[0]?.[1] ?? "") === "Viby UP — הקשר האישי עם הלקוחות, עכשיו חכם יותר.", "UP: wrong H1");
+    for (const term of ["וייבי אפ", "קשרי לקוחות ב־WhatsApp", "מעקב אחרי חוויית לקוח", "AI לעסקים", "המחשה של שיחה אוטומטית", "היה מעולה", "צריך תשומת לב", "חוויה חיובית + בעיית זמן המתנה", "לא רק לדעת מי חזר.", "להבין איך היה לו.", "הצעת מחיר"]) {
+      assert(visible.includes(term), `UP: missing visible content ${term}`);
+    }
+    assert(visible.includes("לקריאת השיחות המלאות"), "UP: missing server-rendered transcript");
+    assert(!visible.includes(guidedSetupPromise), "UP: inherited unsupported setup promise");
+    assert(!/החל מ־(?:49|79)/.test(visible), "UP: inherited product price");
+    const nodes = parsedJsonLd.flatMap((doc) => doc["@graph"] ?? [doc]);
+    const service = nodes.find((node) => node["@type"] === "Service");
+    assert(service?.url === expectedCanonical(pathname), "UP: wrong Service URL");
+    assert(service?.alternateName === "Viby UP", "UP: wrong Service name");
+    assert(service?.provider?.["@id"] === `${canonicalOrigin}/#organization`, "UP: wrong Organization reference");
+    for (const { path, label } of productLinks) {
+      assert(html.includes(`href="${path}"`) && visible.includes(label), `UP: missing product link ${path}`);
+    }
+  }
+
+  if (productRoutes.has(pathname) && pathname !== "/viby-up") {
     const expectation = productExpectationByPath.get(pathname);
     const description = descriptions[0]?.[1];
     const h1 = headings[0] ? textContent(headings[0][1]) : undefined;
@@ -501,7 +523,7 @@ async function run() {
       const lastModified = entry?.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
       if (productRoutes.has(route)) {
         assert(
-          lastModified === commercialLastModified,
+          lastModified === (route === "/viby-up" ? "2026-09-10" : commercialLastModified),
           `sitemap: ${route} lastmod is ${lastModified ?? "missing"}`,
         );
       } else {
