@@ -9,10 +9,18 @@ import { UpIcon } from "./UpIcon";
 
 const contactUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("היי, אשמח להכיר את Viby UP, לקבל הדגמה והצעת מחיר לעסק שלי.")}`;
 
+function ActionArrow() {
+  return (
+    <svg className="up-action-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M19 12H5m6-6-6 6 6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function Contact({ location }: { location: "hero" | "final_cta" }) {
   return (
     <a className="up-cta" href={contactUrl} data-analytics-location={location}>
-      בואו נכיר לכם את Viby UP <span aria-hidden="true">↗</span>
+      בואו נכיר לכם את Viby UP <ActionArrow />
     </a>
   );
 }
@@ -33,71 +41,53 @@ export function VibyUpLanding() {
           </Link>
           <div>
             <UpProductSelector compact />
-            <a className="up-login" href={siteConfig.businessEntranceUrl}>
-              כניסת עסקים ↗
-            </a>
           </div>
         </header>
         <div className="up-hero-grid up-shell">
           <div className="up-hero-copy">
-            <span className="up-eyebrow">
-              <UpIcon /> AI וקשרי לקוחות <span>הכירו את וייבי אפ</span>
-            </span>
             <h1>
-              <span dir="ltr">Viby UP</span> — הקשר האישי עם הלקוחות,{" "}
-              <em>עכשיו חכם יותר.</em>
+              <span dir="ltr">Viby UP</span> — העסק שלכם,{" "}
+              <em>בדרך למעלה.</em>
             </h1>
+            <p>להפוך כל ביקור להזדמנות לצמוח.</p>
             <p>
-              הלקוח ביקר בעסק? Viby UP יודעת לפנות אליו בזמן הנכון ב־WhatsApp,
-              להבין איך הייתה החוויה שלו ולהמשיך את השיחה בהתאם — אוטומטית.
+              <span dir="ltr">Viby UP</span> פונה ללקוחות בזמן הנכון ב־<span className="up-brand-whatsapp" dir="ltr">WhatsApp</span>, אוספת פידבק, מגדילה
+              ביקורות חיוביות ומחזקת את הדירוג והנוכחות של העסק ב־<span className="up-brand-google" dir="ltr">Google</span> וב־<span className="up-brand-ai" dir="rtl">חיפושי <bdi dir="ltr">AI</bdi></span>.
             </p>
-            <p className="up-hero-secondary">
-              וכשיש משהו שדורש יחס אישי, בעל העסק מקבל עדכון ויכול להיכנס
-              לתמונה.
-            </p>
-            <Contact location="hero" />
-            <small className="up-hero-note">
-              אתם בוחרים למי ומתי: בעקבות ביקור או רכישה מתועדים, או בבחירה
-              יזומה של לקוחות.
-            </small>
+            <p>יותר ביקורות. יותר אמון. יותר נראות. יותר צמיחה.</p>
           </div>
-          <UpConversation />
-        </div>
-        <div className="up-journey up-shell" aria-label="מהביקור לקשר אישי">
-          {[
-            "ביקור בעסק",
-            "WhatsApp",
-            "הלקוח עונה",
-            "AI מבין",
-            "המשך מותאם",
-            "העסק נכנס כשצריך",
-          ].map((step, index) => (
-            <span key={step}>
-              <b>{String(index + 1).padStart(2, "0")}</b>
-              {step}
-              {index < 5 ? <i aria-hidden="true">←</i> : null}
-            </span>
-          ))}
+          <div className="up-demo-with-cta">
+            <UpConversation />
+            <Contact location="hero" />
+          </div>
         </div>
       </section>
       <div className="up-switcher up-shell">
         <UpProductSelector />
       </div>
       <section className="up-section up-intro up-shell">
-        <span className="up-kicker">הביקור נגמר. הסיפור ממשיך.</span>
+        <span className="up-kicker">הלקוחות שלכם הם חלק מהצמיחה שלכם.</span>
         <h2>
-          הלקוחות ממשיכים את היום.
+          עסק טוב ראוי
           <br />
-          <em>הקשר ממשיך איתם.</em>
+          <em>שיכירו אותו.</em>
         </h2>
         <p>
-          אתם יודעים שהלקוח ביקר. אבל איך הוא הרגיש? מה היה מעולה, ומה יכול
-          להיות טוב יותר? Viby UP פותחת מקום לשיחה אחרי הביקור — אישית, טבעית
-          ובזמן שאתם בוחרים.
+          ממש עכשיו, אנשים לידכם מחפשים את העסק הבא שיבקרו בו.
+          ביקורות אמיתיות ב־Google עוזרות להם להכיר אתכם ולסמוך עליכם עוד לפני
+          שנכנסו בדלת — ויכולות לתמוך בדירוג המקומי שלכם בחיפוש וב־Google Maps.
         </p>
-        <span className="up-text-label">
-          קשרי לקוחות ב־WhatsApp · מעקב אחרי חוויית לקוח
-        </span>
+        <p>
+          Viby UP הופכת את השיחה שאחרי הביקור להזדמנות לצמוח: להזמין ביקורת,
+          להבין מה הלקוחות אוהבים ולגלות מה כדאי לשפר.
+          החוויות שכבר יצרתם בעסק יכולות לעזור ללקוח הבא לבחור דווקא בכם.
+        </p>
+        <p>
+          SEO הוא פשוט לעזור לאנשים למצוא אתכם כשהם מחפשים.
+          היום החיפוש הזה קורה גם ב־Google וגם בחיפוש מבוסס AI.
+          המטרה היא לא רק להופיע על המסך — אלא לבנות עסק מוכר ואמין
+          שאנשים מהאזור רוצים להגיע אליו.
+        </p>
       </section>
       <section className="up-section up-how">
         <div className="up-shell">
@@ -161,18 +151,19 @@ export function VibyUpLanding() {
       </section>
       <section className="up-section up-outcomes up-shell">
         <span className="up-kicker">AI לעסקים. עם מקום לאנשים.</span>
-        <h2>כל תשובה היא התחלה של קשר.</h2>
+        <h2>כל תשובה היא הזדמנות לקדם את העסק.</h2>
         <div>
           <article>
-            <span>☺</span>
-            <h3>היה מעולה? ממשיכים בחיוך.</h3>
+            <span>😊</span>
+            <h3>מהחוויה האישית לביקורת ב־Google.</h3>
             <p>
-              תגובה חמה ואישית נותנת ללקוח להרגיש שהמילים שלו הגיעו למקום הנכון.
+              תודה אישית והזמנה נעימה לשתף ביקורת — כדי שעוד אנשים יוכלו
+              להכיר את העסק דרך החוויות של הלקוחות שלו.
             </p>
           </article>
           <article>
-            <span>♡</span>
-            <h3>משהו הפריע? נותנים לזה מקום.</h3>
+            <span>💜</span>
+            <h3>מהמשוב להזדמנות להשתפר.</h3>
             <p>
               Viby UP מבינה שיש צורך בתשומת לב ומעדכנת את בעל העסק, כדי שיוכל
               להמשיך את הטיפול באופן אישי.
@@ -196,11 +187,11 @@ export function VibyUpLanding() {
       <section className="up-final">
         <div className="up-shell">
           <UpIcon />
-          <span className="up-kicker">השיחה הבאה יכולה להתחיל כאן</span>
+          <span className="up-kicker">הצעד הבא של העסק שלכם</span>
           <h2>
-            פחות לרדוף.
+            חוויה ששווה לשתף.
             <br />
-            <em>יותר להיות בקשר.</em>
+            <em>עסק ששווה להכיר.</em>
           </h2>
           <p>
             Viby UP זמינה לעסק שלכם. נדגים את החוויה ונבדוק יחד התאמה ומחיר.
@@ -236,7 +227,6 @@ export function VibyUpLanding() {
           <Link href="/support">תמיכה</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
           <Link href="/terms">תנאי שימוש</Link>
-          <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
         </nav>
       </footer>
     </main>

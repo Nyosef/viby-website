@@ -9335,12 +9335,42 @@ details p {
   align-items: center;
 }
 .up-login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #bda2cf66;
+  border-radius: 12px;
+  background: #ffffff08;
   color: #ede1f7;
   font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+.up-login:hover {
+  background: #ffffff12;
+  border-color: #d9bce7;
+}
+.up-action-arrow {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.up-login .up-action-arrow {
+  width: 18px;
+  height: 18px;
+}
+.up-login:focus-visible,
+.up-cta:focus-visible {
+  outline: 3px solid #e8b5f4;
+  outline-offset: 4px;
 }
 .up-hero-grid {
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr);
   align-items: center;
   gap: 50px;
   position: relative;
@@ -9376,10 +9406,33 @@ details p {
   color: #c49cf0;
 }
 .up-hero-copy > p {
-  font-size: 18px;
-  line-height: 1.85;
-  color: #e7dbea;
-  margin: 0 0 14px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.8;
+  color: #f3eaf6;
+  margin: 0 0 24px;
+}
+.up-hero-copy > p:first-of-type,
+.up-hero-copy > p:last-of-type {
+  font-size: clamp(20px, 1.7vw, 25px);
+  font-weight: 800;
+  line-height: 1.6;
+  color: #fff;
+}
+.up-hero-copy > p:last-of-type {
+  color: #efd0fa;
+}
+.up-brand-whatsapp,
+.up-brand-google,
+.up-brand-ai {
+  display: inline-block;
+  padding: 0 4px;
+  border: 1px solid #e5bdff35;
+  border-radius: 5px;
+  color: inherit;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
 }
 .up-hero-copy > .up-hero-secondary {
   font-size: 16px;
@@ -9415,6 +9468,15 @@ details p {
   max-width: 370px;
   line-height: 1.7;
   font-size: 12px;
+}
+.up-demo-with-cta {
+  display: grid;
+  min-width: 0;
+  gap: 20px;
+}
+.up-demo-with-cta > .up-cta {
+  justify-self: center;
+  margin-top: 0;
 }
 .up-demo {
   border: 1px solid #825790;
@@ -9457,13 +9519,19 @@ details p {
   border: 0;
   border-radius: 9px;
   padding: 13px 8px;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 750;
 }
 .up-scenarios button[aria-pressed="true"] {
   background: #76538d;
   color: white;
   box-shadow: 0 3px 10px #17082040;
+}
+.up-scenarios button.up-scenario-next {
+  background: #583867;
+  color: #fff;
+  box-shadow: inset 0 0 0 2px #dbabea, 0 0 14px #dbabea30;
+  transition: background 300ms ease, box-shadow 300ms ease;
 }
 .up-demo-stage {
   display: grid;
@@ -9495,12 +9563,12 @@ details p {
 }
 .up-chat-header strong {
   display: block;
-  font-size: 18px;
+  font-size: 20px;
 }
 .up-chat-header small {
   display: block;
   color: #7c8680;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   margin-top: 3px;
 }
@@ -9529,7 +9597,7 @@ details p {
 .up-visit {
   text-align: center;
   width: 100%;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #627464;
   padding: 3px 0;
@@ -9538,7 +9606,7 @@ details p {
   max-width: 92%;
   border-radius: 10px;
   padding: 10px 11px 5px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   line-height: 1.7;
   box-shadow: 0 1px 2px #25332917;
@@ -9551,8 +9619,29 @@ details p {
 .up-message p {
   margin: 0;
 }
+.up-review-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-block: 10px 5px;
+  color: #0645e5;
+  font-weight: 750;
+  line-height: 1.5;
+}
+.up-review-link > span {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.up-review-link svg {
+  width: 28px;
+  height: 28px;
+  padding: 3px;
+  border-radius: 50%;
+  background: white;
+  flex-shrink: 0;
+}
 .up-message small {
-  font-size: 11px;
+  font-size: 12px;
   color: #788b78;
   display: block;
   text-align: left;
@@ -9659,13 +9748,13 @@ details p {
 }
 .up-insight > span {
   display: block;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #c3a1d6;
   margin-bottom: 8px;
 }
 .up-insight strong {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 800;
   line-height: 1.7;
   display: block;
@@ -9674,7 +9763,7 @@ details p {
 .up-outcome {
   background: #f1dfef;
   border-color: #fff8;
-  min-height: 142px;
+  min-height: 0;
 }
 .up-outcome > span {
   color: #885a8c;
@@ -9704,8 +9793,10 @@ details p {
   background: transparent;
   color: #eee0f7;
   border: 0;
-  padding: 11px 9px;
-  font-size: 14px;
+  padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 20px;
   font-weight: 700;
 }
 .up-demo-bottom button:disabled {
@@ -9726,7 +9817,7 @@ details p {
 .up-transcript {
   color: #e4d6ec;
   font-size: 15px;
-  margin-top: 12px;
+  margin-top: 0;
   padding: 8px 0 0;
   border: 0;
   background: transparent;
@@ -9735,7 +9826,7 @@ details p {
 .up-transcript summary {
   cursor: pointer;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
 }
 .up-transcript section {
   padding: 10px;
@@ -10117,10 +10208,10 @@ details p {
     min-height: 490px;
   }
   .up-hero-copy > p {
-    font-size: 16px;
+    font-size: 20px;
   }
   .up-message {
-    font-size: 18px;
+    font-size: 19px;
   }
   .up-mission {
     gap: 40px;
@@ -10148,7 +10239,7 @@ details p {
     min-height: 490px;
   }
   .up-message {
-    font-size: 18px;
+    font-size: 19px;
   }
   .up-demo-stage {
     grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
@@ -10204,6 +10295,12 @@ details p {
   }
   .up-login {
     font-size: 10px;
+    padding: 8px;
+    gap: 4px;
+  }
+  .up-login .up-action-arrow {
+    width: 14px;
+    height: 14px;
   }
   .up-product-selector.compact {
     width: 153px;
@@ -10235,7 +10332,7 @@ details p {
     letter-spacing: -1px;
   }
   .up-hero-copy > p {
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.8;
   }
   .up-hero-copy > .up-hero-secondary {
@@ -10255,12 +10352,12 @@ details p {
     min-height: 460px;
   }
   .up-message {
-    font-size: 17px;
+    font-size: 18px;
     max-width: 88%;
   }
   .up-insights {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 7px;
   }
   .up-insights-heading {
@@ -10271,11 +10368,11 @@ details p {
     min-height: 83px;
   }
   .up-insight strong {
-    font-size: 16px;
+    font-size: 18px;
   }
   .up-outcome {
     grid-column: 1 / -1;
-    min-height: 109px;
+    min-height: 0;
   }
   .up-insights-heading strong {
     display: inline;
@@ -10285,7 +10382,7 @@ details p {
     font-size: 12px;
   }
   .up-scenarios button {
-    font-size: 16px;
+    font-size: 18px;
   }
   .up-journey {
     justify-content: flex-start;

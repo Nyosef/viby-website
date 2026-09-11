@@ -73,7 +73,7 @@ const rotatingRewards = [
 ] as const;
 
 const serviceHeaderIcons: Record<ServiceId, string> = {
-  "viby-up": "✦↗",
+  "viby-up": "↗",
   "punch-card": "🎟️",
   "smart-wheel": "🎡",
   wallet: "💳",
