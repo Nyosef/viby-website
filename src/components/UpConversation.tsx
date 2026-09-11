@@ -2,19 +2,28 @@
 
 import { useEffect, useRef, useState } from "react";
 import { upOpening, upScenarios, type UpScenario } from "@/lib/viby-up";
-import { UpIcon } from "./UpIcon";
+
+const scenarioOrder: UpScenario[] = ["happy", "attention"];
 
 export function UpConversation() {
   const root = useRef<HTMLDivElement>(null);
-  const [scenario, setScenario] = useState<UpScenario>("attention");
+  const [selectedScenario, setSelectedScenario] = useState<UpScenario>("happy");
+  const [autoAdvance, setAutoAdvance] = useState(true);
   const [elapsed, setElapsed] = useState(0);
   const [paused, setPaused] = useState(false);
   const [visible, setVisible] = useState(false);
   const [tabVisible, setTabVisible] = useState(true);
   const [reduced, setReduced] = useState(false);
+  // One guided pass: 15s happy + 5s reading time, then 15s attention.
+  // Manual selection/replay opts out; reduced motion never auto-advances.
+  const guided = autoAdvance && selectedScenario === "happy";
+  const advanced = guided && !reduced && elapsed >= 20000;
+  const scenario = advanced ? "attention" : selectedScenario;
   const data = upScenarios[scenario];
-  const time = reduced ? 15000 : elapsed;
-  const complete = time >= 15000;
+  const time = reduced ? 15000 : Math.min(15000, elapsed - (advanced ? 20000 : 0));
+  const duration = guided ? 35000 : 15000;
+  const complete = reduced || elapsed >= duration;
+  const hintAttention = guided && !reduced && elapsed >= 19000 && elapsed < 20000;
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -43,13 +52,14 @@ export function UpConversation() {
       const now = performance.now();
       const delta = now - last;
       last = now;
-      setElapsed((value) => Math.min(15000, value + delta));
+      setElapsed((value) => Math.min(duration, value + delta));
     }, 100);
     return () => window.clearInterval(timer);
-  }, [paused, visible, tabVisible, reduced, complete]);
+  }, [paused, visible, tabVisible, reduced, complete, duration]);
 
   function restart(next = scenario) {
-    setScenario(next);
+    setSelectedScenario(next);
+    setAutoAdvance(false);
     setElapsed(0);
     setPaused(false);
   }
@@ -60,18 +70,13 @@ export function UpConversation() {
       ref={root}
       data-paused={paused || !visible || !tabVisible || complete}
     >
-      <div className="up-demo-top">
-        <span>
-          <i className="up-live-dot" /> הקשר ממשיך, גם אחרי הביקור
-        </span>
-        <span dir="ltr">Viby UP ✦</span>
-      </div>
       <div className="up-scenarios" role="group" aria-label="בחירת תרחיש הדגמה">
-        {(Object.keys(upScenarios) as UpScenario[]).map((key) => (
+        {scenarioOrder.map((key) => (
           <button
             key={key}
             type="button"
             aria-pressed={scenario === key}
+            className={key === "attention" && hintAttention ? "up-scenario-next" : undefined}
             onClick={() => restart(key)}
           >
             <span aria-hidden="true">{key === "attention" ? "💜" : "😊"}</span>{" "}
@@ -91,12 +96,10 @@ export function UpConversation() {
               <strong>קפה לדוגמה</strong>
               <small>WhatsApp · שיחה עם דנה</small>
             </div>
-            <span className="up-chat-dots">•••</span>
           </div>
           <div className="up-messages">
-            <span className="up-chat-date">היום, אחרי הביקור</span>
             <div className="up-visit">
-              ✓ ביקור תועד · הגיע הזמן לשאול איך היה
+              אחרי הביקור בעסק
             </div>
             <div
               className={`up-message up-business ${time >= 2000 ? "shown" : ""}`}
@@ -118,6 +121,17 @@ export function UpConversation() {
                 className={`up-message up-business ${time >= 10000 + index * 2000 ? "shown" : ""}`}
               >
                 <p>{response}</p>
+                {scenario === "happy" && index === 1 ? (
+                  <span className="up-review-link" title="קישור להמחשה בלבד">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.51h3.24c1.9-1.75 2.98-4.33 2.98-7.36Z" />
+                      <path fill="#34A853" d="M12 22c2.7 0 4.96-.9 6.62-2.41l-3.24-2.51c-.9.6-2.04.96-3.38.96-2.6 0-4.8-1.76-5.59-4.12H3.07v2.59A10 10 0 0 0 12 22Z" />
+                      <path fill="#FBBC05" d="M6.41 13.92a6 6 0 0 1 0-3.84V7.49H3.07a10 10 0 0 0 0 9.02l3.34-2.59Z" />
+                      <path fill="#EA4335" d="M12 5.96c1.47 0 2.79.5 3.83 1.51l2.87-2.87A9.6 9.6 0 0 0 12 2a10 10 0 0 0-8.93 5.49l3.34 2.59C7.2 7.72 9.4 5.96 12 5.96Z" />
+                    </svg>
+                    <span>כתיבת ביקורת ב־Google</span>
+                  </span>
+                ) : null}
                 <small>
                   12:31 <b>✓✓</b>
                 </small>
@@ -137,41 +151,23 @@ export function UpConversation() {
               <i />
             </div>
           </div>
-          <div className="up-chat-input">
-            <span>השיחה ממשיכה באופן אישי</span>
-            <span>♡</span>
-          </div>
         </div>
         <div className="up-insights">
-          <div className="up-insights-heading">
-            <UpIcon />
-            <span>
-              מאחורי השיחה<strong>הבנה שהופכת לפעולה</strong>
-            </span>
-            <b>AI</b>
-          </div>
           <div className={`up-insight ${time >= 8000 ? "shown" : ""}`}>
-            <span>01 · AI זיהה</span>
-            <strong>{data.interpretation}</strong>
-          </div>
-          <div className={`up-insight ${time >= 10000 ? "shown" : ""}`}>
-            <span>02 · המשך מותאם</span>
-            <strong>תגובה אישית ללקוחה</strong>
+            <span>AI זיהה</span>
+            <strong>
+              {scenario === "happy" ? <span aria-hidden="true">✅ </span> : null}
+              {data.interpretation}
+            </strong>
           </div>
           <div
             className={`up-insight up-outcome ${time >= 13000 ? "shown" : ""}`}
           >
-            <span>
-              {scenario === "attention"
-                ? "03 · דורש תשומת לב"
-                : "03 · קשר שמתחזק"}
-            </span>
             <strong>
               {scenario === "attention"
                 ? "בעל העסק קיבל עדכון"
                 : "לקוחה שמרגישה שמקשיבים לה"}
             </strong>
-            <p>{data.outcome}</p>
           </div>
         </div>
       </div>
@@ -184,19 +180,16 @@ export function UpConversation() {
             disabled={complete || reduced}
             aria-label={paused ? "המשך הדגמה" : "השהיית הדגמה"}
           >
-            {paused ? "▶ המשך" : "Ⅱ השהיה"}
+            <span aria-hidden="true">{paused ? "▶" : "Ⅱ"}</span>
           </button>
-          <button type="button" onClick={() => restart()}>
-            ↻ הפעלה מחדש
+          <button type="button" onClick={() => restart()} aria-label="הפעלה מחדש" title="הפעלה מחדש">
+            <span aria-hidden="true">↻</span>
           </button>
         </div>
       </div>
-      <div className="up-progress" aria-hidden="true">
-        <span style={{ width: `${time / 150}%` }} />
-      </div>
       <details className="up-transcript">
         <summary>לקריאת השיחות המלאות</summary>
-        {(Object.keys(upScenarios) as UpScenario[]).map((key) => (
+        {scenarioOrder.map((key) => (
           <section key={key}>
             <h3>{upScenarios[key].label}</h3>
             <p>

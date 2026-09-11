@@ -318,8 +318,11 @@ async function checkPage(pathname, titles) {
   if (pathname === "/viby-up") {
     const visible = textContent(html);
     assert(title === "Viby UP — קשרי לקוחות ב־WhatsApp בעזרת AI | Viby", "UP: wrong title");
-    assert(textContent(headings[0]?.[1] ?? "") === "Viby UP — הקשר האישי עם הלקוחות, עכשיו חכם יותר.", "UP: wrong H1");
-    for (const term of ["וייבי אפ", "קשרי לקוחות ב־WhatsApp", "מעקב אחרי חוויית לקוח", "AI לעסקים", "המחשה של שיחה אוטומטית", "היה מעולה", "צריך תשומת לב", "חוויה חיובית + בעיית זמן המתנה", "לא רק לדעת מי חזר.", "להבין איך היה לו.", "הצעת מחיר"]) {
+    assert(textContent(headings[0]?.[1] ?? "") === "Viby UP — העסק שלכם, בדרך למעלה.", "UP: wrong H1");
+    for (const term of ["ביקורות אמיתיות", "Google Maps", "חיפוש מבוסס AI", "SEO", "הזדמנות להשתפר"]) {
+      assert(visible.includes(term), `UP: missing growth messaging ${term}`);
+    }
+    for (const term of ["וייבי אפ", "AI לעסקים", "המחשה של שיחה אוטומטית", "היה מעולה", "צריך תשומת לב", "חוויה חיובית + בעיית זמן המתנה", "לא רק לדעת מי חזר.", "להבין איך היה לו.", "הצעת מחיר"]) {
       assert(visible.includes(term), `UP: missing visible content ${term}`);
     }
     assert(visible.includes("לקריאת השיחות המלאות"), "UP: missing server-rendered transcript");
