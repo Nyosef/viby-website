@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Heebo } from "next/font/google";
 import Script from "next/script";
+import { WhatsAppWidget } from "@/components/WhatsAppWidget";
 import { AnalyticsConsent } from "@/components/AnalyticsConsent";
 import { productSeoByService } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
+import "./refresh.css";
+import "./setup-gift.css";
 
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
@@ -64,6 +67,7 @@ export default function RootLayout({
         ) : null}
         {children}
         <AnalyticsConsent measurementId={measurementId} />
+        <WhatsAppWidget analyticsEnabled={Boolean(measurementId)} />
       </body>
     </html>
   );

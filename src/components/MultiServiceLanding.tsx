@@ -1,13 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import { SetupGiftSection } from "./SetupGiftSection";
+import { JourneyIllustration } from "./JourneyIllustration";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  serviceGroups,
-  serviceIds,
   services,
-  serviceCatalog,
   type LegacyServiceId,
   type DetailItem,
   type ServiceContent,
@@ -19,16 +18,16 @@ import {
   productSeoEntries,
 } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { PunchCardLeadSection } from "@/components/PunchCardLeadSection";
+import { ServiceChooser } from "./ServiceChooser";
+import { ServiceIllustration, servicePresentation } from "./ServiceIllustration";
 import { UpIcon } from "@/components/UpIcon";
 
 type MultiServiceLandingProps = {
   initialService: LegacyServiceId;
 };
 
-const companyLine =
-  "Viby עוזרת לעסקים להחזיר לקוחות, לבנות מאגר לקוחות ולשמור על קשר איתם — בלי אפליקציה.";
 
 const businessCategories = [
   "בתי קפה",
@@ -81,14 +80,7 @@ const serviceHeaderIcons: Record<ServiceId, string> = {
   "viby-tap": "📲",
 };
 
-const serviceHeaderDescriptions: Record<ServiceId, string> = {
-  "viby-up": "שיחות אישיות. קשר שממשיך.",
-  "punch-card": "כרטיסיית נאמנות דיגיטלית",
-  "smart-wheel": "משחק שמחזיר לקוחות",
-  wallet: "העסק בארנק של הלקוח",
-  "viby-rate": "יותר ביקורות ב-Google",
-  "viby-tap": "טאפ אחד לכל יעד",
-};
+
 
 const walletPromoContent: Record<
   LegacyServiceId,
@@ -586,16 +578,9 @@ export function MultiServiceLanding({
 }: MultiServiceLandingProps) {
   const router = useRouter();
   const [activeId, setActiveId] = useState<LegacyServiceId>(initialService);
-  const [isSelectorOpen, setIsSelectorOpen] = useState(false);
-  const [isHeaderSelectorOpen, setIsHeaderSelectorOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const mainRef = useRef<HTMLElement>(null);
   const heroRef = useRef<HTMLElement>(null);
-  const selectorRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const headerSelectorRef = useRef<HTMLDivElement>(null);
-  const headerTriggerRef = useRef<HTMLButtonElement>(null);
-  const optionRefs = useRef(new Map<ServiceId, HTMLButtonElement>());
   const announcementTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const service = services[activeId];
   const walletPromo = walletPromoContent[activeId];
@@ -605,24 +590,8 @@ export function MultiServiceLanding({
     [service.cta.message],
   );
 
-  useEffect(() => {
-    function handlePointerDown(event: PointerEvent) {
-      if (!selectorRef.current?.contains(event.target as Node)) {
-        setIsSelectorOpen(false);
-      }
-      if (!headerSelectorRef.current?.contains(event.target as Node)) {
-        setIsHeaderSelectorOpen(false);
-      }
-    }
-
-    document.addEventListener("pointerdown", handlePointerDown);
-
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-      if (announcementTimer.current) {
-        clearTimeout(announcementTimer.current);
-      }
-    };
+  useEffect(() => () => {
+    if (announcementTimer.current) clearTimeout(announcementTimer.current);
   }, []);
 
   useEffect(() => {
@@ -664,27 +633,17 @@ export function MultiServiceLanding({
     return () => observer.disconnect();
   }, [activeId]);
 
-  function focusOption(id: ServiceId) {
-    window.requestAnimationFrame(() => optionRefs.current.get(id)?.focus());
-  }
-
   function chooseService(nextId: ServiceId) {
     if (nextId === "viby-up") {
-      setIsSelectorOpen(false);
-      setIsHeaderSelectorOpen(false);
       router.push(getProductPath(nextId));
       return;
     }
     if (nextId === activeId) {
-      setIsSelectorOpen(false);
-      setIsHeaderSelectorOpen(false);
       return;
     }
 
     const heroIsVisible = (heroRef.current?.getBoundingClientRect().bottom ?? 0) > 80;
     setActiveId(nextId);
-    setIsSelectorOpen(false);
-    setIsHeaderSelectorOpen(false);
 
     router.push(getProductPath(nextId), { scroll: false });
 
@@ -722,54 +681,6 @@ export function MultiServiceLanding({
     });
   }
 
-  function handleSelectorKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      setIsSelectorOpen(false);
-      triggerRef.current?.focus();
-      return;
-    }
-
-    if (!isSelectorOpen) {
-      if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        setIsSelectorOpen(true);
-        focusOption(activeId);
-      }
-      return;
-    }
-
-    const currentIndex = serviceIds.findIndex(
-      (id) => optionRefs.current.get(id) === document.activeElement,
-    );
-
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      focusOption(serviceIds[(Math.max(currentIndex, -1) + 1) % serviceIds.length]);
-    } else if (event.key === "ArrowUp") {
-      event.preventDefault();
-      const nextIndex =
-        currentIndex <= 0 ? serviceIds.length - 1 : currentIndex - 1;
-      focusOption(serviceIds[nextIndex]);
-    } else if (event.key === "Home") {
-      event.preventDefault();
-      focusOption(serviceIds[0]);
-    } else if (event.key === "End") {
-      event.preventDefault();
-      focusOption(serviceIds[serviceIds.length - 1]);
-    }
-  }
-
-  function handleHeaderSelectorKeyDown(
-    event: React.KeyboardEvent<HTMLDivElement>,
-  ) {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      setIsHeaderSelectorOpen(false);
-      headerTriggerRef.current?.focus();
-    }
-  }
-
   return (
     <main className={`landing-v2 service-${activeId}`} ref={mainRef}>
       <section className="v2-hero v2-grid-bg" ref={heroRef} id="top">
@@ -794,92 +705,16 @@ export function MultiServiceLanding({
               />
             </Link>
             <div className="v2-header-controls">
-              <div
-                className={`v2-header-service service-pill-${activeId}`}
-                ref={headerSelectorRef}
-                onKeyDown={handleHeaderSelectorKeyDown}
-              >
-                <button
-                  type="button"
-                  className="v2-header-service-trigger"
-                  ref={headerTriggerRef}
-                  aria-haspopup="listbox"
-                  aria-expanded={isHeaderSelectorOpen}
-                  aria-label={`החלפת שירות — מוצג עכשיו: ${service.shortLabel}`}
-                  onClick={() =>
-                    setIsHeaderSelectorOpen((current) => !current)
-                  }
-                >
-                  <span className="v2-header-service-kicker">
-                    מציגים עכשיו
-                  </span>
-                  <span className="v2-header-service-field">
-                    <i aria-hidden="true">
-                      <ServiceVisualIcon id={activeId} />
-                    </i>
-                    <span>
-                      <strong>{service.shortLabel}</strong>
-                      <small>גלו עוד פתרונות לעסק שלכם</small>
-                    </span>
-                    <b className="v2-switch-action" aria-hidden="true">
-                      <span>{isHeaderSelectorOpen ? "סגירת התפריט" : "החלפת שירות"}</span>
-                      <svg viewBox="0 0 20 20" fill="none"><path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    </b>
-                  </span>
-                </button>
-
-                {isHeaderSelectorOpen ? (
-                  <div
-                    className="v2-header-service-menu"
-                    role="listbox"
-                    aria-label="בחירת השירות המוצג"
-                  >
-                    {serviceGroups.map((group) => (
-                      <div className="v2-header-service-group" data-group={group.id} key={group.id}>
-                        <p>
-                          <span aria-hidden="true">{group.emoji}</span>
-                          {group.label}
-                        </p>
-                        {serviceIds
-                          .filter((id) => serviceCatalog[id].group === group.id)
-                          .map((id) => (
-                            <button
-                              type="button"
-                              role="option"
-                              aria-selected={id === activeId}
-                              className={id === activeId ? "is-active" : ""}
-                              onClick={() => chooseService(id)}
-                              key={id}
-                            >
-                              <i aria-hidden="true">
-                                <ServiceVisualIcon id={id} />
-                              </i>
-                              <span>
-                                <strong>{serviceCatalog[id].shortLabel}{id === "viby-up" ? <span className="up-menu-badge">AI</span> : null}</strong>
-                                <small>{serviceHeaderDescriptions[id]}</small>
-                              </span>
-                              <b aria-hidden="true">
-                                {id === activeId ? "✓" : "←"}
-                              </b>
-                            </button>
-                          ))}
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-              <a
-                className="v2-business-link"
-                href={siteConfig.businessEntranceUrl}
-              >
-                כניסת עסקים
-              </a>
+              <ServiceChooser currentService={activeId} placement="header" onSelect={chooseService} />
             </div>
           </div>
 
           <div className="v2-hero-grid">
             <div className="v2-hero-copy" key={`copy-${activeId}`}>
-              <p className="v2-company-line">{companyLine}</p>
+              <p className="v2-company-line">
+                <span className="v2-company-highlight">מחזירים לקוחות</span>{" "}
+                לעסקים
+              </p>
               <span className="v2-badge">{service.badge}</span>
               <h1>{service.hero.title}</h1>
               <p className="v2-hero-text">{service.hero.text}</p>
@@ -909,81 +744,8 @@ export function MultiServiceLanding({
       </section>
 
       <div className="v2-story">
-        <div
-          className="v2-selector-wrap"
-          ref={selectorRef}
-          onKeyDown={handleSelectorKeyDown}
-        >
-          <div className="v2-service-selector">
-            <span className="v2-selector-kicker">בחרו פתרון</span>
-            <button
-              type="button"
-              className="v2-selector-trigger"
-              ref={triggerRef}
-              aria-haspopup="listbox"
-              aria-expanded={isSelectorOpen}
-              onClick={() => {
-                setIsSelectorOpen((current) => !current);
-                if (!isSelectorOpen) {
-                  focusOption(activeId);
-                }
-              }}
-            >
-              <span className="v2-selector-current-icon" aria-hidden="true">
-                <ServiceVisualIcon id={activeId} />
-              </span>
-              <span className="v2-selector-current-copy">
-                <strong>{service.label}</strong>
-                <small>{serviceHeaderDescriptions[activeId]}</small>
-              </span>
-              <i aria-hidden="true">{isSelectorOpen ? "−" : "+"}</i>
-            </button>
-
-            {isSelectorOpen ? (
-              <div
-                className="v2-selector-menu"
-                role="listbox"
-                aria-label="בחירת שירות Viby"
-              >
-                {serviceGroups.map((group) => (
-                  <div className="v2-selector-group" data-group={group.id} key={group.id}>
-                    <p>
-                      <span aria-hidden="true">{group.emoji}</span>
-                      {group.label}
-                    </p>
-                    {serviceIds
-                      .filter((id) => serviceCatalog[id].group === group.id)
-                      .map((id) => (
-                        <button
-                          type="button"
-                          role="option"
-                          aria-selected={id === activeId}
-                          key={id}
-                          ref={(node) => {
-                            if (node) optionRefs.current.set(id, node);
-                          }}
-                          onClick={() => chooseService(id)}
-                        >
-                          <i
-                            className="v2-selector-option-icon"
-                            aria-hidden="true"
-                          >
-                            <ServiceVisualIcon id={id} />
-                          </i>
-                          <span className="v2-selector-option-copy">
-                            <strong>{serviceCatalog[id].label}{id === "viby-up" ? <span className="up-menu-badge">AI</span> : null}</strong>
-                            <small>{serviceHeaderDescriptions[id]}</small>
-                          </span>
-                          <b aria-hidden="true">
-                            {id === activeId ? "✓" : "←"}
-                          </b>
-                        </button>
-                      ))}
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </div>
+        <div className="v2-selector-wrap">
+          <ServiceChooser currentService={activeId} placement="body" onSelect={chooseService} />
         </div>
 
         <div className="v2-live-region" aria-live="polite" aria-atomic="true">
@@ -1053,7 +815,7 @@ export function MultiServiceLanding({
                   alt="לקוחה משתמשת ב-Viby בעסק"
                   width={320}
                   height={320}
-                  sizes="(max-width: 760px) 190px, 280px"
+                  sizes="(max-width: 760px) min(297px, calc(100vw - 46px)), 438px"
                 />
               </div>
               <span>איך זה עובד</span>
@@ -1070,7 +832,7 @@ export function MultiServiceLanding({
               {service.howItWorks.map((step, index) => (
                 <article key={step.title}>
                   <div className="v2-step-visual" aria-hidden="true">
-                    <b>{step.icon ?? "✦"}</b>
+                    <JourneyIllustration service={activeId} step={index} />
                     <span>{index + 1}</span>
                   </div>
                   <h3>{step.title}</h3>
@@ -1095,6 +857,8 @@ export function MultiServiceLanding({
             </div>
           </div>
         </section>
+
+        <SetupGiftSection service={activeId} />
 
         <section className="v2-section v2-benefits" id="benefits">
           <div className="v2-shell">
@@ -1253,7 +1017,7 @@ export function MultiServiceLanding({
               </a>
               <Link href="/terms">תנאי שימוש</Link>
               <Link href="/privacy">מדיניות פרטיות</Link>
-              <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
+
             </div>
           </nav>
         </div>
@@ -1281,18 +1045,22 @@ function RelatedSolutions({ activeId }: { activeId: ServiceId }) {
         >
           {relatedProducts.map((entry) => (
             <Link
-              className={`v2-related-card related-${entry.serviceId}`}
+              className="service-chooser-card related-solution-card"
               href={entry.path}
               key={entry.serviceId}
+              style={
+                { "--service-color": servicePresentation[entry.serviceId].color } as CSSProperties
+              }
             >
-              <i aria-hidden="true">
-                <ServiceVisualIcon id={entry.serviceId} />
-              </i>
-              <span>
-                <strong>{entry.internalLinkLabel}</strong>
-                <small>{serviceHeaderDescriptions[entry.serviceId]}</small>
+              <span className="service-chooser-art">
+                <ServiceIllustration service={entry.serviceId} />
               </span>
-              <b aria-hidden="true">←</b>
+              <strong>
+                <bdi>{servicePresentation[entry.serviceId].name}</bdi>
+              </strong>
+              <span className="service-chooser-description">
+                {servicePresentation[entry.serviceId].description}
+              </span>
             </Link>
           ))}
         </nav>

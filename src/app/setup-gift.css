@@ -1,0 +1,411 @@
+.setup-gift {
+  padding: clamp(48px, 7vw, 100px) 24px;
+  background: #faf5f0;
+  color: #fff;
+}
+.setup-gift-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-areas: "lead visual" "intro visual" "details visual" "closing closing";
+  align-items: start;
+  gap: 0 clamp(24px, 4vw, 64px);
+  max-width: 1240px;
+  margin: auto;
+  padding: clamp(28px, 4vw, 56px);
+  border: 1px solid #664258;
+  border-radius: 36px;
+  background:
+    radial-gradient(ellipse at 12% 40%, #71395d80, transparent 60%), #2b192f;
+  box-shadow: 0 24px 60px #3c253017;
+}
+.setup-gift-lead {
+  grid-area: lead;
+}
+.setup-gift-details {
+  grid-area: details;
+}
+.setup-gift-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffdfa0;
+  font-size: 1rem;
+  font-weight: 750;
+}
+.setup-gift-eyebrow svg {
+  width: 22px;
+  height: 22px;
+}
+.setup-gift .setup-gift-lead h2 {
+  margin: 18px 0 16px;
+  color: white;
+  font-size: clamp(2.7rem, 4.6vw, 4.4rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.setup-gift-lead h2 span {
+  color: #ffda8f;
+}
+.setup-gift .setup-gift-deadline {
+  display: block;
+  margin-top: 0.3em;
+  color: #ffda8f;
+  font-size: 0.62em;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+.setup-gift .setup-gift-intro {
+  grid-area: intro;
+  margin: 12px 0 28px;
+  color: #f6eaf2;
+  font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+  line-height: 1.65;
+}
+.setup-gift-intro > strong {
+  display: block;
+  margin-bottom: 0.4em;
+  font-size: 1.12em;
+}
+.setup-gift-promises {
+  display: grid;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.setup-gift-promises li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.setup-gift-promises li > span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  height: 38px;
+  margin-top: 2px;
+  border: 1px solid #f1c88f45;
+  border-radius: 50%;
+  background: #ffda8f15;
+  color: #ffda8f;
+  font-weight: 800;
+}
+.setup-gift-promises strong {
+  font-size: clamp(1.3rem, 2.1vw, 1.85rem);
+  font-weight: 850;
+  line-height: 1.4;
+  color: #fff;
+}
+.setup-gift .setup-gift-closing {
+  grid-area: closing;
+  margin: 36px 0 0;
+  padding-top: 28px;
+  border-top: 1px solid #ffffff35;
+  color: #fff;
+  font-size: clamp(2rem, 3.3vw, 3rem);
+  font-weight: 850;
+  line-height: 1.35;
+  text-align: center;
+  text-wrap: balance;
+}
+.setup-gift-closing strong {
+  color: #ffda8f;
+}
+.setup-gift-visual {
+  grid-area: visual;
+  align-self: center;
+  min-width: 0;
+  margin: 0;
+  text-align: center;
+}
+.setup-gift-stage {
+  position: relative;
+  width: min(100%, 510px);
+  aspect-ratio: 1 / 1.16;
+  margin: auto;
+  isolation: isolate;
+}
+.setup-gift-stage::before {
+  content: "";
+  position: absolute;
+  inset: 15% 0 5%;
+  z-index: -1;
+  border: 1px solid #edb8d22b;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #c1719840, #c1719800 70%);
+}
+.setup-gift-sign {
+  position: absolute;
+  top: 4%;
+  right: 15%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 68%;
+  padding: 6% 5% 5%;
+  border: 5px solid #fff;
+  border-radius: 20px;
+  background: #fff8ee;
+  color: #392438;
+  box-shadow:
+    7px 8px 0 #cfbec8,
+    16px 20px 35px #12071645;
+  transform: rotate(-7deg);
+}
+.setup-gift-sign-brand {
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  font-weight: 900;
+}
+.setup-gift-sign-rule {
+  width: 24px;
+  height: 3px;
+  margin: 8px 0 12px;
+  border-radius: 3px;
+  background: var(--gift-service-color);
+}
+.setup-gift-sign > strong {
+  font-size: clamp(0.8rem, 1.25vw, 1.05rem);
+  font-weight: 800;
+}
+.setup-gift-sign-art {
+  width: 90%;
+  margin: 10px 0;
+}
+.setup-gift-sign-art svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.setup-gift-sign-scan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+.setup-gift-sign-scan svg {
+  width: 36%;
+  height: auto;
+  padding: 4px;
+  background: white;
+  border-radius: 4px;
+}
+.setup-gift-sign-scan span {
+  font-size: 0.7rem;
+  line-height: 1.7;
+  font-weight: 650;
+}
+.setup-gift-sign-scan bdi {
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+.setup-gift-box {
+  position: absolute;
+  inset: 67% 14% 4%;
+  z-index: 2;
+  overflow: hidden;
+  border: 1px solid #ff85b8;
+  border-radius: 4px 4px 18px 18px;
+  background: linear-gradient(110deg, #d92c78, #f35396 65%, #fb8bb8);
+  box-shadow:
+    0 20px 30px #0b030a35,
+    inset 0 12px 14px #8d14472b;
+}
+.setup-gift-box > span {
+  position: absolute;
+  inset: 0 42%;
+  background: #ffda8f;
+  box-shadow: 2px 0 0 #f1b85f;
+}
+.setup-gift-box > svg {
+  position: absolute;
+  left: 10%;
+  bottom: 20%;
+  width: 30px;
+  height: 30px;
+  color: #fff0f5;
+  opacity: 0.7;
+}
+.setup-gift-box-lid {
+  position: absolute;
+  inset: 64% 10% 29%;
+  z-index: 3;
+  border: 1px solid #ff8fbd;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f15d9a 42%, #ffe4a9 42% 58%, #fb8bb8 58%);
+  transform: rotate(3deg);
+  box-shadow: 0 5px 8px #7e1c4330;
+}
+.setup-gift-bow {
+  position: absolute;
+  top: 56%;
+  z-index: 4;
+  width: 19%;
+  height: 11%;
+  border: 9px solid #ffda8f;
+  border-radius: 55% 55% 12% 55%;
+}
+.setup-gift-bow-right {
+  right: 32%;
+  transform: rotate(-20deg);
+}
+.setup-gift-bow-left {
+  left: 32%;
+  transform: rotate(20deg) scaleX(-1);
+}
+.setup-gift-tag {
+  position: absolute;
+  top: 31%;
+  left: -1%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border: 2px solid #fff3d5;
+  border-radius: 16px;
+  background: #ffda8f;
+  color: #392438;
+  box-shadow: 0 10px 20px #14091835;
+  transform: rotate(8deg);
+}
+.setup-gift-tag > svg {
+  width: 28px;
+  height: 28px;
+}
+.setup-gift-tag span {
+  display: grid;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.setup-gift-tag strong {
+  font-size: 1.8rem;
+  line-height: 1.1;
+  font-weight: 900;
+}
+.setup-gift-spark {
+  position: absolute;
+  color: #ffda8f;
+  font-size: 36px;
+}
+.setup-gift-spark-one {
+  top: 8%;
+  left: 9%;
+  transform: rotate(15deg);
+}
+.setup-gift-spark-two {
+  top: 42%;
+  right: 2%;
+  font-size: 22px;
+}
+.setup-gift-visual figcaption {
+  display: grid;
+  gap: 5px;
+  margin-top: 12px;
+  color: #f1e3eb;
+  line-height: 1.6;
+}
+.setup-gift-visual figcaption strong {
+  color: #ffda8f;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  line-height: 1.35;
+}
+.setup-gift-visual figcaption span {
+  font-size: 1.1rem;
+}
+.setup-gift-visual figcaption small {
+  margin-top: 8px;
+  color: #ddcbd9;
+  font-size: 0.85rem;
+}
+@media (max-width: 900px) {
+  .setup-gift {
+    padding: 40px 16px;
+  }
+  .setup-gift-panel {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "lead" "visual" "intro" "details" "closing";
+    gap: 24px;
+    padding: 32px 24px;
+    border-radius: 28px;
+  }
+  .setup-gift-lead,
+  .setup-gift-intro {
+    text-align: center;
+  }
+  .setup-gift .setup-gift-lead h2 {
+    font-size: clamp(2.3rem, 8vw, 3.8rem);
+  }
+  .setup-gift-promises {
+    max-width: 420px;
+    margin-inline: auto;
+    text-align: start;
+  }
+  .setup-gift-stage {
+    max-width: 430px;
+  }
+  .setup-gift .setup-gift-intro {
+    margin: 0;
+  }
+  .setup-gift .setup-gift-closing {
+    margin: 4px 0 0;
+    padding-top: 24px;
+  }
+  .setup-gift-closing strong {
+    display: block;
+  }
+  .setup-gift-tag {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .setup-gift-tag strong {
+    font-size: 1.5rem;
+  }
+  .setup-gift-sign-brand {
+    font-size: 1.1rem;
+  }
+  .setup-gift-sign > strong {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 380px) {
+  .setup-gift {
+    padding-inline: 10px;
+  }
+  .setup-gift-panel {
+    padding: 28px 18px;
+  }
+  .setup-gift-tag {
+    gap: 5px;
+    padding: 10px;
+  }
+  .setup-gift-tag > svg {
+    width: 22px;
+    height: 22px;
+  }
+  .setup-gift-tag strong {
+    font-size: 1.4rem;
+  }
+  .setup-gift-sign {
+    border-width: 3px;
+    border-radius: 12px;
+  }
+  .setup-gift-sign-brand {
+    font-size: 0.9rem;
+  }
+  .setup-gift-sign > strong {
+    font-size: 0.75rem;
+  }
+  .setup-gift-sign-scan {
+    gap: 5px;
+  }
+  .setup-gift-sign-scan span {
+    font-size: 0.6rem;
+  }
+  .setup-gift-sign-scan bdi {
+    font-size: 0.9rem;
+  }
+}

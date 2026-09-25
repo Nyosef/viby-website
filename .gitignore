@@ -3,6 +3,7 @@ node_modules/
 
 # next.js
 .next/
+.next-test/
 out/
 
 # production
@@ -28,3 +29,7 @@ pnpm-debug.log*
 
 # typescript
 *.tsbuildinfo
+
+# browser test artifacts
+/test-results/
+/playwright-report/

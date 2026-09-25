@@ -196,6 +196,7 @@ const analyticsLocations = new Set([
   "support_page",
   "how_it_works",
   "punch_card_lead_form",
+  "whatsapp_widget",
 ]);
 const errors = [];
 
@@ -318,7 +319,7 @@ async function checkPage(pathname, titles) {
   if (pathname === "/viby-up") {
     const visible = textContent(html);
     assert(title === "Viby UP — קשרי לקוחות ב־WhatsApp בעזרת AI | Viby", "UP: wrong title");
-    assert(textContent(headings[0]?.[1] ?? "") === "Viby UP — העסק שלכם, בדרך למעלה.", "UP: wrong H1");
+    assert(textContent((headings[0]?.[1] ?? "").replace(/<\/?bdi\b[^>]*>/g, "")) === "ה־AI שעובד בשביל העסק גם אחרי שהלקוח יוצא.", "UP: wrong H1");
     for (const term of ["ביקורות אמיתיות", "Google Maps", "חיפוש מבוסס AI", "SEO", "הזדמנות להשתפר"]) {
       assert(visible.includes(term), `UP: missing growth messaging ${term}`);
     }

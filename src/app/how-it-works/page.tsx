@@ -189,7 +189,7 @@ export default function HowItWorksPage() {
           <Link href="/support">תמיכה</Link>
           <Link href="/terms">תנאי שימוש</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
-          <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
+
           <a href={whatsappUrl} data-analytics-location="how_it_works">WhatsApp</a>
         </div>
       </footer>
