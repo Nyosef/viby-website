@@ -108,7 +108,7 @@ export function LegalDocumentPage({ documentKey }: LegalDocumentPageProps) {
           <Link href="/support">תמיכה</Link>
           <Link href="/terms">תנאי שימוש</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
-          <a href={siteConfig.businessEntranceUrl}>כניסת עסקים</a>
+
         </div>
       </footer>
     </main>

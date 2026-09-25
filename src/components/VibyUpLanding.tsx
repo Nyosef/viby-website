@@ -1,10 +1,11 @@
 import Image from "next/image";
+import { SetupGiftSection } from "./SetupGiftSection";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site";
 import { productSeoEntries } from "@/lib/seo";
 import { upFaqs } from "@/lib/viby-up";
 import { UpConversation } from "./UpConversation";
-import { UpProductSelector } from "./UpProductSelector";
+import { ServiceChooser } from "./ServiceChooser";
 import { UpIcon } from "./UpIcon";
 
 const contactUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("היי, אשמח להכיר את Viby UP, לקבל הדגמה והצעת מחיר לעסק שלי.")}`;
@@ -40,21 +41,16 @@ export function VibyUpLanding() {
             />
           </Link>
           <div>
-            <UpProductSelector compact />
+            <ServiceChooser currentService="viby-up" placement="header" />
           </div>
         </header>
         <div className="up-hero-grid up-shell">
           <div className="up-hero-copy">
-            <h1>
-              <span dir="ltr">Viby UP</span> — העסק שלכם,{" "}
-              <em>בדרך למעלה.</em>
-            </h1>
-            <p>להפוך כל ביקור להזדמנות לצמוח.</p>
-            <p>
-              <span dir="ltr">Viby UP</span> פונה ללקוחות בזמן הנכון ב־<span className="up-brand-whatsapp" dir="ltr">WhatsApp</span>, אוספת פידבק, מגדילה
-              ביקורות חיוביות ומחזקת את הדירוג והנוכחות של העסק ב־<span className="up-brand-google" dir="ltr">Google</span> וב־<span className="up-brand-ai" dir="rtl">חיפושי <bdi dir="ltr">AI</bdi></span>.
+            <span className="up-product-name" dir="ltr">Viby UP</span>
+            <h1>ה־<bdi dir="ltr">AI</bdi> שעובד בשביל העסק גם אחרי שהלקוח יוצא.</h1>
+            <p className="up-hero-description">
+              שיחות חכמות עם לקוחות שמייצרות יותר ביקורות, מחזקות את הנוכחות ב־<bdi dir="ltr">Google</bdi> וב־<bdi dir="ltr">AI</bdi>, מזהות לקוחות שדורשים יחס — ובונות קשר שגורם להם לרצות לחזור.
             </p>
-            <p>יותר ביקורות. יותר אמון. יותר נראות. יותר צמיחה.</p>
           </div>
           <div className="up-demo-with-cta">
             <UpConversation />
@@ -63,8 +59,9 @@ export function VibyUpLanding() {
         </div>
       </section>
       <div className="up-switcher up-shell">
-        <UpProductSelector />
+        <ServiceChooser currentService="viby-up" placement="body" />
       </div>
+      <SetupGiftSection service="viby-up" />
       <section className="up-section up-intro up-shell">
         <span className="up-kicker">הלקוחות שלכם הם חלק מהצמיחה שלכם.</span>
         <h2>

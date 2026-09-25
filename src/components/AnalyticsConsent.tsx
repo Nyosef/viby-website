@@ -3,55 +3,63 @@
 import Script from "next/script";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import {
-  ANALYTICS_CONSENT_KEY,
+  getAnalyticsConsent,
+  setAnalyticsConsent,
+  subscribeToConsent,
+  safeGtag,
   isAnalyticsCtaLocation,
   trackAnalyticsEvent,
   type AnalyticsConsent as ConsentValue,
 } from "@/lib/analytics";
 import { productSeoByPath } from "@/lib/seo";
 
-const CONSENT_CHANGE_EVENT = "viby-consent-change";
-
-function subscribeToConsent(onStoreChange: () => void) {
-  window.addEventListener("storage", onStoreChange);
-  window.addEventListener(CONSENT_CHANGE_EVENT, onStoreChange);
-  return () => {
-    window.removeEventListener("storage", onStoreChange);
-    window.removeEventListener(CONSENT_CHANGE_EVENT, onStoreChange);
-  };
-}
-
-function getConsentSnapshot(): ConsentValue | null {
-  const saved = window.localStorage.getItem(ANALYTICS_CONSENT_KEY);
-  return saved === "granted" || saved === "denied" ? saved : null;
-}
-
-export function AnalyticsConsent({ measurementId }: { measurementId?: string }) {
+export function AnalyticsConsent({
+  measurementId,
+}: {
+  measurementId?: string;
+}) {
   const pathname = usePathname();
   const consent = useSyncExternalStore(
     subscribeToConsent,
-    getConsentSnapshot,
+    getAnalyticsConsent,
     () => undefined,
   );
 
+  const initialized = useRef(false);
+  const lastProductPath = useRef<string | null>(null);
+
   useEffect(() => {
-    if (!measurementId || consent !== "granted" || !window.gtag) return;
-
-    window.gtag("config", measurementId, {
-      page_path: pathname,
-      page_location: `${window.location.origin}${pathname}`,
-      page_title: document.title,
+    if (!measurementId || !consent) return;
+    safeGtag("consent", "update", {
+      analytics_storage: consent,
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
     });
-
-    const product = productSeoByPath.get(pathname as `/${string}`);
-    if (product) {
-      trackAnalyticsEvent("view_item", {
-        item_id: product.serviceId,
-        item_name: product.title,
+    if (consent !== "granted") return;
+    // Live verification found no automatic history page_view events. Configure
+    // once and explicitly measure each route; leave stream settings unchanged.
+    if (!initialized.current) {
+      safeGtag("js", new Date());
+      initialized.current = safeGtag("config", measurementId, {
+        send_page_view: false,
       });
     }
+    if (!initialized.current || lastProductPath.current === pathname) return;
+    lastProductPath.current = pathname;
+    trackAnalyticsEvent("page_view", {
+      page_location: `${window.location.origin}${pathname}`,
+      page_title: document.title,
+      page_path: pathname,
+    });
+    const product = productSeoByPath.get(pathname);
+    if (product)
+      trackAnalyticsEvent("view_item", {
+        items: [{ item_id: product.serviceId, item_name: product.title }],
+        page_path: pathname,
+      });
   }, [consent, measurementId, pathname]);
 
   useEffect(() => {
@@ -72,6 +80,7 @@ export function AnalyticsConsent({ measurementId }: { measurementId?: string }) 
         const contactMethod = url.protocol === "tel:" ? "phone" : "whatsapp";
         const eventParameters = {
           contact_method: contactMethod,
+          contact_type: ctaLocation === "support_page" ? "support" : "sales",
           product_id: productId,
           cta_location: ctaLocation,
           page_path: pagePath,
@@ -82,9 +91,10 @@ export function AnalyticsConsent({ measurementId }: { measurementId?: string }) 
           eventParameters,
         );
         trackAnalyticsEvent("contact_intent", eventParameters);
-      } else if (url.hostname === "myviby.co.il" && url.pathname === "/login") {
-        trackAnalyticsEvent("click_business_login", { page_path: pagePath });
-      } else if (url.pathname.startsWith("/d/") && url.origin !== window.location.origin) {
+      } else if (
+        url.pathname.startsWith("/d/") &&
+        url.origin !== window.location.origin
+      ) {
         trackAnalyticsEvent("click_demo", { page_path: pagePath });
       }
     }
@@ -94,14 +104,13 @@ export function AnalyticsConsent({ measurementId }: { measurementId?: string }) 
   }, [consent, measurementId]);
 
   function chooseConsent(value: ConsentValue) {
-    window.localStorage.setItem(ANALYTICS_CONSENT_KEY, value);
-    window.gtag?.("consent", "update", {
+    safeGtag("consent", "update", {
       analytics_storage: value,
       ad_storage: "denied",
       ad_user_data: "denied",
       ad_personalization: "denied",
     });
-    window.dispatchEvent(new Event(CONSENT_CHANGE_EVENT));
+    setAnalyticsConsent(value);
   }
 
   if (!measurementId) return null;
@@ -115,9 +124,6 @@ export function AnalyticsConsent({ measurementId }: { measurementId?: string }) 
             src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
             strategy="afterInteractive"
           />
-          <Script id="viby-ga4-config" strategy="afterInteractive">
-            {`window.gtag('js', new Date());window.gtag('config', '${measurementId}', { send_page_view: false });`}
-          </Script>
         </>
       ) : null}
 
@@ -129,8 +135,8 @@ export function AnalyticsConsent({ measurementId }: { measurementId?: string }) 
           aria-live="polite"
         >
           <p>
-            אנו משתמשים ב־Google Analytics רק בהסכמתכם כדי להבין איך האתר
-            עובד ולשפר אותו. לא נשלחים שמות או מספרי טלפון.
+            אנו משתמשים ב־Google Analytics רק בהסכמתכם כדי להבין איך האתר עובד
+            ולשפר אותו. לא נשלחים שמות או מספרי טלפון.
             <Link href="/privacy">למדיניות הפרטיות</Link>
           </p>
           <div>

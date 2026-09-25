@@ -17,7 +17,6 @@ export const siteConfig = {
   whatsappNumber: "972509565137",
   whatsappDisplay: "050-956-5137",
   instagramUrl: "https://www.instagram.com/viby.il/",
-  businessEntranceUrl: "https://myviby.co.il/login",
   launchPrice: "49",
   regularPrice: "49",
   keywords: [
