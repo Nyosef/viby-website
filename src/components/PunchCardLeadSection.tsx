@@ -1,7 +1,10 @@
 "use client";
 
 import Script from "next/script";
-import Image from "next/image";
+import { CommercialDisclosure } from "./CommercialDisclosure";
+import { monthlyPrice } from "@/lib/commercial";
+import { legalIdentity } from "@/lib/legal-identity";
+import { siteConfig } from "@/lib/site";
 import Link from "next/link";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { trackAnalyticsEvent } from "@/lib/analytics";
@@ -143,9 +146,10 @@ export function PunchCardLeadSection() {
           <div className="v2-punch-lead-offer" aria-label="מחיר המנוי">
             <span>מסלול הכרטיסייה המלא של Viby</span>
             <strong>
-              <b>79</b>
+              <b>{monthlyPrice("punch-card")}</b>
               <small>₪ לחודש</small>
             </strong>
+            <CommercialDisclosure service="punch-card" />
             <ul>
               <li>כרטיסייה ממותגת לעסק</li>
               <li>Apple Wallet ו־Google Wallet</li>
@@ -162,10 +166,10 @@ export function PunchCardLeadSection() {
               aria-live="polite"
             >
               <span aria-hidden="true">✓</span>
-              <h3>קיבלנו אתכם!</h3>
+              <h3>פנייתכם התקבלה!</h3>
               <p>
                 הפרטים הגיעו אלינו. נציג של Viby יחזור אליכם וישלח את
-                קישור התשלום המאובטח.
+                קישור התשלום המאובטח. שליחת הפנייה אינה הזמנת מנוי ואינה יוצרת חיוב.
               </p>
             </div>
           ) : (
@@ -252,9 +256,7 @@ export function PunchCardLeadSection() {
                 </button>
 
                 <small className="v2-punch-lead-consent">
-                  בלחיצה על הכפתור אני מאשר/ת ל־Viby ליצור איתי קשר
-                  ב־WhatsApp ובטלפון לגבי השירות.{" "}
-                  <Link href="/privacy">מדיניות הפרטיות</Link>
+                  מסירת שם וטלפון היא לבחירתכם כדי ש־{legalIdentity.name || "Viby"} תוכל לחזור אליכם בטלפון וב־WhatsApp בנוגע לפנייה. ללא פרטי קשר לא נוכל לתאם חזרה דרך הטופס. הפרטים מועברים לצוות המורשה ולספקי ההתראות המוגדרים לצורך טיפול בפנייה, כמפורט ב־<Link href="/privacy#privacy-4">מדיניות הפרטיות</Link>. לעיון ותיקון אפשר לפנות {legalIdentity.email ? <a href={`mailto:${legalIdentity.email}`}>בדוא״ל</a> : <a href={`https://wa.me/${siteConfig.whatsappNumber}`} data-analytics-location="support_page">ב־WhatsApp</a>}. שליחת הטופס אינה הזמנת מנוי ואינה יוצרת חיוב או הסכמה לקמפיינים עתידיים.
                 </small>
               </form>
 
@@ -266,21 +268,7 @@ export function PunchCardLeadSection() {
                   <strong>התשלום מתבצע בעמוד מאובטח של</strong>
                   <small>הקישור האישי יישלח אליכם לאחר שיחה קצרה</small>
                 </div>
-                <a
-                  className="v2-punch-lead-isracard"
-                  href="https://commons.wikimedia.org/wiki/File:Isracard-Logo-2023.png"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="ישראכרט — מקור הלוגו"
-                >
-                  <Image
-                    src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Isracard-Logo-2023.png"
-                    alt="ישראכרט"
-                    width={461}
-                    height={71}
-                    unoptimized
-                  />
-                </a>
+                <span className="payment-provider-text">ישראכרט</span>
               </div>
             </>
           )}

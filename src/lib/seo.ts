@@ -29,7 +29,7 @@ export const productSeoByService = {
       "כרטיסיית נייר",
     ],
     schemaId: "digital-punch-card",
-    lastModified: "2026-08-16",
+    lastModified: "2026-10-08",
   },
   "smart-wheel": {
     serviceId: "smart-wheel",
@@ -46,7 +46,7 @@ export const productSeoByService = {
       "QR",
     ],
     schemaId: "smart-wheel",
-    lastModified: "2026-08-16",
+    lastModified: "2026-10-08",
   },
   wallet: {
     serviceId: "wallet",
@@ -63,7 +63,7 @@ export const productSeoByService = {
       "Google Wallet",
     ],
     schemaId: "digital-wallet",
-    lastModified: "2026-08-16",
+    lastModified: "2026-10-08",
   },
   "viby-up": {
     serviceId: "viby-up",
@@ -74,7 +74,7 @@ export const productSeoByService = {
     primaryIntent: "קשרי לקוחות ב־WhatsApp",
     supportingIntents: ["וייבי אפ", "Viby UP", "מעקב אחרי חוויית לקוח", "AI לעסקים"],
     schemaId: "viby-up",
-    lastModified: "2026-09-10",
+    lastModified: "2026-10-08",
   },
   "viby-rate": {
     serviceId: "viby-rate",
@@ -90,7 +90,7 @@ export const productSeoByService = {
       "Google Reviews",
     ],
     schemaId: "viby-rate",
-    lastModified: "2026-08-16",
+    lastModified: "2026-10-08",
   },
   "viby-tap": {
     serviceId: "viby-tap",
@@ -106,7 +106,7 @@ export const productSeoByService = {
       "QR לעסק",
     ],
     schemaId: "viby-tap",
-    lastModified: "2026-08-16",
+    lastModified: "2026-10-08",
   },
 } as const satisfies Record<ServiceId, ProductSeo>;
 

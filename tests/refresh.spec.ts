@@ -19,7 +19,7 @@ async function initialize(
 ) {
   await page.addInitScript(
     ({ consent, age, visitKey }) => {
-      if (consent) localStorage.setItem("viby-analytics-consent", consent);
+      if (consent) localStorage.setItem("viby-analytics-consent", JSON.stringify({version: 1, value: consent, savedAt: Date.now()}));
       if (!sessionStorage.getItem(visitKey))
         sessionStorage.setItem(
           visitKey,
@@ -134,7 +134,7 @@ test("navigation retains timer, one exposure, chooser events, and correct produc
     page.getByRole("navigation", { name: "בחירת שירות Viby" }),
   ).toBeVisible();
   await page
-    .locator(".service-chooser-card")
+    .locator(".service-chooser-panel .service-chooser-card")
     .filter({ hasText: "גלגל חכם" })
     .click();
   await expect(page).toHaveURL(/smart-wheel/);
@@ -239,7 +239,7 @@ test("blocked storage and throwing analytics do not break navigation or widget",
   await page.keyboard.press("Escape");
   await page.locator(".service-chooser--header button").click();
   await page
-    .locator(".service-chooser-card")
+    .locator(".service-chooser-panel .service-chooser-card")
     .filter({ hasText: "Viby UP" })
     .click();
   await expect(page).toHaveURL(/viby-up/);
@@ -256,7 +256,7 @@ test("mobile chooser has six accessible destinations and no widget", async ({
   await page.goto("/viby-up");
   await expect(trigger(page)).toHaveCount(0);
   await page.locator(".service-chooser--header button").click();
-  await expect(page.locator(".service-chooser-card")).toHaveCount(6);
+  await expect(page.locator(".service-chooser-panel .service-chooser-card")).toHaveCount(6);
   await expect(
     page.locator('.service-chooser-card[aria-current="page"]'),
   ).toBeFocused();

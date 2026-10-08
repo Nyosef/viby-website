@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { CommercialDisclosure } from "./CommercialDisclosure";
+import { VideoConsentPlayer } from "./VideoConsentPlayer";
+import { monthlyPrice } from "@/lib/commercial";
 import { SetupGiftSection } from "./SetupGiftSection";
 import { JourneyIllustration } from "./JourneyIllustration";
 import Link from "next/link";
@@ -733,6 +736,7 @@ export function MultiServiceLanding({
                   איך זה עובד
                 </a>
               </div>
+              <CommercialDisclosure service={activeId} compact />
             </div>
 
             <div className="v2-hero-art" key={`art-${activeId}`}>
@@ -903,7 +907,7 @@ export function MultiServiceLanding({
 
             <div className="v2-price-amount">
               <span>החל מ־</span>
-              <strong>{activeId === "punch-card" ? "79" : "49"}</strong>
+              <strong>{monthlyPrice(activeId)}</strong>
               <span>₪ לחודש</span>
               <small>לכל כלי בנפרד</small>
             </div>
@@ -922,7 +926,7 @@ export function MultiServiceLanding({
               href={whatsappUrl}
               data-analytics-location="price_strip"
               aria-label={`קבלת פרטים על ${service.label} החל מ־${
-                activeId === "punch-card" ? "79" : "49"
+                monthlyPrice(activeId)
               } שקלים לחודש`}
             >
               <WhatsAppIcon />
@@ -931,6 +935,7 @@ export function MultiServiceLanding({
               </span>
             </a>
           </div>
+          <CommercialDisclosure service={activeId} />
         </section>
 
         <ServiceDetail service={service} />
@@ -964,6 +969,7 @@ export function MultiServiceLanding({
               {siteConfig.whatsappDisplay}
             </a>
           </div>
+          <CommercialDisclosure service={activeId} compact />
         </div>
       </section>
 
@@ -1425,13 +1431,7 @@ function RotatingPunchReward() {
 function ServiceDemo({ service }: { service: ServiceContent }) {
   if (service.media.videoUrl) {
     return (
-      <iframe
-        src={service.media.videoUrl}
-        title="סרטון הסבר על הכרטיסיות הדיגיטליות של Viby"
-        allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-        referrerPolicy="strict-origin-when-cross-origin"
-        allowFullScreen
-      />
+      <VideoConsentPlayer src={service.media.videoUrl} title="סרטון הסבר על הכרטיסיות הדיגיטליות של Viby" />
     );
   }
 

@@ -1,3 +1,5 @@
+import { commercialTerms } from "@/lib/commercial";
+import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { ServiceId } from "@/lib/services";
 import {
@@ -48,13 +50,14 @@ export function SetupGiftSection({ service }: { service: ServiceId }) {
           </span>
           <h2 id={headingId}>
             הקמה מלאה <span>עלינו.</span>
-            <span className="setup-gift-deadline">תוך עד 3 ימי עסקים.</span>
+            <span className="setup-gift-deadline">השירות הדיגיטלי תוך עד {commercialTerms.setupBusinessDays} ימי עסקים.</span>
           </h2>
         </div>
         <p className="setup-gift-intro">
-          <strong>אתם לא צריכים להתעסק בכלום.</strong>
+          <strong>אנחנו מטפלים בהקמה ובהגדרה.</strong>
           אנחנו מקימים ומגדירים את השירות עבור העסק, מכינים הכול לשימוש —
-          ומביאים לכם אותו מוכן.
+          ומכינים את השירות להפעלה.{" "}
+          <span className="setup-gift-timing">{commercialTerms.setup}</span>
         </p>
         <div className="setup-gift-details">
           <ol className="setup-gift-promises">
@@ -68,7 +71,7 @@ export function SetupGiftSection({ service }: { service: ServiceId }) {
             </li>
             <li>
               <span aria-hidden="true">3</span>
-              <strong>מוכנים לעבודה תוך עד 3 ימי עסקים</strong>
+              <strong>השירות הדיגיטלי מוכן תוך עד {commercialTerms.setupBusinessDays} ימי עסקים</strong>
             </li>
           </ol>
         </div>
@@ -113,7 +116,8 @@ export function SetupGiftSection({ service }: { service: ServiceId }) {
             <strong>שלט מעוצב במיוחד לעסק שלכם</strong>
             <span>מותאם לעסק ולשירות שבחרתם. מודפס ומוכן לשימוש.</span>
             <small>
-              המתנה מותנית בשימוש ב־<bdi>Viby</bdi> למשך 3 חודשים לפחות.
+              {commercialTerms.sign} {commercialTerms.delivery}{" "}
+              <Link href="/terms#terms-8">לתנאי ההצטרפות</Link>
             </small>
           </figcaption>
         </figure>

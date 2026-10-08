@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { productSeoEntries } from "@/lib/seo";
+import { legalDocuments } from "@/lib/legal-content";
 import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -26,16 +27,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteConfig.url}/how-it-works`,
+      lastModified: "2026-10-08",
       changeFrequency: "monthly",
       priority: 0.75,
     },
     {
       url: `${siteConfig.url}/terms`,
+      lastModified: legalDocuments.terms.effectiveDate,
       changeFrequency: "yearly",
       priority: 0.5,
     },
     {
       url: `${siteConfig.url}/privacy`,
+      lastModified: legalDocuments.privacy.effectiveDate,
       changeFrequency: "yearly",
       priority: 0.5,
     },

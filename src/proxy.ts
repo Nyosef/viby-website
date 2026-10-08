@@ -43,7 +43,7 @@ export function proxy(request: NextRequest) {
   const isPreviewHost =
     hostname.endsWith(".vercel.app") && hostname !== "viby-website.vercel.app";
 
-  if (isPreviewHost || destination.pathname.startsWith("/api/")) {
+  if (isPreviewHost || destination.pathname.startsWith("/api/") || /^\/(terms|privacy)\/versions\//.test(destination.pathname)) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
   }
 

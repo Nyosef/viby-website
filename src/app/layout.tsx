@@ -5,9 +5,11 @@ import { WhatsAppWidget } from "@/components/WhatsAppWidget";
 import { AnalyticsConsent } from "@/components/AnalyticsConsent";
 import { productSeoByService } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
+import { assertLegalPublicationReady } from "@/lib/legal-identity";
 import "./globals.css";
 import "./refresh.css";
 import "./setup-gift.css";
+import "./legal-refresh.css";
 
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
@@ -57,6 +59,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  assertLegalPublicationReady();
   return (
     <html lang="he-IL" dir="rtl" suppressHydrationWarning>
       <body className={heebo.className} suppressHydrationWarning>

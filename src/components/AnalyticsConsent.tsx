@@ -3,12 +3,14 @@
 import Script from "next/script";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   getAnalyticsConsent,
   setAnalyticsConsent,
   subscribeToConsent,
   safeGtag,
+  migrateAnalyticsConsent,
+  disableAnalyticsCollection,
   isAnalyticsCtaLocation,
   trackAnalyticsEvent,
   type AnalyticsConsent as ConsentValue,
@@ -29,11 +31,31 @@ export function AnalyticsConsent({
 
   const initialized = useRef(false);
   const lastProductPath = useRef<string | null>(null);
+  const [preferencesOpen, setPreferencesOpen] = useState(false);
+  const preferencesTrigger = useRef<HTMLButtonElement>(null);
+  const preferencesPanel = useRef<HTMLElement>(null);
+
+  useEffect(() => { migrateAnalyticsConsent(); }, []);
 
   useEffect(() => {
-    if (!measurementId || !consent) return;
+    if (!preferencesOpen) return;
+    preferencesPanel.current?.focus();
+    function dismiss(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setPreferencesOpen(false);
+        preferencesTrigger.current?.focus();
+      }
+    }
+    document.addEventListener("keydown", dismiss);
+    return () => document.removeEventListener("keydown", dismiss);
+  }, [preferencesOpen]);
+
+  useEffect(() => {
+    if (!measurementId) return;
+    disableAnalyticsCollection(measurementId, consent !== "granted");
+    if (consent !== "granted") lastProductPath.current = null;
     safeGtag("consent", "update", {
-      analytics_storage: consent,
+      analytics_storage: consent ?? "denied",
       ad_storage: "denied",
       ad_user_data: "denied",
       ad_personalization: "denied",
@@ -104,20 +126,21 @@ export function AnalyticsConsent({
   }, [consent, measurementId]);
 
   function chooseConsent(value: ConsentValue) {
+    if (measurementId) disableAnalyticsCollection(measurementId, value !== "granted");
+    setAnalyticsConsent(value);
     safeGtag("consent", "update", {
       analytics_storage: value,
       ad_storage: "denied",
       ad_user_data: "denied",
       ad_personalization: "denied",
     });
-    setAnalyticsConsent(value);
+    setPreferencesOpen(false);
+    if (preferencesOpen) preferencesTrigger.current?.focus();
   }
-
-  if (!measurementId) return null;
 
   return (
     <>
-      {consent === "granted" ? (
+      {measurementId && consent === "granted" ? (
         <>
           <Script
             id="viby-ga4-loader"
@@ -127,7 +150,19 @@ export function AnalyticsConsent({
         </>
       ) : null}
 
-      {consent === null ? (
+      <button type="button" className="privacy-preferences-toggle" ref={preferencesTrigger} aria-expanded={preferencesOpen} aria-controls="privacy-preferences" onClick={() => setPreferencesOpen((open) => !open)}>העדפות פרטיות</button>
+      {preferencesOpen ? (
+        <aside id="privacy-preferences" className="privacy-preferences-panel" aria-label="העדפות פרטיות" role="dialog" tabIndex={-1} ref={preferencesPanel}>
+          <h2>העדפות פרטיות</h2>
+          <p>{measurementId ? `מדידה באתר: ${consent === "granted" ? "מאושרת" : "כבויה"}. אפשר לשנות את הבחירה בכל עת; היא נשמרת עד 180 ימים.` : "אין מדידה פעילה באתר זה."} סרטוני Vimeo נטענים בנפרד, רק כשתבחרו לצפות. <Link href="/privacy#privacy-18">מדיניות הפרטיות</Link></p>
+          {measurementId ? <div>
+            <button type="button" onClick={() => chooseConsent("granted")}>אישור מדידה</button>
+            <button type="button" onClick={() => chooseConsent("denied")}>הפסקת מדידה</button>
+          </div> : null}
+          <button type="button" onClick={() => { setPreferencesOpen(false); preferencesTrigger.current?.focus(); }}>סגירה</button>
+        </aside>
+      ) : null}
+      {measurementId && consent === null && !preferencesOpen ? (
         <aside
           className="analytics-consent"
           aria-label="העדפות מדידה"

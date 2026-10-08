@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { leadPlanDescription } from "@/lib/commercial";
+import { createLeadRateLimiter } from "@/lib/lead-rate-limit";
 
 export const runtime = "nodejs";
 
@@ -10,9 +12,7 @@ type LeadRequest = {
   turnstileToken?: unknown;
 };
 
-const attempts = new Map<string, number[]>();
-const ATTEMPT_WINDOW_MS = 10 * 60 * 1000;
-const MAX_ATTEMPTS = 5;
+const leadRateLimiter = createLeadRateLimiter();
 const DEFAULT_EMAIL_RECIPIENTS = [
   "nyosef@gmail.com",
   "vibyisrael@gmail.com",
@@ -62,19 +62,7 @@ function escapeHtml(value: string) {
 }
 
 function isRateLimited(ip: string) {
-  const now = Date.now();
-  const recentAttempts = (attempts.get(ip) ?? []).filter(
-    (timestamp) => now - timestamp < ATTEMPT_WINDOW_MS,
-  );
-
-  if (recentAttempts.length >= MAX_ATTEMPTS) {
-    attempts.set(ip, recentAttempts);
-    return true;
-  }
-
-  recentAttempts.push(now);
-  attempts.set(ip, recentAttempts);
-  return false;
+  return leadRateLimiter.isLimited(ip);
 }
 
 async function verifyTurnstile(token: string, ip: string) {
@@ -125,13 +113,13 @@ async function sendLeadEmail(name: string, phone: string, submittedAt: string) {
   const safeName = escapeHtml(name);
   const safePhone = escapeHtml(phone);
   const subject = `💳 בקשה לקישור תשלום — ${name}`;
-  const text = `בקשה חדשה לקישור תשלום\n\nשם: ${name}\nטלפון: +${phone}\nמסלול: כרטיסייה דיגיטלית — 79 ₪ לחודש\nנשלח: ${submittedAt}`;
+  const text = `בקשה חדשה לקישור תשלום\n\nשם: ${name}\nטלפון: +${phone}\nמסלול: ${leadPlanDescription()}\nנשלח: ${submittedAt}`;
   const html = `
     <div dir="rtl" style="font-family:Arial,sans-serif;line-height:1.7">
       <h2>💳 בקשה חדשה לקישור תשלום</h2>
       <p><strong>שם:</strong> ${safeName}</p>
       <p><strong>טלפון:</strong> <a href="tel:+${safePhone}">+${safePhone}</a></p>
-      <p><strong>מסלול:</strong> כרטיסייה דיגיטלית — 79 ₪ לחודש</p>
+      <p><strong>מסלול:</strong> ${escapeHtml(leadPlanDescription())}</p>
       <p><strong>נשלח:</strong> ${escapeHtml(submittedAt)}</p>
     </div>
   `;
@@ -193,7 +181,7 @@ async function sendTelegramAlert(
     "",
     `שם: ${name}`,
     `טלפון: +${phone}`,
-    "מסלול: 79 ₪ לחודש",
+    `מסלול: ${leadPlanDescription()}`,
     `נשלח: ${submittedAt}`,
   ].join("\n");
   const results = await Promise.allSettled(
@@ -231,7 +219,7 @@ async function sendGreenApiAlerts(
     "",
     `שם: ${name}`,
     `טלפון: +${phone}`,
-    "מסלול: 79 ₪ לחודש",
+    `מסלול: ${leadPlanDescription()}`,
     `נשלח: ${submittedAt}`,
   ].join("\n");
   const endpoint = `${apiUrl}/waInstance${instanceId}/sendMessage/${apiToken}`;

@@ -118,7 +118,7 @@ export function UpConversation() {
             {data.responses.map((response, index) => (
               <div
                 key={index}
-                className={`up-message up-business ${time >= 10000 + index * 2000 ? "shown" : ""}`}
+                className={`up-message up-business ${scenario === "attention" && index === data.responses.length - 1 ? "up-attention-reply" : ""} ${time >= 10000 + index * 2000 ? "shown" : ""}`}
               >
                 <p>{response}</p>
                 {scenario === "happy" && index === 1 ? (
@@ -137,6 +137,12 @@ export function UpConversation() {
                 </small>
               </div>
             ))}
+            {scenario === "attention" ? (
+              <div className={`up-ticket-opened ${time >= 13000 ? "shown" : ""}`}>
+                <i aria-hidden="true" />
+                <span>פנייה נפתחה</span>
+              </div>
+            ) : null}
             <div
               className="up-typing"
               style={{
@@ -210,6 +216,7 @@ export function UpConversation() {
                 {response}
               </p>
             ))}
+            {key === "attention" ? <p>פנייה נפתחה לבעל העסק</p> : null}
             <p>
               <strong>
                 {key === "attention" ? "עדכון לבעל העסק: " : "התוצאה: "}

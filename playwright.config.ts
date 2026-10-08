@@ -2,6 +2,7 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests",
+  testMatch: "**/*.spec.ts",
   fullyParallel: true,
   workers: 2,
   use: {
@@ -17,6 +18,8 @@ export default defineConfig({
     env: {
       NEXT_DIST_DIR: ".next-test",
       NEXT_PUBLIC_GA_MEASUREMENT_ID: "G-YLFYE45LK7",
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: "",
+      TURNSTILE_SECRET_KEY: "",
     },
   },
 });

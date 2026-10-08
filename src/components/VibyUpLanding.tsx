@@ -1,3 +1,5 @@
+import { CommercialDisclosure } from "./CommercialDisclosure";
+import { commercialTerms } from "@/lib/commercial";
 import Image from "next/image";
 import { SetupGiftSection } from "./SetupGiftSection";
 import Link from "next/link";
@@ -55,6 +57,7 @@ export function VibyUpLanding() {
           <div className="up-demo-with-cta">
             <UpConversation />
             <Contact location="hero" />
+            <CommercialDisclosure service="viby-up" />
           </div>
         </div>
       </section>
@@ -94,7 +97,7 @@ export function VibyUpLanding() {
             {[
               [
                 "אתם בוחרים מתי ולמי לפנות",
-                "בעקבות ביקור או רכישה שתועדו, או בבחירה של לקוחות ומועד הפנייה.",
+                "בעקבות פעילות מתועדת או בבחירה יזומה, רק ללקוחות שיש הרשאה מתאימה לפנות אליהם ותוך כיבוד בקשות הפסקה.",
               ],
               [
                 "Viby UP פותחת שיחה אישית ב־WhatsApp",
@@ -171,6 +174,7 @@ export function VibyUpLanding() {
       <section className="up-section up-faq up-shell">
         <span className="up-kicker">לפני שמתחילים</span>
         <h2>שאלות טובות. תשובות פשוטות.</h2>
+        <p>{commercialTerms.setup} הערכות AI עשויות להיות שגויות; אין הבטחה לכמות ביקורות, לדירוג או לתוצאה עסקית.</p>
         {upFaqs.map(([question, answer]) => (
           <details key={question}>
             <summary>
@@ -194,6 +198,7 @@ export function VibyUpLanding() {
             Viby UP זמינה לעסק שלכם. נדגים את החוויה ונבדוק יחד התאמה ומחיר.
           </p>
           <Contact location="final_cta" />
+          <CommercialDisclosure service="viby-up" />
         </div>
       </section>
       <footer className="up-footer up-shell">
