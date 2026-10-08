@@ -42,3 +42,19 @@ npm run seo:report
 The report starts the production build locally and checks every canonical route,
 metadata uniqueness, JSON-LD, sitemap and robots behavior, legacy query redirects,
 404 indexing, and internal links.
+
+## Legal website publication
+
+The website now shares commercial disclosures across its six products and keeps
+prior terms/privacy documents at their version URLs. See the
+[publication checklist](docs/legal-website-publication.md) before publishing.
+
+Production Vercel builds require the confirmed public `NEXT_PUBLIC_LEGAL_*`
+identity/contact fields and `LEGAL_PUBLICATION_REVIEWED=true`. Development and
+preview builds remain available with clearly marked draft identity fields.
+Supply these public values before building; they are compiled into client notices.
+
+Run `npm run test:legal-runtime` (Node 22.19+) for rate-limit and publication
+guard checks, and `npm run test:refresh` for browser verification. Browser tests
+isolate Google/Vimeo traffic and mock callback delivery; they do not create leads
+or send team notifications.

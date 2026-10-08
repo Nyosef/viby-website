@@ -131,7 +131,7 @@ const productExpectations = [
     ],
     buyingGuide: {
       definitionHeading: "כרטיס או שלט NFC שמקצר את הדרך לביקורת אמיתית",
-      price: "מתחילה ב־49 ₪ לחודש",
+      price: "החל מ־49 ₪ לחודש",
       operationalTerms: ["הלקוח מצמיד או סורק", "הצוות מזמין לביקורת", "בעל העסק מאשר את היעד"],
       compatibilityTerms: ["NFC עובד בטלפון תואם", "QR משמש חלופה", "בסוללה או בטעינה"],
       dataTerm: "אינו נדרש להירשם ל־Viby",
@@ -159,7 +159,7 @@ const productExpectations = [
     disallowedVisibleTerms: ["כרטיס ביקור דיגיטלי"],
     buyingGuide: {
       definitionHeading: "שלט NFC ועמוד קישורים שמחברים את העסק לטלפון",
-      price: "מתחיל ב־49 ₪ לחודש",
+      price: "החל מ־49 ₪ לחודש",
       operationalTerms: ["הלקוח מצמיד ובוחר", "הצוות רק מציג את השלט", "בעל העסק שולט בתוכן"],
       compatibilityTerms: ["NFC עובד בטלפון תואם", "QR נפתח באמצעות המצלמה", "אינו צריך להוריד אפליקציית Viby"],
       dataTerm: "אין צורך להירשם ל־Viby",
@@ -183,8 +183,8 @@ const productExpectationByPath = new Map(
   productExpectations.map((product) => [product.path, product]),
 );
 const guidedSetupPromise =
-  "לאחר שקיבלנו את פרטי העסק, הלוגו וההגדרות הנדרשות, Viby מלווה את ההקמה ומעלה את המוצר הדיגיטלי לאוויר עד יום העסקים הבא.";
-const commercialLastModified = "2026-08-16";
+  "לאחר קבלת פרטי העסק, ההרשאות והאישורים הנדרשים, Viby מפעילה את השירות הדיגיטלי תוך עד 3 ימי עסקים. ימי עסקים: ראשון–חמישי, למעט חגים בישראל. ייצור השלט והמשלוח מתואמים בנפרד.";
+const commercialLastModified = "2026-10-08";
 const analyticsLocations = new Set([
   "header",
   "hero",
@@ -327,7 +327,7 @@ async function checkPage(pathname, titles) {
       assert(visible.includes(term), `UP: missing visible content ${term}`);
     }
     assert(visible.includes("לקריאת השיחות המלאות"), "UP: missing server-rendered transcript");
-    assert(!visible.includes(guidedSetupPromise), "UP: inherited unsupported setup promise");
+    assert(visible.includes(guidedSetupPromise), "UP: approved setup disclosure missing");
     assert(!/החל מ־(?:49|79)/.test(visible), "UP: inherited product price");
     const nodes = parsedJsonLd.flatMap((doc) => doc["@graph"] ?? [doc]);
     const service = nodes.find((node) => node["@type"] === "Service");
@@ -525,9 +525,9 @@ async function run() {
       const canonical = expectedCanonical(route);
       const entry = sitemapEntries.find((candidate) => candidate.includes(`<loc>${canonical}</loc>`));
       const lastModified = entry?.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
-      if (productRoutes.has(route)) {
+      if (productRoutes.has(route) || ["/terms", "/privacy", "/how-it-works"].includes(route)) {
         assert(
-          lastModified === (route === "/viby-up" ? "2026-09-10" : commercialLastModified),
+          lastModified === commercialLastModified,
           `sitemap: ${route} lastmod is ${lastModified ?? "missing"}`,
         );
       } else {

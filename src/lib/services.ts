@@ -1,3 +1,5 @@
+import { commercialTerms, subscriptionPriceNotice } from "./commercial";
+
 export type LegacyServiceId =
   | "punch-card"
   | "smart-wheel"
@@ -124,8 +126,7 @@ export type ServiceContent = {
   layout: ServiceLayoutOptions;
 };
 
-export const guidedSetupPromise =
-  "לאחר שקיבלנו את פרטי העסק, הלוגו וההגדרות הנדרשות, Viby מלווה את ההקמה ומעלה את המוצר הדיגיטלי לאוויר עד יום העסקים הבא.";
+export const guidedSetupPromise = commercialTerms.setup;
 
 export const serviceGroups: Array<{
   id: ServiceGroup;
@@ -264,7 +265,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: "החל מ־79 ₪ לחודש לכלי. התאמה לכמה סניפים מתומחרת בנפרד.",
+          value: `${subscriptionPriceNotice("punch-card")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} התאמה לכמה סניפים מתומחרת בנפרד.`,
         },
         {
           label: "זמן הקמה",
@@ -321,7 +322,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה הכרטיסייה וכמה זמן לוקח להתחיל?",
-          answer: `המחיר מתחיל ב־79 ₪ לחודש לכלי. ${guidedSetupPromise} התאמה לכמה סניפים נסגרת בנפרד לפני ההפעלה.`,
+          answer: `${subscriptionPriceNotice("punch-card")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${guidedSetupPromise} התאמה לכמה סניפים נסגרת בנפרד לפני ההפעלה.`,
         },
       ],
     },
@@ -458,7 +459,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: "החל מ־49 ₪ לחודש לכלי. התאמה לכמה סניפים מתומחרת בנפרד.",
+          value: `${subscriptionPriceNotice("smart-wheel")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} התאמה לכמה סניפים מתומחרת בנפרד.`,
         },
         { label: "זמן הקמה", value: guidedSetupPromise },
         {
@@ -512,7 +513,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה הגלגל וכמה זמן לוקח להפעיל אותו?",
-          answer: `המחיר מתחיל ב־49 ₪ לחודש לכלי. לאחר קבלת פרטי העסק והגדרות הפרסים, ${guidedSetupPromise} התאמה לכמה סניפים מתומחרת בנפרד.`,
+          answer: `${subscriptionPriceNotice("smart-wheel")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${guidedSetupPromise} התאמה לכמה סניפים מתומחרת בנפרד.`,
         },
       ],
     },
@@ -650,7 +651,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: "החל מ־49 ₪ לחודש לכלי. עמלות סליקה או הסדרי תשלום, אם קיימים, נבדקים בנפרד לפני ההפעלה.",
+          value: `${subscriptionPriceNotice("wallet")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} עמלות סליקה או הסדרי תשלום נמסרים לאישור לפני ההפעלה.`,
         },
         { label: "זמן הקמה", value: guidedSetupPromise },
         {
@@ -703,7 +704,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה המערכת וכמה זמן לוקח להתחיל?",
-          answer: `המחיר מתחיל ב־49 ₪ לחודש לכלי. ${guidedSetupPromise} סכומים, תנאים, מיתוג והגדרות תשלום צריכים להיות מאושרים לפני ההקמה; עמלות סליקה אינן מובטחות כחלק מהמחיר.`,
+          answer: `${subscriptionPriceNotice("wallet")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${guidedSetupPromise} סכומים ותנאי תשלום מאושרים מראש; עמלות סליקה אינן מובטחות כחלק מהמחיר.`,
         },
       ],
     },
@@ -816,7 +817,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         {
           icon: "N",
           title: "NFC ו־QR ממותגים",
-          text: "כרטיס או שלט בעיצוב העסק; הפורמט, הכמות והעלות הפיזית נסגרים לפני ההזמנה.",
+          text: `${commercialTerms.sign} כרטיסים נוספים או פורמט אחר מתומחרים ומאושרים מראש. ${commercialTerms.delivery}`,
         },
         {
           icon: "✓",
@@ -844,7 +845,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: "ההגדרה הדיגיטלית מתחילה ב־49 ₪ לחודש. פורמט, כמות ועלות המוצר הפיזי נסגרים בנפרד.",
+          value: `${subscriptionPriceNotice("viby-rate")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${commercialTerms.sign} ${commercialTerms.delivery}`,
         },
         {
           label: "הגדרה ומשלוח",
@@ -874,7 +875,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         {
           question: "מה מקבלים בהזמנה של VibyRate?",
           answer:
-            "קישור מוגדר לעמוד הביקורות של העסק ומוצר ממותג עם NFC ו־QR. סוג הכרטיס או השלט, הכמות, עלות הייצור ומועד המשלוח מאושרים לפני ההזמנה.",
+            `קישור לעמוד הביקורות ומוצר ממותג עם NFC ו־QR בהתאם להזמנה. ${commercialTerms.sign} ${commercialTerms.delivery}`,
         },
         {
           question: "האם הכרטיס עובד גם ב־NFC וגם ב־QR?",
@@ -899,7 +900,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה VibyRate ומתי הוא מוכן לשימוש?",
-          answer: `ההגדרה הדיגיטלית מתחילה ב־49 ₪ לחודש. ${guidedSetupPromise} הפורמט, הכמות, עלות הייצור וזמן המשלוח של המוצר הפיזי מאושרים בנפרד.`,
+          answer: `${subscriptionPriceNotice("viby-rate")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${guidedSetupPromise} ${commercialTerms.sign} ${commercialTerms.delivery}`,
         },
       ],
     },
@@ -1025,7 +1026,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         {
           icon: "N",
           title: "שלט או מדבקת NFC ו־QR",
-          text: "מוצר פיזי מותאם לעסק; הגודל, החומר, הכמות והעלות נסגרים לפני הייצור.",
+          text: `${commercialTerms.sign} מדבקות נוספות או פורמט אחר מתומחרים ומאושרים מראש. ${commercialTerms.delivery}`,
         },
         {
           icon: "🏪",
@@ -1053,7 +1054,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: "השירות הדיגיטלי מתחיל ב־49 ₪ לחודש. גודל, חומר, כמות ועלות המוצר הפיזי נסגרים בנפרד.",
+          value: `${subscriptionPriceNotice("viby-tap")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${commercialTerms.sign} ${commercialTerms.delivery}`,
         },
         {
           label: "הגדרה ומשלוח",
@@ -1083,7 +1084,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         {
           question: "מה העסק מקבל עם VibyTap?",
           answer:
-            "עמוד קישורים ממותג ושלט או מדבקה עם NFC ו־QR. הגודל, החומר, הכמות, עלות הייצור ומועד המשלוח מאושרים לפני ההזמנה.",
+            `עמוד קישורים ממותג ומוצר עם NFC ו־QR בהתאם להזמנה. ${commercialTerms.sign} ${commercialTerms.delivery}`,
         },
         {
           question: "אילו קישורים אפשר להציג בעמוד?",
@@ -1107,7 +1108,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה VibyTap וכמה זמן לוקח להקים ולקבל אותו?",
-          answer: `השירות הדיגיטלי מתחיל ב־49 ₪ לחודש. ${guidedSetupPromise} גודל, חומר, כמות, עלות הייצור וזמן המשלוח של השלט או המדבקה מאושרים בנפרד.`,
+          answer: `${subscriptionPriceNotice("viby-tap")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${guidedSetupPromise} ${commercialTerms.sign} ${commercialTerms.delivery}`,
         },
       ],
     },

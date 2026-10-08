@@ -6,6 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      // Version pages must remain crawlable so their noindex can be honoured.
       disallow: ["/api/"],
     },
     sitemap: `${siteConfig.url}/sitemap.xml`,
