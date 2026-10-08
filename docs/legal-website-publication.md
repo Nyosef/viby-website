@@ -23,10 +23,14 @@ actual AI messaging are outside this change.
 ## Required before publication
 
 1. Provide and verify public `NEXT_PUBLIC_LEGAL_BUSINESS_NAME`,
-   `NEXT_PUBLIC_LEGAL_BUSINESS_NUMBER` (nine digits),
    `NEXT_PUBLIC_LEGAL_BUSINESS_ADDRESS` and `NEXT_PUBLIC_LEGAL_CONTACT_EMAIL`.
    Confirm the email is monitored for privacy and cancellation and that the
    existing 050-956-5137 WhatsApp number can handle these requests.
+   The owner has confirmed Viby, Wingate 186 Herzliya and vibyisrael@gmail.com.
+   At the owner's request, the personal business number is omitted from this
+   B2B callback-only marketing website, its client configuration and build gate.
+   This does not change identity disclosures required for actual consumer sales,
+   contracts or tax documents; those processes are outside this website update.
 2. Review the concrete revised Hebrew documents, including liability, amendments,
    subscription/gift wording and the real ordering/acceptance practices. The source
    audit/draft recommend Israeli legal review; this implementation does not

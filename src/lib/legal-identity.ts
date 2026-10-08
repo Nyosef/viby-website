@@ -1,14 +1,13 @@
 // These values are intended for public legal notices, never credentials.
 export const legalIdentity = {
   name: process.env.NEXT_PUBLIC_LEGAL_BUSINESS_NAME?.trim() ?? "",
-  number: process.env.NEXT_PUBLIC_LEGAL_BUSINESS_NUMBER?.trim() ?? "",
   address: process.env.NEXT_PUBLIC_LEGAL_BUSINESS_ADDRESS?.trim() ?? "",
   email: process.env.NEXT_PUBLIC_LEGAL_CONTACT_EMAIL?.trim() ?? "",
 };
 
 export function missingLegalIdentity() {
   return Object.entries(legalIdentity)
-    .filter(([key, value]) => !value || (key === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) || (key === "number" && !/^\d{9}$/.test(value)))
+    .filter(([key, value]) => !value || (key === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)))
     .map(([key]) => key);
 }
 

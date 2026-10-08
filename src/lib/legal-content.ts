@@ -10,10 +10,9 @@ const section = (key: LegalDocumentKey, number: number, title: string, ...blocks
 const t = (number: number, title: string, ...blocks: LegalBlock[]) => section("terms", number, title, ...blocks);
 const q = (number: number, title: string, ...blocks: LegalBlock[]) => section("privacy", number, title, ...blocks);
 const owner = legalIdentity.name || "[שם העוסק — להשלמה לפני פרסום]";
-const number = legalIdentity.number || "[מספר עוסק — להשלמה לפני פרסום]";
 const address = legalIdentity.address || "[מען העסק — להשלמה לפני פרסום]";
 const email = legalIdentity.email || "[דוא״ל לפניות — להשלמה לפני פרסום]";
-const identity = `שירותי Viby מופעלים על ידי ${owner}, עוסק פטור מספר ${number}, שמענו ${address}.`;
+const identity = `שירותי Viby מופעלים על ידי ${owner}, עוסק פטור, שמענו ${address}.`;
 const contact = `לפניות שירות, ביטול ופרטיות: ${email}, וב־WhatsApp במספר 050-956-5137. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה.`;
 // Fixed release date: do not derive document versions from request/build time.
 const release = { updated: "08.10.2026", version: "2026-10-08", effectiveDate: "2026-10-08" };
