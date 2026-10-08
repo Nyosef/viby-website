@@ -50,7 +50,8 @@ prior terms/privacy documents at their version URLs. See the
 [publication checklist](docs/legal-website-publication.md) before publishing.
 
 Production Vercel builds require the confirmed public `NEXT_PUBLIC_LEGAL_*`
-identity/contact fields and `LEGAL_PUBLICATION_REVIEWED=true`. Development and
+name, address and contact email fields and `LEGAL_PUBLICATION_REVIEWED=true`. The
+business number is not collected or published by this marketing website. Development and
 preview builds remain available with clearly marked draft identity fields.
 Supply these public values before building; they are compiled into client notices.
 
