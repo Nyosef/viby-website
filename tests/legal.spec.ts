@@ -164,18 +164,28 @@ for (const [key, version, oldDate] of [["terms", "2026-07-02", "02.07.2026"], ["
   });
 }
 
-test("UP offers the same neutral review opportunity alongside complaint follow-up", async ({ page }) => {
+test("UP demo keeps the original opening and happy path, with the revised attention reply and ticket cue", async ({ page }) => {
   await storeChoice(page);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/viby-up");
   await expect(page.locator(".up-review-link")).toBeVisible();
+  await expect(page.locator(".up-ticket-opened")).toHaveCount(0);
   await page.getByRole("button", { name: "צריך תשומת לב" }).click();
-  await expect(page.locator(".up-review-link")).toBeVisible();
+  await expect(page.locator(".up-review-link")).toHaveCount(0);
+  await expect(page.locator(".up-attention-reply")).toContainText("ממש מצטערים על ההמתנה הארוכה. חשוב לנו לכבד את הזמן שלך ולתת לך חוויה טובה יותר.");
+  await expect(page.locator(".up-attention-reply")).toContainText("תודה ששיתפת אותנו — המשוב שלך חשוב לנו. נבדוק מה הוביל להמתנה ואיך נוכל להשתפר.");
+  await expect(page.locator(".up-ticket-opened")).toBeVisible();
+  await expect(page.locator(".up-ticket-opened")).toHaveText("פנייה נפתחה");
   const transcript = page.locator(".up-demo details");
   await transcript.locator("summary").click();
-  await expect(transcript).toContainText("העוזרת האוטומטית");
-  await expect(transcript.locator("p").filter({ hasText: "אם מתאים לך, אפשר לשתף את החוויה שלך גם ב־Google, בכל דירוג ובמילים שלך. השיתוף לבחירתך ואינו משפיע על המשך הטיפול." })).toHaveCount(2);
-  await expect(transcript).toContainText("כדי שיוכל לחזור אלייך");
+  await expect(transcript.locator("p").filter({ hasText: "היי דנה ☀️ איזה כיף שקפצת לקפה. איך היה אצלנו היום?" })).toHaveCount(2);
+  await expect(transcript).toContainText("אם מתאים לך, נשמח שתשתפי את החוויה שלך גם ב־Google. כמה מילים ממך עוזרות לאנשים להכיר אותנו ולעסק שלנו לצמוח 🌱");
+  await expect(transcript).toContainText("דנה נהנתה מהקפה, אך ציינה המתנה ארוכה. כדאי לחזור אליה באופן אישי.");
+  await expect(transcript).not.toContainText("העוזרת האוטומטית");
+  await expect(transcript).not.toContainText("הזמנה ניטרלית");
+  await expect(transcript).toContainText("פנייה נפתחה לבעל העסק");
+  await page.getByRole("button", { name: "היה מעולה" }).click();
+  await expect(page.locator(".up-ticket-opened")).toHaveCount(0);
 });
 
 test("an open page stops measurement at the stored expiry", async ({ page }) => {

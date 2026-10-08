@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { upOpening, upScenarios, neutralReviewInvitation, type UpScenario } from "@/lib/viby-up";
+import { upOpening, upScenarios, type UpScenario } from "@/lib/viby-up";
 
 const scenarioOrder: UpScenario[] = ["happy", "attention"];
 
@@ -118,10 +118,10 @@ export function UpConversation() {
             {data.responses.map((response, index) => (
               <div
                 key={index}
-                className={`up-message up-business ${time >= 10000 + index * 2000 ? "shown" : ""}`}
+                className={`up-message up-business ${scenario === "attention" && index === data.responses.length - 1 ? "up-attention-reply" : ""} ${time >= 10000 + index * 2000 ? "shown" : ""}`}
               >
                 <p>{response}</p>
-                {response === neutralReviewInvitation ? (
+                {scenario === "happy" && index === 1 ? (
                   <span className="up-review-link" title="קישור להמחשה בלבד">
                     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                       <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.51h3.24c1.9-1.75 2.98-4.33 2.98-7.36Z" />
@@ -137,6 +137,12 @@ export function UpConversation() {
                 </small>
               </div>
             ))}
+            {scenario === "attention" ? (
+              <div className={`up-ticket-opened ${time >= 13000 ? "shown" : ""}`}>
+                <i aria-hidden="true" />
+                <span>פנייה נפתחה</span>
+              </div>
+            ) : null}
             <div
               className="up-typing"
               style={{
@@ -210,6 +216,7 @@ export function UpConversation() {
                 {response}
               </p>
             ))}
+            {key === "attention" ? <p>פנייה נפתחה לבעל העסק</p> : null}
             <p>
               <strong>
                 {key === "attention" ? "עדכון לבעל העסק: " : "התוצאה: "}
