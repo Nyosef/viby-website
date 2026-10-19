@@ -36,7 +36,7 @@
 @media (max-width: 600px) { .commercial-disclosure { font-size: .78rem; } }
 @media print {
   body { background: white !important; color: black !important; }
-  .site-header, .site-footer, .legal-toc, .legal-print, .privacy-preferences-link, .privacy-preferences-panel, .analytics-consent, .whatsapp-widget, .legal-status, .legal-contact { display: none !important; }
+  .site-header, .site-footer, .legal-toc, .legal-print, .legal-relief-jump, .privacy-preferences-link, .privacy-preferences-panel, .analytics-consent, .whatsapp-widget, .legal-status, .legal-contact { display: none !important; }
   .legal-layout { display: block !important; }
   .section-shell { width: auto; max-width: none; margin: 0; padding: 0; }
   .legal-hero { padding: 0 0 18px; }

@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import { legalDocuments } from "./legal-content";
 import { previousLegalDocuments } from "./legal-history";
+import { october2026LegalDocuments } from "./legal-history-2026-10-08";
 import type { LegalDocumentKey } from "./legal-types";
 import { siteConfig } from "./site";
 
 export function legalVersions(key: LegalDocumentKey) {
-  return [previousLegalDocuments[key], legalDocuments[key]];
+  return [previousLegalDocuments[key], october2026LegalDocuments[key], legalDocuments[key]];
+}
+
+export function latestLegalArchive(key: LegalDocumentKey) {
+  return october2026LegalDocuments[key];
 }
 
 export function findLegalVersion(key: LegalDocumentKey, version: string) {

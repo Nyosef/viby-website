@@ -1,3 +1,5 @@
+import { legalRelease } from "./legal-release.ts";
+
 // These values are intended for public legal notices, never credentials.
 export const legalIdentity = {
   name: process.env.NEXT_PUBLIC_LEGAL_BUSINESS_NAME?.trim() ?? "",
@@ -18,5 +20,8 @@ export function assertLegalPublicationReady() {
   }
   if (process.env.VERCEL_ENV === "production" && process.env.LEGAL_PUBLICATION_REVIEWED !== "true") {
     throw new Error("Legal publication requires review of the final wording and operational disclosures. Set LEGAL_PUBLICATION_REVIEWED=true only after completing the publication checklist.");
+  }
+  if (process.env.VERCEL_ENV === "production" && process.env.LEGAL_PUBLICATION_REVIEWED_VERSION !== legalRelease.version) {
+    throw new Error(`Legal publication requires review for version ${legalRelease.version}. Set LEGAL_PUBLICATION_REVIEWED_VERSION to that version only after completing the publication checklist.`);
   }
 }
