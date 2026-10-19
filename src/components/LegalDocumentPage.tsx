@@ -1,19 +1,20 @@
 import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import Image from "next/image";
 import Link from "next/link";
-import { legalDocuments, type LegalDocument } from "@/lib/legal-content";
+import type { LegalDocument } from "@/lib/legal-content";
+import type { LegalDocumentKey } from "@/lib/legal-types";
 import { siteConfig } from "@/lib/site";
 import { previousLegalDocuments } from "@/lib/legal-history";
-import { latestLegalArchive } from "@/lib/legal-versions";
+import { currentLegalDocument, latestLegalArchive } from "@/lib/legal-versions";
 import { legalIdentity, missingLegalIdentity } from "@/lib/legal-identity";
 import { PrintLegalDocument } from "./PrintLegalDocument";
 
 type LegalDocumentPageProps = {
-  documentKey: keyof typeof legalDocuments;
+  documentKey: LegalDocumentKey;
   archivedDocument?: LegalDocument;
 };
 export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocumentPageProps) {
-  const document: LegalDocument = archivedDocument ?? legalDocuments[documentKey];
+  const document: LegalDocument = archivedDocument ?? currentLegalDocument(documentKey);
   const isTerms = documentKey === "terms";
   const currentPath = isTerms ? "/terms" : "/privacy";
   const path = archivedDocument ? `${currentPath}/versions/${document.version}` : currentPath;
@@ -66,7 +67,7 @@ export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocume
         <p className="eyebrow">מסמכים משפטיים</p>
         <h1>{document.title}</h1>
         <p>{document.description}</p>
-        {isTerms && !archivedDocument ? <Link className="legal-relief-jump" href="#terms-8a">למדיניות הסיוע לעסקים בחירום</Link> : null}
+        {isTerms && !archivedDocument && document.sections.some((section) => section.id === "terms-8a") ? <Link className="legal-relief-jump" href="#terms-8a">למדיניות הסיוע לעסקים בחירום</Link> : null}
         <span>עודכן לאחרונה: {document.updated}</span>
         <p className="legal-version">גרסה: <bdi>{document.version}</bdi> · תאריך תחילה: {document.effectiveDate.split("-").reverse().join(".")}</p>
         {archivedDocument ? <p className="legal-status">גרסה שמורה לעיון. <Link href={currentPath}>למסמך העדכני</Link></p> : (

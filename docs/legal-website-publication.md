@@ -7,7 +7,9 @@ actual AI messaging are outside this change.
 The emergency relief update has a separate operational and legal review checklist in
 [`emergency-relief-operations.md`](./emergency-relief-operations.md). Both
 `LEGAL_PUBLICATION_REVIEWED=true` and `LEGAL_PUBLICATION_REVIEWED_VERSION` matching
-the current version in `src/lib/legal-release.ts` are required for production.
+the current version in `src/lib/legal-release.ts` are required to publish the new
+documents in production. Without both, production serves the 8 October 2026
+documents while previews show the draft update.
 
 ## Confirmed commercial decisions
 
@@ -52,8 +54,10 @@ the current version in `src/lib/legal-release.ts` are required for production.
    the release identifier and corresponding validation expectations if publication
    is later. Set `LEGAL_PUBLICATION_REVIEWED=true` only after this checklist is met.
 
-Production builds fail until identity fields and the review flag are supplied.
-Preview builds permit review without publishing missing identity as final terms.
+Production builds fail until identity fields are supplied. An unreviewed legal
+version does not block the build; it remains absent from production pages and
+version URLs until the matching review flag is supplied. Preview builds permit
+review without publishing missing identity as final terms.
 No production settings are changed by this PR.
 
 ## Technical behavior and maintenance

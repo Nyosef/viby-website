@@ -1,8 +1,8 @@
 import { LegalDocumentPage } from "@/components/LegalDocumentPage";
-import { legalDocuments } from "@/lib/legal-content";
+import { currentLegalDocument } from "@/lib/legal-versions";
 import { createPageMetadata } from "@/lib/seo";
 
-const document = legalDocuments.terms;
+const document = currentLegalDocument("terms");
 
 export const metadata = createPageMetadata({
   path: "/terms",

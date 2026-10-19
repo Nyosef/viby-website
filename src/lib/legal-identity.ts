@@ -13,15 +13,18 @@ export function missingLegalIdentity() {
     .map(([key]) => key);
 }
 
+// An unreviewed release remains available on previews, while production keeps
+// serving the last published documents until this exact version is approved.
+export function isCurrentLegalReleasePublished() {
+  return process.env.VERCEL_ENV !== "production" || (
+    process.env.LEGAL_PUBLICATION_REVIEWED === "true" &&
+    process.env.LEGAL_PUBLICATION_REVIEWED_VERSION === legalRelease.version
+  );
+}
+
 export function assertLegalPublicationReady() {
   const missing = missingLegalIdentity();
   if (process.env.VERCEL_ENV === "production" && missing.length) {
     throw new Error(`Legal publication requires confirmed public business details: ${missing.join(", ")}. Configure NEXT_PUBLIC_LEGAL_* before production deployment.`);
-  }
-  if (process.env.VERCEL_ENV === "production" && process.env.LEGAL_PUBLICATION_REVIEWED !== "true") {
-    throw new Error("Legal publication requires review of the final wording and operational disclosures. Set LEGAL_PUBLICATION_REVIEWED=true only after completing the publication checklist.");
-  }
-  if (process.env.VERCEL_ENV === "production" && process.env.LEGAL_PUBLICATION_REVIEWED_VERSION !== legalRelease.version) {
-    throw new Error(`Legal publication requires review for version ${legalRelease.version}. Set LEGAL_PUBLICATION_REVIEWED_VERSION to that version only after completing the publication checklist.`);
   }
 }
