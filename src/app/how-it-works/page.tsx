@@ -1,3 +1,4 @@
+import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import { VideoConsentPlayer } from "@/components/VideoConsentPlayer";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -183,6 +184,7 @@ export default function HowItWorksPage() {
           <Link href="/support">תמיכה</Link>
           <Link href="/terms">תנאי שימוש</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
+          <PrivacyPreferencesButton />
 
           <a href={whatsappUrl} data-analytics-location="how_it_works">WhatsApp</a>
         </div>

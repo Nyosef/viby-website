@@ -1,3 +1,4 @@
+import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import Image from "next/image";
 import Link from "next/link";
 import { legalDocuments, type LegalDocument } from "@/lib/legal-content";
@@ -121,6 +122,7 @@ export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocume
           <Link href="/support">תמיכה</Link>
           <Link href="/terms">תנאי שימוש</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
+          <PrivacyPreferencesButton />
 
         </div>
       </footer>

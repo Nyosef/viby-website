@@ -1,3 +1,4 @@
+import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import Image from "next/image";
 import Link from "next/link";
 import { createPageMetadata } from "@/lib/seo";
@@ -217,6 +218,7 @@ export default function SupportPage() {
           <Link href="/support">תמיכה</Link>
           <Link href="/terms">תנאי שימוש</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
+          <PrivacyPreferencesButton />
 
           <a href={whatsappUrl} data-analytics-location="support_page">WhatsApp</a>
         </div>

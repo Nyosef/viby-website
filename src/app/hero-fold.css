@@ -324,3 +324,60 @@
   .landing-v2.compact-home-hero .v2-hero h1 { margin-bottom: 9px; }
   .landing-v2.compact-home-hero .v2-hero-text { line-height: 1.55; }
 }
+
+/* The phone layout has its own copy, compact picker and product photograph. */
+.landing-v2.compact-home-hero .v2-mobile-only { display: none; }
+.landing-v2.compact-home-hero .v2-hero h1 > .v2-hero-first-line { color: #fff; }
+@media (max-width: 760px) {
+  .landing-v2.compact-home-hero .v2-desktop-only { display: none; }
+  .landing-v2.compact-home-hero .v2-mobile-only { display: block; }
+  .landing-v2.compact-home-hero .v2-hero {
+    background-image: linear-gradient(#ffffff06 1px, transparent 1px), linear-gradient(90deg, #ffffff06 1px, transparent 1px);
+  }
+  .landing-v2.compact-home-hero .v2-hero .v2-orb { opacity: .15; }
+  .landing-v2.compact-home-hero .v2-hero .v2-sparkles { display: none; }
+  .landing-v2.compact-home-hero .v2-hero > .v2-shell { width: calc(100% - 40px); padding-block: 0 10px; }
+  .landing-v2.compact-home-hero .v2-brand-row { display: flex; min-height: 60px; height: 60px; padding: 0; gap: 0; }
+  .landing-v2.compact-home-hero .v2-brand-row > a:first-child { width: 84px; height: 42px; }
+  .landing-v2.compact-home-hero .v2-header-controls { width: auto; max-width: calc(100% - 100px); }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-trigger {
+    display: flex; width: auto; min-width: 0; height: 44px; min-height: 44px; gap: 8px; padding: 6px 9px;
+    border: 1px solid #eedfeb; border-radius: 12px; background: #fff; box-shadow: none; color: #2a1830;
+  }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-trigger:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-thumbnail { display: block; width: 36px; flex: 0 0 36px; }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-current { display: block; }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-current strong { font-size: clamp(.75rem, 3.45vw, .84rem); line-height: 1.2; white-space: nowrap; }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-current > span,
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-trigger > svg { display: none; }
+  .landing-v2.compact-home-hero .v2-hero-grid { display: flex; flex-direction: column; gap: 12px; padding-block: 4px 0; }
+  .landing-v2.compact-home-hero .v2-hero-copy { width: 100%; flex-shrink: 0; }
+  .landing-v2.compact-home-hero .v2-company-line { margin-bottom: 8px; font-size: .82rem; line-height: 1.4; }
+  .landing-v2.compact-home-hero .v2-hero h1 { font-size: clamp(1.8rem, 9.2vw, 2.5rem); line-height: 1.08; margin-bottom: 12px; letter-spacing: -.035em; }
+  .landing-v2.compact-home-hero .v2-hero-text { font-size: 1rem; line-height: 1.5; }
+  .landing-v2.compact-home-hero .v2-hero .v2-actions { flex-direction: column; gap: 8px; margin-top: 12px; }
+  .landing-v2.compact-home-hero .v2-hero .v2-button-whatsapp { width: 100%; min-height: 54px; flex: none; padding: 12px 14px; font-size: 1.05rem; }
+  .landing-v2.compact-home-hero .v2-hero .v2-button-ghost,
+  .landing-v2.compact-home-hero .v2-hero-reassurance,
+  .landing-v2.compact-home-hero .v2-compact-art-inner,
+  .landing-v2.compact-home-hero .v2-hero-art .v2-nfc-modern { display: none; }
+  .landing-v2.compact-home-hero .v2-mobile-demo-link { display: flex; justify-content: center; align-items: center; gap: 7px; min-height: 26px; color: #fff; font-size: .9rem; text-decoration: underline; text-underline-offset: 3px; }
+  .landing-v2.compact-home-hero .v2-mobile-demo-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .landing-v2.compact-home-hero .v2-hero-mobile-reassurance { display: grid; grid-template-columns: max-content max-content; gap: 6px 16px; justify-content: center; margin: 10px 0 0; padding: 0; list-style: none; font-size: .78rem; line-height: 1.5; }
+  .landing-v2.compact-home-hero .v2-hero-mobile-reassurance li::before { content: '✓'; margin-inline-end: 6px; }
+  .landing-v2.compact-home-hero .v2-hero-art { display: block; width: 100%; height: min(calc((100vw - 40px) * .75), calc(100svh - 596px)); min-height: 120px; border-radius: 22px; overflow: hidden; }
+  .landing-v2.compact-home-hero .v2-mobile-hero-photo { position: relative; width: 100%; height: 100%; }
+  .landing-v2.compact-home-hero .v2-mobile-hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 52%; }
+}
+@media (max-width: 760px) and (max-height: 700px) {
+  .landing-v2.compact-home-hero .v2-company-line { margin-bottom: 6px; }
+  .landing-v2.compact-home-hero .v2-hero h1 { font-size: clamp(1.65rem, 8.2vw, 2rem); margin-bottom: 8px; }
+  .landing-v2.compact-home-hero .v2-hero-text { font-size: .9rem; line-height: 1.45; }
+  .landing-v2.compact-home-hero .v2-hero .v2-actions { margin-top: 8px; }
+  .landing-v2.compact-home-hero .v2-mobile-demo-link { min-height: 22px; font-size: .85rem; }
+  .landing-v2.compact-home-hero .v2-hero-mobile-reassurance { margin-top: 8px; }
+  .landing-v2.compact-home-hero .v2-hero-grid { gap: 10px; }
+  .landing-v2.compact-home-hero .v2-hero-art { height: min(calc((100vw - 40px) * .75), calc(100svh - 576px)); min-height: 100px; }
+}
+
+.landing-v2.compact-home-hero #demo-player-punch-card { scroll-margin-block: 112px 24px; }

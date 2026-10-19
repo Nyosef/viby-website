@@ -342,7 +342,7 @@ async function checkPage(pathname, titles) {
   if (productRoutes.has(pathname) && pathname !== "/viby-up") {
     const expectation = productExpectationByPath.get(pathname);
     const description = descriptions[0]?.[1];
-    const h1 = headings[0] ? textContent(headings[0][1]) : undefined;
+    const h1 = headings[0] ? textContent(headings[0][1].replace(/<\/?span\b[^>]*>/g, "")) : undefined;
     const visibleText = textContent(html);
 
     assert(title === expectation?.title, `${pathname}: title is ${title ?? "missing"}`);
