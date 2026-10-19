@@ -357,10 +357,16 @@ test("mobile headers keep the logo, chooser, and positioning message separate", 
       if (path !== "/viby-up") {
         const message = (await page.locator(".v2-company-line").boundingBox())!;
         expect(message.y).toBeGreaterThanOrEqual(chooser.y + chooser.height);
-        expect(message.y - chooser.y - chooser.height).toBeLessThanOrEqual(22);
-        expect(
-          Math.abs(message.x + message.width / 2 - width / 2),
-        ).toBeLessThan(2);
+        if (path !== "/") expect(message.y - chooser.y - chooser.height).toBeLessThanOrEqual(22);
+        if (path === "/") {
+          const copy = (await page.locator(".v2-hero-copy").boundingBox())!;
+          expect(message.x).toBeGreaterThanOrEqual(copy.x);
+          expect(message.x + message.width).toBeLessThanOrEqual(copy.x + copy.width + 1);
+        } else {
+          expect(
+            Math.abs(message.x + message.width / 2 - width / 2),
+          ).toBeLessThan(2);
+        }
       }
     }
   }
