@@ -15,6 +15,7 @@ const routes = [
   "/viby-rate",
   "/viby-tap",
   "/viby-up",
+  "/about",
   "/how-it-works",
   "/support",
   "/terms",
@@ -189,6 +190,34 @@ const guidedSetupPromise =
   "לאחר קבלת פרטי העסק, ההרשאות והאישורים הנדרשים, Viby מפעילה את השירות הדיגיטלי תוך עד 3 ימי עסקים. ימי עסקים: ראשון–חמישי, למעט חגים בישראל. ייצור השלט והמשלוח מתואמים בנפרד.";
 const commercialLastModified = "2026-10-08";
 const brandReleaseLastModified = "2026-10-19";
+const aboutLastModified = "2026-10-20";
+const todayInIsrael = new Intl.DateTimeFormat("sv-SE", {
+  timeZone: "Asia/Jerusalem",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(new Date());
+const aboutTitle = "אודות וייבי | Viby";
+const aboutDescription =
+  "הכירו את וייבי (Viby), מערכת ישראלית שמנגישה טכנולוגיה מתקדמת לעסקים קטנים ובינוניים. כרטיסיות דיגיטליות, גלגל מזל, כרטיסי מתנה, NFC וקשרי לקוחות.";
+const aboutSolutions = [
+  ["/", "כרטיסיות דיגיטליות"],
+  ["/smart-wheel", "גלגל מזל חכם"],
+  ["/digital-wallet", "כרטיסי מתנה דיגיטליים"],
+  ["/viby-tap", "Viby Tap"],
+  ["/viby-rate", "Viby Rate"],
+  ["/viby-up", "Viby UP"],
+];
+const aboutHeadings = [
+  "מה זה וייבי?",
+  "רצינו להביא לעסקים בישראל משהו אחר.",
+  "טכנולוגיה טובה צריכה לעבוד בשבילכם.",
+  "הפתרונות של וייבי",
+  "אתם מתמקדים בעסק. אנחנו עוזרים בכל השאר.",
+  "מאחורי הטכנולוגיה יש אנשים.",
+  "יש עם מי לדבר.",
+  "רוצים להכניס קצת יותר וייב לעסק?",
+];
 const analyticsLocations = new Set([
   "header",
   "hero",
@@ -511,6 +540,73 @@ async function checkPage(pathname, titles) {
     }
   }
 
+  if (pathname === "/about") {
+    const body = html.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? "";
+    const visible = textContent(body);
+    const nodes = parsedJsonLd.flatMap((document) =>
+      Array.isArray(document?.["@graph"]) ? document["@graph"] : [document],
+    );
+    const aboutNodes = nodes.filter((node) => node?.["@type"] === "AboutPage");
+    const aboutNode = aboutNodes[0];
+    const pageTitle = textContent(headings[0]?.[1] ?? "");
+
+    assert(title === aboutTitle, "/about: wrong title");
+    assert(descriptions[0]?.[1] === aboutDescription, "/about: wrong description");
+    for (const [attribute, value] of [
+      ["property", "og:title"],
+      ["name", "twitter:title"],
+    ]) {
+      assert(html.includes(`<meta ${attribute}="${value}" content="${aboutTitle}"`), `/about: wrong ${value}`);
+    }
+    for (const [attribute, value] of [
+      ["property", "og:description"],
+      ["name", "twitter:description"],
+    ]) {
+      assert(html.includes(`<meta ${attribute}="${value}" content="${aboutDescription}"`), `/about: wrong ${value}`);
+    }
+    assert(pageTitle === "טכנולוגיה של הגדולים. בשביל כולם.", "/about: wrong H1");
+    assert(!response.headers.get("x-robots-tag")?.includes("noindex"), "/about: X-Robots-Tag noindex");
+    assert(!/<meta name="robots" content="[^"]*noindex/.test(html), "/about: robots noindex");
+    assert(includesIgnoringWhitespace(visible, "נעים להכיר, אנחנו וייבי (Viby)."), "/about: Hebrew brand is not visible in server HTML");
+    assert(includesIgnoringWhitespace(visible, "בסוף 2025 הקמנו את וייבי בהרצליה"), "/about: approved story is missing");
+    assert(includesIgnoringWhitespace(visible, "חלק מחברי הצוות גם משרתים במילואים."), "/about: approved team copy is missing");
+    assert(visible.includes("אופן ההקמה, הציוד הפיזי, המשלוח, תנאי המנוי ומאפייני השימוש תלויים בשירות ובהזמנה שאושרה."), "/about: service-specific disclosure is missing");
+    let headingPosition = -1;
+    for (const heading of aboutHeadings) {
+      const position = visible.indexOf(heading, headingPosition + 1);
+      assert(position > headingPosition, `/about: missing or out-of-order section ${heading}`);
+      headingPosition = position;
+    }
+    assert(aboutNodes.length === 1, `/about: expected one AboutPage node, got ${aboutNodes.length}`);
+    assert(!nodes.some((node) => ["Organization", "WebSite"].includes(node?.["@type"])), "/about: duplicate company or website node");
+    assert(aboutNode?.["@id"] === `${canonicalOrigin}/about#webpage`, "/about: wrong AboutPage @id");
+    assert(aboutNode?.url === `${canonicalOrigin}/about`, "/about: wrong AboutPage URL");
+    assert(aboutNode?.name === "אודות וייבי (Viby)", "/about: wrong AboutPage name");
+    assert(aboutNode?.inLanguage === "he-IL", "/about: wrong AboutPage language");
+    for (const field of ["about", "mainEntity", "publisher"]) {
+      assert(aboutNode?.[field]?.["@id"] === `${canonicalOrigin}/#organization`, `/about: wrong ${field} reference`);
+    }
+    assert(aboutNode?.isPartOf?.["@id"] === `${canonicalOrigin}/#website`, "/about: wrong WebSite reference");
+
+    const cards = matches(body, /<a\b[^>]*data-about-solution(?:="")?[^>]*>[\s\S]*?<\/a>/g);
+    assert(cards.length === 6, `/about: expected six product cards, got ${cards.length}`);
+    for (const [path, label] of aboutSolutions) {
+      const matching = cards.filter(([card]) =>
+        card.includes(`href="${path}"`) && includesIgnoringWhitespace(textContent(card), label),
+      );
+      assert(matching.length === 1, `/about: wrong or duplicate product card ${path}`);
+    }
+    assert(/<a\b[^>]*href="#solutions"[^>]*>/.test(body), "/about: missing hero solutions anchor");
+    for (const path of ["/support", "/privacy", "/terms"]) {
+      assert(body.includes(`href="${path}"`), `/about: missing ${path} link`);
+    }
+    assert(body.includes("privacy-preferences-link"), "/about: missing privacy preferences control");
+  }
+
+  if (productRoutes.has(pathname) || ["/support", "/how-it-works"].includes(pathname)) {
+    assert(/<a\b[^>]*href="\/about"[^>]*>אודות וייבי<\/a>/.test(html), `${pathname}: missing About footer link`);
+  }
+
   const internalLinks = matches(html, /href="(\/(?!\/)[^"#?]*)[^\"]*"/g)
     .map((match) => match[1])
     .filter((href) => !href.startsWith("/api/"));
@@ -570,6 +666,8 @@ async function run() {
       const lastModified = entry?.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
       const expectedLastModified = ["/", "/terms", "/privacy"].includes(route)
         ? brandReleaseLastModified
+        : route === "/about"
+          ? aboutLastModified
         : productRoutes.has(route) || route === "/how-it-works"
           ? commercialLastModified
           : undefined;
@@ -584,11 +682,15 @@ async function run() {
       if (lastModified) {
         assert(/^\d{4}-\d{2}-\d{2}$/.test(lastModified), `sitemap: ${route} lastmod is not ISO date-only`);
         assert(
-          Date.parse(`${lastModified}T00:00:00Z`) <= Date.now(),
+          lastModified <= todayInIsrael,
           `sitemap: ${route} lastmod is in the future`,
         );
       }
     }
+    assert(
+      sitemapEntries.filter((entry) => entry.includes(`<loc>${canonicalOrigin}/about</loc>`)).length === 1,
+      "sitemap: /about must occur exactly once",
+    );
 
     const robots = await (await fetch(`${origin}/robots.txt`)).text();
     assert(robots.includes("Disallow: /api/"), "robots: /api/ is not disallowed");

@@ -1085,6 +1085,7 @@ export function MultiServiceLanding({
             <strong>קישורים שימושיים</strong>
             <div>
               <Link href="/how-it-works">איך Viby עובדת</Link>
+              <Link href="/about">אודות וייבי</Link>
               <Link href="/support">תמיכה</Link>
               <a
                 className="v2-instagram-link"
