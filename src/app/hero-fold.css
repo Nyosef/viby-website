@@ -1,0 +1,326 @@
+/* Only the existing homepage hero is compacted. Product pages keep their layout. */
+.landing-v2.compact-home-hero .v2-hero {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.landing-v2.compact-home-hero .v2-hero > .v2-shell {
+  min-height: 0;
+  padding-block: 12px 18px;
+  flex: 1;
+}
+.landing-v2.compact-home-hero .v2-brand-row {
+  min-height: 82px;
+}
+.landing-v2.compact-home-hero .v2-brand-row > a:first-child {
+  width: 170px;
+  height: 80px;
+}
+.landing-v2.compact-home-hero .service-chooser--header .service-chooser-trigger {
+  gap: 10px;
+  padding: 8px 13px;
+  border-radius: 18px;
+}
+.landing-v2.compact-home-hero .service-chooser--header .service-chooser-thumbnail {
+  width: 72px;
+  flex-basis: 72px;
+}
+.landing-v2.compact-home-hero .service-chooser--header .service-chooser-current strong {
+  font-size: 1.05rem;
+}
+.landing-v2.compact-home-hero .service-chooser--header .service-chooser-current > span {
+  font-size: .8rem;
+}
+.landing-v2.compact-home-hero .service-chooser--header .service-chooser-trigger > svg {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  margin-inline-start: 8px;
+}
+.landing-v2.compact-home-hero .v2-hero-grid {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  gap: 36px;
+  flex: 1;
+  padding-block: 12px 10px;
+}
+.landing-v2.compact-home-hero .v2-hero-copy {
+  max-width: 620px;
+  text-align: start;
+}
+.landing-v2.compact-home-hero .v2-company-line {
+  display: block;
+  margin: 0 0 13px;
+  color: #fff;
+  font-size: .95rem;
+  font-weight: 650;
+  line-height: 1.5;
+  text-align: start;
+}
+.landing-v2.compact-home-hero .v2-hero h1 {
+  max-width: 620px;
+  margin: 0 0 19px;
+  font-size: clamp(2.1rem, 3.4vw, 3.2rem);
+  line-height: 1.12;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.landing-v2.compact-home-hero .v2-hero h1 > span {
+  display: block;
+  color: #351b35;
+}
+.landing-v2.compact-home-hero .v2-hero-text {
+  max-width: 580px;
+  font-size: 1.03rem;
+  line-height: 1.75;
+}
+.landing-v2.compact-home-hero .v2-hero .v2-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-top: 20px;
+  align-items: center;
+}
+.landing-v2.compact-home-hero .v2-hero .v2-button {
+  min-height: 52px;
+  min-width: 0;
+  padding: 11px 20px;
+  border-radius: 13px;
+  font-size: 1.02rem;
+}
+.landing-v2.compact-home-hero .v2-hero .v2-button-whatsapp .v2-whatsapp-icon {
+  width: 27px;
+  border-width: 2px;
+}
+.landing-v2.compact-home-hero .v2-hero-reassurance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 20px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  color: #fff;
+  font-size: .8rem;
+  line-height: 1.65;
+}
+.landing-v2.compact-home-hero .v2-hero-reassurance li::before {
+  content: '✓';
+  margin-inline-end: 7px;
+  color: #351b35;
+  font-weight: 900;
+}
+
+.landing-v2.compact-home-hero .v2-hero-art {
+  min-height: 0;
+  height: 440px;
+}
+.landing-v2.compact-home-hero .v2-compact-art-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 590px;
+  height: 610px;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%) scale(.62);
+}
+.landing-v2.compact-home-hero .v2-compact-art-inner .v2-product-scene {
+  width: 590px;
+  min-height: 610px;
+}
+.landing-v2.compact-home-hero .v2-compact-art-inner .v2-nfc-hero-note {
+  bottom: -48px;
+}
+.landing-v2.compact-home-hero .v2-trust-in-hero {
+  padding-block: 12px 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+.landing-v2.compact-home-hero .v2-trust-in-hero .v2-trust-note {
+  font-weight: 750;
+  margin-top: 12px;
+  font-size: .85rem;
+  line-height: 1.6;
+}
+@media (min-width: 761px) and (max-width: 1023px) {
+  .landing-v2.compact-home-hero .v2-hero-art { height: 390px; }
+  .landing-v2.compact-home-hero .v2-compact-art-inner { transform: translate(-50%, -50%) scale(.45); }
+  .landing-v2.compact-home-hero .v2-hero h1 { font-size: clamp(1.7rem, 3.5vw, 2.2rem); }
+  .landing-v2.compact-home-hero .v2-hero-text { font-size: .95rem; }
+}
+@media (max-width: 760px) {
+  .landing-v2.compact-home-hero .v2-hero > .v2-shell { padding-block: 6px 8px; }
+  .landing-v2.compact-home-hero .v2-brand-row { min-height: 58px; gap: 12px; }
+  .landing-v2.compact-home-hero .v2-brand-row > a:first-child { width: 76px; height: 38px; }
+  .landing-v2.compact-home-hero .v2-header-controls { width: 100%; max-width: 240px; }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-thumbnail { width: 48px; flex-basis: 48px; }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-trigger { gap: 7px; padding: 6px 8px; border-radius: 13px; }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-current strong { font-size: .84rem; }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-current > span { font-size: .7rem; }
+  .landing-v2.compact-home-hero .service-chooser--header .service-chooser-trigger > svg { width: 25px; height: 25px; margin-inline-start: 0; }
+  .landing-v2.compact-home-hero .v2-hero-grid { grid-template-columns: minmax(0,1fr); gap: 2px; padding-block: 12px 0; }
+  .landing-v2.compact-home-hero .v2-company-line { margin-bottom: 9px; font-size: .8rem; }
+  .landing-v2.compact-home-hero .v2-hero h1 { font-size: clamp(1.5rem, 7.5vw, 3rem); margin-bottom: 13px; line-height: 1.12; }
+  .landing-v2.compact-home-hero .v2-hero-text { font-size: .92rem; line-height: 1.65; }
+  .landing-v2.compact-home-hero .v2-hero .v2-actions { gap: 10px; margin-top: 14px; }
+  .landing-v2.compact-home-hero .v2-hero .v2-button { min-height: 46px; padding: 9px 12px; font-size: .89rem; }
+  .landing-v2.compact-home-hero .v2-hero .v2-button-whatsapp { width: auto; flex: 1; }
+  .landing-v2.compact-home-hero .v2-hero .v2-button-whatsapp .v2-whatsapp-icon { width: 23px; }
+  .landing-v2.compact-home-hero .v2-hero-reassurance { margin-top: 11px; gap: 3px 16px; font-size: .75rem; }
+  .landing-v2.compact-home-hero .v2-hero .v2-button-ghost { width: auto; flex: 0 0 auto; padding-inline: 10px; font-size: .8rem; }
+  .landing-v2.compact-home-hero .v2-hero-art { height: clamp(145px, calc(100svh - 600px), 205px); }
+  .landing-v2.compact-home-hero .v2-compact-art-inner { transform: translate(-50%, -50%) scale(.23); }
+  @media (max-height: 780px) {
+    .landing-v2.compact-home-hero .v2-compact-art-inner { transform: translate(-50%, -50%) scale(.17); }
+  }
+  .landing-v2.compact-home-hero .v2-trust-in-hero { padding-block: 8px 12px; }
+  .landing-v2.compact-home-hero .v2-trust-in-hero .v2-trust-note { margin-top: 8px; font-size: .75rem; padding-inline: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-v2.compact-home-hero .v2-hero-copy,
+  .landing-v2.compact-home-hero .v2-hero-art { animation: none; }
+}
+
+/* NFC touchpoint: a readable technology badge, independent of illustration scale. */
+.landing-v2.compact-home-hero .v2-hero-art .v2-nfc-modern {
+  bottom: -8px;
+  width: min(310px, 100%);
+  min-height: 68px;
+  padding: 7px 12px;
+  gap: 10px;
+  border: 1px solid #ffffff65;
+  border-radius: 19px;
+  background: linear-gradient(120deg, #34223f, #50284a);
+  box-shadow: 0 12px 25px #64214e25, inset 0 1px 0 #ffffff18;
+  backdrop-filter: none;
+  text-align: start;
+}
+.landing-v2.compact-home-hero .nfc-modern-art { flex: 0 0 60px; width: 60px; }
+.landing-v2.compact-home-hero .nfc-modern-art svg { display: block; width: 100%; height: auto; }
+.landing-v2.compact-home-hero .nfc-modern-copy { display: grid; gap: 2px; min-width: 0; }
+.landing-v2.compact-home-hero .nfc-modern-label { display: flex; align-items: center; gap: 8px; color: #b9f2e4; font-size: .6rem; font-weight: 750; letter-spacing: .14em; }
+.landing-v2.compact-home-hero .nfc-modern-label i { width: 5px; height: 5px; border-radius: 50%; background: #9aebd6; box-shadow: 0 0 9px #9aebd660; }
+.landing-v2.compact-home-hero .v2-nfc-modern strong { font-size: .95rem; line-height: 1.35; white-space: normal; }
+.landing-v2.compact-home-hero .v2-nfc-modern small { color: #ddc9df; font-size: .64rem; line-height: 1.5; }
+.landing-v2.compact-home-hero .v2-compact-art-inner { top: calc(50% - 30px); }
+
+/* Continue Wallet's surface through the chooser's initial space; only the picker sticks. */
+.landing-v2.compact-home-hero .v2-story {
+  --wallet-surface: linear-gradient(90deg, #2d102c 0%, #701542 50%, #ff2f83 100%);
+  background: var(--wallet-surface) top / 100% 200px no-repeat, #fff;
+}
+.landing-v2.compact-home-hero .v2-wallet-promo {
+  background: var(--wallet-surface);
+}
+
+/* Reserve space before Wallet, then keep the compact chooser available on scroll. */
+.landing-v2.compact-home-hero .v2-selector-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  width: min(390px, calc(100% - 48px));
+  height: auto;
+  margin: 0 auto;
+  padding: 10px 0;
+  transform: none;
+  background: transparent;
+  border: 0;
+}
+.landing-v2.compact-home-hero .v2-story section[id] { scroll-margin-top: 112px; }
+.landing-v2.compact-home-hero .service-chooser--body { width: min(390px, 100%); }
+.landing-v2.compact-home-hero .service-chooser--body .service-chooser-trigger {
+  min-width: 0;
+  padding: 9px 15px;
+  gap: 12px;
+  border: 1px solid #dec8db;
+  border-radius: 16px;
+  background: #fcf8fc;
+  box-shadow: none;
+}
+.landing-v2.compact-home-hero .service-chooser--body .service-chooser-thumbnail { width: 64px; flex-basis: 64px; }
+.landing-v2.compact-home-hero .service-chooser--body .service-chooser-current strong { font-size: 1.1rem; }
+.landing-v2.compact-home-hero .service-chooser--body .service-chooser-current > span { font-size: .8rem; }
+.landing-v2.compact-home-hero .service-chooser--body .service-chooser-trigger > svg { width: 30px; height: 30px; margin-inline-start: 0; padding: 5px; }
+
+/* Larger process illustrations make each step understandable without a tooltip. */
+.landing-v2.compact-home-hero .v2-how { background: #fcf9fc; }
+.landing-v2.compact-home-hero .v2-how .v2-journey-modern { gap: 24px; }
+.landing-v2.compact-home-hero .v2-how .v2-journey-modern article {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+  min-width: 0;
+  min-height: 0;
+  padding: 22px 24px 26px;
+  border: 1px solid #eadde9;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 14px 40px #391b3b05;
+  text-align: start;
+}
+.landing-v2.compact-home-hero .v2-journey-modern article:not(:last-child)::after {
+  content: '←';
+  position: absolute;
+  left: -25px;
+  top: 43%;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 32px;
+  background: #fcf9fc;
+  color: #af739b;
+  font-size: 1.25rem;
+}
+.landing-v2.compact-home-hero .journey-step-label { display: flex; align-items: center; gap: 16px; font-size: 1.05rem; font-weight: 650; color: #745e74; }
+.landing-v2.compact-home-hero .journey-step-label > span:first-child {
+  display: grid;
+  place-items: center;
+  flex: 0 0 68px;
+  height: 68px;
+  border: 1px solid #ffffff70;
+  border-radius: 21px;
+  background: linear-gradient(145deg, #ff418f, #ac236a);
+  box-shadow: 0 8px 18px #ae226b26, inset 0 1px 0 #ffffff55;
+  color: #fff;
+  font-size: 2.75rem;
+  font-weight: 850;
+  line-height: 1;
+}
+.landing-v2.compact-home-hero .journey-artwork { position: relative; margin-block: 14px 20px; background: #fcf7fb; border-radius: 17px; overflow: hidden; }
+.landing-v2.compact-home-hero .journey-artwork img { display: block; width: 100%; height: auto; }
+.landing-v2.compact-home-hero .journey-artwork > span { position: absolute; bottom: 7px; inset-inline-start: 11px; color: #493448; background: #fffffff0; border-radius: 5px; padding: 2px 6px; font-size: .6rem; }
+.landing-v2.compact-home-hero .v2-how .v2-journey-modern h3 { margin: 0 0 10px; font-size: clamp(1.2rem, 1.8vw, 1.65rem); line-height: 1.35; color: #302237; }
+.landing-v2.compact-home-hero .v2-how .v2-journey-modern p { max-width: none; margin: 0; font-size: .97rem; line-height: 1.8; color: #776777; }
+@media (max-width: 1023px) {
+  .landing-v2.compact-home-hero .v2-hero-art .v2-nfc-modern { width: min(290px, 100%); }
+  .landing-v2.compact-home-hero .nfc-modern-art { width: 56px; flex-basis: 56px; }
+  .landing-v2.compact-home-hero .v2-nfc-modern strong { font-size: .93rem; }
+}
+@media (max-width: 760px) {
+  .landing-v2.compact-home-hero .v2-hero-art .v2-nfc-modern { bottom: -6px; min-height: 50px; width: min(250px, 100%); border-radius: 13px; padding: 4px 9px; gap: 8px; }
+  .landing-v2.compact-home-hero .nfc-modern-art { width: 38px; flex-basis: 38px; }
+  .landing-v2.compact-home-hero .nfc-modern-label { font-size: .55rem; gap: 6px; }
+  .landing-v2.compact-home-hero .nfc-modern-copy { gap: 1px; }
+  .landing-v2.compact-home-hero .v2-nfc-modern strong { font-size: .83rem; }
+  .landing-v2.compact-home-hero .v2-nfc-modern small { font-size: .6rem; }
+  .landing-v2.compact-home-hero .v2-compact-art-inner { top: calc(50% - 34px); }
+  .landing-v2.compact-home-hero .v2-selector-wrap { width: min(390px, calc(100% - 36px)); padding: 8px 0; }
+  .landing-v2.compact-home-hero .v2-how .v2-journey-modern { gap: 18px; }
+  .landing-v2.compact-home-hero .v2-how .v2-journey-modern article { padding: 20px; border-radius: 20px; }
+  .landing-v2.compact-home-hero .v2-journey-modern article:not(:last-child)::after { display: none; }
+  .landing-v2.compact-home-hero .journey-artwork { max-width: 350px; width: 100%; margin: 14px auto 18px; }
+  .landing-v2.compact-home-hero .v2-how .v2-journey-modern h3 { font-size: 1.3rem; }
+  .landing-v2.compact-home-hero .v2-how .v2-journey-modern p { font-size: .95rem; }
+}
+
+@media (max-width: 360px) {
+  .landing-v2.compact-home-hero .v2-hero-grid { gap: 14px; padding-top: 8px; }
+  .landing-v2.compact-home-hero .v2-hero h1 { margin-bottom: 9px; }
+  .landing-v2.compact-home-hero .v2-hero-text { line-height: 1.55; }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { WhatsAppMark } from "./WhatsAppMark";
 import { CommercialDisclosure } from "./CommercialDisclosure";
 import { VideoConsentPlayer } from "./VideoConsentPlayer";
 import { monthlyPrice } from "@/lib/commercial";
@@ -29,6 +30,7 @@ import { UpIcon } from "@/components/UpIcon";
 
 type MultiServiceLandingProps = {
   initialService: LegacyServiceId;
+  compactHero?: boolean;
 };
 
 
@@ -210,12 +212,28 @@ function getWhatsappUrl(message: string) {
 function WhatsAppIcon() {
   return (
     <span className="v2-whatsapp-icon" aria-hidden="true">
-      ☎
+      <WhatsAppMark />
     </span>
   );
 }
 
-function NfcHeroNote() {
+function NfcHeroNote({ modern = false }: { modern?: boolean }) {
+  if (modern) return (
+    <aside className="v2-nfc-hero-note v2-nfc-modern" aria-label="טכנולוגיית NFC וסריקת QR">
+      <span className="nfc-modern-art" aria-hidden="true">
+        <svg viewBox="0 0 112 88" fill="none">
+          <rect x="9" y="25" width="40" height="53" rx="8" fill="#ffffff0c" stroke="#d9b1ff" strokeWidth="1.8" transform="rotate(-10 29 51)" />
+          <path d="M18 40h12m-12 6h8" stroke="#d9b1ff" strokeWidth="2" strokeLinecap="round" />
+          <rect x="69" y="7" width="33" height="68" rx="9" fill="#ffffff0c" stroke="white" strokeWidth="2" />
+          <path d="M80 14h11M82 67h7" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          <path className="nfc-signal" d="M53 34q10 9 0 18m5-24q17 15 0 30" stroke="#91e9d6" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="44" cy="43" r="4" fill="#91e9d6" />
+          <path d="M76 31h7v7h-7zm12 0h7v7h-7zM76 43h7v7h-7zm12 0h3v3h-3zm4 4h3v3h-3z" fill="#fff" />
+        </svg>
+      </span>
+      <span className="nfc-modern-copy"><span className="nfc-modern-label"><bdi>NFC + QR</bdi><i aria-hidden="true" /></span><strong>מצמידים או סורקים</strong><small>טכנולוגיית NFC מתקדמת ומהירה</small></span>
+    </aside>
+  );
   return (
     <aside className="v2-nfc-hero-note" aria-label="טכנולוגיית NFC של Viby">
       <span className="v2-nfc-hero-art" aria-hidden="true">
@@ -578,6 +596,7 @@ function BenefitIllustration({ icon }: { icon: string }) {
 
 export function MultiServiceLanding({
   initialService,
+  compactHero = false,
 }: MultiServiceLandingProps) {
   const router = useRouter();
   const [activeId, setActiveId] = useState<LegacyServiceId>(initialService);
@@ -586,8 +605,14 @@ export function MultiServiceLanding({
   const heroRef = useRef<HTMLElement>(null);
   const announcementTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const service = services[activeId];
+  const isCompactHero = compactHero && activeId === "punch-card";
   const walletPromo = walletPromoContent[activeId];
   const priceHighlights = starterHighlights[activeId];
+  const howSteps = isCompactHero ? [
+    { title: "סורקים ומצטרפים", text: "הלקוח סורק את ה־QR בעסק ונרשם לכרטיסייה הדיגיטלית." },
+    { title: "שומרים ב־Wallet", text: "הכרטיסייה נשמרת ב־Apple Wallet או Google Wallet, לצד כרטיסי האשראי — בדיוק כמו שהלקוחות רגילים." },
+    { title: "צוברים ומממשים", text: "הצוות מנקב בכל ביקור. משלימים את הכרטיסייה ומממשים את ההטבה בעסק." },
+  ] : service.howItWorks;
   const whatsappUrl = useMemo(
     () => getWhatsappUrl(service.cta.message),
     [service.cta.message],
@@ -685,7 +710,7 @@ export function MultiServiceLanding({
   }
 
   return (
-    <main className={`landing-v2 service-${activeId}`} ref={mainRef}>
+    <main className={`landing-v2 service-${activeId}${isCompactHero ? " compact-home-hero" : ""}`} ref={mainRef}>
       <section className="v2-hero v2-grid-bg" ref={heroRef} id="top">
         <div className="v2-orb v2-orb-one" aria-hidden="true" />
         <div className="v2-orb v2-orb-two" aria-hidden="true" />
@@ -714,6 +739,14 @@ export function MultiServiceLanding({
 
           <div className="v2-hero-grid">
             <div className="v2-hero-copy" key={`copy-${activeId}`}>
+              {isCompactHero ? (
+                <>
+                  <p className="v2-company-line">מועדון לקוחות חכם לעסקים</p>
+                  <h1>הלקוחות כבר מגיעים אליכם. <span>תנו להם סיבה לחזור.</span></h1>
+                  <p className="v2-hero-text">הלקוחות מצטרפים בסריקה, צוברים הטבות בכל ביקור ושומרים את הכרטיסייה בארנק הדיגיטלי. אתם, עם <bdi>Viby</bdi>, בונים קשר עם הלקוחות — ואנחנו דואגים לכל ההקמה.</p>
+                </>
+              ) : (
+                <>
               <p className="v2-company-line">
                 <span className="v2-company-highlight">מחזירים לקוחות</span>{" "}
                 לעסקים
@@ -721,6 +754,8 @@ export function MultiServiceLanding({
               <span className="v2-badge">{service.badge}</span>
               <h1>{service.hero.title}</h1>
               <p className="v2-hero-text">{service.hero.text}</p>
+                </>
+              )}
               <div className="v2-actions">
                 <a
                   className="v2-button v2-button-whatsapp"
@@ -729,22 +764,28 @@ export function MultiServiceLanding({
                 >
                   <WhatsAppIcon />
                   <span>
-                    {service.cta.buttonLabel ?? "דברו איתנו ב־WhatsApp"}
+                    {isCompactHero ? "בואו נחזיר לכם לקוחות" : service.cta.buttonLabel ?? "דברו איתנו ב־WhatsApp"}
                   </span>
                 </a>
                 <a className="v2-button v2-button-ghost" href="#how-it-works">
                   איך זה עובד
                 </a>
               </div>
-              <CommercialDisclosure service={activeId} compact />
+              {isCompactHero ? <ul className="v2-hero-reassurance">
+                <li>הקמה מלאה עלינו</li>
+                <li>תמיכה טכנית</li>
+                <li>ללא התחייבות לטווח ארוך</li>
+                <li>כרטיסי <bdi>Wallet</bdi> נתמכים — בלי אפליקציית <bdi>Viby</bdi> ללקוחות</li>
+              </ul> : null}
+              {!isCompactHero ? <CommercialDisclosure service={activeId} compact /> : null}
             </div>
 
             <div className="v2-hero-art" key={`art-${activeId}`}>
-              <HeroProductVisual service={service} />
-              <NfcHeroNote />
+              {isCompactHero ? <><div className="v2-compact-art-inner"><HeroProductVisual service={service} /></div><NfcHeroNote modern /></> : <><HeroProductVisual service={service} /><NfcHeroNote /></>}
             </div>
           </div>
         </div>
+        {isCompactHero ? <TrustStrip compact /> : null}
       </section>
 
       <div className="v2-story">
@@ -756,7 +797,7 @@ export function MultiServiceLanding({
           {announcement ? <span>{announcement}</span> : null}
         </div>
 
-        <TrustStrip />
+        {!isCompactHero ? <TrustStrip /> : null}
 
         <section
           className="v2-wallet-promo v2-grid-bg"
@@ -825,22 +866,37 @@ export function MultiServiceLanding({
               <span>איך זה עובד</span>
               <h2>שלושה צעדים. זה כל הסיפור.</h2>
               <p key={`how-copy-${activeId}`}>
-                כך משתמשים ב־{service.label} של Viby — פשוט ללקוח, ברור
-                לעסק, ובלי אפליקציה.
+                {isCompactHero ? "מהסריקה הראשונה ועד ההטבה הבאה — ללקוח יש כרטיסייה בטלפון, והצוות מנקב ומאמת מימוש." : <>כך משתמשים ב־{service.label} של Viby — פשוט ללקוח, ברור לעסק, ובלי אפליקציה.</>}
               </p>
             </div>
             <div
-              className="v2-step-grid v2-reveal v2-reveal-children"
+              className={`v2-step-grid v2-reveal v2-reveal-children${isCompactHero ? " v2-journey-modern" : ""}`}
               key={`steps-${activeId}`}
             >
-              {service.howItWorks.map((step, index) => (
+              {howSteps.map((step, index) => (
                 <article key={step.title}>
-                  <div className="v2-step-visual" aria-hidden="true">
+                  {isCompactHero ? <>
+                    <div className="journey-step-label"><span>{index + 1}</span><span>{["ההצטרפות", "הכרטיסייה", "ההטבה"][index]}</span></div>
+                    <div className="journey-artwork">
+                      <Image
+                        src={["/phase_1.jpg", "/phase2_new.jpg", "/phase3_new.jpg"][index]}
+                        alt={[
+                          "סריקת קוד QR בשלט Viby להצטרפות לכרטיסייה",
+                          "כרטיסיית Viby בארנק הדיגיטלי בטלפון iPhone ובטלפון Android",
+                          "כרטיסייה עם ניקובים לצד מתנה למימוש ההטבה",
+                        ][index]}
+                        width={index === 1 ? 1456 : 1448}
+                        height={index === 1 ? 1088 : 1086}
+                        sizes="(max-width: 760px) min(350px, calc(100vw - 64px)), (max-width: 1023px) 30vw, 420px"
+                      />
+                      <span>המחשה</span>
+                    </div>
+                  </> : <div className="v2-step-visual" aria-hidden="true">
                     <JourneyIllustration service={activeId} step={index} />
                     <span>{index + 1}</span>
-                  </div>
-                  <h3>{step.title}</h3>
-                  <p>{step.text}</p>
+                  </div>}
+                  <h3>{isCompactHero ? <MixedDirectionText text={step.title} /> : step.title}</h3>
+                  <p>{isCompactHero ? <MixedDirectionText text={step.text} /> : step.text}</p>
                 </article>
               ))}
             </div>
@@ -1229,14 +1285,14 @@ function SectionHeading({
   );
 }
 
-function TrustStrip() {
+function TrustStrip({ compact = false }: { compact?: boolean }) {
   if (customerLogos.length > 0) {
     return (
-      <section className="v2-trust v2-reveal" aria-label="לקוחות Viby">
-        <div className="v2-trust-heading v2-shell">
+      <section className={`v2-trust${compact ? " v2-trust-in-hero" : " v2-reveal"}`} aria-label="לקוחות Viby">
+        {!compact ? <div className="v2-trust-heading v2-shell">
           <span>עסקים שכבר בחרו Viby</span>
           <h2>הלקוחות שלנו</h2>
-        </div>
+        </div> : null}
         <div className="v2-logo-viewport">
           <div className="v2-logo-track">
             {[...customerLogos, ...customerLogos].map((logo, index) => {
