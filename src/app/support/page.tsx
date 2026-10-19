@@ -214,6 +214,7 @@ export default function SupportPage() {
         <div>
           <Link href="/">בית</Link>
           <Link href="/how-it-works">איך זה עובד</Link>
+          <Link href="/about">אודות וייבי</Link>
           <Link href="/#pricing">מחירים</Link>
           <Link href="/support">תמיכה</Link>
           <Link href="/terms">תנאי שימוש</Link>

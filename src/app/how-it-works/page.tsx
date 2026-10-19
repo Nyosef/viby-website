@@ -181,6 +181,7 @@ export default function HowItWorksPage() {
         <div>
           <Link href="/">בית</Link>
           <Link href="/how-it-works">איך זה עובד</Link>
+          <Link href="/about">אודות וייבי</Link>
           <Link href="/support">תמיכה</Link>
           <Link href="/terms">תנאי שימוש</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
