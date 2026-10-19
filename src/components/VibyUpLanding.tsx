@@ -1,3 +1,4 @@
+import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import { CommercialDisclosure } from "./CommercialDisclosure";
 import { commercialTerms } from "@/lib/commercial";
 import Image from "next/image";
@@ -228,6 +229,7 @@ export function VibyUpLanding() {
           <Link href="/how-it-works">איך Viby עובדת</Link>
           <Link href="/support">תמיכה</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
+          <PrivacyPreferencesButton />
           <Link href="/terms">תנאי שימוש</Link>
         </nav>
       </footer>

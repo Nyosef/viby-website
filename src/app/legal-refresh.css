@@ -6,7 +6,8 @@
 .up-final .commercial-disclosure { margin-inline: auto; }
 .v2-punch-lead-consent { display: block; line-height: 1.8; }
 .payment-provider-text { font-size: 1.05rem; font-weight: 800; color: #49334e; white-space: nowrap; }
-.privacy-preferences-toggle { position: fixed; inset-inline-start: 12px; bottom: 12px; z-index: 70; border: 1px solid #dbcddd; border-radius: 18px; padding: 7px 12px; font: inherit; font-size: .75rem; color: #48304f; background: #fff; cursor: pointer; }
+.privacy-preferences-link { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: start; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.privacy-preferences-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
 .privacy-preferences-panel { position: fixed; inset-inline-start: 12px; bottom: 54px; z-index: 72; width: min(420px, calc(100vw - 24px)); padding: 22px; border: 1px solid #dbcddd; border-radius: 18px; box-shadow: 0 10px 45px #29153130; background: #fff; color: #39263f; }
 .privacy-preferences-panel p { line-height: 1.7; font-size: .9rem; }
 .privacy-preferences-panel button, .legal-print { padding: 9px 14px; margin: 6px 0 6px 8px; border: 1px solid #cbb8d1; background: #f5eef7; color: #39263f; border-radius: 10px; font: inherit; cursor: pointer; }
@@ -32,10 +33,10 @@
 .legal-text ul, .legal-text ol { padding-inline-start: 1.6rem; }
 .legal-text p, .legal-text li { overflow-wrap: anywhere; }
 .legal-section { scroll-margin-top: 24px; }
-@media (max-width: 600px) { .commercial-disclosure { font-size: .78rem; } .privacy-preferences-toggle { bottom: 8px; } }
+@media (max-width: 600px) { .commercial-disclosure { font-size: .78rem; } }
 @media print {
   body { background: white !important; color: black !important; }
-  .site-header, .site-footer, .legal-toc, .legal-print, .privacy-preferences-toggle, .privacy-preferences-panel, .analytics-consent, .whatsapp-widget, .legal-status, .legal-contact { display: none !important; }
+  .site-header, .site-footer, .legal-toc, .legal-print, .privacy-preferences-link, .privacy-preferences-panel, .analytics-consent, .whatsapp-widget, .legal-status, .legal-contact { display: none !important; }
   .legal-layout { display: block !important; }
   .section-shell { width: auto; max-width: none; margin: 0; padding: 0; }
   .legal-hero { padding: 0 0 18px; }

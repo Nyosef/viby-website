@@ -16,6 +16,7 @@ import {
   type AnalyticsConsent as ConsentValue,
 } from "@/lib/analytics";
 import { productSeoByPath } from "@/lib/seo";
+import { PRIVACY_PREFERENCES_EVENT } from "./PrivacyPreferencesButton";
 
 export function AnalyticsConsent({
   measurementId,
@@ -36,6 +37,17 @@ export function AnalyticsConsent({
   const preferencesPanel = useRef<HTMLElement>(null);
 
   useEffect(() => { migrateAnalyticsConsent(); }, []);
+
+  useEffect(() => {
+    function openPreferences(event: Event) {
+      const trigger = (event as CustomEvent<unknown>).detail;
+      if (!(trigger instanceof HTMLButtonElement)) return;
+      preferencesTrigger.current = trigger;
+      setPreferencesOpen(true);
+    }
+    window.addEventListener(PRIVACY_PREFERENCES_EVENT, openPreferences);
+    return () => window.removeEventListener(PRIVACY_PREFERENCES_EVENT, openPreferences);
+  }, []);
 
   useEffect(() => {
     if (!preferencesOpen) return;
@@ -150,7 +162,6 @@ export function AnalyticsConsent({
         </>
       ) : null}
 
-      <button type="button" className="privacy-preferences-toggle" ref={preferencesTrigger} aria-expanded={preferencesOpen} aria-controls="privacy-preferences" onClick={() => setPreferencesOpen((open) => !open)}>העדפות פרטיות</button>
       {preferencesOpen ? (
         <aside id="privacy-preferences" className="privacy-preferences-panel" aria-label="העדפות פרטיות" role="dialog" tabIndex={-1} ref={preferencesPanel}>
           <h2>העדפות פרטיות</h2>

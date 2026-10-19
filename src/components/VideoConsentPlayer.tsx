@@ -4,14 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-export function VideoConsentPlayer({ src, title, poster = "/viby-video-preview.jpg" }: { src: string; title: string; poster?: string }) {
+export function VideoConsentPlayer({ src, title, poster = "/viby-video-preview.jpg", playRequest = 0 }: { src: string; title: string; poster?: string; playRequest?: number }) {
   const [loaded, setLoaded] = useState(false);
   const url = new URL(src);
   url.searchParams.set("dnt", "1");
   url.searchParams.set("autoplay", "1");
 
-  return loaded ? (
-    <iframe src={url.toString()} title={title} allow="autoplay; fullscreen; picture-in-picture" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+  return loaded || playRequest > 0 ? (
+    <iframe key={playRequest} src={url.toString()} title={title} allow="autoplay; fullscreen; picture-in-picture" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
   ) : (
     <div className="video-consent-preview">
       <Image src={poster} alt="" width={960} height={640} sizes="(max-width: 720px) 85vw, 480px" />

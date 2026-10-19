@@ -79,6 +79,9 @@ for (const path of ["/", "/how-it-works"]) {
 test("analytics refusal, approval and withdrawal persist and suppress events", async ({ page, context }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "המשך ללא מדידה", exact: true }).click();
+  await expect(page.locator(".privacy-preferences-toggle")).toHaveCount(0);
+  await expect(page.locator("footer .privacy-preferences-link")).toHaveCount(1);
+  await expect(page.locator("footer .privacy-preferences-link")).not.toBeInViewport();
   expect(await analyticsEvents(page)).toHaveLength(0);
   await expect(page.locator("#viby-ga4-loader")).toHaveCount(0);
   await page.getByRole("button", { name: "העדפות פרטיות", exact: true }).click();
@@ -150,7 +153,7 @@ for (const [key, version, oldDate] of [["terms", "2026-07-02", "02.07.2026"], ["
     await page.emulateMedia({ media: "print" });
     await expect(page.locator(".site-header")).toBeHidden();
     await expect(page.locator(".legal-toc")).toBeHidden();
-    await expect(page.locator(".privacy-preferences-toggle")).toBeHidden();
+    await expect(page.locator(".privacy-preferences-link")).toBeHidden();
     await expect(page.locator(".legal-document")).toBeVisible();
     await page.emulateMedia({ media: "screen" });
     const response = await page.goto(`/${key}/versions/${version}`);

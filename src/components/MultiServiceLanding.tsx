@@ -1,5 +1,6 @@
 "use client";
 
+import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import Image from "next/image";
 import { WhatsAppMark } from "./WhatsAppMark";
 import { CommercialDisclosure } from "./CommercialDisclosure";
@@ -22,7 +23,7 @@ import {
   productSeoEntries,
 } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import { PunchCardLeadSection } from "@/components/PunchCardLeadSection";
 import { ServiceChooser } from "./ServiceChooser";
 import { ServiceIllustration, servicePresentation } from "./ServiceIllustration";
@@ -601,6 +602,8 @@ export function MultiServiceLanding({
   const router = useRouter();
   const [activeId, setActiveId] = useState<LegacyServiceId>(initialService);
   const [announcement, setAnnouncement] = useState("");
+  const [demoPlayRequest, setDemoPlayRequest] = useState(0);
+  const demoPlayerRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const announcementTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -672,6 +675,7 @@ export function MultiServiceLanding({
 
     const heroIsVisible = (heroRef.current?.getBoundingClientRect().bottom ?? 0) > 80;
     setActiveId(nextId);
+    setDemoPlayRequest(0);
 
     router.push(getProductPath(nextId), { scroll: false });
 
@@ -692,6 +696,22 @@ export function MultiServiceLanding({
         });
       });
     }
+  }
+
+  function handleDemoClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    setDemoPlayRequest(request => request + 1);
+    window.requestAnimationFrame(() => {
+      const player = demoPlayerRef.current;
+      if (!player) return;
+      player.classList.add("is-visible");
+      player.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "center",
+      });
+      player.querySelector("iframe")?.focus({ preventScroll: true });
+    });
   }
 
   function handleWalletPromoClick() {
@@ -741,9 +761,10 @@ export function MultiServiceLanding({
             <div className="v2-hero-copy" key={`copy-${activeId}`}>
               {isCompactHero ? (
                 <>
-                  <p className="v2-company-line">מועדון לקוחות חכם לעסקים</p>
-                  <h1>הלקוחות כבר מגיעים אליכם. <span>תנו להם סיבה לחזור.</span></h1>
-                  <p className="v2-hero-text">הלקוחות מצטרפים בסריקה, צוברים הטבות בכל ביקור ושומרים את הכרטיסייה בארנק הדיגיטלי. אתם, עם <bdi>Viby</bdi>, בונים קשר עם הלקוחות — ואנחנו דואגים לכל ההקמה.</p>
+                  <p className="v2-company-line"><span className="v2-desktop-only">מועדון לקוחות חכם לעסקים</span><span className="v2-mobile-only">מועדון לקוחות דיגיטלי לעסקים</span></p>
+                  <h1><span className="v2-hero-first-line">הלקוחות כבר מגיעים<span className="v2-desktop-only"> אליכם</span>.</span>{" "}<span>תנו להם סיבה לחזור.</span></h1>
+                  <p className="v2-hero-text v2-mobile-only">הלקוחות סורקים, צוברים הטבות ושומרים כרטיסייה בארנק הדיגיטלי. בלי להוריד אפליקציה.</p>
+                  <p className="v2-hero-text v2-desktop-only">הלקוחות מצטרפים בסריקה, צוברים הטבות בכל ביקור ושומרים את הכרטיסייה בארנק הדיגיטלי. אתם, עם <bdi>Viby</bdi>, בונים קשר עם הלקוחות — ואנחנו דואגים לכל ההקמה.</p>
                 </>
               ) : (
                 <>
@@ -764,14 +785,16 @@ export function MultiServiceLanding({
                 >
                   <WhatsAppIcon />
                   <span>
-                    {isCompactHero ? "בואו נחזיר לכם לקוחות" : service.cta.buttonLabel ?? "דברו איתנו ב־WhatsApp"}
+                    {isCompactHero ? <><span className="v2-desktop-only">בואו נחזיר לכם לקוחות</span><span className="v2-mobile-only">קבלו הדגמה בוואטסאפ</span></> : service.cta.buttonLabel ?? "דברו איתנו ב־WhatsApp"}
                   </span>
                 </a>
-                <a className="v2-button v2-button-ghost" href="#how-it-works">
+                <a className={`v2-button v2-button-ghost${isCompactHero ? " v2-desktop-only" : ""}`} href="#how-it-works">
                   איך זה עובד
                 </a>
+                {isCompactHero ? <a className="v2-mobile-demo-link v2-mobile-only" href="#demo-player-punch-card" onClick={handleDemoClick} aria-controls="demo-player-punch-card"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="m10 7 7 5-7 5Z" fill="#ff2786" /></svg>איך זה עובד? צפו בהדגמה</a> : null}
               </div>
-              {isCompactHero ? <ul className="v2-hero-reassurance">
+              {isCompactHero ? <ul className="v2-hero-mobile-reassurance v2-mobile-only"><li>הקמה עלינו</li><li>בלי אפליקציה ללקוח</li><li>תמיכה טכנית</li><li>ללא התחייבות לטווח ארוך</li></ul> : null}
+              {isCompactHero ? <ul className="v2-hero-reassurance v2-desktop-only">
                 <li>הקמה מלאה עלינו</li>
                 <li>תמיכה טכנית</li>
                 <li>ללא התחייבות לטווח ארוך</li>
@@ -781,7 +804,7 @@ export function MultiServiceLanding({
             </div>
 
             <div className="v2-hero-art" key={`art-${activeId}`}>
-              {isCompactHero ? <><div className="v2-compact-art-inner"><HeroProductVisual service={service} /></div><NfcHeroNote modern /></> : <><HeroProductVisual service={service} /><NfcHeroNote /></>}
+              {isCompactHero ? <><div className="v2-compact-art-inner"><HeroProductVisual service={service} /></div><NfcHeroNote modern /><div className="v2-mobile-hero-photo v2-mobile-only"><Image src="/phase_1.jpg" alt="המחשה: סריקת שלט Viby בטלפון להצטרפות לכרטיסייה דיגיטלית" width={1448} height={1086} sizes="(max-width: 760px) calc(100vw - 40px), 1px" loading="eager" /></div></> : <><HeroProductVisual service={service} /><NfcHeroNote /></>}
             </div>
           </div>
         </div>
@@ -903,7 +926,7 @@ export function MultiServiceLanding({
           </div>
         </section>
 
-        <section className="v2-demo v2-grid-bg" aria-label={service.media.title}>
+        <section className="v2-demo v2-grid-bg" id={`demo-${activeId}`} aria-label={service.media.title}>
           <div className="v2-shell">
             <SectionHeading
               light
@@ -911,9 +934,9 @@ export function MultiServiceLanding({
               title={service.media.title}
               text={service.media.text}
             />
-            <div className="v2-phone v2-reveal">
+            <div className="v2-phone v2-reveal" id={isCompactHero ? "demo-player-punch-card" : undefined} ref={demoPlayerRef}>
               <div className="v2-phone-speaker" aria-hidden="true" />
-              <ServiceDemo service={service} />
+              <ServiceDemo service={service} playRequest={isCompactHero ? demoPlayRequest : 0} />
             </div>
           </div>
         </section>
@@ -1079,6 +1102,7 @@ export function MultiServiceLanding({
               </a>
               <Link href="/terms">תנאי שימוש</Link>
               <Link href="/privacy">מדיניות פרטיות</Link>
+              <PrivacyPreferencesButton />
 
             </div>
           </nav>
@@ -1484,10 +1508,10 @@ function RotatingPunchReward() {
   );
 }
 
-function ServiceDemo({ service }: { service: ServiceContent }) {
+function ServiceDemo({ service, playRequest = 0 }: { service: ServiceContent; playRequest?: number }) {
   if (service.media.videoUrl) {
     return (
-      <VideoConsentPlayer src={service.media.videoUrl} title="סרטון הסבר על הכרטיסיות הדיגיטליות של Viby" />
+      <VideoConsentPlayer src={service.media.videoUrl} title="סרטון הסבר על הכרטיסיות הדיגיטליות של Viby" playRequest={playRequest} />
     );
   }
 
