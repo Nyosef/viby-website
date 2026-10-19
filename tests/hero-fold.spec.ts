@@ -7,6 +7,15 @@ test("homepage copy, reassurance and existing customer strip fit in the fold", a
     await page.setViewportSize({ width, height });
     await page.goto("/");
     await expect(page.locator("h1")).toHaveText(width <= 760 ? "הלקוחות כבר מגיעים. תנו להם סיבה לחזור." : "הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור.", { useInnerText: true });
+    const brandIntro = page.locator(width <= 760 ? ".v2-hero-text.v2-mobile-only" : ".v2-hero-text.v2-desktop-only");
+    await expect(brandIntro).toBeVisible();
+    await expect(brandIntro).toBeInViewport({ ratio: 1 });
+    await expect(brandIntro.locator("bdi")).toHaveText("Viby");
+    if (width <= 760) {
+      await expect(brandIntro).toHaveText("עם וייבי (Viby), הלקוחות סורקים, צוברים הטבות ושומרים כרטיסייה בארנק הדיגיטלי. בלי אפליקציה.");
+    } else {
+      await expect(brandIntro).toContainText("עם וייבי (Viby), בונים קשר עם הלקוחות");
+    }
     await expect(page.locator(".v2-hero .v2-trust")).toHaveCount(1);
     await expect(page.locator(".v2-story .v2-trust")).toHaveCount(0);
     await expect(page.locator(".v2-trust-heading")).toHaveCount(0);

@@ -763,8 +763,8 @@ export function MultiServiceLanding({
                 <>
                   <p className="v2-company-line"><span className="v2-desktop-only">מועדון לקוחות חכם לעסקים</span><span className="v2-mobile-only">מועדון לקוחות דיגיטלי לעסקים</span></p>
                   <h1><span className="v2-hero-first-line">הלקוחות כבר מגיעים<span className="v2-desktop-only"> אליכם</span>.</span>{" "}<span>תנו להם סיבה לחזור.</span></h1>
-                  <p className="v2-hero-text v2-mobile-only">הלקוחות סורקים, צוברים הטבות ושומרים כרטיסייה בארנק הדיגיטלי. בלי להוריד אפליקציה.</p>
-                  <p className="v2-hero-text v2-desktop-only">הלקוחות מצטרפים בסריקה, צוברים הטבות בכל ביקור ושומרים את הכרטיסייה בארנק הדיגיטלי. אתם, עם <bdi>Viby</bdi>, בונים קשר עם הלקוחות — ואנחנו דואגים לכל ההקמה.</p>
+                  <p className="v2-hero-text v2-mobile-only">עם וייבי (<bdi>Viby</bdi>), הלקוחות סורקים, צוברים הטבות ושומרים כרטיסייה בארנק הדיגיטלי. בלי אפליקציה.</p>
+                  <p className="v2-hero-text v2-desktop-only">הלקוחות מצטרפים בסריקה, צוברים הטבות בכל ביקור ושומרים את הכרטיסייה בארנק הדיגיטלי. אתם, עם וייבי (<bdi>Viby</bdi>), בונים קשר עם הלקוחות — ואנחנו דואגים לכל ההקמה.</p>
                 </>
               ) : (
                 <>
@@ -1063,7 +1063,7 @@ export function MultiServiceLanding({
               width={140}
               height={94}
             />
-            <p>© {new Date().getFullYear()} Viby. כל הזכויות שמורות.</p>
+            <p>© {new Date().getFullYear()} וייבי (<bdi>Viby</bdi>). כל הזכויות שמורות.</p>
           </div>
 
           <nav className="v2-footer-group" aria-label="פתרונות Viby">
