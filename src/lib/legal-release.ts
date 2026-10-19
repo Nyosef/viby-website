@@ -1,4 +1,4 @@
-// Keep legal versions fixed; update this only when a reviewed release is published.
+// Keep legal versions fixed; update only when publishing a new dated release.
 export const legalRelease = {
   updated: "19.10.2026",
   version: "2026-10-19",

@@ -12,6 +12,22 @@ test.beforeEach(async ({ page }) => {
   await page.route(/googletagmanager\.com|google-analytics\.com/, (route) => route.fulfill({ contentType: "application/javascript", body: "/* external measurement isolated */" }));
 });
 
+test("secondary-page headers keep their logo, navigation and action in one desktop row", async ({ page }) => {
+  await storeChoice(page);
+  for (const path of ["/terms", "/privacy", "/support", "/how-it-works"]) {
+    await page.goto(path);
+    const header = page.locator(".site-header");
+    const headerBox = await header.boundingBox();
+    const brandBox = await header.locator(".brand").boundingBox();
+    const navBox = await header.locator(".desktop-nav").boundingBox();
+    const actionBox = await header.locator(".header-cta").boundingBox();
+    expect(headerBox?.height).toBeLessThan(100);
+    expect(brandBox && navBox && actionBox).toBeTruthy();
+    expect(Math.abs(brandBox!.y - actionBox!.y)).toBeLessThan(25);
+    expect(Math.abs(navBox!.y - actionBox!.y)).toBeLessThan(25);
+  }
+});
+
 for (const [path, total] of [["/", "237"], ["/smart-wheel", "147"], ["/digital-wallet", "147"], ["/viby-rate", "147"], ["/viby-tap", "147"], ["/viby-up", null]] as const) {
   test(`${path}: minimum, VAT, sign and delivery agree`, async ({ page }) => {
     await storeChoice(page);

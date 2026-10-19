@@ -2,21 +2,19 @@ import type { Metadata } from "next";
 import { legalDocuments } from "./legal-content";
 import { previousLegalDocuments } from "./legal-history";
 import { october2026LegalDocuments } from "./legal-history-2026-10-08";
-import { isCurrentLegalReleasePublished } from "./legal-identity";
 import type { LegalDocumentKey } from "./legal-types";
 import { siteConfig } from "./site";
 
 export function legalVersions(key: LegalDocumentKey) {
-  const published = [previousLegalDocuments[key], october2026LegalDocuments[key]];
-  return isCurrentLegalReleasePublished() ? [...published, legalDocuments[key]] : published;
+  return [previousLegalDocuments[key], october2026LegalDocuments[key], legalDocuments[key]];
 }
 
 export function latestLegalArchive(key: LegalDocumentKey) {
-  return isCurrentLegalReleasePublished() ? october2026LegalDocuments[key] : previousLegalDocuments[key];
+  return october2026LegalDocuments[key];
 }
 
 export function currentLegalDocument(key: LegalDocumentKey) {
-  return isCurrentLegalReleasePublished() ? legalDocuments[key] : october2026LegalDocuments[key];
+  return legalDocuments[key];
 }
 
 export function findLegalVersion(key: LegalDocumentKey, version: string) {

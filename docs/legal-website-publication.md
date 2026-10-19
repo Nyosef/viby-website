@@ -5,11 +5,9 @@ The merchant application, payment collection, billing, customer enrollment and
 actual AI messaging are outside this change.
 
 The emergency relief update has a separate operational and legal review checklist in
-[`emergency-relief-operations.md`](./emergency-relief-operations.md). Both
-`LEGAL_PUBLICATION_REVIEWED=true` and `LEGAL_PUBLICATION_REVIEWED_VERSION` matching
-the current version in `src/lib/legal-release.ts` are required to publish the new
-documents in production. Without both, production serves the 8 October 2026
-documents while previews show the draft update.
+[`emergency-relief-operations.md`](./emergency-relief-operations.md). The owner
+directed publication of the 19 October 2026 wording. The operational and legal
+checks recorded there remain outstanding; publication does not mark them complete.
 
 ## Confirmed commercial decisions
 
@@ -27,7 +25,7 @@ documents while previews show the draft update.
 - One standard branded sign per initial order, included at joining after payment
   verification. Delivery and approved extras cost extra and are quoted beforehand.
 
-## Required before publication
+## Legal and operational follow-up
 
 1. Provide and verify public `NEXT_PUBLIC_LEGAL_BUSINESS_NAME`,
    `NEXT_PUBLIC_LEGAL_BUSINESS_ADDRESS` and `NEXT_PUBLIC_LEGAL_CONTACT_EMAIL`.
@@ -50,15 +48,12 @@ documents while previews show the draft update.
    details have not been replaced with invented promises or numerical periods.
 4. Confirm sign specification, delivery price/timing and the real sales offer
    agree with the website. Submitting the website form is a contact request only.
-5. Confirm the release date/version matches the intended publication date; update
-   the release identifier and corresponding validation expectations if publication
-   is later. Set `LEGAL_PUBLICATION_REVIEWED=true` only after this checklist is met.
+5. Confirm the release date/version matches the actual publication date; update
+   the release identifier if publication occurs later.
 
-Production builds fail until identity fields are supplied. An unreviewed legal
-version does not block the build; it remains absent from production pages and
-version URLs until the matching review flag is supplied. Preview builds permit
-review without publishing missing identity as final terms.
-No production settings are changed by this PR.
+Production builds fail until identity fields are supplied. The current legal
+documents are published without a review flag; this does not attest that the
+follow-up checks above have been completed.
 
 ## Technical behavior and maintenance
 

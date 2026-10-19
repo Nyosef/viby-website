@@ -1,8 +1,8 @@
-# Emergency relief: operating requirements for publication
+# Emergency relief: outstanding operating requirements
 
-The website publishes the terms and privacy notice. This repository has no merchant activity, Home Front Command feed, subscription ledger, or account export service. The following checks must be completed in the merchant systems before the 19 October 2026 version is published or the version-specific production review flag is set.
+The website publishes the terms and privacy notice. At the owner's direction, the 19 October 2026 emergency relief wording is being published before these checks are complete. This repository has no merchant activity, Home Front Command feed, subscription ledger, or account export service. The following merchant-system and legal checks remain outstanding and should be completed promptly; their publication status must not be mistaken for implementation status.
 
-**Verified gap:** The neighboring Viby merchant repository's `docs/analytics/universal-customer-activity-source-map.md` records a **STOP** decision: completed tool actions are persisted in separate collections, while successful staff QR resolution and several customer access paths do not emit a universal activity record. Its `docs/business-tools-audit.md` also notes that entitlement metadata alone does not establish automatic billing or expiry. These findings contradict an assumption that current merchant data already supports the cross-service automatic route. Build and verify the shared visit signal and the billing workflow, or revise the policy before setting the publication flag.
+**Verified gap:** The neighboring Viby merchant repository's `docs/analytics/universal-customer-activity-source-map.md` records a **STOP** decision: completed tool actions are persisted in separate collections, while successful staff QR resolution and several customer access paths do not emit a universal activity record. Its `docs/business-tools-audit.md` also notes that entitlement metadata alone does not establish automatic billing or expiry. These findings contradict an assumption that current merchant data already supports the cross-service automatic route. Build and verify the shared visit signal and billing workflow, or revise the published policy to match what Viby can operate.
 
 ## Geography and eligibility
 
@@ -20,7 +20,7 @@ The website publishes the terms and privacy notice. This repository has no merch
 
 ## Review and release
 
-- Confirm the 70% premium reduction is sustainable after included AI, messaging, hosting, and support costs. Do not publish the promise if the economics or invoice split cannot be honored.
+- Confirm the 70% premium reduction is sustainable after included AI, messaging, hosting, and support costs. If the economics or invoice split cannot be honored, revise the published promise and notify affected businesses appropriately.
 - Confirm export can provide usable available business data before closure, and that support can complete a timely request even after the service ends. Do not promise an account freeze or later restoration.
 - Have an Israeli commercial lawyer review the Hebrew terms, privacy disclosure, existing-contract application, discretionary decisions, and cancellation wording.
-- Review the final release date and change `src/lib/legal-release.ts` if publication occurs after 19 October 2026. Set `LEGAL_PUBLICATION_REVIEWED=true` and `LEGAL_PUBLICATION_REVIEWED_VERSION` to that release version only after every item above is verified. Until then, production keeps the 8 October 2026 documents current and does not expose the new version URL; preview builds remain available for review.
+- Confirm the actual publication date and change `src/lib/legal-release.ts` if publication occurs after 19 October 2026. Record completion of each check with evidence; do not treat publication as evidence that the merchant workflow or legal review has been completed.
