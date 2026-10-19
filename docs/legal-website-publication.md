@@ -1,8 +1,13 @@
 # Viby marketing website legal update — publication checklist
 
-Prepared 8 October 2026. Scope: joinviby.co.il and its marketing-site lead API.
+Prepared 8 October 2026; updated 19 October 2026 for the emergency relief policy. Scope: joinviby.co.il and its marketing-site lead API.
 The merchant application, payment collection, billing, customer enrollment and
 actual AI messaging are outside this change.
+
+The emergency relief update has a separate operational and legal review checklist in
+[`emergency-relief-operations.md`](./emergency-relief-operations.md). Both
+`LEGAL_PUBLICATION_REVIEWED=true` and `LEGAL_PUBLICATION_REVIEWED_VERSION` matching
+the current version in `src/lib/legal-release.ts` are required for production.
 
 ## Confirmed commercial decisions
 
@@ -54,7 +59,7 @@ No production settings are changed by this PR.
 ## Technical behavior and maintenance
 
 - `/terms` and `/privacy` serve current documents; prior published strings are
-  preserved in `legal-history.ts`. Version pages have noindex/nofollow/noarchive,
+  preserved in `legal-history.ts` and `legal-history-2026-10-08.ts`. Version pages have noindex/nofollow/noarchive,
   remain crawlable so noindex can be honoured, and are excluded from the sitemap. Existing title fragment
   anchors remain available alongside stable section IDs.
 - When changing legal/commercial wording later, preserve the outgoing document

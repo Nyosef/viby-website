@@ -4,6 +4,7 @@ import Link from "next/link";
 import { legalDocuments, type LegalDocument } from "@/lib/legal-content";
 import { siteConfig } from "@/lib/site";
 import { previousLegalDocuments } from "@/lib/legal-history";
+import { latestLegalArchive } from "@/lib/legal-versions";
 import { legalIdentity, missingLegalIdentity } from "@/lib/legal-identity";
 import { PrintLegalDocument } from "./PrintLegalDocument";
 
@@ -65,10 +66,11 @@ export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocume
         <p className="eyebrow">מסמכים משפטיים</p>
         <h1>{document.title}</h1>
         <p>{document.description}</p>
+        {isTerms && !archivedDocument ? <Link className="legal-relief-jump" href="#terms-8a">למדיניות הסיוע לעסקים בחירום</Link> : null}
         <span>עודכן לאחרונה: {document.updated}</span>
         <p className="legal-version">גרסה: <bdi>{document.version}</bdi> · תאריך תחילה: {document.effectiveDate.split("-").reverse().join(".")}</p>
         {archivedDocument ? <p className="legal-status">גרסה שמורה לעיון. <Link href={currentPath}>למסמך העדכני</Link></p> : (
-          <p className="legal-status"><Link href={`${currentPath}/versions/${previousLegalDocuments[documentKey].version}`}>לגרסה הקודמת</Link></p>
+          <p className="legal-status"><Link href={`${currentPath}/versions/${latestLegalArchive(documentKey).version}`}>לגרסה הקודמת</Link></p>
         )}
         {!archivedDocument && missingLegalIdentity().length ? <p className="legal-draft-notice">טיוטה לתצוגה מקדימה — פרטי העוסק וערוץ הפניות יושלמו לפני פרסום.</p> : null}
         <PrintLegalDocument />
@@ -89,7 +91,7 @@ export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocume
         <article className="legal-document">
           {document.sections.map((section) => (
             <section
-              className="legal-section"
+              className={section.id === "terms-8a" ? "legal-section legal-section-relief" : "legal-section"}
               id={section.id}
               key={section.id}
             >
@@ -100,6 +102,7 @@ export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocume
                   const key = `${section.id}-${index}`;
                   if (block.type === "heading") return <h3 key={key}>{block.text}</h3>;
                   if (block.type === "paragraph") return <p key={key}>{block.text}</p>;
+                  if (block.type === "link") return <p key={key}><a href={block.href}>{block.text}</a></p>;
                   if (block.type === "list") {
                     const List = block.ordered ? "ol" : "ul";
                     return <List key={key}>{block.items.map((item, i) => <li key={i}>{item}</li>)}</List>;

@@ -2258,6 +2258,22 @@ details p {
   font-weight: 900;
 }
 
+.legal-relief-jump {
+  display: table;
+  margin: 0.35rem 0 1.25rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: var(--brand-strong);
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.legal-relief-jump:hover,
+.legal-relief-jump:focus-visible {
+  background: var(--ink);
+}
+
 .legal-layout {
   display: grid;
   grid-template-columns: minmax(210px, 0.28fr) minmax(0, 1fr);
@@ -2300,6 +2316,11 @@ details p {
   color: var(--brand-strong);
 }
 
+.legal-toc a[href="#terms-8a"] {
+  color: var(--brand-strong);
+  font-weight: 800;
+}
+
 .legal-document {
   display: grid;
   gap: 2rem;
@@ -2313,6 +2334,17 @@ details p {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.72);
   box-shadow: 0 14px 42px rgba(42, 24, 48, 0.05);
+}
+
+.legal-section-relief {
+  border-color: rgba(255, 47, 131, 0.34);
+  background: linear-gradient(160deg, #fff1f7 0%, rgba(255, 255, 255, 0.9) 45%);
+}
+
+.legal-section-relief .legal-text > p:first-child {
+  color: var(--ink);
+  font-size: 1.12rem;
+  font-weight: 700;
 }
 
 .legal-section h2 {

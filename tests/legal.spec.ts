@@ -140,7 +140,7 @@ for (const [key, version, oldDate] of [["terms", "2026-07-02", "02.07.2026"], ["
   test(`${key}: stable sections, printable text and excluded immutable archive`, async ({ page, request }) => {
     await storeChoice(page);
     await page.goto(`/${key}`);
-    await expect(page.locator(".legal-version")).toContainText("2026-10-08");
+    await expect(page.locator(".legal-version")).toContainText("2026-10-19");
     await page.locator(`.legal-toc a[href="#${key}-8"]`).click();
     await expect(page).toHaveURL(new RegExp(`#${key}-8$`));
     await expect(page.locator(`#${key}-8`)).toBeVisible();
@@ -164,6 +164,46 @@ for (const [key, version, oldDate] of [["terms", "2026-07-02", "02.07.2026"], ["
     const sitemap = await (await request.get("/sitemap.xml")).text();
     expect(sitemap).not.toContain("/versions/");
     expect((await request.get(`/${key}/versions/unknown`)).status()).toBe(404);
+  });
+}
+
+test("emergency relief is prominent, linked from billing and printable on mobile", async ({ page }) => {
+  await storeChoice(page);
+  await page.goto("/terms");
+  await expect(page.getByRole("link", { name: "למדיניות הסיוע לעסקים בחירום" })).toHaveAttribute("href", "#terms-8a");
+  const reliefLink = page.locator('.legal-toc a[href="#terms-8a"]');
+  await expect(reliefLink).toHaveText("8א. Viby – ממשיכים ביחד גם בחירום");
+  await reliefLink.click();
+  await expect(page).toHaveURL(/#terms-8a$/);
+  const relief = page.locator("#terms-8a");
+  await expect(relief).toContainText("50%");
+  await expect(relief).toContainText("70%");
+  await expect(relief).toContainText("שני מרחבי הנחיות נפרדים");
+  await expect(relief).toContainText("30% לפחות");
+  await expect(relief).toContainText("שלושה חודשים");
+  await expect(relief).toContainText("ייצוא שימושי");
+  await expect(page.locator('#terms-8 a[href="#terms-8a"]')).toBeVisible();
+  await expect(page.locator('#terms-12 a[href="#terms-8a"]')).toBeVisible();
+  await page.setViewportSize({ width: 375, height: 800 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await relief.screenshot({ path: "/tmp/viby-emergency-relief-mobile.png" });
+  await page.emulateMedia({ media: "print" });
+  await expect(relief).toBeVisible();
+});
+
+for (const key of ["terms", "privacy"] as const) {
+  test(`${key}: October 8 publication remains available as the previous version`, async ({ page, request }) => {
+    await storeChoice(page);
+    await page.goto(`/${key}`);
+    await expect(page.getByRole("link", { name: "לגרסה הקודמת" })).toHaveAttribute("href", `/${key}/versions/2026-10-08`);
+    const response = await page.goto(`/${key}/versions/2026-10-08`);
+    expect(response?.status()).toBe(200);
+    expect(response?.headers()["x-robots-tag"]).toContain("noindex");
+    await expect(page.locator(".legal-version")).toContainText("2026-10-08");
+    await expect(page.locator(".legal-hero")).toContainText("08.10.2026");
+    if (key === "terms") await expect(page.locator("#terms-8a")).toHaveCount(0);
+    const sitemap = await (await request.get("/sitemap.xml")).text();
+    expect(sitemap).not.toContain(`/${key}/versions/2026-10-08`);
   });
 }
 
