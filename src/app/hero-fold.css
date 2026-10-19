@@ -277,7 +277,7 @@
   color: #af739b;
   font-size: 1.25rem;
 }
-.landing-v2.compact-home-hero .journey-step-label { display: flex; align-items: center; gap: 16px; font-size: 1.05rem; font-weight: 650; color: #745e74; }
+.landing-v2.compact-home-hero .journey-step-label { display: flex; align-items: center; gap: 16px; font-size: 1.4rem; font-weight: 900; color: #211625; }
 .landing-v2.compact-home-hero .journey-step-label > span:first-child {
   display: grid;
   place-items: center;
@@ -295,7 +295,7 @@
 .landing-v2.compact-home-hero .journey-artwork { position: relative; margin-block: 14px 20px; background: #fcf7fb; border-radius: 17px; overflow: hidden; }
 .landing-v2.compact-home-hero .journey-artwork img { display: block; width: 100%; height: auto; }
 .landing-v2.compact-home-hero .journey-artwork > span { position: absolute; bottom: 7px; inset-inline-start: 11px; color: #493448; background: #fffffff0; border-radius: 5px; padding: 2px 6px; font-size: .6rem; }
-.landing-v2.compact-home-hero .v2-how .v2-journey-modern h3 { margin: 0 0 10px; font-size: clamp(1.2rem, 1.8vw, 1.65rem); line-height: 1.35; color: #302237; }
+.landing-v2.compact-home-hero .v2-how .v2-journey-modern h3 { align-self: stretch; direction: rtl; text-align: right; margin: 0 0 10px; font-size: clamp(1.2rem, 1.8vw, 1.65rem); line-height: 1.35; color: #302237; }
 .landing-v2.compact-home-hero .v2-how .v2-journey-modern p { max-width: none; margin: 0; font-size: .97rem; line-height: 1.8; color: #776777; }
 @media (max-width: 1023px) {
   .landing-v2.compact-home-hero .v2-hero-art .v2-nfc-modern { width: min(290px, 100%); }

@@ -74,7 +74,7 @@ test("only the compact chooser follows scrolling and stays clear of Wallet headi
 test("homepage journey shows registration, Wallet and staff-assisted redemption", async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("viby-analytics-consent", "denied"));
   await page.emulateMedia({ reducedMotion: "reduce" });
-  for (const width of [1440, 390, 320]) {
+  for (const width of [1440, 768, 430, 390, 360, 320]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
     const cards = page.locator(".v2-journey-modern article");
@@ -89,6 +89,17 @@ test("homepage journey shows registration, Wallet and staff-assisted redemption"
     for (let index = 0; index < 3; index++) {
       await expect(images.nth(index)).toHaveAttribute("src", new RegExp(["phase_1", "phase2_new", "phase3_new"][index]));
       await images.nth(index).scrollIntoViewIfNeeded();
+      const alignment = await cards.nth(index).locator("h3").evaluate(heading => {
+        const range = document.createRange();
+        range.selectNodeContents(heading);
+        return {
+          direction: getComputedStyle(heading).direction,
+          textRight: range.getBoundingClientRect().right,
+          copyRight: heading.nextElementSibling!.getBoundingClientRect().right,
+        };
+      });
+      expect(alignment.direction).toBe("rtl");
+      expect(Math.abs(alignment.textRight - alignment.copyRight)).toBeLessThanOrEqual(1);
       await expect.poll(() => images.nth(index).evaluate(el => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
