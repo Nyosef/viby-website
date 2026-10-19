@@ -6,8 +6,11 @@ export type ProductSeo = {
   serviceId: ServiceId;
   path: "/" | `/${string}`;
   title: string;
+  // A complete rendered title; do not append the default " | Viby" suffix.
+  metadataTitle?: string;
   internalLinkLabel: string;
   description: string;
+  metadataDescription?: string;
   primaryIntent: string;
   supportingIntents: readonly string[];
   schemaId: string;
@@ -19,9 +22,12 @@ export const productSeoByService = {
     serviceId: "punch-card",
     path: "/",
     title: "כרטיסייה דיגיטלית לעסק",
+    metadataTitle: "כרטיסייה דיגיטלית לעסק | וייבי Viby",
     internalLinkLabel: "כרטיסייה דיגיטלית לעסק",
     description:
       "כרטיסייה דיגיטלית לעסק שמחליפה כרטיס ניקוב מנייר, נשמרת ב־Apple Wallet או Google Wallet ועוזרת להחזיר לקוחות — בלי אפליקציה.",
+    metadataDescription:
+      "וייבי (Viby) מציעה כרטיסייה דיגיטלית לעסק שמחליפה כרטיס ניקוב מנייר, נשמרת ב־Apple Wallet או Google Wallet ועוזרת להחזיר לקוחות — בלי אפליקציה.",
     primaryIntent: "כרטיסייה דיגיטלית לעסק",
     supportingIntents: [
       "כרטיס ניקוב דיגיטלי",
@@ -29,7 +35,7 @@ export const productSeoByService = {
       "כרטיסיית נייר",
     ],
     schemaId: "digital-punch-card",
-    lastModified: "2026-10-08",
+    lastModified: "2026-10-19",
   },
   "smart-wheel": {
     serviceId: "smart-wheel",
@@ -121,14 +127,15 @@ export function getProductPath(serviceId: ServiceId) {
 }
 
 export function createPageMetadata(
-  seo: Pick<ProductSeo, "path" | "title" | "description">,
+  seo: Pick<ProductSeo, "path" | "title" | "description" | "metadataTitle" | "metadataDescription">,
   image = siteConfig.ogImage,
 ): Metadata {
-  const brandedTitle = `${seo.title} | ${siteConfig.name}`;
+  const brandedTitle = seo.metadataTitle ?? `${seo.title} | ${siteConfig.name}`;
+  const description = seo.metadataDescription ?? seo.description;
 
   return {
     title: { absolute: brandedTitle },
-    description: seo.description,
+    description,
     alternates: {
       canonical: seo.path,
       languages: { "he-IL": seo.path },
@@ -138,7 +145,7 @@ export function createPageMetadata(
       url: seo.path,
       siteName: siteConfig.name,
       title: brandedTitle,
-      description: seo.description,
+      description,
       locale: siteConfig.locale,
       images: [
         {
@@ -152,7 +159,7 @@ export function createPageMetadata(
     twitter: {
       card: "summary_large_image",
       title: brandedTitle,
-      description: seo.description,
+      description,
       images: [{ url: image, alt: `${seo.title} — ${siteConfig.name}` }],
     },
   };

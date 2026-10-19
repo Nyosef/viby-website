@@ -212,7 +212,7 @@ export function VibyUpLanding() {
               height={67}
             />
           </Link>
-          <p>© Viby · הקשר ממשיך.</p>
+          <p>© וייבי (<bdi>Viby</bdi>) · הקשר ממשיך.</p>
         </div>
         <nav aria-label="פתרונות Viby">
           {productSeoEntries.map((entry) => (

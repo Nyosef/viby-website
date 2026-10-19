@@ -24,10 +24,13 @@ const productExpectations = [
   {
     path: "/",
     label: "כרטיסייה דיגיטלית לעסק",
-    title: "כרטיסייה דיגיטלית לעסק | Viby",
+    title: "כרטיסייה דיגיטלית לעסק | וייבי Viby",
+    schemaName: "כרטיסייה דיגיטלית לעסק",
     h1: "הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור.",
     description:
       "כרטיסייה דיגיטלית לעסק שמחליפה כרטיס ניקוב מנייר, נשמרת ב־Apple Wallet או Google Wallet ועוזרת להחזיר לקוחות — בלי אפליקציה.",
+    metadataDescription:
+      "וייבי (Viby) מציעה כרטיסייה דיגיטלית לעסק שמחליפה כרטיס ניקוב מנייר, נשמרת ב־Apple Wallet או Google Wallet ועוזרת להחזיר לקוחות — בלי אפליקציה.",
     primaryIntent: "כרטיסייה דיגיטלית לעסק",
     requiredVisibleTerms: [
       "מועדון לקוחות חכם לעסקים",
@@ -185,6 +188,7 @@ const productExpectationByPath = new Map(
 const guidedSetupPromise =
   "לאחר קבלת פרטי העסק, ההרשאות והאישורים הנדרשים, Viby מפעילה את השירות הדיגיטלי תוך עד 3 ימי עסקים. ימי עסקים: ראשון–חמישי, למעט חגים בישראל. ייצור השלט והמשלוח מתואמים בנפרד.";
 const commercialLastModified = "2026-10-08";
+const brandReleaseLastModified = "2026-10-19";
 const analyticsLocations = new Set([
   "header",
   "hero",
@@ -310,11 +314,28 @@ async function checkPage(pathname, titles) {
   }
 
   const title = titleTags[0]?.[1];
-  assert(title?.endsWith(" | Viby"), `${pathname}: title must end with | Viby`);
+  const expectedTitleSuffix = pathname === "/" ? " | וייבי Viby" : " | Viby";
+  assert(title?.endsWith(expectedTitleSuffix), `${pathname}: title must end with ${expectedTitleSuffix}`);
   assert(Boolean(title) && !titles.has(title), `${pathname}: duplicate or missing title ${title ?? ""}`);
   if (title) titles.add(title);
   assert(!html.includes("www.joinviby.co.il"), `${pathname}: contains forbidden www hostname`);
   assert(!html.includes("viby-website.vercel.app"), `${pathname}: contains project alias`);
+
+  if (productRoutes.has(pathname)) {
+    const nodes = parsedJsonLd.flatMap((document) =>
+      Array.isArray(document?.["@graph"]) ? document["@graph"] : [document],
+    );
+    for (const [type, id] of [
+      ["Organization", `${canonicalOrigin}/#organization`],
+      ["WebSite", `${canonicalOrigin}/#website`],
+    ]) {
+      const matching = nodes.filter((node) => node?.["@type"] === type);
+      assert(matching.length === 1, `${pathname}: expected exactly one ${type} node, got ${matching.length}`);
+      assert(matching[0]?.["@id"] === id, `${pathname}: ${type} @id changed`);
+      assert(matching[0]?.name === "Viby", `${pathname}: ${type} name changed`);
+      assert(matching[0]?.alternateName === "וייבי", `${pathname}: ${type} Hebrew alternateName missing`);
+    }
+  }
 
   if (pathname === "/viby-up") {
     const visible = textContent(html);
@@ -332,6 +353,8 @@ async function checkPage(pathname, titles) {
     const nodes = parsedJsonLd.flatMap((doc) => doc["@graph"] ?? [doc]);
     const service = nodes.find((node) => node["@type"] === "Service");
     assert(service?.url === expectedCanonical(pathname), "UP: wrong Service URL");
+    assert(service?.name === "Viby UP — קשרי לקוחות ב־WhatsApp בעזרת AI", "UP: Service name changed");
+    assert(service?.description === "וייבי אפ ממשיכה את הקשר אחרי הביקור: שיחה אישית ב־WhatsApp, הבנת חוויית הלקוח באמצעות AI ועדכון לבעל העסק כשצריך תשומת לב אישית.", "UP: Service description changed");
     assert(service?.alternateName === "Viby UP", "UP: wrong Service name");
     assert(service?.provider?.["@id"] === `${canonicalOrigin}/#organization`, "UP: wrong Organization reference");
     for (const { path, label } of productLinks) {
@@ -347,9 +370,17 @@ async function checkPage(pathname, titles) {
 
     assert(title === expectation?.title, `${pathname}: title is ${title ?? "missing"}`);
     assert(
-      description === expectation?.description,
+      description === (expectation?.metadataDescription ?? expectation?.description),
       `${pathname}: meta description does not match the approved copy`,
     );
+    const ogTitle = html.match(/<meta property="og:title" content="([^"]+)"\s*\/>/)?.[1];
+    const ogDescription = html.match(/<meta property="og:description" content="([^"]+)"\s*\/>/)?.[1];
+    const twitterTitle = html.match(/<meta name="twitter:title" content="([^"]+)"\s*\/>/)?.[1];
+    const twitterDescription = html.match(/<meta name="twitter:description" content="([^"]+)"\s*\/>/)?.[1];
+    assert(ogTitle === expectation?.title, `${pathname}: Open Graph title changed unexpectedly`);
+    assert(ogDescription === description, `${pathname}: Open Graph description differs from metadata`);
+    assert(twitterTitle === expectation?.title, `${pathname}: Twitter title changed unexpectedly`);
+    assert(twitterDescription === description, `${pathname}: Twitter description differs from metadata`);
     assert(h1 === expectation?.h1, `${pathname}: H1 is ${h1 ?? "missing"}`);
     assert(
       Boolean(expectation?.primaryIntent) && visibleText.includes(expectation.primaryIntent),
@@ -427,7 +458,7 @@ async function checkPage(pathname, titles) {
     );
     const serviceNode = structuredNodes.find((node) => node?.["@type"] === "Service");
     assert(Boolean(serviceNode), `${pathname}: missing Service structured data`);
-    assert(serviceNode?.name === expectation?.title.replace(/ \| Viby$/, ""), `${pathname}: wrong Service schema name`);
+    assert(serviceNode?.name === (expectation?.schemaName ?? expectation?.title.replace(/ \| Viby$/, "")), `${pathname}: wrong Service schema name`);
     assert(serviceNode?.alternateName === expectation?.alternateName, `${pathname}: wrong Service schema alternateName`);
     assert(serviceNode?.description === expectation?.description, `${pathname}: wrong Service schema description`);
     assert(serviceNode?.url === expectedCanonical(pathname), `${pathname}: wrong Service schema URL`);
@@ -456,6 +487,18 @@ async function checkPage(pathname, titles) {
     );
 
     if (pathname === "/") {
+      const bodyHtml = html.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? "";
+      const heroHtml = bodyHtml.match(/<div class="v2-hero-copy"[^>]*>([\s\S]*?)<div class="v2-actions"/)?.[1] ?? "";
+      const mobileHero = heroHtml.match(/<p class="v2-hero-text v2-mobile-only">([\s\S]*?)<\/p>/)?.[1] ?? "";
+      const desktopHero = heroHtml.match(/<p class="v2-hero-text v2-desktop-only">([\s\S]*?)<\/p>/)?.[1] ?? "";
+      assert(
+        includesIgnoringWhitespace(textContent(mobileHero), "עם וייבי (Viby), הלקוחות סורקים, צוברים הטבות ושומרים כרטיסייה בארנק הדיגיטלי. בלי אפליקציה."),
+        "/: approved mobile brand introduction missing from server-rendered hero",
+      );
+      assert(
+        includesIgnoringWhitespace(textContent(desktopHero), "עם וייבי (Viby), בונים קשר עם הלקוחות"),
+        "/: desktop brand introduction missing from server-rendered hero",
+      );
       const itemList = structuredNodes.find((node) => node?.["@type"] === "ItemList");
       assert(Boolean(itemList), "/: missing product ItemList structured data");
       for (const product of productExpectations) {
@@ -525,9 +568,14 @@ async function run() {
       const canonical = expectedCanonical(route);
       const entry = sitemapEntries.find((candidate) => candidate.includes(`<loc>${canonical}</loc>`));
       const lastModified = entry?.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
-      if (productRoutes.has(route) || ["/terms", "/privacy", "/how-it-works"].includes(route)) {
+      const expectedLastModified = ["/", "/terms", "/privacy"].includes(route)
+        ? brandReleaseLastModified
+        : productRoutes.has(route) || route === "/how-it-works"
+          ? commercialLastModified
+          : undefined;
+      if (expectedLastModified) {
         assert(
-          lastModified === commercialLastModified,
+          lastModified === expectedLastModified,
           `sitemap: ${route} lastmod is ${lastModified ?? "missing"}`,
         );
       } else {
