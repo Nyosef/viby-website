@@ -1086,6 +1086,7 @@ export function MultiServiceLanding({
             <div>
               <Link href="/how-it-works">איך Viby עובדת</Link>
               <Link href="/about">אודות וייבי</Link>
+              <Link href="/customer-retention">מועדון לקוחות דיגיטלי לעסקים</Link>
               <Link href="/support">תמיכה</Link>
               <a
                 className="v2-instagram-link"
@@ -1151,6 +1152,13 @@ function RelatedSolutions({ activeId }: { activeId: ServiceId }) {
             </Link>
           ))}
         </nav>
+        {activeId === "punch-card" ? (
+          <div className="v2-actions">
+            <Link className="v2-button v2-button-ghost" href="/customer-retention">
+              איך לבחור מועדון לקוחות דיגיטלי לעסק
+            </Link>
+          </div>
+        ) : null}
       </div>
     </section>
   );

@@ -141,6 +141,7 @@ export default function AboutPage() {
         <div className={styles.shell}>
           <div className={styles.sectionHeading}><span className={styles.sectionNumber}>04</span><h2 id="solutions-title">הפתרונות של וייבי</h2></div>
           <p className={styles.sectionIntro}>אין דרך אחת שמתאימה לכל עסק. לכן בנינו כמה כלים שונים, שכל אחד מהם פותר צורך אחר.</p>
+          <p className={styles.sectionIntro}>מתלבטים בין הדרכים ליצור קשר חוזר עם לקוחות? <Link href="/customer-retention">המדריך לבחירת מועדון לקוחות דיגיטלי לעסק</Link> משווה בין כרטיסיות, פרסים וכרטיסי מתנה.</p>
           <div className={styles.solutionGrid}>
             {solutions.map((solution) => (
               <Link className={styles.solutionCard} href={solution.href} key={solution.href} data-about-solution>

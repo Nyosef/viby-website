@@ -21,6 +21,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...productPages,
     {
+      url: `${siteConfig.url}/customer-retention`,
+      lastModified: "2026-10-20",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${siteConfig.url}/about`,
       lastModified: "2026-10-20",
       changeFrequency: "monthly",

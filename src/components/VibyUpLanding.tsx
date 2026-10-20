@@ -228,6 +228,7 @@ export function VibyUpLanding() {
         <nav aria-label="קישורים שימושיים">
           <Link href="/how-it-works">איך Viby עובדת</Link>
           <Link href="/about">אודות וייבי</Link>
+          <Link href="/customer-retention">מועדון לקוחות דיגיטלי לעסקים</Link>
           <Link href="/support">תמיכה</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
           <PrivacyPreferencesButton />
