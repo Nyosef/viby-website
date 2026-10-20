@@ -15,6 +15,7 @@ const routes = [
   "/viby-rate",
   "/viby-tap",
   "/viby-up",
+  "/customer-retention",
   "/about",
   "/how-it-works",
   "/support",
@@ -191,6 +192,7 @@ const guidedSetupPromise =
 const commercialLastModified = "2026-10-08";
 const brandReleaseLastModified = "2026-10-19";
 const aboutLastModified = "2026-10-20";
+const customerRetentionLastModified = "2026-10-20";
 const todayInIsrael = new Intl.DateTimeFormat("sv-SE", {
   timeZone: "Asia/Jerusalem",
   year: "numeric",
@@ -200,6 +202,21 @@ const todayInIsrael = new Intl.DateTimeFormat("sv-SE", {
 const aboutTitle = "אודות וייבי | Viby";
 const aboutDescription =
   "הכירו את וייבי (Viby), מערכת ישראלית שמנגישה טכנולוגיה מתקדמת לעסקים קטנים ובינוניים. כרטיסיות דיגיטליות, גלגל מזל, כרטיסי מתנה, NFC וקשרי לקוחות.";
+const customerRetentionTitle = "מועדון לקוחות דיגיטלי לעסקים | וייבי Viby";
+const customerRetentionDescription =
+  "מועדון לקוחות דיגיטלי לעסקים: השוו בין כרטיסיות ניקוב, פרסים וכרטיסי מתנה. בדקו עלויות, תהליך הקמה והתאמה לעסק עם וייבי (Viby).";
+const customerRetentionH1 = "מועדון לקוחות דיגיטלי לעסקים: בוחרים את הכלים שמתאימים לעסק שלכם";
+const customerRetentionHeadings = [
+  "מה זה מועדון לקוחות דיגיטלי?",
+  "איזה מודל מועדון לקוחות מתאים לעסק שלכם?",
+  "איך זה עובד ביום־יום: לקוח, צוות ובעל העסק",
+  "הכלים של וייבי — מה כל אחד עושה ומה לא",
+  "דוגמאות להפעלה לפי סוג עסק",
+  "כמה עולה מועדון לקוחות דיגיטלי בוייבי?",
+  "למי וייבי מתאימה — ומתי צריך פתרון אחר?",
+  "שאלות נפוצות על מועדון לקוחות דיגיטלי",
+  "בואו נבדוק מה מתאים לעסק שלכם",
+];
 const aboutSolutions = [
   ["/", "כרטיסיות דיגיטליות"],
   ["/smart-wheel", "גלגל מזל חכם"],
@@ -343,7 +360,7 @@ async function checkPage(pathname, titles) {
   }
 
   const title = titleTags[0]?.[1];
-  const expectedTitleSuffix = pathname === "/" ? " | וייבי Viby" : " | Viby";
+  const expectedTitleSuffix = ["/", "/customer-retention"].includes(pathname) ? " | וייבי Viby" : " | Viby";
   assert(title?.endsWith(expectedTitleSuffix), `${pathname}: title must end with ${expectedTitleSuffix}`);
   assert(Boolean(title) && !titles.has(title), `${pathname}: duplicate or missing title ${title ?? ""}`);
   if (title) titles.add(title);
@@ -603,8 +620,83 @@ async function checkPage(pathname, titles) {
     assert(body.includes("privacy-preferences-link"), "/about: missing privacy preferences control");
   }
 
-  if (productRoutes.has(pathname) || ["/support", "/how-it-works"].includes(pathname)) {
+  if (pathname === "/customer-retention") {
+    const body = html.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? "";
+    const visible = textContent(body);
+    const nodes = parsedJsonLd.flatMap((document) =>
+      Array.isArray(document?.["@graph"]) ? document["@graph"] : [document],
+    );
+    const webPages = nodes.filter((node) => node?.["@type"] === "WebPage");
+    const webpage = webPages[0];
+    assert(title === customerRetentionTitle, "/customer-retention: wrong title");
+    assert(descriptions[0]?.[1] === customerRetentionDescription, "/customer-retention: wrong description");
+    assert(textContent(headings[0]?.[1] ?? "") === customerRetentionH1, "/customer-retention: wrong H1");
+    for (const [attribute, value, expected] of [
+      ["property", "og:title", customerRetentionTitle],
+      ["property", "og:description", customerRetentionDescription],
+      ["name", "twitter:title", customerRetentionTitle],
+      ["name", "twitter:description", customerRetentionDescription],
+    ]) {
+      assert(html.includes(`<meta ${attribute}="${value}" content="${expected}"`), `/customer-retention: wrong ${value}`);
+    }
+    assert(html.includes('content="מועדון לקוחות דיגיטלי לעסקים — Viby"'), "/customer-retention: wrong social image alt");
+    assert(html.includes(`<link rel="alternate" hrefLang="he-IL" href="${canonicalOrigin}/customer-retention"`), "/customer-retention: missing Hebrew alternate");
+    assert(!response.headers.get("x-robots-tag")?.includes("noindex"), "/customer-retention: X-Robots-Tag noindex");
+    assert(!/<meta name="robots" content="[^"]*noindex/.test(html), "/customer-retention: robots noindex");
+    assert(includesIgnoringWhitespace(visible, "וייבי (Viby) | פתרונות נאמנות לעסקים"), "/customer-retention: Hebrew brand is not visible in server HTML");
+    assert(visible.includes("דוגמאות להמחשה"), "/customer-retention: examples are not labeled illustrative");
+    let headingPosition = -1;
+    for (const heading of customerRetentionHeadings) {
+      const position = visible.indexOf(heading, headingPosition + 1);
+      assert(position > headingPosition, `/customer-retention: missing or out-of-order section ${heading}`);
+      headingPosition = position;
+    }
+    assert(webPages.length === 1, `/customer-retention: expected one WebPage node, got ${webPages.length}`);
+    assert(nodes.length === 1, `/customer-retention: unexpected additional schema nodes (${nodes.length})`);
+    assert(webpage?.["@id"] === `${canonicalOrigin}/customer-retention#webpage`, "/customer-retention: wrong WebPage @id");
+    assert(webpage?.url === `${canonicalOrigin}/customer-retention`, "/customer-retention: wrong WebPage URL");
+    assert(webpage?.name === customerRetentionTitle, "/customer-retention: wrong WebPage name");
+    assert(webpage?.description === customerRetentionDescription, "/customer-retention: wrong WebPage description");
+    assert(webpage?.inLanguage === "he-IL", "/customer-retention: wrong WebPage language");
+    assert(webpage?.isPartOf?.["@id"] === `${canonicalOrigin}/#website`, "/customer-retention: wrong WebSite reference");
+    assert(webpage?.publisher?.["@id"] === `${canonicalOrigin}/#organization`, "/customer-retention: wrong Organization reference");
+    assert(!nodes.some((node) => ["Organization", "WebSite", "FAQPage", "ItemList", "Product", "Offer"].includes(node?.["@type"])), "/customer-retention: unsupported schema node");
+    const productCards = matches(body, /<a\b[^>]*data-retention-product(?:="")?[^>]*>[\s\S]*?<\/a>/g);
+    assert(productCards.length === 6, `/customer-retention: expected six product cards, got ${productCards.length}`);
+    for (const { path, label } of productLinks) {
+      const matching = productCards.filter(([card]) =>
+        card.includes(`href="${path}"`) && includesIgnoringWhitespace(textContent(card), label),
+      );
+      assert(matching.length === 1, `/customer-retention: wrong or duplicate product link ${path}`);
+    }
+    assert(/<a\b[^>]*href="#comparison"[^>]*>/.test(body), "/customer-retention: missing comparison anchor");
+    assert(/id="comparison"/.test(body), "/customer-retention: missing comparison target");
+    for (const path of ["/about", "/how-it-works", "/support", "/terms", "/privacy"]) {
+      assert(body.includes(`href="${path}"`), `/customer-retention: missing ${path} link`);
+    }
+    assert(body.includes('href="/terms#terms-8"'), "/customer-retention: missing verified subscription terms link");
+    for (const claim of ["החל מ־79 ₪ לחודש", "החל מ־49 ₪ לחודש", "3 חודשים", "הצעה אישית", "עמלות סליקה", "היתרים נדרשים", "הזמנה המאושרת"]) {
+      assert(visible.includes(claim), `/customer-retention: missing approved commercial qualification ${claim}`);
+    }
+    const contactLinks = matches(body, /<a\b[^>]*href="https:\/\/wa\.me\/[^\"]+"[^>]*>/g).map((match) => match[0]);
+    const message = encodeURIComponent("היי, הגעתי מהעמוד על מועדון לקוחות דיגיטלי ואשמח לעזרה בבחירת הכלים לעסק שלי.");
+    assert(contactLinks.length === 3, `/customer-retention: expected three WhatsApp CTAs, got ${contactLinks.length}`);
+    for (const location of ["hero", "mid_page_cta", "final_cta"]) {
+      assert(contactLinks.some((link) => link.includes(`data-analytics-location="${location}"`) && link.includes(`href="https://wa.me/972509565137?text=${message}"`)), `/customer-retention: wrong WhatsApp CTA ${location}`);
+    }
+  }
+
+  if (productRoutes.has(pathname) || ["/support", "/how-it-works", "/customer-retention"].includes(pathname)) {
     assert(/<a\b[^>]*href="\/about"[^>]*>אודות וייבי<\/a>/.test(html), `${pathname}: missing About footer link`);
+  }
+
+  if (productRoutes.has(pathname)) {
+    assert(/<a\b[^>]*href="\/customer-retention"[^>]*>מועדון לקוחות דיגיטלי לעסקים<\/a>/.test(html), `${pathname}: missing customer-retention footer link`);
+    const contextualLink = /<a\b[^>]*href="\/customer-retention"[^>]*>איך לבחור מועדון לקוחות דיגיטלי לעסק<\/a>/.test(html);
+    assert(contextualLink === (pathname === "/"), `${pathname}: homepage contextual link has wrong scope`);
+  }
+  if (pathname === "/about") {
+    assert(/<a\b[^>]*href="\/customer-retention"[^>]*>המדריך לבחירת מועדון לקוחות דיגיטלי לעסק<\/a>/.test(html), "/about: missing contextual customer-retention link");
   }
 
   const internalLinks = matches(html, /href="(\/(?!\/)[^"#?]*)[^\"]*"/g)
@@ -666,6 +758,8 @@ async function run() {
       const lastModified = entry?.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
       const expectedLastModified = ["/", "/terms", "/privacy"].includes(route)
         ? brandReleaseLastModified
+        : route === "/customer-retention"
+          ? customerRetentionLastModified
         : route === "/about"
           ? aboutLastModified
         : productRoutes.has(route) || route === "/how-it-works"
@@ -691,6 +785,11 @@ async function run() {
       sitemapEntries.filter((entry) => entry.includes(`<loc>${canonicalOrigin}/about</loc>`)).length === 1,
       "sitemap: /about must occur exactly once",
     );
+    assert(
+      sitemapEntries.filter((entry) => entry.includes(`<loc>${canonicalOrigin}/customer-retention</loc>`)).length === 1,
+      "sitemap: /customer-retention must occur exactly once",
+    );
+    assert(sitemapEntries.length === routes.length, `sitemap: expected ${routes.length} public URLs, got ${sitemapEntries.length}`);
 
     const robots = await (await fetch(`${origin}/robots.txt`)).text();
     assert(robots.includes("Disallow: /api/"), "robots: /api/ is not disallowed");
