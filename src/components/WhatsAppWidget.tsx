@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { WhatsAppMark } from "./WhatsAppMark";
+import { PhoneIcon } from "./PhoneIcon";
 import {
   getAnalyticsConsent,
   subscribeToConsent,
@@ -199,6 +200,9 @@ export function WhatsAppWidget({
             >
               בואו נדבר ב־<bdi>WhatsApp</bdi>
               <WhatsAppMark />
+            </a>
+            <a className="whatsapp-call-link" href={`tel:+${siteConfig.whatsappNumber}`} data-analytics-location="whatsapp_widget" aria-label={`התקשרו ל־Viby במספר ${siteConfig.whatsappDisplay}`} onClick={markRead}>
+              <PhoneIcon /><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi>
             </a>
           </div>
         </section>

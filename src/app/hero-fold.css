@@ -10,6 +10,48 @@
   padding-block: 12px 18px;
   flex: 1;
 }
+.landing-v2.compact-home-hero .v2-hero-call-slot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 64px;
+}
+.landing-v2.compact-home-hero .v2-hero-call-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  gap: .7rem;
+  min-height: 56px;
+  padding: .55rem 1.35rem;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 16px 36px rgba(87, 0, 45, .22);
+  color: #351b35;
+  font-size: clamp(1.35rem, 1.9vw, 1.7rem);
+  font-weight: 900;
+  line-height: 1;
+  text-decoration: none;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+.landing-v2.compact-home-hero .v2-hero-call-link svg {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  color: #f41677;
+}
+.landing-v2.compact-home-hero .v2-hero-call-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 44px rgba(87, 0, 45, .3);
+}
+.landing-v2.compact-home-hero .v2-hero-call-link:focus-visible {
+  outline: 3px solid #351b35;
+  outline-offset: 4px;
+}
+.landing-v2.compact-home-hero .v2-mobile-call-link { display: none; }
+.landing-v2.compact-home-hero .v2-hero-primary-actions { display: contents; }
 .landing-v2.compact-home-hero .v2-brand-row {
   min-height: 82px;
 }
@@ -151,6 +193,7 @@
   .landing-v2.compact-home-hero .v2-hero-text { font-size: .95rem; }
 }
 @media (max-width: 760px) {
+  .landing-v2.compact-home-hero .v2-hero-call-slot { display: none; }
   .landing-v2.compact-home-hero .v2-hero > .v2-shell { padding-block: 6px 8px; }
   .landing-v2.compact-home-hero .v2-brand-row { min-height: 58px; gap: 12px; }
   .landing-v2.compact-home-hero .v2-brand-row > a:first-child { width: 76px; height: 38px; }
@@ -356,7 +399,22 @@
   .landing-v2.compact-home-hero .v2-hero h1 { font-size: clamp(1.8rem, 9.2vw, 2.5rem); line-height: 1.08; margin-bottom: 12px; letter-spacing: -.035em; }
   .landing-v2.compact-home-hero .v2-hero-text { font-size: 1rem; line-height: 1.5; }
   .landing-v2.compact-home-hero .v2-hero .v2-actions { flex-direction: column; gap: 8px; margin-top: 12px; }
-  .landing-v2.compact-home-hero .v2-hero .v2-button-whatsapp { width: 100%; min-height: 54px; flex: none; padding: 12px 14px; font-size: 1.05rem; }
+  .landing-v2.compact-home-hero .v2-hero-primary-actions { display: flex; width: 100%; align-items: stretch; gap: 8px; }
+  .landing-v2.compact-home-hero .v2-hero .v2-button-whatsapp { width: auto; min-width: 0; min-height: 54px; flex: 1 1 auto; padding: 12px 10px; font-size: clamp(.85rem, 3.8vw, 1.05rem); }
+  .landing-v2.compact-home-hero .v2-mobile-call-link {
+    display: inline-grid;
+    flex: 0 0 54px;
+    place-items: center;
+    min-height: 54px;
+    border: 1px solid rgba(255,255,255,.9);
+    border-radius: 14px;
+    background: #fff;
+    color: #f41677;
+    box-shadow: 0 8px 22px rgba(87,0,45,.13);
+    text-decoration: none;
+  }
+  .landing-v2.compact-home-hero .v2-mobile-call-link svg { display: block; width: 29px; height: 29px; }
+  .landing-v2.compact-home-hero .v2-mobile-call-link:focus-visible { outline: 3px solid #351b35; outline-offset: 3px; }
   .landing-v2.compact-home-hero .v2-hero .v2-button-ghost,
   .landing-v2.compact-home-hero .v2-hero-reassurance,
   .landing-v2.compact-home-hero .v2-compact-art-inner,

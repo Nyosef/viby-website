@@ -441,6 +441,24 @@
   text-underline-offset: 0.25em;
 }
 
+.contactLinks .callLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid rgba(139, 63, 157, 0.25);
+  border-radius: 999px;
+  background: #fff;
+  text-decoration: none;
+}
+
+.callLink svg,
+.callAction svg {
+  width: 1.35em;
+  height: 1.35em;
+  flex: 0 0 auto;
+}
+
 .finalSection {
   padding-block: clamp(4rem, 7vw, 7rem);
 }
@@ -465,6 +483,31 @@
   max-width: 60ch;
   margin: 0 auto 2rem;
   font-size: 1.1rem;
+}
+
+.finalActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.callAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 50px;
+  padding: 0.75rem 1.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  color: white;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.callAction:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .footer {
@@ -525,6 +568,14 @@
 }
 
 @media (max-width: 600px) {
+  .finalActions {
+    flex-direction: column;
+  }
+
+  .finalActions a {
+    width: 100%;
+  }
+
   .shell {
     width: calc(100% - 2rem);
   }

@@ -156,7 +156,9 @@ for (const [key, version, oldDate] of [["terms", "2026-07-02", "02.07.2026"], ["
   test(`${key}: stable sections, printable text and excluded immutable archive`, async ({ page, request }) => {
     await storeChoice(page);
     await page.goto(`/${key}`);
-    await expect(page.locator(".legal-version")).toContainText("2026-10-19");
+    await expect(page.locator(".legal-version")).toContainText("2026-10-21");
+    await expect(page.locator(".legal-document")).toContainText("055-263-9957");
+    await expect(page.locator('.legal-document a[href="tel:+972552639957"]').first()).toBeVisible();
     await page.locator(`.legal-toc a[href="#${key}-8"]`).click();
     await expect(page).toHaveURL(new RegExp(`#${key}-8$`));
     await expect(page.locator(`#${key}-8`)).toBeVisible();
@@ -208,18 +210,23 @@ test("emergency relief is prominent, linked from billing and printable on mobile
 });
 
 for (const key of ["terms", "privacy"] as const) {
-  test(`${key}: October 8 publication remains available as the previous version`, async ({ page, request }) => {
+  test(`${key}: corrected October archives remain available`, async ({ page, request }) => {
     await storeChoice(page);
     await page.goto(`/${key}`);
-    await expect(page.getByRole("link", { name: "לגרסה הקודמת" })).toHaveAttribute("href", `/${key}/versions/2026-10-08`);
-    const response = await page.goto(`/${key}/versions/2026-10-08`);
-    expect(response?.status()).toBe(200);
-    expect(response?.headers()["x-robots-tag"]).toContain("noindex");
-    await expect(page.locator(".legal-version")).toContainText("2026-10-08");
-    await expect(page.locator(".legal-hero")).toContainText("08.10.2026");
-    if (key === "terms") await expect(page.locator("#terms-8a")).toHaveCount(0);
     const sitemap = await (await request.get("/sitemap.xml")).text();
-    expect(sitemap).not.toContain(`/${key}/versions/2026-10-08`);
+    await expect(page.getByRole("link", { name: "לגרסה הקודמת" })).toHaveAttribute("href", `/${key}/versions/2026-10-19`);
+    for (const [version, date] of [["2026-10-19", "19.10.2026"], ["2026-10-08", "08.10.2026"]] as const) {
+      const response = await page.goto(`/${key}/versions/${version}`);
+      expect(response?.status()).toBe(200);
+      expect(response?.headers()["x-robots-tag"]).toContain("noindex");
+      await expect(page.locator(".legal-version")).toContainText(version);
+      await expect(page.locator(".legal-hero")).toContainText(date);
+      await expect(page.locator(".legal-hero")).toContainText("פרטי הקשר בגרסה זו תוקנו");
+      await expect(page.locator(".legal-document")).toContainText("055-263-9957");
+      await expect(page.locator('.legal-document a[href="tel:+972552639957"]').first()).toBeVisible();
+      if (key === "terms" && version === "2026-10-08") await expect(page.locator("#terms-8a")).toHaveCount(0);
+      expect(sitemap).not.toContain(`/${key}/versions/${version}`);
+    }
   });
 }
 

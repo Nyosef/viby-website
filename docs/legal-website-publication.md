@@ -1,6 +1,6 @@
 # Viby marketing website legal update — publication checklist
 
-Prepared 8 October 2026; updated 19 October 2026 for the emergency relief policy. Scope: joinviby.co.il and its marketing-site lead API.
+Prepared 8 October 2026; updated 19 October 2026 for the emergency relief policy and 21 October 2026 for the contact-number correction. Scope: joinviby.co.il and its marketing-site lead API.
 The merchant application, payment collection, billing, customer enrollment and
 actual AI messaging are outside this change.
 
@@ -30,7 +30,7 @@ checks recorded there remain outstanding; publication does not mark them complet
 1. Provide and verify public `NEXT_PUBLIC_LEGAL_BUSINESS_NAME`,
    `NEXT_PUBLIC_LEGAL_BUSINESS_ADDRESS` and `NEXT_PUBLIC_LEGAL_CONTACT_EMAIL`.
    Confirm the email is monitored for privacy and cancellation and that the
-   existing 050-956-5137 WhatsApp number can handle these requests.
+   Viby WhatsApp number 055-263-9957 can handle these requests.
    The owner has confirmed Viby, Wingate 186 Herzliya and vibyisrael@gmail.com.
    At the owner's request, the personal business number is omitted from this
    B2B callback-only marketing website, its client configuration and build gate.
@@ -58,12 +58,11 @@ follow-up checks above have been completed.
 ## Technical behavior and maintenance
 
 - `/terms` and `/privacy` serve current documents; prior published strings are
-  preserved in `legal-history.ts` and `legal-history-2026-10-08.ts`. Version pages have noindex/nofollow/noarchive,
+  preserved in `legal-history.ts`, `legal-history-2026-10-08.ts`, and `legal-history-2026-10-19.ts`, except that the two October archives use the Viby contact number instead of a personal number. The correction is disclosed on those pages. Version pages have noindex/nofollow/noarchive,
   remain crawlable so noindex can be honoured, and are excluded from the sitemap. Existing title fragment
   anchors remain available alongside stable section IDs.
 - When changing legal/commercial wording later, preserve the outgoing document
-  as an immutable history entry and create a new version; never edit a published
-  historical text in place.
+  as a fixed history entry and create a new version. The 21 October contact-number correction is the documented privacy exception to preserving archived text verbatim.
 - Analytics choices use `{ version: 1, value, savedAt }` with a 180-day lifetime.
   Legacy refusals migrate; legacy grants require a fresh choice. Invalid records
   cannot grant permission. Blocked storage falls back to in-memory choice.

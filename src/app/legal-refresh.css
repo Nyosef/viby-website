@@ -29,6 +29,9 @@
 .legal-status a { text-decoration: underline; }
 .legal-draft-notice { padding: 12px; background: #fff5d9; border-radius: 8px; }
 .legal-contact { display: flex; flex-wrap: wrap; gap: 20px; padding-block: 24px; }
+.legal-contact a[href^="tel:"] { display: inline-flex; align-items: center; gap: 6px; }
+.legal-contact a[href^="tel:"] svg { width: 24px; height: 24px; }
+.legal-text a[href^="tel:"] { color: var(--brand-strong); text-decoration: underline; text-underline-offset: 3px; }
 .legal-text li { margin-bottom: .6rem; line-height: 1.9; }
 .legal-text ul, .legal-text ol { padding-inline-start: 1.6rem; }
 .legal-text p, .legal-text li { overflow-wrap: anywhere; }

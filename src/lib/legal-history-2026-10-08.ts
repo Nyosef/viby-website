@@ -1,6 +1,7 @@
 import type { LegalDocument, LegalDocumentKey } from "./legal-types";
 
-// Immutable snapshot of the documents published on 8 October 2026.
+// Published snapshot from 8 October 2026. Contact details were corrected on
+// 21 October 2026 to remove a personal number; other wording is unchanged.
 export const october2026LegalDocuments = {
   "terms": {
     "title": "תנאי השימוש בפלטפורמת Viby",
@@ -19,7 +20,7 @@ export const october2026LegalDocuments = {
           },
           {
             "type": "paragraph",
-            "text": "לפניות שירות, ביטול ופרטיות: vibyisrael@gmail.com, וב־WhatsApp במספר 050-956-5137. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה."
+            "text": "לפניות שירות, ביטול ופרטיות: vibyisrael@gmail.com, וב־WhatsApp במספר 055-263-9957. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה."
           },
           {
             "type": "paragraph",
@@ -242,7 +243,7 @@ export const october2026LegalDocuments = {
           },
           {
             "type": "paragraph",
-            "text": "לפניות שירות, ביטול ופרטיות: vibyisrael@gmail.com, וב־WhatsApp במספר 050-956-5137. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה."
+            "text": "לפניות שירות, ביטול ופרטיות: vibyisrael@gmail.com, וב־WhatsApp במספר 055-263-9957. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה."
           }
         ]
       },
@@ -338,7 +339,7 @@ export const october2026LegalDocuments = {
           },
           {
             "type": "paragraph",
-            "text": "לפניות שירות, ביטול ופרטיות: vibyisrael@gmail.com, וב־WhatsApp במספר 050-956-5137. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה."
+            "text": "לפניות שירות, ביטול ופרטיות: vibyisrael@gmail.com, וב־WhatsApp במספר 055-263-9957. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה."
           }
         ]
       }
@@ -371,7 +372,7 @@ export const october2026LegalDocuments = {
           },
           {
             "type": "paragraph",
-            "text": "לפניות שירות, ביטול ופרטיות: vibyisrael@gmail.com, וב־WhatsApp במספר 050-956-5137. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה."
+            "text": "לפניות שירות, ביטול ופרטיות: vibyisrael@gmail.com, וב־WhatsApp במספר 055-263-9957. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה."
           },
           {
             "type": "paragraph",
@@ -801,7 +802,7 @@ export const october2026LegalDocuments = {
           },
           {
             "type": "paragraph",
-            "text": "לפניות שירות, ביטול ופרטיות: vibyisrael@gmail.com, וב־WhatsApp במספר 050-956-5137. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה."
+            "text": "לפניות שירות, ביטול ופרטיות: vibyisrael@gmail.com, וב־WhatsApp במספר 055-263-9957. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה."
           },
           {
             "type": "paragraph",

@@ -3,6 +3,7 @@ import { Heebo } from "next/font/google";
 import Script from "next/script";
 import { WhatsAppWidget } from "@/components/WhatsAppWidget";
 import { AnalyticsConsent } from "@/components/AnalyticsConsent";
+import { PhoneCallLink } from "@/components/PhoneCallLink";
 import { productSeoByService } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import { assertLegalPublicationReady } from "@/lib/legal-identity";
@@ -69,6 +70,9 @@ export default function RootLayout({
           </Script>
         ) : null}
         {children}
+        <div className="site-call-end">
+          <PhoneCallLink className="site-call-end-link" analyticsLocation="footer" />
+        </div>
         <AnalyticsConsent measurementId={measurementId} />
         <WhatsAppWidget analyticsEnabled={Boolean(measurementId)} />
       </body>

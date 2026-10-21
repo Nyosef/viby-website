@@ -194,7 +194,7 @@ test("CTA uses prefilled destination and one sanitized sales click", async ({
   await trigger(page).click();
   const link = page.locator(".whatsapp-chat-link");
   const url = new URL((await link.getAttribute("href"))!);
-  expect(url.pathname).toBe("/972509565137");
+  expect(url.pathname).toBe("/972552639957");
   expect(url.searchParams.get("text")).toBe("היי, אשמח לשמוע עוד על Viby");
   await link.evaluate((el) =>
     el.addEventListener("click", (event) => event.preventDefault()),
@@ -207,7 +207,53 @@ test("CTA uses prefilled destination and one sanitized sales click", async ({
     contact_type: "sales",
     page_path: "/support",
   });
-  expect(JSON.stringify(clicks)).not.toMatch(/972509565137|אשמח|link_url/);
+  expect(JSON.stringify(clicks)).not.toMatch(/972552639957|אשמח|link_url/);
+});
+
+test("call actions open the Viby number and track a phone click without the number", async ({ page }) => {
+  await initialize(page, "granted", 5000);
+  await page.goto("/support");
+  const callLink = page.locator(".support-hero .call-action");
+  await expect(callLink).toHaveAttribute("href", "tel:+972552639957");
+  await expect(callLink).toContainText("055-263-9957");
+  await callLink.evaluate((link) => link.addEventListener("click", (event) => event.preventDefault()));
+  await callLink.click();
+  const clicks = await events(page, "click_phone");
+  expect(clicks).toHaveLength(1);
+  expect(clicks[0][2]).toMatchObject({ contact_method: "phone", contact_type: "support", cta_location: "support_page" });
+  expect(JSON.stringify(clicks)).not.toMatch(/972552639957|055-263-9957|link_url/);
+  await trigger(page).click();
+  await expect(preview(page).locator(".whatsapp-call-link")).toHaveAttribute("href", "tel:+972552639957");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(callLink).toBeVisible();
+});
+
+test("the homepage hero and every page ending offer a clear tap-to-call link", async ({ page }) => {
+  for (const path of ["/", "/support", "/about", "/terms", "/privacy/versions/2026-10-08"]) {
+    await page.goto(path);
+    const endCall = page.locator(".site-call-end-link");
+    await expect(endCall).toHaveAttribute("href", "tel:+972552639957");
+    await expect(endCall).toHaveText("055-263-9957");
+    await expect(endCall.locator("svg")).toBeVisible();
+    expect(await endCall.locator(".phone-call-glyph").evaluate((icon) => getComputedStyle(icon).animationName)).toBe("phone-ring");
+  }
+
+  await page.goto("/");
+  const heroCall = page.locator(".v2-hero-call-link");
+  await expect(heroCall).toHaveCount(0);
+  await expect(heroCall).toBeVisible({ timeout: 12_000 });
+  await expect(heroCall).toHaveAttribute("href", "tel:+972552639957");
+  await expect(heroCall).toHaveText("055-263-9957");
+  await expect(heroCall.locator("svg")).toBeVisible();
+  expect(await heroCall.locator(".phone-call-glyph").evaluate((icon) => getComputedStyle(icon).animationName)).toBe("phone-ring");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(heroCall).toBeHidden();
+  const mobileCall = page.locator(".v2-mobile-call-link");
+  await expect(mobileCall).toHaveAttribute("href", "tel:+972552639957");
+  await expect(mobileCall).toHaveText("");
+  await expect(mobileCall.locator("svg")).toBeVisible();
+  expect(await mobileCall.locator(".phone-call-glyph").evaluate((icon) => getComputedStyle(icon).animationName)).toBe("none");
+  await expect(page.locator(".v2-trust-in-hero")).toBeInViewport();
 });
 
 test("blocked storage and throwing analytics do not break navigation or widget", async ({

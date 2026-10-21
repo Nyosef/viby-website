@@ -191,6 +191,7 @@ const guidedSetupPromise =
   "לאחר קבלת פרטי העסק, ההרשאות והאישורים הנדרשים, Viby מפעילה את השירות הדיגיטלי תוך עד 3 ימי עסקים. ימי עסקים: ראשון–חמישי, למעט חגים בישראל. ייצור השלט והמשלוח מתואמים בנפרד.";
 const commercialLastModified = "2026-10-08";
 const brandReleaseLastModified = "2026-10-19";
+const legalReleaseLastModified = "2026-10-21";
 const aboutLastModified = "2026-10-20";
 const customerRetentionLastModified = "2026-10-20";
 const todayInIsrael = new Intl.DateTimeFormat("sv-SE", {
@@ -682,7 +683,7 @@ async function checkPage(pathname, titles) {
     const message = encodeURIComponent("היי, הגעתי מהעמוד על מועדון לקוחות דיגיטלי ואשמח לעזרה בבחירת הכלים לעסק שלי.");
     assert(contactLinks.length === 3, `/customer-retention: expected three WhatsApp CTAs, got ${contactLinks.length}`);
     for (const location of ["hero", "mid_page_cta", "final_cta"]) {
-      assert(contactLinks.some((link) => link.includes(`data-analytics-location="${location}"`) && link.includes(`href="https://wa.me/972509565137?text=${message}"`)), `/customer-retention: wrong WhatsApp CTA ${location}`);
+      assert(contactLinks.some((link) => link.includes(`data-analytics-location="${location}"`) && link.includes(`href="https://wa.me/972552639957?text=${message}"`)), `/customer-retention: wrong WhatsApp CTA ${location}`);
     }
   }
 
@@ -756,7 +757,9 @@ async function run() {
       const canonical = expectedCanonical(route);
       const entry = sitemapEntries.find((candidate) => candidate.includes(`<loc>${canonical}</loc>`));
       const lastModified = entry?.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
-      const expectedLastModified = ["/", "/terms", "/privacy"].includes(route)
+      const expectedLastModified = ["/terms", "/privacy"].includes(route)
+        ? legalReleaseLastModified
+        : route === "/"
         ? brandReleaseLastModified
         : route === "/customer-retention"
           ? customerRetentionLastModified

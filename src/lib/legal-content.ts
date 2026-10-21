@@ -15,7 +15,7 @@ const owner = legalIdentity.name || "[שם העוסק — להשלמה לפני 
 const address = legalIdentity.address || "[מען העסק — להשלמה לפני פרסום]";
 const email = legalIdentity.email || "[דוא״ל לפניות — להשלמה לפני פרסום]";
 const identity = `שירותי Viby מופעלים על ידי ${owner}, עוסק פטור, שמענו ${address}.`;
-const contact = `לפניות שירות, ביטול ופרטיות: ${email}, וב־WhatsApp במספר 050-956-5137. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה.`;
+const contact = `לפניות שירות, ביטול ופרטיות: ${email}, וב־WhatsApp במספר 055-263-9957. בפנייה יש לציין את נושא הבקשה ופרטי קשר לחזרה.`;
 
 export const legalDocuments = {
   terms: {

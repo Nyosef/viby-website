@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import { legalDocuments } from "./legal-content";
 import { previousLegalDocuments } from "./legal-history";
 import { october2026LegalDocuments } from "./legal-history-2026-10-08";
+import { october19LegalDocuments } from "./legal-history-2026-10-19";
 import type { LegalDocumentKey } from "./legal-types";
 import { siteConfig } from "./site";
 
 export function legalVersions(key: LegalDocumentKey) {
-  return [previousLegalDocuments[key], october2026LegalDocuments[key], legalDocuments[key]];
+  return [previousLegalDocuments[key], october2026LegalDocuments[key], october19LegalDocuments[key], legalDocuments[key]];
 }
 
 export function latestLegalArchive(key: LegalDocumentKey) {
-  return october2026LegalDocuments[key];
+  return october19LegalDocuments[key];
 }
 
 export function currentLegalDocument(key: LegalDocumentKey) {

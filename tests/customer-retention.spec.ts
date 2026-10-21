@@ -43,13 +43,15 @@ test("customer-retention guide fits RTL mobile and desktop with accessible compa
       }))).toBe(true);
     }
     for (const location of ["hero", "mid_page_cta", "final_cta"]) {
-      const action = page.locator(`[data-analytics-location="${location}"]`);
-      await action.scrollIntoViewIfNeeded();
-      expect(await action.evaluate((element) => {
-        const rect = element.getBoundingClientRect();
-        const topmost = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
-        return topmost === element || element.contains(topmost);
-      })).toBe(true);
+      const actions = page.locator(`[data-analytics-location="${location}"]`);
+      for (const action of await actions.all()) {
+        await action.scrollIntoViewIfNeeded();
+        expect(await action.evaluate((element) => {
+          const rect = element.getBoundingClientRect();
+          const topmost = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+          return topmost === element || element.contains(topmost);
+        })).toBe(true);
+      }
     }
     await page.getByRole("link", { name: "איזה כלי מתאים לי?" }).click();
     await expect(page).toHaveURL(/\/customer-retention#comparison$/);
@@ -81,13 +83,14 @@ for (const consent of ["granted", "denied"] as const) {
     await page.route(/google-analytics\.com/, (route) => route.fulfill({ status: 204 }));
     await page.goto("/customer-retention");
     for (const location of ["hero", "mid_page_cta", "final_cta"]) {
-      const cta = page.locator(`[data-analytics-location="${location}"]`);
+      const cta = page.locator(`a[href^="https://wa.me/"][data-analytics-location="${location}"]`);
       await expect(cta).toHaveCount(1);
       const destination = new URL((await cta.getAttribute("href"))!);
       expect(destination.origin).toBe("https://wa.me");
       expect(destination.pathname).toBe(`/${siteConfig.whatsappNumber}`);
       expect(destination.searchParams.get("text")).toBe(message);
     }
+    await expect(page.locator('a[data-analytics-location="final_cta"][href="tel:+972552639957"]')).toContainText(siteConfig.whatsappDisplay);
     const heroCta = page.locator('[data-analytics-location="hero"]');
     await heroCta.evaluate((element) => element.addEventListener("click", (event) => event.preventDefault()));
     await heroCta.click();
