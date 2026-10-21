@@ -28,6 +28,102 @@ body {
   color: var(--ink);
 }
 
+.site-call-end {
+  display: flex;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 3.5rem) 1rem;
+  background: #351b35;
+}
+
+.site-call-end-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.85rem, 2vw, 1.5rem);
+  min-height: 88px;
+  padding: 1rem clamp(1.5rem, 5vw, 3rem);
+  border: 2px solid rgba(255, 255, 255, 0.78);
+  border-radius: 999px;
+  color: #fff;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 1;
+  text-decoration: none;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.site-call-end-link svg {
+  display: block;
+  width: clamp(2.7rem, 5vw, 3.75rem);
+  height: clamp(2.7rem, 5vw, 3.75rem);
+  flex: 0 0 auto;
+}
+
+.phone-call-icon {
+  position: relative;
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+}
+
+.phone-call-glyph { display: block; }
+
+.site-call-end-link .phone-call-glyph,
+.v2-hero-call-link .phone-call-glyph {
+  animation: phone-ring 3.2s ease-in-out infinite;
+  transform-origin: 48% 52%;
+}
+
+.site-call-end-link .phone-call-icon::after,
+.v2-hero-call-link .phone-call-icon::after {
+  position: absolute;
+  inset: -5px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+  animation: phone-ring-wave 3.2s ease-out infinite;
+}
+
+@keyframes phone-ring {
+  0%, 55%, 82%, 100% { transform: rotate(0); }
+  60%, 72% { transform: rotate(-13deg); }
+  66%, 77% { transform: rotate(13deg); }
+}
+
+@keyframes phone-ring-wave {
+  0%, 57%, 100% { opacity: 0; transform: scale(.75); }
+  62% { opacity: .6; transform: scale(.9); }
+  82% { opacity: 0; transform: scale(1.3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-call-end-link .phone-call-glyph,
+  .v2-hero-call-link .phone-call-glyph,
+  .site-call-end-link .phone-call-icon::after,
+  .v2-hero-call-link .phone-call-icon::after { animation: none; }
+  .site-call-end-link .phone-call-icon::after,
+  .v2-hero-call-link .phone-call-icon::after { display: none; }
+}
+
+.site-call-end-link:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-2px);
+}
+
+.site-call-end-link:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 5px;
+}
+
+@media (max-width: 600px) {
+  .site-call-end-link { width: min(100%, 390px); }
+}
+
+@media print {
+  .site-call-end { display: none !important; }
+}
+
 .analytics-consent {
   position: fixed;
   right: 1rem;
@@ -2019,6 +2115,55 @@ details p {
   margin-top: 0.35rem;
 }
 
+.call-action {
+  gap: 0.55rem;
+}
+
+.call-action svg,
+.support-phone-number svg,
+.contact-phone-number svg {
+  width: 1.35em;
+  height: 1.35em;
+  flex: 0 0 auto;
+}
+
+.support-phone-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px solid var(--brand);
+}
+
+.support-phone-number:hover {
+  color: var(--brand-strong);
+}
+
+.contact-panel .contact-phone-number {
+  display: inline-flex;
+  justify-content: flex-start;
+  gap: 0.55rem;
+  width: auto;
+  min-height: 44px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-bottom: 2px solid var(--peach);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: white;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.contact-panel .contact-phone-number:hover {
+  color: var(--peach);
+  box-shadow: none;
+}
+
 .whatsapp-float {
   position: fixed;
   right: 1.25rem;
@@ -2197,6 +2342,13 @@ details p {
   margin-bottom: 1rem;
   font-size: 2.1rem;
   line-height: 1;
+}
+
+.support-phone-number:focus-visible,
+.contact-phone-number:focus-visible,
+.call-action:focus-visible {
+  outline: 3px solid var(--brand-strong);
+  outline-offset: 4px;
 }
 
 .support-section {
@@ -3371,6 +3523,12 @@ details p {
 
 .v2-button-ghost:hover {
   background: rgba(255, 255, 255, 0.17);
+}
+
+.v2-button-ghost svg {
+  width: 1.1em;
+  height: 1.1em;
+  flex: 0 0 auto;
 }
 
 .v2-button-pink {

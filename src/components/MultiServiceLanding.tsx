@@ -23,6 +23,8 @@ import {
   productSeoEntries,
 } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
+import { PhoneIcon } from "@/components/PhoneIcon";
+import { PhoneCallLink } from "@/components/PhoneCallLink";
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import { PunchCardLeadSection } from "@/components/PunchCardLeadSection";
 import { ServiceChooser } from "./ServiceChooser";
@@ -603,6 +605,7 @@ export function MultiServiceLanding({
   const [activeId, setActiveId] = useState<LegacyServiceId>(initialService);
   const [announcement, setAnnouncement] = useState("");
   const [demoPlayRequest, setDemoPlayRequest] = useState(0);
+  const [showHeroCall, setShowHeroCall] = useState(false);
   const demoPlayerRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLElement>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -624,6 +627,12 @@ export function MultiServiceLanding({
   useEffect(() => () => {
     if (announcementTimer.current) clearTimeout(announcementTimer.current);
   }, []);
+
+  useEffect(() => {
+    if (!compactHero) return;
+    const timer = window.setTimeout(() => setShowHeroCall(true), 10_000);
+    return () => window.clearTimeout(timer);
+  }, [compactHero]);
 
   useEffect(() => {
     const root = mainRef.current;
@@ -778,16 +787,19 @@ export function MultiServiceLanding({
                 </>
               )}
               <div className="v2-actions">
-                <a
-                  className="v2-button v2-button-whatsapp"
-                  href={whatsappUrl}
-                  data-analytics-location="hero"
-                >
-                  <WhatsAppIcon />
-                  <span>
-                    {isCompactHero ? <><span className="v2-desktop-only">בואו נחזיר לכם לקוחות</span><span className="v2-mobile-only">קבלו הדגמה בוואטסאפ</span></> : service.cta.buttonLabel ?? "דברו איתנו ב־WhatsApp"}
-                  </span>
-                </a>
+                <div className="v2-hero-primary-actions">
+                  <a
+                    className="v2-button v2-button-whatsapp"
+                    href={whatsappUrl}
+                    data-analytics-location="hero"
+                  >
+                    <WhatsAppIcon />
+                    <span>
+                      {isCompactHero ? <><span className="v2-desktop-only">בואו נחזיר לכם לקוחות</span><span className="v2-mobile-only">קבלו הדגמה בוואטסאפ</span></> : service.cta.buttonLabel ?? "דברו איתנו ב־WhatsApp"}
+                    </span>
+                  </a>
+                  {isCompactHero ? <PhoneCallLink className="v2-mobile-call-link" analyticsLocation="hero" iconOnly /> : null}
+                </div>
                 <a className={`v2-button v2-button-ghost${isCompactHero ? " v2-desktop-only" : ""}`} href="#how-it-works">
                   איך זה עובד
                 </a>
@@ -807,6 +819,7 @@ export function MultiServiceLanding({
               {isCompactHero ? <><div className="v2-compact-art-inner"><HeroProductVisual service={service} /></div><NfcHeroNote modern /><div className="v2-mobile-hero-photo v2-mobile-only"><Image src="/phase_1.jpg" alt="המחשה: סריקת שלט Viby בטלפון להצטרפות לכרטיסייה דיגיטלית" width={1448} height={1086} sizes="(max-width: 760px) calc(100vw - 40px), 1px" loading="eager" /></div></> : <><HeroProductVisual service={service} /><NfcHeroNote /></>}
             </div>
           </div>
+          {isCompactHero ? <div className="v2-hero-call-slot">{showHeroCall ? <PhoneCallLink className="v2-hero-call-link" analyticsLocation="hero" /> : null}</div> : null}
         </div>
         {isCompactHero ? <TrustStrip compact /> : null}
       </section>
@@ -1044,8 +1057,9 @@ export function MultiServiceLanding({
               className="v2-button v2-button-ghost"
               href={`tel:+${siteConfig.whatsappNumber}`}
               data-analytics-location="final_cta"
+              aria-label={`התקשרו ל־Viby במספר ${siteConfig.whatsappDisplay}`}
             >
-              {siteConfig.whatsappDisplay}
+              <PhoneIcon /><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi>
             </a>
           </div>
           <CommercialDisclosure service={activeId} compact />

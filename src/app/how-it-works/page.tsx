@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
+import { PhoneIcon } from "@/components/PhoneIcon";
 
 const vimeoPlayerUrl = "https://player.vimeo.com/video/1209541694";
 const vimeoPreviewImage = `${siteConfig.url}/video-og.jpg`;
@@ -51,6 +52,7 @@ export const metadata: Metadata = {
 
 const whatsappMessage =
   "היי, צפיתי בסרטון ההסבר של Viby ואשמח לשמוע עוד";
+const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
   whatsappMessage,
 )}`;
@@ -171,7 +173,7 @@ export default function HowItWorksPage() {
         </div>
         <div className="contact-panel">
           <span>שיחה עם Viby</span>
-          <strong>{siteConfig.whatsappDisplay}</strong>
+          <a className="contact-phone-number" href={phoneUrl} data-analytics-location="how_it_works" aria-label={`התקשרו ל־Viby במספר ${siteConfig.whatsappDisplay}`}><PhoneIcon /><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi></a>
           <a href={whatsappUrl} data-analytics-location="how_it_works">פתיחת שיחה ב-WhatsApp</a>
         </div>
       </section>

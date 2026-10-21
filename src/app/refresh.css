@@ -552,6 +552,29 @@
   width: 23px;
   height: 23px;
 }
+.whatsapp-call-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid #a7cdb4;
+  border-radius: 999px;
+  background: white;
+  color: #1d5633;
+  text-decoration: none;
+  font-weight: 750;
+}
+.whatsapp-call-link:hover {
+  background: #e6f6eb;
+}
+.whatsapp-call-link svg {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+}
 .whatsapp-widget button:focus-visible,
 .whatsapp-widget a:focus-visible {
   outline: 3px solid #482568;

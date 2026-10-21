@@ -8,6 +8,16 @@ import { previousLegalDocuments } from "@/lib/legal-history";
 import { currentLegalDocument, latestLegalArchive } from "@/lib/legal-versions";
 import { legalIdentity, missingLegalIdentity } from "@/lib/legal-identity";
 import { PrintLegalDocument } from "./PrintLegalDocument";
+import { PhoneIcon } from "./PhoneIcon";
+
+function linkedContactText(text: string) {
+  const parts = text.split(siteConfig.whatsappDisplay);
+  return parts.flatMap((part, index) =>
+    index === parts.length - 1
+      ? [part]
+      : [part, <a key={index} href={`tel:+${siteConfig.whatsappNumber}`} data-analytics-location="support_page"><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi></a>],
+  );
+}
 
 type LegalDocumentPageProps = {
   documentKey: LegalDocumentKey;
@@ -70,7 +80,7 @@ export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocume
         {isTerms && !archivedDocument && document.sections.some((section) => section.id === "terms-8a") ? <Link className="legal-relief-jump" href="#terms-8a">למדיניות הסיוע לעסקים בחירום</Link> : null}
         <span>עודכן לאחרונה: {document.updated}</span>
         <p className="legal-version">גרסה: <bdi>{document.version}</bdi> · תאריך תחילה: {document.effectiveDate.split("-").reverse().join(".")}</p>
-        {archivedDocument ? <p className="legal-status">גרסה שמורה לעיון. <Link href={currentPath}>למסמך העדכני</Link></p> : (
+        {archivedDocument ? <><p className="legal-status">גרסה שמורה לעיון. <Link href={currentPath}>למסמך העדכני</Link></p>{["2026-10-08", "2026-10-19"].includes(document.version) ? <p className="legal-status">פרטי הקשר בגרסה זו תוקנו ב־21.10.2026 כדי להסיר מספר אישי.</p> : null}</> : (
           <p className="legal-status"><Link href={`${currentPath}/versions/${latestLegalArchive(documentKey).version}`}>לגרסה הקודמת</Link></p>
         )}
         {!archivedDocument && missingLegalIdentity().length ? <p className="legal-draft-notice">טיוטה לתצוגה מקדימה — פרטי העוסק וערוץ הפניות יושלמו לפני פרסום.</p> : null}
@@ -102,7 +112,7 @@ export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocume
                 {section.blocks.map((block, index) => {
                   const key = `${section.id}-${index}`;
                   if (block.type === "heading") return <h3 key={key}>{block.text}</h3>;
-                  if (block.type === "paragraph") return <p key={key}>{block.text}</p>;
+                  if (block.type === "paragraph") return <p key={key}>{linkedContactText(block.text)}</p>;
                   if (block.type === "link") return <p key={key}><a href={block.href}>{block.text}</a></p>;
                   if (block.type === "list") {
                     const List = block.ordered ? "ol" : "ul";
@@ -116,6 +126,7 @@ export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocume
       </div>
       {!archivedDocument ? <nav className="legal-contact section-shell" aria-label="פניות משפטיות ופרטיות">
         {legalIdentity.email ? <a href={`mailto:${legalIdentity.email}`}>{legalIdentity.email}</a> : null}
+        <a href={`tel:+${siteConfig.whatsappNumber}`} data-analytics-location="support_page" aria-label={`התקשרו ל־Viby במספר ${siteConfig.whatsappDisplay}`}><PhoneIcon /><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi></a>
         <a href={`https://wa.me/${siteConfig.whatsappNumber}`} data-analytics-location="support_page">WhatsApp: <bdi>{siteConfig.whatsappDisplay}</bdi></a>
       </nav> : null}
 

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import { ServiceIllustration } from "@/components/ServiceIllustration";
+import { PhoneIcon } from "@/components/PhoneIcon";
 import { createPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import styles from "./about.module.css";
@@ -16,6 +17,7 @@ const aboutSeo = {
 export const metadata = createPageMetadata(aboutSeo);
 
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}`;
+const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 
 const solutions = [
   {
@@ -182,6 +184,7 @@ export default function AboutPage() {
           <p>רוצים לשמוע איך זה יכול לעבוד בעסק שלכם? אנחנו זמינים לשיחה, לשאלות ולעזרה בבחירת פתרון מתאים. ואם אתם כבר משתמשים בוייבי — התמיכה שלנו כאן גם בשבילכם.</p>
           <p className={styles.companyFacts}>וייבי (<bdi dir="ltr">Viby</bdi>)<span aria-hidden="true"> | </span>הרצליה, ישראל<span aria-hidden="true"> | </span>שירות לעסקים ברחבי ישראל<span aria-hidden="true"> | </span>האתר הרשמי: <a href={siteConfig.url}><bdi dir="ltr">joinviby.co.il</bdi></a></p>
           <nav className={styles.contactLinks} aria-label="קישורי קשר ומידע">
+            <a className={styles.callLink} href={phoneUrl} data-analytics-location="footer" aria-label={`התקשרו ל־Viby במספר ${siteConfig.whatsappDisplay}`}><PhoneIcon /><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi></a>
             <a href={whatsappUrl} data-analytics-location="footer"><bdi dir="ltr">WhatsApp</bdi></a>
             <Link href="/support">תמיכה</Link>
             <a href={siteConfig.instagramUrl}><bdi dir="ltr">Instagram</bdi></a>
@@ -195,7 +198,10 @@ export default function AboutPage() {
         <div>
           <h2 id="final-title">רוצים להכניס קצת יותר וייב לעסק?</h2>
           <p>בואו נספר לכם מה אפשר לעשות, נשמע מה חשוב לכם ונעזור לבחור את הכלים שמתאימים לעסק שלכם. בלי לסבך את הדברים — ועם אנשים שבאמת אכפת להם.</p>
-          <a className={styles.primaryAction} href={whatsappUrl} data-analytics-location="final_cta">דברו איתנו ב־<bdi dir="ltr">WhatsApp</bdi></a>
+          <div className={styles.finalActions}>
+            <a className={styles.primaryAction} href={whatsappUrl} data-analytics-location="final_cta">דברו איתנו ב־<bdi dir="ltr">WhatsApp</bdi></a>
+            <a className={styles.callAction} href={phoneUrl} data-analytics-location="final_cta" aria-label={`התקשרו ל־Viby במספר ${siteConfig.whatsappDisplay}`}><PhoneIcon /><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi></a>
+          </div>
         </div>
       </section>
 

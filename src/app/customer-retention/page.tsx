@@ -5,6 +5,7 @@ import { ServiceIllustration } from "@/components/ServiceIllustration";
 import { commercialTerms, monthlyPrice, subscriptionPriceNotice } from "@/lib/commercial";
 import { createPageMetadata, productSeoByService } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
+import { PhoneIcon } from "@/components/PhoneIcon";
 import styles from "./customer-retention.module.css";
 
 const pagePath = "/customer-retention";
@@ -23,6 +24,7 @@ export const metadata = createPageMetadata({
 const whatsappMessage =
   "היי, הגעתי מהעמוד על מועדון לקוחות דיגיטלי ואשמח לעזרה בבחירת הכלים לעסק שלי.";
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 
 const decisions = [
   {
@@ -337,7 +339,10 @@ export default function CustomerRetentionPage() {
           <p className={styles.kicker}>הצעד הבא</p>
           <h2 id="final-title">בואו נבדוק מה מתאים לעסק שלכם</h2>
           <p>ספרו לנו איזה עסק יש לכם, איך לקוחות חוזרים ומה תרצו להציע להם. נעזור לבחור את הכלים שמתאימים לעסק ולברר את תנאי ההצטרפות בלי לסבך את הדברים.</p>
-          <a className={styles.primaryAction} href={whatsappUrl} data-analytics-location="final_cta">דברו איתנו ב־<bdi dir="ltr">WhatsApp</bdi></a>
+          <div className={styles.finalActions}>
+            <a className={styles.primaryAction} href={whatsappUrl} data-analytics-location="final_cta">דברו איתנו ב־<bdi dir="ltr">WhatsApp</bdi></a>
+            <a className={styles.secondaryAction} href={phoneUrl} data-analytics-location="final_cta" aria-label={`התקשרו ל־Viby במספר ${siteConfig.whatsappDisplay}`}><PhoneIcon /><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi></a>
+          </div>
         </div>
       </section>
 

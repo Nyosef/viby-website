@@ -1,6 +1,7 @@
 import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import Image from "next/image";
 import Link from "next/link";
+import { PhoneIcon } from "@/components/PhoneIcon";
 import { createPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
@@ -18,6 +19,7 @@ const supportMessage =
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
   supportMessage,
 )}`;
+const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 
 const supportTopics = [
   {
@@ -137,6 +139,9 @@ export default function SupportPage() {
             <a className="button primary" href={whatsappUrl} data-analytics-location="support_page">
               פתיחת שיחת תמיכה ב-WhatsApp
             </a>
+            <a className="button secondary call-action" href={phoneUrl} data-analytics-location="support_page" aria-label={`התקשרו לתמיכה ב־${siteConfig.whatsappDisplay}`}>
+              <PhoneIcon /><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi>
+            </a>
             <Link className="button secondary" href="/how-it-works">
               צפייה בסרטון ההסבר
             </Link>
@@ -147,7 +152,7 @@ export default function SupportPage() {
         </div>
         <aside className="support-contact-card" aria-label="פרטי תמיכה">
           <span>ערוץ תמיכה ראשי</span>
-          <strong>{siteConfig.whatsappDisplay}</strong>
+          <strong><a className="support-phone-number" href={phoneUrl} data-analytics-location="support_page" aria-label={`התקשרו לתמיכה ב־${siteConfig.whatsappDisplay}`}><PhoneIcon /><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi></a></strong>
           <p>זמינים לעזרה בהפעלה, תפעול, תקלות ושינויים לעסק.</p>
         </aside>
       </section>
@@ -204,7 +209,7 @@ export default function SupportPage() {
         </div>
         <div className="contact-panel">
           <span>תמיכה ב-WhatsApp</span>
-          <strong>{siteConfig.whatsappDisplay}</strong>
+          <a className="contact-phone-number" href={phoneUrl} data-analytics-location="support_page" aria-label={`התקשרו לתמיכה ב־${siteConfig.whatsappDisplay}`}><PhoneIcon /><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi></a>
           <a href={whatsappUrl} data-analytics-location="support_page">פתיחת שיחת תמיכה</a>
         </div>
       </section>

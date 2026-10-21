@@ -425,7 +425,25 @@
 }
 
 .finalSection .primaryAction {
+  margin-top: 0;
+}
+
+.finalActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
   margin-top: 1rem;
+}
+
+.finalActions .secondaryAction {
+  gap: 0.5rem;
+}
+
+.finalActions svg {
+  width: 1.35em;
+  height: 1.35em;
+  flex: 0 0 auto;
 }
 
 .footer {
@@ -490,6 +508,11 @@
 }
 
 @media (max-width: 580px) {
+  .finalActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .shell {
     width: calc(100% - 2rem);
   }
