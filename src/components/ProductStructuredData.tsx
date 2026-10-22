@@ -33,7 +33,7 @@ export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
         areaServed: "IL",
         availableLanguage: [siteConfig.availableLanguage],
       },
-      sameAs: [siteConfig.instagramUrl],
+      sameAs: [siteConfig.instagramUrl, siteConfig.linkedinUrl],
     },
     {
       "@type": "WebSite",

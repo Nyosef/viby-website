@@ -121,18 +121,19 @@ Engineering owns implementation and technical checks. The Viby owner supplies co
 
 **Affected pages/systems:** Public platform root, platform entry navigation, authentication flows, marketing links, and platform indexing controls.
 
-**Dependencies:** A separate platform-repository task with access to route configuration and authentication behavior. Root-route dependencies must be inspected before a redirect is implemented.
+**Dependencies:** A separate platform-repository task with access to route configuration and authentication behavior, plus Search Console access to both domains. Investigate root-route dependencies, search traffic, and Google-selected canonicals before choosing a redirect or indexing policy.
 
 ### Changes and tasks
 
 - [ ] Inventory uses of the platform root, including authenticated entry, login redirects, customer entry URLs, and navigation.
-- [ ] Preserve or relocate any platform entry behavior to its explicit application route before redirecting the public root.
-- [ ] Redirect only the public marketing root `https://myviby.co.il/` to `https://joinviby.co.il/` once route dependencies are resolved.
+- [ ] Inspect the `myviby.co.il` Search Console property for public-root clicks, queries, index status, and Google-selected canonical; compare overlapping queries and landing pages with `joinviby.co.il`.
+- [ ] Correct the public platform page's marketing link to the preferred non-`www` URL `https://joinviby.co.il` in the platform project.
+- [ ] Decide the public root's content and indexing role from the two-domain evidence. If a redirect is justified, preserve or relocate platform entry behavior to explicit application routes before redirecting only `https://myviby.co.il/`.
 - [ ] Preserve login, business/admin screens, customer-facing routes, APIs, and authentication callbacks; update navigation that depended on the old marketing root.
 - [ ] Confirm private screens require authentication and are excluded from search. Do not apply domain-wide blocking to customer-facing pages.
 - [ ] Align public marketing links with `joinviby.co.il` and retain explicit platform login links.
 
-**Acceptance criteria:** The marketing root reaches the marketing site without loops. Business, administrator, and customer entry scenarios continue to work. Private data remains protected by authentication; crawler directives are not treated as access control. If root dependencies cannot yet be resolved, record that subtask as pending and proceed with independent roadmap problems.
+**Acceptance criteria:** The decision records traffic, overlapping queries, indexing, Google-selected canonical, and route dependencies for both domains before any root redirect or `noindex`. The public platform root has an intentional role. If a redirect is chosen, it reaches the marketing site without loops. Business, administrator, and customer entry scenarios continue to work. Private data remains protected by authentication; crawler directives are not treated as access control. If the evidence or root dependencies are unavailable, record the decision as pending and proceed with independent roadmap problems.
 
 **Outcome to monitor:** Marketing searches select `joinviby.co.il` while operational platform access remains intact.
 

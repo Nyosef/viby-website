@@ -3,6 +3,9 @@ import { access } from "node:fs/promises";
 
 const port = 3417;
 const canonicalOrigin = "https://joinviby.co.il";
+const instagramUrl = "https://www.instagram.com/viby.il/";
+const linkedinUrl = "https://www.linkedin.com/company/vibyil/";
+const organizationLogoUrl = `${canonicalOrigin}/icon.png`;
 const configuredOrigin = process.env.SEO_REPORT_ORIGIN;
 const productionMode = Boolean(configuredOrigin);
 const origin = productionMode
@@ -382,6 +385,21 @@ async function checkPage(pathname, titles) {
       assert(matching[0]?.name === "Viby", `${pathname}: ${type} name changed`);
       assert(matching[0]?.alternateName === "וייבי", `${pathname}: ${type} Hebrew alternateName missing`);
     }
+    const organization = nodes.find((node) => node?.["@type"] === "Organization");
+    assert(
+      JSON.stringify(organization?.sameAs) === JSON.stringify([instagramUrl, linkedinUrl]),
+      `${pathname}: Organization sameAs URLs changed`,
+    );
+    assert(organization?.logo?.["@type"] === "ImageObject", `${pathname}: missing Organization logo ImageObject`);
+    assert(organization?.logo?.url === organizationLogoUrl, `${pathname}: wrong Organization logo URL`);
+    const footer = html.match(/<footer\b[^>]*>([\s\S]*?)<\/footer>/)?.[1] ?? "";
+    for (const [url, label] of [[instagramUrl, "Instagram"], [linkedinUrl, "LinkedIn"]]) {
+      assert(
+        matches(footer, /<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)
+          .some(([, href, content]) => href === url && textContent(content).includes(label)),
+        `${pathname}: missing visible ${label} footer link`,
+      );
+    }
   }
 
   if (pathname === "/viby-up") {
@@ -407,6 +425,11 @@ async function checkPage(pathname, titles) {
     for (const { path, label } of productLinks) {
       assert(html.includes(`href="${path}"`) && visible.includes(label), `UP: missing product link ${path}`);
     }
+  }
+
+  if (pathname === "/how-it-works") {
+    const video = parsedJsonLd.find((document) => document?.["@type"] === "VideoObject");
+    assert(video?.publisher?.logo?.url === organizationLogoUrl, "/how-it-works: wrong publisher logo URL");
   }
 
   if (productRoutes.has(pathname) && pathname !== "/viby-up") {
@@ -619,6 +642,14 @@ async function checkPage(pathname, titles) {
       assert(body.includes(`href="${path}"`), `/about: missing ${path} link`);
     }
     assert(body.includes("privacy-preferences-link"), "/about: missing privacy preferences control");
+    const contactNav = body.match(/<nav\b[^>]*aria-label="קישורי קשר ומידע"[^>]*>([\s\S]*?)<\/nav>/)?.[1] ?? "";
+    for (const [url, label] of [[instagramUrl, "Instagram"], [linkedinUrl, "LinkedIn"]]) {
+      assert(
+        matches(contactNav, /<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)
+          .some(([, href, content]) => href === url && textContent(content).includes(label)),
+        `/about: missing visible ${label} contact link`,
+      );
+    }
   }
 
   if (pathname === "/customer-retention") {
@@ -747,6 +778,17 @@ async function run() {
     if (!productionMode) await waitForServer();
     const titles = new Set();
     for (const route of routes) await checkPage(route, titles);
+
+    const logoResponse = await fetch(`${origin}/icon.png`);
+    assert(logoResponse.status === 200, `Organization logo: expected 200, got ${logoResponse.status}`);
+    assert(logoResponse.headers.get("content-type")?.includes("image/png"), "Organization logo: wrong content type");
+    const logoBytes = new Uint8Array(await logoResponse.arrayBuffer());
+    const pngSignature = [137, 80, 78, 71, 13, 10, 26, 10];
+    assert(pngSignature.every((byte, index) => logoBytes[index] === byte), "Organization logo: invalid PNG signature");
+    if (logoBytes.length >= 24) {
+      const dimensions = new DataView(logoBytes.buffer, logoBytes.byteOffset, logoBytes.byteLength);
+      assert(dimensions.getUint32(16) >= 112 && dimensions.getUint32(20) >= 112, "Organization logo: smaller than 112 × 112 pixels");
+    }
 
     const sitemap = await (await fetch(`${origin}/sitemap.xml`)).text();
     for (const route of routes) {

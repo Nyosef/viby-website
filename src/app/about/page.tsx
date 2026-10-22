@@ -188,6 +188,7 @@ export default function AboutPage() {
             <a href={whatsappUrl} data-analytics-location="footer"><bdi dir="ltr">WhatsApp</bdi></a>
             <Link href="/support">תמיכה</Link>
             <a href={siteConfig.instagramUrl}><bdi dir="ltr">Instagram</bdi></a>
+            <a href={siteConfig.linkedinUrl}><bdi dir="ltr">LinkedIn</bdi></a>
             <Link href="/privacy">מדיניות פרטיות</Link>
             <Link href="/terms">תנאי שימוש</Link>
           </nav>

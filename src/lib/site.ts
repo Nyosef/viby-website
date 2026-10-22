@@ -9,7 +9,7 @@ export const siteConfig = {
   language: "he-IL",
   availableLanguage: "he",
   ogImage: "/og.jpg",
-  logo: "/viby-logo-white.png",
+  logo: "/icon.png",
   address: {
     locality: "הרצליה",
     country: "ישראל",
@@ -18,6 +18,7 @@ export const siteConfig = {
   whatsappNumber: "972552639957",
   whatsappDisplay: "055-263-9957",
   instagramUrl: "https://www.instagram.com/viby.il/",
+  linkedinUrl: "https://www.linkedin.com/company/vibyil/",
   launchPrice: "49",
   regularPrice: "49",
   keywords: [
