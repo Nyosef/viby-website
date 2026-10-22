@@ -1116,6 +1116,7 @@ export function MultiServiceLanding({
                 />
                 <span>Instagram</span>
               </a>
+              <a href={siteConfig.linkedinUrl}>LinkedIn</a>
               <Link href="/terms">תנאי שימוש</Link>
               <Link href="/privacy">מדיניות פרטיות</Link>
               <PrivacyPreferencesButton />

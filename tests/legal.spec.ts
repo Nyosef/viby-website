@@ -12,6 +12,43 @@ test.beforeEach(async ({ page }) => {
   await page.route(/googletagmanager\.com|google-analytics\.com/, (route) => route.fulfill({ contentType: "application/javascript", body: "/* external measurement isolated */" }));
 });
 
+test("company profiles and readable logo are consistent in the visible site and Organization schema", async ({ page, request }) => {
+  await storeChoice(page);
+  const instagram = "https://www.instagram.com/viby.il/";
+  const linkedin = "https://www.linkedin.com/company/vibyil/";
+  for (const path of ["/", "/digital-wallet", "/viby-up"]) {
+    await page.goto(path);
+    const footer = page.locator("footer");
+    await expect(footer.locator(`a[href="${instagram}"]`)).toContainText("Instagram");
+    await expect(footer.locator(`a[href="${linkedin}"]`)).toContainText("LinkedIn");
+    await expect(footer.locator(`a[href="${instagram}"]`)).toBeVisible();
+    await expect(footer.locator(`a[href="${linkedin}"]`)).toBeVisible();
+    const graph = await page.locator('script[type="application/ld+json"]').allTextContents();
+    const nodes = graph.flatMap((json) => {
+      const document = JSON.parse(json);
+      return document["@graph"] ?? [document];
+    });
+    const organization = nodes.filter((node) => node["@type"] === "Organization");
+    const website = nodes.filter((node) => node["@type"] === "WebSite");
+    expect(organization).toHaveLength(1);
+    expect(website).toHaveLength(1);
+    expect(organization[0]).toMatchObject({
+      "@id": "https://joinviby.co.il/#organization",
+      sameAs: [instagram, linkedin],
+      logo: { "@type": "ImageObject", url: "https://joinviby.co.il/icon.png" },
+    });
+    expect(website[0]["@id"]).toBe("https://joinviby.co.il/#website");
+  }
+  await page.goto("/about");
+  const contact = page.getByRole("navigation", { name: "קישורי קשר ומידע" });
+  await expect(contact.getByRole("link", { name: "Instagram" })).toHaveAttribute("href", instagram);
+  await expect(contact.getByRole("link", { name: "LinkedIn" })).toHaveAttribute("href", linkedin);
+  await expect(contact.getByRole("link", { name: "LinkedIn" })).toBeVisible();
+  const logo = await request.get("/icon.png");
+  expect(logo.status()).toBe(200);
+  expect(logo.headers()["content-type"]).toContain("image/png");
+});
+
 test("secondary-page headers keep their logo, navigation and action in one desktop row", async ({ page }) => {
   await storeChoice(page);
   for (const path of ["/terms", "/privacy", "/support", "/how-it-works"]) {

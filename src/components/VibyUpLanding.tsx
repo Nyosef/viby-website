@@ -230,6 +230,8 @@ export function VibyUpLanding() {
           <Link href="/about">אודות וייבי</Link>
           <Link href="/customer-retention">מועדון לקוחות דיגיטלי לעסקים</Link>
           <Link href="/support">תמיכה</Link>
+          <a href={siteConfig.instagramUrl}>Instagram</a>
+          <a href={siteConfig.linkedinUrl}>LinkedIn</a>
           <Link href="/privacy">מדיניות פרטיות</Link>
           <PrivacyPreferencesButton />
           <Link href="/terms">תנאי שימוש</Link>
