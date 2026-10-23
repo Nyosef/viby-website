@@ -1,20 +1,28 @@
 import { expect, test } from "@playwright/test";
 
-test("homepage copy, reassurance and existing customer strip fit in the fold", async ({ page }) => {
+test("homepage mobile hero keeps companies in the fold and preserves the full photograph", async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("viby-analytics-consent", "denied"));
   await page.emulateMedia({ reducedMotion: "reduce" });
-  for (const [width, height] of [[1440, 900], [1366, 768], [768, 1024], [760, 1024], [430, 932], [390, 844], [360, 800], [320, 740], [375, 667], [360, 640]]) {
+  for (const [width, height] of [[1440, 900], [1366, 768], [768, 1024], [761, 1024], [760, 1024], [528, 812], [430, 932], [390, 844], [390, 780], [360, 800], [320, 640], [375, 667], [360, 640]]) {
     await page.setViewportSize({ width, height });
     await page.goto("/");
     await expect(page.locator("h1")).toHaveText(width <= 760 ? "הלקוחות כבר מגיעים. תנו להם סיבה לחזור." : "הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור.", { useInnerText: true });
     const brandIntro = page.locator(width <= 760 ? ".v2-hero-text.v2-mobile-only" : ".v2-hero-text.v2-desktop-only");
     await expect(brandIntro).toBeVisible();
     await expect(brandIntro).toBeInViewport({ ratio: 1 });
-    await expect(brandIntro.locator("bdi")).toHaveText("Viby");
     if (width <= 760) {
-      await expect(brandIntro).toHaveText("עם וייבי (Viby), הלקוחות סורקים, צוברים הטבות ושומרים כרטיסייה בארנק הדיגיטלי. בלי אפליקציה.");
+      await expect(brandIntro).toHaveText("עם וייבי (Viby), הלקוחות מצטרפים בסריקה, צוברים ניקובים ושומרים כרטיסייה בארנק הדיגיטלי. בלי להוריד אפליקציה.");
+      await expect(brandIntro.locator("bdi")).toHaveText("Viby");
+      await expect(brandIntro).toHaveCSS("color", "rgb(42, 24, 48)");
+      await expect(brandIntro).toHaveCSS("font-size", "16px");
+      await expect(brandIntro).toHaveCSS("font-weight", "500");
+      await expect(page.locator(".v2-company-line")).toBeHidden();
+      await expect(page.locator("h1")).toHaveCSS("font-weight", "800");
     } else {
       await expect(brandIntro).toContainText("עם וייבי (Viby), בונים קשר עם הלקוחות");
+      await expect(brandIntro.locator("bdi")).toHaveText("Viby");
+      await expect(page.locator(".v2-company-line")).toBeVisible();
+      await expect(page.locator(".v2-mobile-hero-photo")).toBeHidden();
     }
     await expect(page.locator(".v2-hero .v2-trust")).toHaveCount(1);
     await expect(page.locator(".v2-story .v2-trust")).toHaveCount(0);
@@ -25,16 +33,39 @@ test("homepage copy, reassurance and existing customer strip fit in the fold", a
     await expect(page.locator(".v2-hero .commercial-disclosure")).toHaveCount(0);
     await expect(page.locator(".v2-price-strip .commercial-disclosure")).toContainText("3 חודשים");
     const heroBottom = await page.locator(".v2-hero").evaluate(el => el.getBoundingClientRect().bottom);
-    expect(Math.abs(heroBottom - height)).toBeLessThanOrEqual(1);
-    expect(await page.locator(".v2-story").evaluate(el => el.getBoundingClientRect().top)).toBeGreaterThanOrEqual(height);
-    expect(await page.locator(".v2-trust").evaluate(el => el.getBoundingClientRect().bottom)).toBeLessThanOrEqual(height + 1);
+    expect(await page.locator(".v2-story").evaluate(el => el.getBoundingClientRect().top)).toBeGreaterThanOrEqual(heroBottom);
+    expect(await page.locator(".v2-trust").evaluate(el => el.getBoundingClientRect().bottom)).toBeLessThanOrEqual(heroBottom + 1);
     if (width <= 760) {
       const photo = page.locator(".v2-mobile-hero-photo");
       await expect(photo).toBeVisible();
       await expect(page.locator(".v2-hero-art .v2-nfc-modern")).not.toBeVisible();
       await expect(page.locator(".v2-compact-art-inner")).not.toBeVisible();
-      expect((await photo.boundingBox())!.y + (await photo.boundingBox())!.height).toBeLessThanOrEqual((await page.locator(".v2-trust").boundingBox())!.y);
-      await expect(page.locator(".v2-hero-mobile-reassurance li")).toHaveText(["הקמה עלינו", "בלי אפליקציה ללקוח", "תמיכה טכנית", "ללא התחייבות לטווח ארוך"]);
+      const image = photo.locator("img");
+      await expect.poll(() => image.evaluate(img => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+      await expect(image).toHaveAttribute("width", "1448");
+      await expect(image).toHaveAttribute("height", "1086");
+      await expect(image).toHaveAttribute("loading", "eager");
+      await expect(image).toHaveCSS("object-fit", "contain");
+      const photoBox = (await image.boundingBox())!;
+      expect(Math.abs(photoBox.width / photoBox.height - 4 / 3)).toBeLessThan(.01);
+      const cta = page.locator(".v2-hero .v2-button-whatsapp");
+      const ctaBox = (await cta.boundingBox())!;
+      expect(photoBox.y).toBeGreaterThanOrEqual(ctaBox.y + ctaBox.height + 16);
+      await expect(cta).toHaveCSS("background-color", "rgb(255, 255, 255)");
+      await expect(cta.locator(".v2-mobile-only")).toHaveCSS("color", "rgb(42, 24, 48)");
+      await expect(cta.locator(".v2-whatsapp-icon")).toHaveCSS("color", "rgb(21, 128, 61)");
+      const reassurance = page.locator(".v2-hero-mobile-reassurance");
+      await expect(reassurance.locator("li")).toHaveText(["הקמה מלאה עלינו", "תמיכה טכנית", "ללא התחייבות לטווח ארוך"]);
+      const reassuranceBox = (await reassurance.boundingBox())!;
+      expect(reassuranceBox.y).toBeGreaterThanOrEqual(photoBox.y + photoBox.height + 6);
+      expect(reassuranceBox.y + reassuranceBox.height).toBeLessThanOrEqual((await page.locator(".v2-trust").boundingBox())!.y);
+      expect(heroBottom).toBeLessThanOrEqual(height + 1);
+      await expect(page.locator(".v2-logo-viewport")).toBeInViewport({ ratio: .99 });
+      await expect(page.locator(".v2-trust-note")).toBeInViewport({ ratio: .99 });
+      await expect(page.locator(".v2-trust-note .v2-mobile-only")).toHaveText("עסקים מקומיים משתמשים ב־Viby.");
+      const noteBox = (await page.locator(".v2-trust-note").boundingBox())!;
+      expect(noteBox.height).toBeLessThanOrEqual(21);
+      expect(noteBox.y + noteBox.height).toBeLessThanOrEqual(height + 1);
     } else {
       const rewardBounds = (await page.locator(".punch-reward").boundingBox())!;
       const nfcBounds = (await page.locator(".v2-nfc-modern").boundingBox())!;
@@ -147,13 +178,14 @@ test("mobile hero picker and demo action retain the existing contact and video f
     await expect(page.locator(".service-chooser--header .service-chooser-thumbnail")).toBeVisible();
     await expect(page.locator(".service-chooser--header .service-chooser-current strong")).toHaveText("כרטיסיות דיגיטליות");
     await expect(page.locator(".service-chooser--header .service-chooser-current > span")).not.toBeVisible();
-    await expect(page.locator(".service-chooser--header .service-chooser-trigger > svg")).not.toBeVisible();
+    await expect(page.locator(".service-chooser--header .service-chooser-trigger > svg")).toBeVisible();
     const pickerBox = (await menu.boundingBox())!;
     const logoBox = (await page.locator(".v2-brand-row > a").boundingBox())!;
     expect(pickerBox.x).toBeGreaterThanOrEqual(0);
     expect(pickerBox.x + pickerBox.width).toBeLessThanOrEqual(logoBox.x);
     expect(pickerBox.height).toBe(44);
-    await menu.click();
+    await menu.focus();
+    await page.keyboard.press("Enter");
     await expect(page.locator(".service-chooser-panel .service-chooser-card")).toHaveCount(6);
     await page.keyboard.press("Escape");
     await expect(menu).toBeFocused();
@@ -161,7 +193,8 @@ test("mobile hero picker and demo action retain the existing contact and video f
     await expect(cta).toHaveText("קבלו הדגמה בוואטסאפ", { useInnerText: true });
     await expect(cta).toHaveAttribute("href", await page.locator(".v2-final-cta .v2-button-whatsapp").getAttribute("href") ?? "");
     const ctaBox = (await cta.boundingBox())!;
-    expect(ctaBox.height).toBeGreaterThanOrEqual(54);
+    expect(ctaBox.height).toBeGreaterThanOrEqual(56);
+    await expect(page.locator(".v2-mobile-demo-link")).toHaveText("צפו איך זה עובד");
     expect(Math.abs(ctaBox.width - (await page.locator(".v2-hero-copy").boundingBox())!.width)).toBeLessThanOrEqual(1);
     await page.locator(".v2-mobile-demo-link").click();
     const player = page.locator("#demo-player-punch-card iframe");
@@ -191,3 +224,30 @@ test("demo action scrolls to the playing video with normal motion", async ({ pag
   await expect(player).toHaveAttribute("src", /autoplay=1/);
   await expect(player).toBeInViewport({ ratio: .9 });
 });
+
+for (const consent of ["granted", "denied"] as const) {
+  test(`mobile homepage WhatsApp CTA preserves ${consent} consent and emits no duplicates`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.route("**/googletagmanager.com/**", route => route.fulfill({ contentType: "application/javascript", body: "/* isolated analytics */" }));
+    await page.route(/google-analytics\.com/, route => route.fulfill({ status: 204 }));
+    await page.addInitScript(value => localStorage.setItem("viby-analytics-consent", JSON.stringify({ version: 1, value, savedAt: Date.now() })), consent);
+    await page.goto("/");
+    // Interacting with the selector also ensures the shared client UI has hydrated.
+    await page.locator(".service-chooser--header button").click();
+    await page.keyboard.press("Escape");
+    if (consent === "granted") {
+      await expect.poll(() => page.evaluate(() => (window.dataLayer ?? []).filter(item => Array.from(item as ArrayLike<unknown>)[1] === "view_item").length)).toBe(1);
+    }
+    const cta = page.locator(".v2-hero .v2-button-whatsapp");
+    await expect(cta).toHaveAttribute("data-analytics-location", "hero");
+    await expect(cta).toHaveAttribute("href", await page.locator(".v2-final-cta .v2-button-whatsapp").getAttribute("href") ?? "");
+    await cta.evaluate(link => link.addEventListener("click", event => event.preventDefault(), { once: true }));
+    await cta.click();
+    const events = await page.evaluate(() => (window.dataLayer ?? []).map(item => Array.from(item as ArrayLike<unknown>)).filter(item => item[0] === "event"));
+    for (const name of ["click_whatsapp", "contact_intent"]) {
+      const clicks = events.filter(item => item[1] === name);
+      expect(clicks).toHaveLength(consent === "granted" ? 1 : 0);
+      if (consent === "granted") expect(clicks[0][2]).toMatchObject({ page_path: "/", product_id: "punch-card", cta_location: "hero", contact_method: "whatsapp" });
+    }
+  });
+}

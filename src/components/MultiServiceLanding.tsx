@@ -787,7 +787,7 @@ export function MultiServiceLanding({
                 <>
                   <p className="v2-company-line"><span className="v2-desktop-only">מועדון לקוחות חכם לעסקים</span><span className="v2-mobile-only">מועדון לקוחות דיגיטלי לעסקים</span></p>
                   <h1><span className="v2-hero-first-line">הלקוחות כבר מגיעים<span className="v2-desktop-only"> אליכם</span>.</span>{" "}<span>תנו להם סיבה לחזור.</span></h1>
-                  <p className="v2-hero-text v2-mobile-only">עם וייבי (<bdi>Viby</bdi>), הלקוחות סורקים, צוברים הטבות ושומרים כרטיסייה בארנק הדיגיטלי. בלי אפליקציה.</p>
+                  <p className="v2-hero-text v2-mobile-only">עם וייבי (<bdi>Viby</bdi>), הלקוחות מצטרפים בסריקה, צוברים ניקובים ושומרים כרטיסייה בארנק הדיגיטלי. בלי להוריד אפליקציה.</p>
                   <p className="v2-hero-text v2-desktop-only">הלקוחות מצטרפים בסריקה, צוברים הטבות בכל ביקור ושומרים את הכרטיסייה בארנק הדיגיטלי. אתם, עם וייבי (<bdi>Viby</bdi>), בונים קשר עם הלקוחות — ואנחנו דואגים לכל ההקמה.</p>
                 </>
               ) : (
@@ -813,14 +813,12 @@ export function MultiServiceLanding({
                       {isCompactHero ? <><span className="v2-desktop-only">בואו נחזיר לכם לקוחות</span><span className="v2-mobile-only">קבלו הדגמה בוואטסאפ</span></> : service.cta.buttonLabel ?? "דברו איתנו ב־WhatsApp"}
                     </span>
                   </a>
-                  {isCompactHero ? <PhoneCallLink className="v2-mobile-call-link" analyticsLocation="hero" iconOnly /> : null}
                 </div>
                 <a className={`v2-button v2-button-ghost${isCompactHero ? " v2-desktop-only" : ""}`} href="#how-it-works">
                   איך זה עובד
                 </a>
-                {isCompactHero ? <a className="v2-mobile-demo-link v2-mobile-only" href="#demo-player-punch-card" onClick={handleDemoClick} aria-controls="demo-player-punch-card"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="m10 7 7 5-7 5Z" fill="#ff2786" /></svg>איך זה עובד? צפו בהדגמה</a> : null}
+                {isCompactHero ? <a className="v2-mobile-demo-link v2-mobile-only" href="#demo-player-punch-card" onClick={handleDemoClick} aria-controls="demo-player-punch-card"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="m10 7 7 5-7 5Z" fill="#ff2786" /></svg>צפו איך זה עובד</a> : null}
               </div>
-              {isCompactHero ? <ul className="v2-hero-mobile-reassurance v2-mobile-only"><li>הקמה עלינו</li><li>בלי אפליקציה ללקוח</li><li>תמיכה טכנית</li><li>ללא התחייבות לטווח ארוך</li></ul> : null}
               {isCompactHero ? <ul className="v2-hero-reassurance v2-desktop-only">
                 <li>הקמה מלאה עלינו</li>
                 <li>תמיכה טכנית</li>
@@ -833,6 +831,7 @@ export function MultiServiceLanding({
             <div className="v2-hero-art" key={`art-${activeId}`}>
               {isCompactHero ? <><div className="v2-compact-art-inner"><HeroProductVisual service={service} /></div><NfcHeroNote modern /><div className="v2-mobile-hero-photo v2-mobile-only"><Image src="/phase_1.jpg" alt="המחשה: סריקת שלט Viby בטלפון להצטרפות לכרטיסייה דיגיטלית" width={1448} height={1086} sizes="(max-width: 760px) calc(100vw - 40px), 1px" loading="eager" /></div></> : <><HeroProductVisual service={service} /><NfcHeroNote /></>}
             </div>
+            {isCompactHero ? <ul className="v2-hero-mobile-reassurance v2-mobile-only"><li>הקמה מלאה עלינו</li><li>תמיכה טכנית</li><li>ללא התחייבות לטווח ארוך</li></ul> : null}
           </div>
           {isCompactHero ? <div className="v2-hero-call-slot">{showHeroCall ? <PhoneCallLink className="v2-hero-call-link" analyticsLocation="hero" /> : null}</div> : null}
         </div>
@@ -1366,7 +1365,7 @@ function HeroTrustStrip() {
                   alt={isDuplicate ? "" : logo.alt}
                   width={400}
                   height={400}
-                  sizes="(max-width: 700px) 90px, 116px"
+                  sizes="116px"
                 />
               </span>
             );
@@ -1374,7 +1373,8 @@ function HeroTrustStrip() {
         </div>
       </div>
       <p className="v2-trust-note">
-        עסקים מקומיים מתחומים שונים משתמשים ב־Viby כדי לגרום ללקוחות לחזור.
+        <span className="v2-desktop-only">עסקים מקומיים מתחומים שונים משתמשים ב־Viby כדי לגרום ללקוחות לחזור.</span>
+        <span className="v2-mobile-only">עסקים מקומיים משתמשים ב־<bdi>Viby</bdi>.</span>
       </p>
     </section>
   );
