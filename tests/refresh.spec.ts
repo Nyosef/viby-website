@@ -228,7 +228,7 @@ test("call actions open the Viby number and track a phone click without the numb
   await expect(callLink).toBeVisible();
 });
 
-test("the homepage hero and every page ending offer a clear tap-to-call link", async ({ page }) => {
+test("the desktop homepage hero and every page ending offer a clear tap-to-call link", async ({ page }) => {
   for (const path of ["/", "/support", "/about", "/terms", "/privacy/versions/2026-10-08"]) {
     await page.goto(path);
     const endCall = page.locator(".site-call-end-link");
@@ -248,12 +248,11 @@ test("the homepage hero and every page ending offer a clear tap-to-call link", a
   expect(await heroCall.locator(".phone-call-glyph").evaluate((icon) => getComputedStyle(icon).animationName)).toBe("phone-ring");
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(heroCall).toBeHidden();
-  const mobileCall = page.locator(".v2-mobile-call-link");
-  await expect(mobileCall).toHaveAttribute("href", "tel:+972552639957");
-  await expect(mobileCall).toHaveText("");
-  await expect(mobileCall.locator("svg")).toBeVisible();
-  expect(await mobileCall.locator(".phone-call-glyph").evaluate((icon) => getComputedStyle(icon).animationName)).toBe("none");
-  await expect(page.locator(".v2-trust-in-hero")).toBeInViewport();
+  await expect(page.locator(".v2-mobile-call-link")).toHaveCount(0);
+  await expect(page.locator('.v2-final-cta a[href^="tel:"]')).toHaveAttribute("href", "tel:+972552639957");
+  await expect(page.locator(".site-call-end-link")).toHaveAttribute("href", "tel:+972552639957");
+  await page.locator(".v2-trust-note").scrollIntoViewIfNeeded();
+  await expect(page.locator(".v2-trust-note")).toBeInViewport();
 });
 
 test("blocked storage and throwing analytics do not break navigation or widget", async ({
@@ -430,7 +429,11 @@ test("mobile headers keep the logo, chooser, and positioning message separate", 
       ).toBeLessThan(2);
       expect(chooser.x).toBeGreaterThanOrEqual(0);
       expect(chooser.x + chooser.width).toBeLessThanOrEqual(width);
-      if (path !== "/viby-up") {
+      if (path === "/" && width <= 760) {
+        await expect(page.locator(".v2-company-line")).toBeHidden();
+        const headline = (await page.locator("h1").boundingBox())!;
+        expect(headline.y).toBeGreaterThanOrEqual(chooser.y + chooser.height + 16);
+      } else if (path !== "/viby-up") {
         const message = (await page.locator(".v2-company-line").boundingBox())!;
         expect(message.y).toBeGreaterThanOrEqual(chooser.y + chooser.height);
         if (path !== "/") expect(message.y - chooser.y - chooser.height).toBeLessThanOrEqual(22);
