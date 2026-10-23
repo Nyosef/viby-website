@@ -7,6 +7,7 @@ const instagramUrl = "https://www.instagram.com/viby.il/";
 const linkedinUrl = "https://www.linkedin.com/company/vibyil/";
 const organizationLogoUrl = `${canonicalOrigin}/icon.png`;
 const configuredOrigin = process.env.SEO_REPORT_ORIGIN;
+const buildDirectory = process.env.NEXT_DIST_DIR || ".next";
 const productionMode = Boolean(configuredOrigin);
 const origin = productionMode
   ? validateProductionOrigin(configuredOrigin)
@@ -251,6 +252,7 @@ const analyticsLocations = new Set([
   "how_it_works",
   "punch_card_lead_form",
   "whatsapp_widget",
+  "social_proof",
 ]);
 const errors = [];
 
@@ -489,7 +491,8 @@ async function checkPage(pathname, titles) {
       assert(visibleText.includes(term), `${pathname}: compatibility statement is missing: ${term}`);
     }
 
-    const faqEntries = matches(html, /<details(?:\s[^>]*)?>([\s\S]*?)<\/details>/g);
+    const faqBlock = html.match(/<div\b[^>]*class="[^"]*\bv2-buying-faq-list\b[^"]*"[^>]*>([\s\S]*?)<\/div>/)?.[1] ?? "";
+    const faqEntries = matches(faqBlock, /<details(?:\s[^>]*)?>([\s\S]*?)<\/details>/g);
     assert(faqEntries.length === 6, `${pathname}: expected six visible FAQ entries, got ${faqEntries.length}`);
     const faqQuestions = faqEntries.map((entry) => {
       const summary = entry[1].match(/<summary(?:\s[^>]*)?>([\s\S]*?)<\/summary>/);
@@ -765,7 +768,7 @@ async function run() {
   let serverOutput = "";
 
   if (!productionMode) {
-    await access(".next/BUILD_ID");
+    await access(`${buildDirectory}/BUILD_ID`);
     server = spawn("npm", ["run", "start", "--", "-p", String(port)], {
       stdio: ["ignore", "pipe", "pipe"],
       env: { ...process.env, PORT: String(port) },

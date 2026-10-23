@@ -99,6 +99,7 @@ export const ANALYTICS_CTA_LOCATIONS = [
   "how_it_works",
   "punch_card_lead_form",
   "whatsapp_widget",
+  "social_proof",
 ] as const;
 export type AnalyticsCtaLocation = (typeof ANALYTICS_CTA_LOCATIONS)[number];
 export function isAnalyticsCtaLocation(

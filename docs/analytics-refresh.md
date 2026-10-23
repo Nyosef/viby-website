@@ -23,6 +23,8 @@ Existing consent gating applies. Calls fail safely and never include contact det
 
 The widget sets `cta_location=whatsapp_widget` and `contact_type=sales`, including on support pages. Existing support CTAs use `contact_type=support`. Pre-consent interactions are not replayed; consent granted while the icon is visible records its current exposure. The widget is independent of analytics consent and availability.
 
+The social proof CTA uses `cta_location=social_proof` with each landing route's existing WhatsApp destination. The delegated listener retains `click_whatsapp` and `contact_intent` behavior. The photo gallery has no expansion control or gallery-open event.
+
 Existing `generate_lead` is retained. `view_item` now uses the standard `items` array. Form start/failure instrumentation is deferred; current Enhanced Measurement does not provide form starts because it is off.
 
 ## Reporting configured in GA4

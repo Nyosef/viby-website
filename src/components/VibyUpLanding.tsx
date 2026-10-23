@@ -10,6 +10,7 @@ import { upFaqs } from "@/lib/viby-up";
 import { UpConversation } from "./UpConversation";
 import { ServiceChooser } from "./ServiceChooser";
 import { UpIcon } from "./UpIcon";
+import { SocialProofWall } from "./SocialProofWall";
 
 const contactUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("היי, אשמח להכיר את Viby UP, לקבל הדגמה והצעת מחיר לעסק שלי.")}`;
 
@@ -65,6 +66,11 @@ export function VibyUpLanding() {
       <div className="up-switcher up-shell">
         <ServiceChooser currentService="viby-up" placement="body" />
       </div>
+      <SocialProofWall
+        whatsappUrl={contactUrl}
+        heading="עסקים שצומחים עם Viby"
+        intro="שיחה אישית אחרי הביקור עוזרת להקשיב ללקוחות ולהמשיך את הקשר."
+      />
       <SetupGiftSection service="viby-up" />
       <section className="up-section up-intro up-shell">
         <span className="up-kicker">הלקוחות שלכם הם חלק מהצמיחה שלכם.</span>

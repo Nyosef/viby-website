@@ -324,6 +324,36 @@ test("mobile chooser has six accessible destinations and no widget", async ({
   await expect(page.getByText("כניסת עסקים", { exact: true })).toHaveCount(0);
 });
 
+test("only the second mobile chooser shrinks after scrolling and expands on return", async ({ page }) => {
+  await initialize(page, "denied", 60000);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+
+  for (const path of ["/", "/smart-wheel", "/digital-wallet", "/viby-rate", "/viby-tap", "/viby-up"]) {
+    await page.goto(path);
+    await page.evaluate(() => document.fonts.ready);
+    const header = page.locator(".service-chooser--header .service-chooser-trigger");
+    const body = page.locator(".service-chooser--body .service-chooser-trigger");
+    await expect.poll(() => body.evaluate((el) => el.getBoundingClientRect().height)).toBe(88);
+    expect((await header.boundingBox())!.height).toBe(44);
+    const headingTop = await page.locator(".social-proof-heading").evaluate((el) => el.getBoundingClientRect().top + scrollY);
+    const heroBottom = await page.locator(".v2-hero, .up-hero").evaluate((el) => el.getBoundingClientRect().bottom + scrollY);
+
+    await page.evaluate((top) => window.scrollTo(0, top), heroBottom + 180);
+    await expect.poll(() => body.evaluate((el) => el.getBoundingClientRect().height)).toBe(44);
+    await expect(body).toBeInViewport();
+    expect((await header.boundingBox())!.height).toBe(44);
+    expect(await page.locator(".social-proof-heading").evaluate((el) => el.getBoundingClientRect().top + scrollY)).toBeCloseTo(headingTop, 1);
+    await body.click();
+    await expect(page.locator(".service-chooser-panel .service-chooser-card")).toHaveCount(6);
+    await page.keyboard.press("Escape");
+    await expect(body).toBeFocused();
+
+    await page.evaluate((top) => window.scrollTo(0, top), heroBottom - 100);
+    await expect.poll(() => body.evaluate((el) => el.getBoundingClientRect().height)).toBe(88);
+  }
+});
+
 test("denied analytics still allows widget interaction without events", async ({
   page,
 }) => {
