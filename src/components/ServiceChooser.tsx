@@ -23,6 +23,7 @@ export function ServiceChooser({
   onSelect,
 }: ServiceChooserProps) {
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [position, setPosition] = useState({
     top: 0,
     left: 0,
@@ -33,6 +34,34 @@ export function ServiceChooser({
   const panelRef = useRef<HTMLElement>(null);
   const panelId = useId();
   const current = servicePresentation[currentService];
+
+  useEffect(() => {
+    if (placement !== "body") return;
+    const mobile = window.matchMedia("(max-width: 760px)");
+    const hero = triggerRef.current?.closest("main")?.querySelector(".v2-hero, .up-hero");
+    if (!hero) return;
+    let observer: IntersectionObserver | undefined;
+
+    const sync = () => {
+      observer?.disconnect();
+      if (!mobile.matches) {
+        setCollapsed(false);
+        return;
+      }
+      setCollapsed(hero.getBoundingClientRect().bottom < -80);
+      observer = new IntersectionObserver(([entry]) => {
+        setCollapsed(entry.boundingClientRect.bottom < -80);
+      }, { rootMargin: "80px 0px 0px", threshold: 0 });
+      observer.observe(hero);
+    };
+
+    sync();
+    mobile.addEventListener("change", sync);
+    return () => {
+      observer?.disconnect();
+      mobile.removeEventListener("change", sync);
+    };
+  }, [placement]);
 
   function close(restoreFocus = false) {
     setOpen(false);
@@ -97,7 +126,10 @@ export function ServiceChooser({
   }, [open]);
 
   return (
-    <div className={`service-chooser service-chooser--${placement}`}>
+    <div
+      className={`service-chooser service-chooser--${placement}`}
+      data-collapsed={placement === "body" ? collapsed : undefined}
+    >
       <button
         className="service-chooser-trigger"
         type="button"

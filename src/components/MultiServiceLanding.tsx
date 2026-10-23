@@ -30,21 +30,13 @@ import { PunchCardLeadSection } from "@/components/PunchCardLeadSection";
 import { ServiceChooser } from "./ServiceChooser";
 import { ServiceIllustration, servicePresentation } from "./ServiceIllustration";
 import { UpIcon } from "@/components/UpIcon";
+import { SocialProofWall } from "./SocialProofWall";
 
 type MultiServiceLandingProps = {
   initialService: LegacyServiceId;
   compactHero?: boolean;
 };
 
-
-const businessCategories = [
-  "בתי קפה",
-  "מסעדות",
-  "גלידריות",
-  "שטיפות רכב",
-  "חנויות",
-  "משחקיות",
-];
 
 const rotatingRewards = [
   {
@@ -89,6 +81,29 @@ const serviceHeaderIcons: Record<ServiceId, string> = {
 };
 
 
+
+const socialProofContent: Record<LegacyServiceId, { heading: string; intro: string }> = {
+  "punch-card": {
+    heading: "עסקים אמיתיים. לקוחות שחוזרים.",
+    intro: "כרטיסייה דיגיטלית הופכת כל ביקור לעוד צעד בקשר עם הלקוחות.",
+  },
+  "smart-wheel": {
+    heading: "הופכים כל ביקור להזדמנות לחזור",
+    intro: "רגע של הפתעה והטבה לביקור הבא נותנים ללקוחות עוד סיבה לחזור.",
+  },
+  wallet: {
+    heading: "הלקוחות שלכם. תמיד קרובים.",
+    intro: "כרטיסי מתנה ויתרות דיגיטליות שומרים את העסק בהישג יד, בארנק שבטלפון.",
+  },
+  "viby-rate": {
+    heading: "לקוחות מרוצים מתחילים בחוויה טובה",
+    intro: "דרך פשוטה לשתף ביקורת עוזרת ללקוחות לספר על החוויה שלהם בעסק.",
+  },
+  "viby-tap": {
+    heading: "חיבור עם הלקוחות מתחיל בסריקה",
+    intro: "סריקה אחת מובילה את הלקוחות לפרטים ולקישורים החשובים של העסק.",
+  },
+};
 
 const walletPromoContent: Record<
   LegacyServiceId,
@@ -821,7 +836,7 @@ export function MultiServiceLanding({
           </div>
           {isCompactHero ? <div className="v2-hero-call-slot">{showHeroCall ? <PhoneCallLink className="v2-hero-call-link" analyticsLocation="hero" /> : null}</div> : null}
         </div>
-        {isCompactHero ? <TrustStrip compact /> : null}
+        {isCompactHero ? <HeroTrustStrip /> : null}
       </section>
 
       <div className="v2-story">
@@ -833,7 +848,11 @@ export function MultiServiceLanding({
           {announcement ? <span>{announcement}</span> : null}
         </div>
 
-        {!isCompactHero ? <TrustStrip /> : null}
+        <SocialProofWall
+          whatsappUrl={whatsappUrl}
+          heading={socialProofContent[activeId].heading}
+          intro={socialProofContent[activeId].intro}
+        />
 
         <section
           className="v2-wallet-promo v2-grid-bg"
@@ -1333,56 +1352,30 @@ function SectionHeading({
   );
 }
 
-function TrustStrip({ compact = false }: { compact?: boolean }) {
-  if (customerLogos.length > 0) {
-    return (
-      <section className={`v2-trust${compact ? " v2-trust-in-hero" : " v2-reveal"}`} aria-label="לקוחות Viby">
-        {!compact ? <div className="v2-trust-heading v2-shell">
-          <span>עסקים שכבר בחרו Viby</span>
-          <h2>הלקוחות שלנו</h2>
-        </div> : null}
-        <div className="v2-logo-viewport">
-          <div className="v2-logo-track">
-            {[...customerLogos, ...customerLogos].map((logo, index) => {
-              const isDuplicate = index >= customerLogos.length;
-
-              return (
-                <span
-                  key={`${logo.src}-${index}`}
-                  aria-hidden={isDuplicate || undefined}
-                >
-                  <Image
-                    src={logo.src}
-                    alt={isDuplicate ? "" : logo.alt}
-                    width={400}
-                    height={400}
-                    sizes="(max-width: 700px) 90px, 116px"
-                  />
-                </span>
-              );
-            })}
-          </div>
-        </div>
-        <p className="v2-trust-note">
-          עסקים מקומיים מתחומים שונים משתמשים ב־Viby כדי לגרום ללקוחות לחזור.
-        </p>
-      </section>
-    );
-  }
-
+function HeroTrustStrip() {
   return (
-    <section
-      className="v2-category-strip v2-reveal"
-      aria-label="עסקים מתאימים"
-    >
-      <div className="v2-shell">
-        <strong>מתאים לעסקים מכל הסוגים</strong>
-        <div>
-          {businessCategories.map((category) => (
-            <span key={category}>{category}</span>
-          ))}
+    <section className="v2-trust v2-trust-in-hero" aria-label="לקוחות Viby">
+      <div className="v2-logo-viewport">
+        <div className="v2-logo-track">
+          {[...customerLogos, ...customerLogos].map((logo, index) => {
+            const isDuplicate = index >= customerLogos.length;
+            return (
+              <span key={`${logo.src}-${index}`} aria-hidden={isDuplicate || undefined}>
+                <Image
+                  src={logo.src}
+                  alt={isDuplicate ? "" : logo.alt}
+                  width={400}
+                  height={400}
+                  sizes="(max-width: 700px) 90px, 116px"
+                />
+              </span>
+            );
+          })}
         </div>
       </div>
+      <p className="v2-trust-note">
+        עסקים מקומיים מתחומים שונים משתמשים ב־Viby כדי לגרום ללקוחות לחזור.
+      </p>
     </section>
   );
 }

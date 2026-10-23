@@ -49,13 +49,14 @@ test("homepage copy, reassurance and existing customer strip fit in the fold", a
   }
 });
 
-test("other product heroes keep their original layout and customer section", async ({ page }) => {
+test("other product heroes keep their original layout and use the photographic wall", async ({ page }) => {
   await page.goto("/viby-tap");
   await expect(page.locator(".compact-home-hero")).toHaveCount(0);
   await expect(page.locator("h1")).toHaveText("שלט NFC לעסק שמרכז את כל הקישורים במקום אחד");
   await expect(page.locator(".v2-hero .v2-trust")).toHaveCount(0);
-  await expect(page.locator(".v2-story .v2-trust")).toHaveCount(1);
-  await expect(page.locator(".v2-trust-heading h2")).toHaveText("הלקוחות שלנו");
+  await expect(page.locator(".v2-story .v2-trust")).toHaveCount(0);
+  await expect(page.locator(".v2-story .social-proof")).toHaveCount(1);
+  await expect(page.locator(".social-proof-heading h2")).toHaveText("חיבור עם הלקוחות מתחיל בסריקה");
 });
 
 

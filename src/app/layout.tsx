@@ -11,6 +11,7 @@ import "./globals.css";
 import "./refresh.css";
 import "./setup-gift.css";
 import "./legal-refresh.css";
+import "./social-proof.css";
 
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
