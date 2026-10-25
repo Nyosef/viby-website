@@ -33,3 +33,6 @@ pnpm-debug.log*
 # browser test artifacts
 /test-results/
 /playwright-report/
+
+# Private source exports for dated SEO reviews; keep reviewed summaries in Git.
+/seo-runs/raw/

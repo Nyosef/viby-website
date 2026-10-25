@@ -1,0 +1,5 @@
+
+> viby-website@0.1.0 seo:report:production
+> SEO_REPORT_ORIGIN=https://joinviby.co.il node scripts/seo-report.mjs
+
+SEO audit passed against https://joinviby.co.il: 14 canonical routes, redirects, robots, sitemap, schema, and 404 behavior verified.

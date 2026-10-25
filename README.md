@@ -43,6 +43,9 @@ The report starts the production build locally and checks every canonical route,
 metadata uniqueness, JSON-LD, sitemap and robots behavior, legacy query redirects,
 404 indexing, and internal links.
 
+Archived SEO audits, dated production checks, and the comparison scorecard are in
+[seo-runs](seo-runs/README.md).
+
 ## Legal website publication
 
 The website now shares commercial disclosures across its six products and keeps
