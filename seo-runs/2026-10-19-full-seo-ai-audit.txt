@@ -1,0 +1,1203 @@
+Viby — Full SEO & AI Search Audit
+joinviby.co.il | October 19, 2026 | Israeli market | Google Search, AI search, and organic customer acquisition
+Executive assessment
+Viby has a promising technical SEO foundation, but its biggest growth opportunity is to become discoverable for more than digital punch cards.
+
+The live homepage currently has a valid HTTP 200 response, Hebrew RTL markup, indexable robots directives, descriptive metadata, social sharing tags, and a publicly accessible XML sitemap. These are positive starting points.
+
+However, the homepage is positioned almost exclusively around כרטיסייה דיגיטלית לעסק, while Viby provides a much broader collection of business tools: customer loyalty, customer retention, digital wallets, Google review tools, NFC customer engagement, and Viby UP.
+
+That creates a strategic challenge: a business owner searching for "מערכת מועדון לקוחות", "איך להחזיר לקוחות לעסק", or "איך להשיג יותר ביקורות בגוגל" may be an ideal Viby prospect without searching for a digital punch card.
+
+The SEO goal should be to make Viby discoverable at three levels:
+1. Product discovery: People actively searching for digital punch cards, loyalty systems, NFC signs, review tools, and digital wallets.
+2. Problem discovery: Business owners looking for ways to increase repeat purchases, collect Google reviews, retain customers, and grow revenue.
+3. AI recommendation discovery: People asking ChatGPT, Google AI, Gemini, Perplexity, and similar services to recommend the best tools for their businesses.
+This report distinguishes live-verified findings from hypotheses that require Search Console, analytics, or a deeper crawler-based inspection. It does not treat an attractive keyword as proof of high search volume or claim a Google ranking without a defensible measurement.
+
+
+
+
+1. Technical SEO audit
+1.1 What is working
+Homepage HTTP response
+PASS · 200
+
+Hebrew language and RTL
+PASS
+
+Robots.txt accessibility
+PASS
+
+XML sitemap accessibility
+PASS
+
+Product page titles and descriptions
+PASS
+
+Unique H1 on inspected pages
+PASS
+
+Structured data (JSON-LD)
+Not detected
+
+Crawlable cross-product navigation
+Needs work
+
+Mobile Core Web Vitals
+Not measured
+
+Google index coverage
+Needs Search Console
+
+
+Verification: live page retrieval of eight public pages, robots.txt and sitemap.xml, plus public search discovery. This is not a substitute for Search Console URL Inspection or a full browser-based Lighthouse test.
+1.2 Critical opportunity: internal linking
+High priority
+The product pages use a service-switching experience. But in the fetched page markup, I found very few normal, crawlable links to the other product pages.
+
+For example, /viby-tap exposes links to the homepage, its own section, terms, and privacy. It does not expose an obvious network of standard links to all the other major Viby products in the extracted links.
+
+Likewise, /smart-wheel and /digital-wallet appear to rely heavily on the same service-switching presentation.
+
+This matters because Google uses links to discover pages and understand their relationships. Links expressed only as JavaScript click actions are less reliable than normal HTML anchors. 
+
+developers.google.com
++1
+
+
+
+
+Recommendation: Keep the existing service switcher, but ensure that each product has an actual <a href="..."> link. Add a semantically clear product navigation section, and link related services contextually inside page copy.
+
+For instance, the digital punch-card page should naturally reference the digital wallet, Viby UP, and the smart wheel in relevant sections. The Viby UP page should link to the Google review NFC solution, and vice versa.
+1.3 Missing structured data
+Across the inspected public HTML responses, I did not detect JSON-LD structured data.
+
+That is a missed opportunity to explicitly identify Viby as a company, describe its services, and explain how its pages relate to one another.
+
+Recommended structured data:
+Type	Where	Purpose
+Organization	Homepage	Identify Viby and its official properties
+WebSite	Homepage	Establish website identity
+SoftwareApplication	Relevant software pages	Describe actual software capabilities
+Service	Product pages	Describe each service offering
+BreadcrumbList	Interior pages	Express page hierarchy
+VideoObject	Video page	Describe the existing explainer video
+FAQPage	Pages with FAQs	Machine-readable question structure, where appropriate
+Google explicitly recommends Organization markup for identifying businesses, logos, and official details. 
+
+developers.google.com
++1
+
+
+
+
+Important: Structured data does not guarantee rankings, FAQ rich results, or AI citations. The markup must accurately match visible page content. FAQ rich results are particularly restricted in Google, so this is not a high-priority source of rich-result traffic on its own.
+1.4 Sitemap audit
+The live sitemap currently includes these 10 URLs:
+Page	Primary role
+/	Digital punch cards
+/smart-wheel	Smart prize wheel
+/digital-wallet	Digital gift and prepaid wallet
+/viby-up	AI customer follow-up
+/viby-rate	Google review NFC
+/viby-tap	NFC links and engagement
+/how-it-works	Product demonstration
+/support	Support
+/terms	Terms
+/privacy	Privacy
+The sitemap is accessible, and all eight product/help pages I checked responded successfully.
+
+However, this is a compact website for a platform addressing several different business needs. There are no dedicated indexed content hubs in the discovered sitemap for customer retention, loyalty program selection, collecting reviews, or category-specific use cases.
+
+This is one of the largest structural growth opportunities.
+
+The sitemap should expand only as genuinely useful new pages are published. I would not automatically generate dozens of near-duplicate pages.
+1.5 Canonicals, metadata, and indexing
+The inspected pages have descriptive titles and descriptions, including:
+- כרטיסייה דיגיטלית לעסק | Viby
+- גלגל מזל דיגיטלי לעסקים | Viby
+- כרטיס מתנה דיגיטלי לעסק | Viby
+- Viby UP — קשרי לקוחות ב־WhatsApp בעזרת AI | Viby
+- כרטיס NFC לביקורות גוגל לעסק | Viby
+These are fairly strong titles already.
+
+The extraction did not independently establish canonical status for every page, so I would have Codex verify each page's actual server-delivered canonical, robots directives, and duplicate URL variants before changing them.
+
+Additionally, I found a relevant discrepancy: the public search snapshot of the homepage still contains older copy about the hero and next-business-day activation, while the live fetched homepage contains the newer hero and up-to-three-business-day language. 
+
+Viby
+
+
+
+
+That is not proof of an indexing problem, but it demonstrates why we need to distinguish live deployments from what search engines have last captured.
+
+Technical action list:
+- Confirm self-referencing canonical URLs.
+- Ensure one consistent HTTPS hostname with redirects from alternatives.
+- Validate each important page in Google Search Console.
+- Verify the mobile rendered page contains the same important content and links.
+- Confirm the sitemap contains only URLs intended for indexing.
+- Check redirects and 404 behavior.
+- Verify Open Graph, images, and logo assets return valid responses.
+- Test real mobile LCP, INP, and CLS through PageSpeed Insights and Search Console.
+I would not make performance claims without actual performance measurements.
+
+2. Competitor research — Israeli search market
+I found several relevant websites competing for different portions of Viby's search demand.
+
+These are organic and product-positioning competitors, not necessarily companies offering exactly the same product. A search result appearing in this research is not a verified top-three Google ranking.
+
+
+
+
+
+
+
+
+
+הכרטיסיה
+
+Direct competitor — Digital loyalty cards
+
+Its positioning focuses on making a one-time purchase into a repeated habit, with QR, Apple Wallet, Google Wallet, stamps, messaging, analytics, and team management.
+
+Competitive insight: It speaks to the business outcome first, then clearly enumerates features. 
+
+מועדון לקוחות דיגיטלי וכרטיסיות נאמנות לעסקים
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Smartick
+
+Direct competitor — Wallet loyalty programs
+
+Emphasizes points, stamps, membership levels, referrals, push notifications, and setting up a club quickly.
+
+Competitive insight: It competes for broader loyalty and Wallet terms, not only punch-card keywords. 
+
+smartick.co.il
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Punchy
+
+Direct competitor — Simple punch cards
+
+Leads with a digital loyalty card for small businesses, explicitly mentions Apple and Google Wallet, and shows a simple monthly price.
+
+Competitive insight: Simplicity and transparent pricing are central to its proposition. 
+
+Punchy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1net Card
+
+Adjacent competitor — CRM and loyalty
+
+Connects digital stamp cards with customer databases, messaging, and business CRM.
+
+Competitive insight: Strong positioning around the wider relationship with customers, rather than just the card itself. 
+
+מועדון לקוחות וכרטיסיות דיגיטליות לעסקים
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Matrix
+
+Adjacent competitor — Automated Google reviews
+
+Has a targeted content page describing Google review collection through WhatsApp and AI.
+
+Competitive insight: Viby UP faces a separate search market in reputation and feedback automation, where the buyer's language is different from the loyalty market. 
+
+Matrix
+
+
+
+
+
+
+What competitors reveal
+The most useful competitive pattern is not a secret SEO trick. The pages position themselves around a very specific search intent.
+Search intent	Common competitor promise	Viby positioning opportunity
+Digital stamp card	Replace paper, increase repeat purchases	Premium Wallet card plus business tools
+Loyalty program	Points, stamps, rewards, CRM	Complete loyalty experience without a customer app
+Small-business software	Easy setup, simple price	Managed onboarding and low operational effort
+Google reviews	Automate review requests	Authentic feedback and AI-assisted customer follow-up
+WhatsApp automation	Save time on customer communication	Continue the relationship after a real purchase
+Viby's potential differentiator is the combination of a polished customer-facing experience, branded Wallet integration, retention tools, and a largely managed setup.
+
+The key is to describe that differentiation precisely, without claiming features or performance that have not been verified.
+
+3. Keyword research and prioritization
+I would divide target keywords into three tiers based on how close the person is to becoming a customer.
+
+These are research-derived keyword candidates, not measured monthly search volumes. The priority and difficulty ratings are my strategic estimates based on specificity, buyer intent, and observed competitor coverage.
+Tier 1 — Highest commercial intent
+These deserve the first SEO focus.
+Hebrew keyword	Priority	Suggested target
+כרטיסייה דיגיטלית לעסק	Very high	Homepage
+כרטיסיית ניקובים דיגיטלית	Very high	Homepage
+כרטיס ניקוב דיגיטלי	Very high	Homepage
+כרטיסיות דיגיטליות לעסקים	Very high	Homepage
+מועדון לקוחות דיגיטלי	Very high	New dedicated page
+מערכת מועדון לקוחות לעסקים	Very high	New dedicated page
+תוכנה לשימור לקוחות	High	Retention solution page
+מערכת נאמנות לקוחות	High	Loyalty program page
+כרטיס מועדון דיגיטלי	High	Loyalty program page
+Apple Wallet לעסקים	High	Wallet-specific page
+גלגל מזל דיגיטלי לעסקים	High	Existing smart-wheel page
+כרטיס מתנה דיגיטלי לעסק	High	Existing digital-wallet page
+שלט NFC לעסק	High	Existing Viby Tap page
+כרטיס NFC לביקורות גוגל	High	Existing Viby Rate page
+מערכת ביקורות גוגל לעסקים	Very high	New review automation page
+An important distinction: Viby must not attempt to make the homepage rank for everything. Each substantial topic needs one primary destination. Closely related word forms can share that page rather than creating multiple pages competing against one another.
+Tier 2 — Problem-aware searches
+These people may not know they need Viby yet.
+Search phrase	Likely intent	Best content
+איך להחזיר לקוחות לעסק	Retention	Educational guide
+איך לגרום ללקוחות לחזור	Retention	Guide and example
+איך להגדיל ביקורים חוזרים	Retention	Detailed guide
+איך לבנות מועדון לקוחות	Buying research	Complete guide
+איך להשיג יותר ביקורות בגוגל	Reputation	Guide + product link
+איך לבקש ביקורת בגוגל	Reputation	Practical guide
+איך לשלוח הודעה ללקוחות בוואטסאפ	Communication	Practical guide
+כרטיסיית ניקוב או מועדון לקוחות	Comparison	Comparison guide
+כרטיסיית ניקוב דיגיטלית מחיר	Pricing	Pricing/explanation section
+איך לשמר לקוחות בבית קפה	Industry-specific	Cafe landing page
+These are particularly valuable for AI-search visibility because many resemble natural-language questions.
+Tier 3 — Expansion keywords
+These are additional opportunities worth testing, not an immediate mandate to build pages.
+Cluster	Keyword examples
+Restaurants	מועדון לקוחות למסעדה, כרטיסייה דיגיטלית לבית קפה
+Beauty	מועדון לקוחות למספרה, כרטיסיות נאמנות למכון יופי
+Fitness and dance	מועדון לקוחות לסטודיו, כרטיסיית שיעורים דיגיטלית
+Automotive	מועדון לקוחות לשטיפת רכב
+Review acquisition	QR לביקורות גוגל, שלט לביקורות גוגל
+Digital gifts	גיפט קארד דיגיטלי לעסק, כרטיס נטען לעסק
+Campaign gamification	גלגל פרסים לעסקים, משחק שיווקי לעסק
+Interactive keyword opportunity matrix
+Qualitative opportunity model, not Google Keyword Planner or Ahrefs volume data. A higher opportunity score means stronger estimated relevance and commercial value for Viby.
+Estimated SEO opportunity by topic
+Strategic scoring out of 10; not measured search traffic.
+
+
+02.557.510Digital loyalty cardsCustomer loyalty systemsGoogle review automationRetention strategiesApple / Google WalletNFC reviewsDigital gift cardsDigital prize wheel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+My proposed priority is to win the narrower high-intent digital punch-card searches while simultaneously creating a strong page for the larger concept of digital customer loyalty.
+
+This allows Viby to compete for specific buyers and broader software discovery without sacrificing the current homepage positioning.
+
+4. Page-by-page SEO recommendations
+Homepage — /
+Main role: Digital punch cards
+Keep and improve
+
+The live page currently uses:
+
+Title: כרטיסייה דיגיטלית לעסק | Viby
+
+H1: הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור.
+
+The H1 is emotionally strong. It sells an outcome. But the product category is not in the H1, which can make the heading less descriptive when interpreted independently.
+
+I would keep the emotional marketing direction and ensure the H1 or immediately adjacent introductory copy explicitly identifies the product.
+
+Suggested SEO title:
+כרטיסייה דיגיטלית לעסק | כרטיס ניקוב חכם – Viby
+
+Suggested meta description:
+כרטיסיות ניקוב דיגיטליות לעסקים עם Apple Wallet ו־Google Wallet. לקוחות צוברים הטבות, חוזרים יותר ושומרים את הכרטיס בטלפון. בלי אפליקציה ועם הקמה עלינו.
+
+Suggested hero structure:
+מועדון לקוחות דיגיטלי לעסקים
+הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור.
+כרטיסייה דיגיטלית לעסק שנשמרת ב־Apple Wallet וב־Google Wallet. הלקוחות צוברים ניקובים והטבות בכל ביקור, בלי להוריד אפליקציה.
+קבלו הדגמה בוואטסאפ
+
+
+This would preserve the current conversion-first direction while improving search-topic clarity.
+
+Do not redesign the entire homepage purely for SEO. The site already has a polished conversion-oriented presentation. The goal is to strengthen its relevance without harming its business purpose.
+Viby UP — /viby-up
+Main role: AI customer follow-up
+Major positioning opportunity
+
+Current title:
+Viby UP — קשרי לקוחות ב־WhatsApp בעזרת AI | Viby
+
+Current H1:
+ה־AI שעובד בשביל העסק גם אחרי שהלקוח יוצא.
+
+The existing H1 is strong marketing language, but it does not describe the software category very explicitly.
+
+The strongest search opportunities are likely to be variations of:
+- אוטומציה בוואטסאפ לעסקים
+- מערכת משוב לקוחות
+- מערכת לבקשת ביקורות גוגל
+- מעקב שביעות רצון לקוחות
+- מערכת AI לשימור לקוחות
+Suggested title:
+אוטומציה בוואטסאפ למשוב לקוחות וביקורות גוגל | Viby UP
+
+Suggested supporting heading:
+שיחות אוטומטיות אחרי הביקור, משוב לקוחות ומעקב אישי — בעזרת AI
+
+One particularly important content addition: explain precisely when Viby UP sends a conversation, what triggers it, what the AI analyzes, what the owner sees, and what happens when a customer reports a problem.
+
+This would make the product more understandable to buyers and to search systems extracting direct answers.
+
+There is also a policy consideration: customer feedback should be handled authentically, and review collection should not unfairly steer only positive experiences toward public reviews. Viby UP's product claims and examples should be reviewed against Google Maps review policies, rather than adopting every competitor's review-filtering tactics.
+Viby Tap — /viby-tap
+Main role: NFC and business links
+Good keyword targeting
+
+The current H1 is already descriptive:
+שלט NFC לעסק שמרכז את כל הקישורים במקום אחד
+
+I would preserve it.
+
+Add clearer content around these secondary phrases:
+- שלט NFC עם QR לעסק
+- כרטיס ביקור דיגיטלי לעסק
+- עמוד קישורים לעסק
+- קישור לביקורות גוגל
+- שלט QR לעסק
+Only compare Viby Tap to a digital business card where the use case genuinely overlaps; do not imply identical functionality.
+
+Add a direct FAQ:
+
+מה ההבדל בין Viby Tap לכרטיס ביקור דיגיטלי?
+
+And explain how Viby Tap brings a customer's attention to the business's existing channels from a physical QR or NFC interaction.
+Viby Rate — /viby-rate
+Main role: Google review NFC
+Good keyword targeting
+
+This page is relatively well aligned to its main keyword.
+
+Its SEO opportunity is primarily around adjacent searches:
+- שלט גוגל ביקורות
+- QR לביקורת גוגל
+- כרטיס NFC לביקורות
+- איך להשיג ביקורות בגוגל
+- איך לבקש מלקוחות לדרג את העסק
+I would add a specific comparison between requesting a Google review manually and providing a physical NFC/QR review link.
+
+Avoid promising a particular number of reviews or suggesting that the tool can guarantee improved Google rankings.
+Smart Wheel — /smart-wheel
+Current title:
+גלגל מזל דיגיטלי לעסקים | Viby
+
+This is strong.
+
+Suggested new sections:
+- רעיונות לפרסים בגלגל מזל לבית קפה
+- איך מפעילים גלגל מזל באמצעות QR?
+- איך מונעים ניצול חוזר של פרסים? (based on verified system behavior)
+- גלגל מזל דיגיטלי לעומת הגרלה רגילה
+- כיצד בוחרים פרסים שמתאימים לרווחיות העסק?
+These give the page more topical depth while staying close to the product.
+Digital Wallet — /digital-wallet
+Current title:
+כרטיס מתנה דיגיטלי לעסק | Viby
+
+The current page targets gift cards. But Viby's digital wallet concept may cover other models, including prepaid stored value.
+
+I recommend an explicit semantic distinction between:
+- גיפט קארד דיגיטלי — purchased as a gift.
+- ארנק נטען לעסק — customer holds a balance for future purchases.
+- ארנק דיגיטלי עם בונוס — the customer receives additional value subject to the offer terms.
+The first two can justify separate pages later if their workflows and buyer intent are sufficiently different. Initially, a detailed section on the existing page would be safer than immediately splitting the topic.
+
+5. The most valuable new pages
+Viby should build a topic architecture, not a generic blog full of disconnected articles.
+Viby — Homepage
+כרטיסייה דיגיטלית לעסק
+
+Loyalty programs
+מועדון לקוחות דיגיטלי
+
+Customer retention
+שימור לקוחות
+
+Google reviews
+ביקורות גוגל
+
+Business solutions
+פתרונות לפי סוג עסק
+
+
+Existing product pages + detailed guides + real customer examples
+All connected through descriptive internal links
+
+
+Proposed publication backlog
+Priority	Page	Target keyword
+P0	/customer-loyalty-program	מועדון לקוחות דיגיטלי
+P0	/customer-retention	שימור לקוחות
+P0	/google-reviews-automation	מערכת ביקורות גוגל
+P1	/blog/how-to-build-loyalty-program	איך לבנות מועדון לקוחות
+P1	/blog/how-to-get-google-reviews	איך להשיג ביקורות בגוגל
+P1	/solutions/cafes	מועדון לקוחות לבית קפה
+P1	/solutions/beauty-salons	מועדון לקוחות למספרה
+P2	/blog/digital-vs-paper-punch-card	כרטיסיית ניקוב דיגיטלית
+P2	/blog/customer-retention-ideas	רעיונות לשימור לקוחות
+P2	/solutions/restaurants	מועדון לקוחות למסעדה
+P2	/blog/customer-loyalty-program-cost	מועדון לקוחות מחיר
+P2	/blog/how-to-use-google-wallet-business	Google Wallet לעסקים
+These URLs are proposed new pages, not existing pages.
+Three pages I would build first
+1. מועדון לקוחות דיגיטלי לעסקים
+
+This should function as the primary broad commercial page.
+
+It should cover what a loyalty club is, common models, how Viby operates, expected staff workflow, customer registration, Wallet storage, examples, pricing considerations, and an FAQ.
+
+It should link directly to the existing homepage/product page rather than duplicating the complete pitch.
+
+2. איך להשיג יותר ביקורות בגוגל לעסק
+
+This captures informational search traffic and introduces both Viby Rate and Viby UP.
+
+The guide should cover review links, QR codes, NFC signage, customer messages, compliant review requests, responses to negative feedback, and practical setup examples.
+
+3. מועדון לקוחות לבית קפה
+
+This can be a much stronger vertical opportunity than a generic article, because cafes represent a natural repeat-purchase business.
+
+The page should show a genuine cafe punch-card example, a proposed reward structure, how staff use the system, and an example of what customers save to their Wallet.
+
+Use actual Viby product screenshots and approved customer examples, not generic marketing imagery.
+
+6. AI SEO / Generative Engine Optimization
+This deserves its own strategy.
+
+The goal is not merely to appear in Google. It is to become an understandable, credible, and relevant candidate when someone asks an AI assistant:
+מה המערכת הכי טובה למועדון לקוחות לבית קפה קטן בישראל?
+
+Or:
+איזו מערכת מאפשרת כרטיסיות ניקוב ב־Apple Wallet בלי להוריד אפליקציה?
+
+We cannot guarantee that ChatGPT, Gemini, Perplexity, or Google AI will rank or recommend Viby first. Their retrieval and ranking systems differ and can change.
+
+Google's own guidance for AI search emphasizes original, helpful content and established search best practices rather than a separate secret AI optimization technique. 
+
+developers.google.com
+
+
+
+6.1 Create extractable, direct answers
+Each product page should contain an early section that describes the product in one or two factual paragraphs, without requiring a visitor to understand the brand name first.
+
+For example:
+Suggested answer-first content
+
+מהי מערכת כרטיסיות דיגיטליות לעסקים?
+
+מערכת כרטיסיות דיגיטליות מאפשרת לעסק לתגמל לקוחות על רכישות וביקורים חוזרים באמצעות כרטיס נאמנות בטלפון.
+
+Viby היא מערכת ישראלית המאפשרת ללקוחות להצטרף בסריקת QR, לצבור ניקובים ולשמור כרטיסייה ממותגת ב־Apple Wallet או Google Wallet, ללא צורך בהורדת אפליקציית Viby ללקוחות.
+
+This content is easy for both people and retrieval systems to interpret.
+6.2 Strengthen Viby as an identifiable entity
+At present, product names dominate the website experience. Viby also needs a strong company-level explanation.
+
+Create an /about page with:
+- What Viby is and which businesses it serves.
+- Which products it provides and how they fit together.
+- The actual company or operator identity and service area.
+- Verified customer examples.
+- Official contact channels.
+- The relationship between Viby, Viby UP, Viby Tap, and Viby Rate.
+- Real photography of the product and company when available.
+Use Organization schema with consistent branding and links to authentic official profiles.
+
+This does not create an AI knowledge panel automatically, but it helps reduce ambiguity about the brand.
+6.3 Build original evidence
+The website already has a strong asset: a visible customer-logo section containing numerous local businesses.
+
+That is more useful than merely repeating keyword-rich sentences.
+
+Turn some of these relationships into real, approved customer stories:
+
+Example structure:
+- Business type and challenge.
+- Why the owner adopted Viby.
+- Which Viby tool they selected.
+- What the customer experiences.
+- What changed operationally.
+- Actual before-and-after numbers, only when measured and permissioned.
+- Real photographs or screenshots.
+A story supported by first-hand evidence is much more useful than a generic claim that Viby increases retention.
+6.4 Build external credibility
+Viby should establish relevant brand mentions and earned links beyond its own website.
+
+Good opportunities include partnerships with small-business consultants, cafe-industry publications, relevant local business communities, merchant software directories, and approved customer case studies.
+
+Avoid buying low-quality backlink packages, mass-producing guest posts, or creating fake reviews.
+6.5 AI crawler discoverability
+As part of a technical review, verify that important public pages can be accessed by relevant crawlers, including Googlebot and applicable AI search crawlers.
+
+Do not blindly allow every bot, because some crawlers are used for model training rather than search discovery. Maintain an explicit policy aligned with V iby's privacy, infrastructure, and content preferences.
+
+The current public robots.txt has a broad allow rule and excludes /api/, which is a sensible base pattern. Additional policies should be introduced only after understanding the specific crawler behavior and what Viby wants to permit.
+6.6 AI visibility test set
+I would monitor the same 10–20 questions repeatedly across supported AI-search products. For example:
+1. מהי מערכת מועדון הלקוחות הטובה לעסק קטן בישראל?
+2. איזו מערכת כרטיסיות ניקוב עובדת עם Apple Wallet?
+3. איך מקימים מועדון לקוחות בלי אפליקציה?
+4. איזה כלי עוזר לבית קפה להחזיר לקוחות?
+5. מה ההבדל בין כרטיסיית ניקוב לניהול מועדון לקוחות?
+6. איך אוספים ביקורות גוגל מלקוחות?
+7. האם יש מערכת משוב לקוחות אוטומטית בוואטסאפ?
+8. מה זה Viby?
+9. מה ההבדל בין Viby למערכות כרטיסיות אחרות?
+10. האם Viby מתאימה למסעדה עם כמה סניפים?
+Record whether Viby is mentioned, which URLs are cited, whether facts are correct, and which competitors appear.
+
+That produces a defensible baseline rather than claiming an unverified AI visibility score.
+
+7. Additional SEO issues and risks
+Finding	Impact	Recommended action
+Limited crawlable cross-product links	High	Convert or supplement service navigation with real HTML anchors
+No detected JSON-LD on sampled pages	Medium	Add accurate Organization and page-specific schema
+Product pages carry most commercial content	High	Add three focused topic hubs
+Brand/company explanation is limited	Medium–high	Create an authoritative About page
+Very little dedicated educational content in the sitemap	High	Publish useful guides with original examples
+Search snapshot differs from live copy	Needs investigation	Use Search Console URL Inspection
+No verified Core Web Vitals measurements	Unknown	Run mobile field-data and lab-data checks
+Review automation marketing requires policy review	High	Audit Viby UP copy and review request workflows
+Customer logos lack accompanying detailed proof	Medium–high	Publish permissioned case studies
+Broader keywords may overlap the homepage	Medium	Assign a single primary topic to each page
+Two particularly important cautions
+First: don't destroy existing SEO signals while optimizing.
+
+The homepage is already being discovered for digital punch-card terminology. I would not replace its main purpose with a generic "all-in-one business software" pitch or unnecessarily move its URL. Its current topical focus is an asset.
+
+Second: don't introduce a huge SEO content system immediately.
+
+Publishing 50 shallow articles or duplicating cafe, restaurant, bakery, and salon pages with only a few replaced words is unlikely to build durable authority.
+
+Start with a small set of truly differentiated pages, measure, and expand based on search demand.
+
+8. Recommended 90-day action plan
+01–14
+Days
+Technical corrections and measurement
+
+Audit canonical URLs, internal links, structured data, Google Search Console, indexing, mobile performance, and metadata. Introduce clean crawlable cross-product navigation without replacing the existing design.
+
+
+
+15–30
+Days
+High-intent keyword positioning
+
+Improve current product page copy, publish the digital loyalty program and customer retention pages, build a proper About page, and establish a consistent internal-linking structure.
+
+
+
+31–60
+Days
+Content depth and AI-search credibility
+
+Publish the Google review guide, review automation landing page, cafe use case, and the first customer success story. Add useful original media and direct-answer sections.
+
+
+
+61–90
+Days
+Authority and optimization
+
+Expand into the best-performing industry use cases, secure credible links and mentions, monitor AI citations, and optimize pages using Search Console impressions, queries, clicks, and conversions.
+
+
+
+9. How we should measure success
+The correct target is not merely "more indexed pages" or "more keywords." It is more relevant business owners discovering Viby and becoming qualified leads.
+KPI	Baseline	Desired direction
+Non-branded Google impressions	Not available	Increase
+Non-branded organic clicks	Not available	Increase
+Top-10 rankings on priority keywords	Not independently verified	Increase
+Indexed commercially valuable pages	Needs Search Console	All intended pages indexed
+Organic WhatsApp leads	Tracking required	Increase
+Organic lead conversion rate	Tracking required	Improve or maintain
+Organic traffic by product	Analytics required	Diversify
+AI-search mentions and citations	Not benchmarked	Increase
+Core Web Vitals passing URLs	Not measured	Improve
+I recommend tracking organic_search → product page → CTA click → WhatsApp/form lead with appropriate consent and analytics configuration.
+
+For keyword volumes, true Google ranking positions, competitors' estimated traffic, and content gaps by search volume, the next evidence source should be Google Search Console combined with Google Keyword Planner and, ideally, a third-party keyword dataset. The public research above establishes candidate terms and observed messaging, not the numerical demand or ranking difficulty of each phrase.
+
+10. Final priority decision
+What I'd implement first
+Ranked by expected SEO usefulness, practical effort, and risk to the existing Viby website.
+1
+Fix cross-product internal links
+
+
+10/10
+
+
+Low–medium
+
+2
+Create digital loyalty program page
+
+
+10/10
+
+
+Medium
+
+3
+Create Google review automation page
+
+
+9/10
+
+
+Medium
+
+4
+Create retention page
+
+
+9/10
+
+
+Medium
+
+5
+Add company and product structured data
+
+
+7/10
+
+
+Low–medium
+
+6
+Strengthen About/company identity
+
+
+8/10
+
+
+Medium
+
+7
+Publish cafe-specific use case
+
+
+8/10
+
+
+Medium
+
+8
+Build original customer case studies
+
+
+8/10
+
+
+Medium–high
+
+Impact scores are subjective strategic priorities, not measured traffic gains.
+My overall conclusion
+Viby should pursue a focused authority strategy, not a broad site rewrite.
+
+Its current digital punch-card targeting is worth preserving. The more important opportunity is to make the website answer the wider set of questions that real business owners search before choosing a customer retention platform.
+
+The three biggest strategic changes are:
+1. Broaden search coverage beyond the homepage's punch-card focus, using dedicated loyalty, retention, and Google review pages.
+2. Strengthen technical discoverability through HTML links, structured data, clear page relationships, and verified indexing.
+3. Build real-world authority with original guides, concrete workflows, customer examples, and consistent company identity.
+What I would do next in Codex
+I would begin with a read-only, repository-level SEO audit before making changes. That audit should inspect the Next.js metadata, sitemap, canonical implementation, service switcher, navigation components, server-rendered HTML, structured data, public assets, and any existing SEO tests.
+
+Then we can create one controlled implementation plan with isolated changes, targeted regression checks, and no alteration of the working business flows or visual design unless the SEO benefit justifies it.
+
+The most important remaining research gap: this report establishes what Viby publishes and how several competitors position themselves, but it does not yet establish which keywords produce the most impressions, where Viby currently ranks, or how much traffic is being lost. Access to actual Search Console data would let us turn these qualitative recommendations into an evidence-based ranking and growth plan.
+
+References: Google internal-link guidance, Organization structured data, Google AI Search guidance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+joinviby.co.il — SEO & AI-Search Audit (Oct 2026).mdDocument
+Here is an additional SEO report for us to use.
+
+Also very important to add - we must be the first ones to show when וייבי in hebrew also is searched up.
+
+We need to create a long term plan now to enforce the changes and to make viby rise
+
+
+
+
+
+
+
+
+
+
+
+
+Worked for 116m 50s
+
+
+
+
+
+
+Viby SEO Growth Master Plan
+October 2026 – October 2027 | Google SEO, Hebrew brand dominance, AI search, organic lead generation
+
+I've combined the new audit with our previous research. The new report changes our priorities significantly, especially regarding וייבי.
+
+We should approach this as a long-term growth program rather than a collection of isolated SEO fixes.
+1. Our objectives
+
+#1 for וייבי
+Our primary goal is for joinviby.co.il to become the first organic Google result in Israel when someone searches וייבי, while strengthening the English Viby search and all branded product searches.
+
+
+
+Commercial keyword leadership
+
+Compete for כרטיסייה דיגיטלית, מועדון לקוחות דיגיטלי, and related high-intent phrases.
+
+AI recommendations
+
+Make Viby a credible answer when AI assistants recommend customer loyalty tools in Israel.
+
+Topical authority
+
+Become a recognizable source on customer loyalty, retention, digital Wallet, and customer engagement.
+
+Organic business growth
+
+Turn discovery into qualified WhatsApp conversations, demos, and paying business customers.
+
+
+
+These are the goals, not guaranteed results. Google controls rankings, and an exact brand term shared by unrelated organizations is harder to control than a unique company name.
+What the new audit tells us
+The additional report recorded the following Google positions on October 19, 2026:
+Keyword	Reported position	Our objective
+וייבי	Outside top 10	#1
+Viby	#9	#1
+כרטיסייה דיגיטלית לעסק	Outside top 39	Top 3 eventually
+מועדון לקוחות דיגיטלי	Outside top 10	Top 5 eventually
+גלגל מזל דיגיטלי לעסקים	#5	Top 3
+כרטיס מתנה דיגיטלי לעסק	#7	Top 3
+כרטיס NFC לביקורות גוגל	#26	Top 5
+The positions are observations supplied by the additional audit, not independently replicated Google rank-tracking measurements. We'll establish a consistent Search Console and neutral-location measurement baseline before treating them as official KPIs.
+
+The biggest conclusion: Viby's technical foundation is reasonably strong, but its brand identity, content depth, and independent authority are underdeveloped.
+
+The work should focus on those gaps while protecting the existing website, conversion experience, and product infrastructure.
+
+
+
+
+2. Priority zero: Win the Hebrew brand search "וייבי"
+This is now a separate workstream, not a side effect of the broader SEO program.
+
+A prospective customer who hears someone mention וייבי should be able to search for that word and identify the official company immediately.
+
+The additional report found that Viby's Hebrew brand name barely appears in its visible website copy.
+
+I also inspected the live homepage's structured data and confirmed that its Organization and WebSite names are currently Viby, without the Hebrew alternateName used in the audit's recommendation.
+
+That is a concrete gap we can fix.
+2.1 Official naming strategy
+I recommend establishing one consistent identity:
+Official brand presentation
+וייבי (Viby)
+וייבי — מערכת מועדון לקוחות דיגיטלי לעסקים
+
+The primary website remains joinviby.co.il. Existing Viby product names and logos remain unchanged.
+
+This does not mean renaming the company or replacing the English logo everywhere. It means making its Hebrew identity explicit to Google, other crawlers, and visitors.
+2.2 Brand SEO implementation
+Change	Where	Priority
+Add visible "וייבי (Viby)" company identification	Homepage	P0
+Add Hebrew brand identity consistently	Footer and About	P0
+Use alternateName in Organization and WebSite schema	SEO configuration	P0
+Add a dedicated About page	/about	P0
+Include וייבי in the homepage SEO title	Metadata	P0
+Link from verified official social profiles	External profiles	P0
+Strengthen English/Hebrew brand consistency	All major product pages	P1
+Create business and product explanatory videos naming וייבי	YouTube and website	P1
+Build independent, authentic mentions of וייבי	External websites	Ongoing
+Proposed homepage metadata
+SEO title
+כרטיסייה דיגיטלית ומועדון לקוחות לעסק | וייבי Viby
+
+Meta description
+וייבי (Viby) עוזרת לעסקים להחזיר לקוחות עם כרטיסיות ניקוב דיגיטליות, הטבות ו־Apple Wallet ו־Google Wallet. הקמה מלאה עלינו, בלי אפליקציה ללקוחות.
+
+Brand identity paragraph
+וייבי (Viby) היא מערכת ישראלית לנאמנות ושימור לקוחות לעסקים. באמצעות כרטיסיות דיגיטליות, גלגל מזל, ארנק דיגיטלי וכלים לקשר עם לקוחות, וייבי עוזרת לעסקים להמשיך את הקשר גם אחרי הקנייה.
+
+This language should appear naturally and consistently, not be repeated mechanically.
+2.3 Winning both וייבי and Viby
+There are three different search objectives:
+Query	Desired destination
+וייבי	Official Viby homepage
+Viby	Official Viby homepage
+וייבי אפ / Viby UP	Product page
+וייבי טאפ / Viby Tap	Product page
+וייבי כרטיסיות דיגיטליות	Homepage
+וייבי מועדון לקוחות	Loyalty program page
+We should explicitly measure each variant, including whether Google recognizes the same brand behind both writing systems.
+
+An exact #1 result for "וייבי" is the target, but no metadata or structured-data field can force it. Consistent naming, relevant pages, authentic mentions, and a clear entity identity provide the more sustainable path.
+2.4 A security issue that comes before SEO
+The additional audit reported that Nyosef/viby-website is public. I independently checked GitHub's repository information, and it still reports public visibility.
+
+If that exposure is unintended, changing it to private should be treated as an immediate security task. Before doing so, verify deployment and integration dependencies so Vercel/GitHub workflows remain functional. Privacy changes cannot erase copies or sensitive information already published; exposed credentials would need rotation.
+
+I would handle this separately from SEO deployment so it cannot accidentally interfere with the site.
+
+3. Reconcile both audits before implementation
+There are several recommendations in the added report that I agree with, and a few I would change.
+Area	Decision	Reason
+Organization / Service schema	Improve, don't rebuild	I verified JSON-LD is already present in the raw server HTML
+Hebrew brand	Adopt immediately	Clear identity gap
+/customer-retention	Build early	Major missing commercial topic
+Six industry pages	Build progressively	Avoid thin or repetitive pages
+FAQs	Retain; add valid markup where appropriate	FAQ schema does not guarantee Google rich results
+Offer/pricing schema	Add only verified terms	Avoid wrong prices, misleading claims, or inconsistent subscriptions
+Viby UP starting price	Not automatic	Price depends on the actual service offering
+/llms.txt	Optional experiment	Much lower priority than indexability, content, and authority
+Customer-powered backlinks	Seek voluntary editorial links	Avoid paid or incentivized link schemes
+Google Business Profile	Verify eligibility first	Online-only businesses without eligible in-person interactions may not qualify
+"Powered by Viby" links	Separate product review	Customer-facing branding and Wallet behavior should not be changed as an SEO shortcut
+Important technical correction: My earlier first-pass inspection reported that JSON-LD was not detected. I have now fetched the raw HTML rather than relying on processed markup and confirmed an existing graph containing Organization, WebSite, WebApplication, Service, and ItemList. The added audit was correct on this point.
+
+That means our first Codex task is to inspect and enhance the current SEO infrastructure, not introduce a parallel implementation.
+
+Also, our marketing claims must remain factual. We should not promise first place in Google, insert unverified customer retention percentages, or assert that Viby improves review ratings automatically.
+
+4. The 12-month SEO roadmap
+Roadmap timeline
+
+
+
+
+
+Month 1
+Foundation
+Months 2–3
+Content
+Months 4–6
+Authority
+Months 7–12
+Scale
+
+
+Phase 1 — October–November 2026
+Brand recognition and technical foundation
+
+The objective is to remove technical and identity obstacles while protecting what already works.
+
+Deliverables:
+- Complete repository-level SEO audit and confirm the current indexing, metadata, schema, sitemap, and internal linking implementations.
+- Introduce the visible Hebrew brand identity וייבי (Viby).
+- Improve homepage title, description, and immediately visible category explanation.
+- Ensure each existing product page has a distinct search intent.
+- Improve crawlable links between product pages.
+- Verify indexability of /viby-up and /how-it-works.
+- Create an About page with factual company details.
+- Configure or verify Search Console, Bing Webmaster Tools, analytics events, and IndexNow where supported.
+- Check applicable bot access, redirects, favicons, image loading, and mobile performance.
+Acceptance criteria: Important commercial URLs return 200, are indexable and internally linked, have valid metadata and relevant schema, and no existing product behavior changes. The Hebrew name appears in both visible copy and machine-readable identity data.
+Phase 2 — November 2026–January 2027
+Build topical coverage
+
+Publish the missing commercial landing pages first, then useful supporting guides.
+Wave	Content
+A	Digital loyalty program, customer retention, Google review automation
+B	Cafe, barbershop, car wash, bakery, ice cream shop, beauty business
+C	How to build a loyalty program, digital vs paper cards, choosing rewards, collecting Google reviews compliantly
+D	Wallet explanation, gift cards, smart-wheel reward ideas, customer retention examples
+The reports propose different URL structures. I would standardize these before implementation:
+- /customer-retention — primary commercial loyalty-program hub
+- /google-reviews-automation — review follow-up solution
+- /business/cafe — cafe landing page
+- /business/barbershop — barbershop landing page
+- /guides/... — educational content
+The URL language can be English while the content, metadata, and page headings are Hebrew.
+
+A strict rule: no industry page should be published without meaningful business-specific information. We should favor four excellent pages over ten near-identical ones.
+Phase 3 — February–April 2027
+Earn authority and independent recognition
+
+This is likely to be the slower, ongoing part of the program.
+
+I would establish an external visibility initiative built around real Viby relationships.
+- Publish two or three approved case studies with actual usage data.
+- Ask willing customer businesses to mention Viby naturally on their websites or business resources.
+- Build relevant partnerships with point-of-sale providers, small-business consultants, and local business communities.
+- Seek inclusion in legitimate Israeli software comparisons and business guides.
+- Publish practical research or guides that third parties have a reason to reference.
+- Maintain verified official profiles with consistent brand naming.
+The added report proposes 30 referring domains in 90 days. I would treat that as an ambitious outreach target, not a quota to meet with low-quality links.
+
+Quality and relevance matter more than reaching an arbitrary number.
+Phase 4 — May–October 2027
+Scale what demonstrably works
+
+By this point, our decisions should be driven by several months of query and conversion data.
+
+The program shifts to improving existing pages, not simply publishing more.
+
+Work includes:
+- Improve pages with strong impressions but weak click-through rates.
+- Expand topics where Viby has already gained rankings.
+- Strengthen pages reaching positions 4–15.
+- Publish new vertical pages only where search demand and customer relevance are demonstrated.
+- Refresh outdated competitors, prices, and product explanations.
+- Maintain case studies and independent mentions.
+- Monitor brand rankings and AI citations monthly.
+- Optimize organic lead conversion by landing page.
+At this stage, we should have a clear picture of which SEO clusters actually produce paying customers.
+
+5. A controlled Codex implementation strategy
+I recommend treating this as a series of small, reviewed releases rather than one massive SEO pull request.
+01
+
+Read-only repository audit
+
+Inspect existing SEO utilities, metadata, JSON-LD, routing, navigation, and tests.
+
+
+02
+
+Hebrew brand foundation
+
+Add וייבי naming, identity metadata, About page and verified social references.
+
+
+03
+
+Technical SEO improvements
+
+Fix internal links, crawlability and validated schema gaps without changing product flows.
+
+
+04
+
+Commercial content architecture
+
+Build the loyalty and customer retention pages with deliberate keyword ownership.
+
+
+05
+
+Vertical landing page system
+
+Create reusable infrastructure, but require unique content per industry.
+
+
+06
+
+Guides and customer proof
+
+Publish original guides, real examples, and permissioned case studies.
+
+
+07
+
+Measurement and ongoing optimization
+
+Establish repeatable search, conversion and AI-visibility reporting.
+
+
+
+Every implementation should follow these guardrails: preserve current public URLs, existing Viby service behavior, checkout flows, lead capture, WhatsApp CTAs, RTL layouts, and production integrations. No schema duplicate graphs, automatic mass page generation, or unrelated refactoring. Any change affecting navigation or a shared page template should have automated regression checks.
+
+We should also create an SEO documentation file in the website repository, with the keyword-to-page map, source of truth for company identity, current benchmark, completed changes, and next review dates. That prevents the project from losing direction after individual releases.
+
+6. SEO measurement dashboard
+We need a baseline and a recurring review cadence from the beginning.
+
+30 days90 days6 months12 months
+
+HEBREW BRAND SEARCH — וייבי
+Top 3 target
+
+All priority pages indexed
+
+8–15 strong commercial and guide pages
+
+Planning milestones, not ranking predictions or guaranteed outcomes.
+
+Reporting cadence
+Frequency	Activity
+Weekly	Brand rankings, indexing issues, technical errors, recently published content
+Every 2 weeks	Keyword movements, competitor changes, content performance
+Monthly	Search Console analysis, organic leads, AI recommendations, backlinks
+Quarterly	Full SEO audit, roadmap reprioritization, content pruning and expansion
+For branded keywords, record both ranking position and which search result appears first. For commercial terms, track impressions, clicks, click-through rates, and leads. For AI search, record actual citations and recommendations rather than relying on a fabricated "AI SEO score."
+7. Immediate execution checklist
+Implementation tracker
+
+0 of 12 completed
+
+
+
+[ ] Confirm repository privacy and deployment dependencies
+
+Security
+
+
+[ ] Audit existing SEO code and schema
+
+Technical
+
+
+[ ] Implement official וייבי (Viby) brand identity
+
+Brand
+
+
+[ ] Create a factual About page
+
+Brand
+
+
+[ ] Verify indexing and canonical URLs
+
+Technical
+
+
+[ ] Fix crawlable internal product links
+
+Technical
+
+
+[ ] Establish Search Console and Bing baselines
+
+Measurement
+
+
+[ ] Finalize keyword-to-page map
+
+Content
+
+
+[ ] Build customer loyalty landing page
+
+Content
+
+
+[ ] Build Google reviews solution page
+
+Content
+
+
+[ ] Prepare first unique industry pages
+
+Content
+
+
+[ ] Start customer case-study and outreach program
+
+Authority
+
+
+ Copy implementation checklist
+Final recommendation
+We should execute the plan in this order:
+
+First, make וייבי unmistakably recognizable to Google and other search engines. We can do that through the official website's content, organization identity, genuine business profiles, and consistent links.
+
+Second, build out commercial search coverage. The current homepage should remain strong for digital punch cards, while new focused landing pages target the larger customer loyalty and retention market.
+
+Third, build authority over time. That means original guides, useful comparisons, customer proof, independent mentions, and continual measurement.
+
+I would make the first Codex assignment a read-only end-to-end audit and implementation specification covering the Hebrew brand foundation and technical SEO. Once its findings are verified, we can implement the first release without destabilizing the current website.
+
+The ultimate objective is not just to make Viby appear for its own name. It is to make וייבי (Viby) one of the businesses that Google and AI search systems recognize and consider when someone in Israel looks for a way to bring their customers back.

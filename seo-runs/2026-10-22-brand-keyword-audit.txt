@@ -1,0 +1,312 @@
+Viby SEO — Phase 1, Part 2: Brand & Keyword Audit
+Deep audit · October 22, 2026
+I've inspected the production HTML, GitHub implementation, existing LinkedIn company page, Search Console search queries, and Google's documentation on organization identity and site names.
+
+The main finding: Our website already tells Google that Viby and וייבי are the same brand, but the connection between the website and our external company profiles is incomplete.
+
+There is also a more significant organic-search weakness: Google currently associates some Viby product pages with broad consumer searches rather than the commercial searches made by business owners.
+1. What we already have vs. what's missing
+Identity signal	Current state	Recommendation
+Organization structured data	Implemented	Keep
+name: Viby	Correct	Keep
+alternateName: וייבי	Correct	Keep
+WebSite structured data	Correct	Keep
+Instagram sameAs	Present	Keep
+LinkedIn sameAs	Missing	Add
+Visible Instagram website link	Present	Keep
+Visible LinkedIn website link	Missing	Add
+LinkedIn URL consistency	Uses www domain	Correct
+LinkedIn Hebrew identity	Not configured	Add
+Keyword ownership	Defined in code	Measure results
+Google recognition of Hebrew brand	Limited evidence	Monitor
+2. sameAs — exactly what's implemented
+What sameAs does
+sameAs is a Schema.org property that lets us identify external pages representing the same organization.
+
+For Viby, it helps clarify that the Israeli business at joinviby.co.il, its Instagram account, and its LinkedIn company page belong to the same entity.
+
+Google explicitly recommends relevant official social profiles in Organization structured data to help distinguish one company from another. It is an identity signal, not a guaranteed ranking boost. 
+
+developers.google.com
+
+
+
+Current live implementation
+The homepage's production HTML contains this Organization information (reduced to the relevant fields):
+
+{
+  "@type": "Organization",
+  "@id": "https://joinviby.co.il/#organization",
+  "name": "Viby",
+  "alternateName": "וייבי",
+  "url": "https://joinviby.co.il",
+  "sameAs": [
+    "https://www.instagram.com/viby.il/"
+  ]
+}
+
+
+
+This is already valid JSON-LD. The missing part is the official LinkedIn company profile.
+Recommended implementation
+
+/* src/lib/site.ts */
+
+instagramUrl: "https://www.instagram.com/viby.il/",
+linkedinUrl: "https://www.linkedin.com/company/vibyil/",
+
+
+
+Then update the existing Organization node in src/components/ProductStructuredData.tsx:
+
+sameAs: [
+  siteConfig.instagramUrl,
+  siteConfig.linkedinUrl,
+],
+
+
+
+Do not create another Organization or WebSite schema node. We should extend the existing structured data and preserve its permanent @id values.
+
+The LinkedIn URL comes from the public URL field in your connected LinkedIn page administration: linkedin.com/company/vibyil. We should verify that it opens the intended public profile after saving.
+
+Google says Organization markup can be placed on the homepage or About page; it doesn't need to be duplicated everywhere. Our homepage already satisfies the main placement requirement. 
+
+developers.google.com
+
+
+
+
+I also recommend adding an ordinary visible LinkedIn link alongside the existing Instagram link, preferably in the shared footer or company-information area. That gives visitors a direct way to verify the company's presence; the JSON-LD supplies the structured identity connection.
+
+Estimated work: a very small, isolated code change, followed by structured-data and live HTML validation.
+3. LinkedIn audit — specific issues to correct
+I was able to read the settings in your existing LinkedIn company page, including the public URL, company description and website fields.
+Viby on LinkedIn
+
+Current company page: Viby · Software Development · 2–10 employees
+
+Company name	Viby — correct
+Public URL	/company/vibyil
+Website URL	https://www.joinviby.co.il
+Custom CTA	https://www.joinviby.co.il
+Language	English only
+Specialties	Empty
+Founding year / location	Empty
+Followers shown	0
+
+What I would change
+First, change both the website field and Visit Website button to https://joinviby.co.il. Your existing www version isn't the preferred canonical address.
+
+Second, add Hebrew as a LinkedIn page language. The existing admin interface offers Edit page → Languages → Add a language. Keep the English name Viby, and use וייבי consistently in the Hebrew description. You don't have to rename the entire company.
+
+Third, add genuine specialties such as Digital Loyalty Programs, Customer Retention, NFC Business Solutions, Digital Gift Cards and Customer Engagement Automation. These are accurate descriptors, not an invitation to stuff keywords.
+
+Fourth, optionally add 2025 as the founding year and Herzliya as the city, consistent with the website's About page, after confirming the company facts. There's no reason to publish an exact street address simply for SEO.
+
+Your existing tagline communicates the mission, but not the product category. A more specific alternative would be:
+Digital loyalty, NFC & AI tools for small businesses | וייבי
+
+Proposed Hebrew LinkedIn description
+וייבי (Viby) היא חברה ישראלית שמנגישה טכנולוגיה מתקדמת לעסקים קטנים ובינוניים.
+
+אנחנו מפתחים כלים דיגיטליים שעוזרים לעסקים לשמור על קשר עם הלקוחות שלהם, לעודד ביקורים חוזרים וליצור חוויית לקוח טובה יותר.
+
+הפתרונות שלנו כוללים כרטיסיות נאמנות דיגיטליות ב־Apple Wallet וב־Google Wallet, מועדוני לקוחות, גלגלי פרסים, כרטיסי מתנה, פתרונות NFC ו־QR וכלים חכמים לתקשורת עם לקוחות בעזרת AI.
+
+המטרה שלנו פשוטה: להביא לעסקים מקומיים את היכולות הטכנולוגיות של חברות גדולות, בלי המורכבות.
+
+🌐 https://joinviby.co.il
+
+
+
+
+Because the LinkedIn company page is new and has little visible public activity, publishing a useful first company post and linking to the company page from the site are reasonable next steps. I wouldn't spend time artificially increasing followers or creating meaningless posts for SEO.
+4. Instagram — implemented on the website, external verification pending
+The Viby website already links to:
+instagram.com/viby.ilI confirmed a real Instagram anchor on the homepage and About page, plus the same URL in structured data. That's good.
+
+I could not independently retrieve the current Instagram profile bio because public fetching was restricted, so I won't assume the Instagram profile has the correct website link or Hebrew description.
+
+Our target should be:
+Instagram field	Recommended value
+Username	@viby.il — preserve
+Display name	וייבי | Viby
+Bio	Short explanation of loyalty, customer retention, NFC and tools for small businesses
+Website link	https://joinviby.co.il
+Profile image	Recognizable official Viby logo
+The precise wording can be marketing-friendly. The important point is that visitors looking at the Instagram page immediately understand which Viby it represents and how to reach the official website.
+5. Website identity — mostly correct, with one logo check
+The live homepage contains the proper WebSite organization identity, including the Hebrew alternate name. Its current og:site_name is also Viby.
+
+We should not change the site's primary name to a long keyword phrase or add separate Organization graphs just for more SEO markup.
+
+One item worth validating is the Organization logo at https://joinviby.co.il/viby-logo-white.png. Google's guidelines require an accessible image of at least 112 × 112 pixels and recommend checking how it appears against white backgrounds. Because this is the white logo asset, we should verify its contrast before keeping it as the preferred search logo. 
+
+developers.google.com
+
+
+
+
+That's a low-effort quality check, not a confirmed defect.
+6. Keyword ownership — what should each page rank for?
+This is the other major component of Part 2. I've now pulled the query-to-page mapping directly from your Google Search Console property.
+
+Baseline: September 20–October 19, 2026 · 30 calendar days
+Page	Primary target	Impressions	Clicks	Assessment
+/	כרטיסייה דיגיטלית לעסק	114	21	Good positioning; branded traffic dominates visible queries
+/customer-retention	מועדון לקוחות דיגיטלי לעסקים	—	—	Newly published, needs indexing check
+/smart-wheel	גלגל מזל דיגיטלי לעסקים	38	1	Some visibility, but mostly generic search terms
+/digital-wallet	כרטיס מתנה דיגיטלי לעסק	136	1	Strongest apparent intent mismatch
+/viby-rate	כרטיס NFC לביקורות גוגל	49	1	Needs more relevant query evidence
+/viby-tap	שלט NFC לעסק	26	1	Needs more relevant query evidence
+/viby-up	קשרי לקוחות ב־WhatsApp בעזרת AI	—	—	No returned performance row
+/about	וייבי / Viby	—	—	Newly published, identity page
+/how-it-works	איך Viby עובדת	—	—	Informational support page
+/support	תמיכה Viby	25	3	Appropriate supporting intent
+A dash means no row was returned for this reporting period. It does not establish that the page isn't indexed.The digital-wallet problem
+Google recorded 96 impressions for ארנק דיגיטלי pointing to /digital-wallet, with an average position of about 52.3.
+
+But someone searching for a general digital wallet may want a payment application, not software for a business to sell digital gift cards.
+
+Meanwhile, our intended searches are closer to כרטיס מתנה דיגיטלי לעסק, מערכת גיפט קארד לעסקים and כרטיסי מתנה דיגיטליים לעסקים.
+
+I wouldn't immediately rewrite the page. Its current title is already correctly focused on digital gift cards. We should first measure relevant business-intent queries after the updated page has been crawled. If the mismatch persists, a small clarification between digital gift cards and mobile payment wallets may be more useful than simply adding keywords.
+The homepage versus customer-retention page
+This separation is already well designed.
+
+The homepage sells a specific product: digital punch cards. The customer-retention page helps businesses compare several loyalty tools.
+
+I would preserve that distinction. There's no benefit in making both pages target the same broad phrase.
+One additional brand-search issue
+Search results also surface an unrelated Israeli business using וייבי for a wellness brand, as well as an unrelated international company named Viby. That makes contextual differentiation valuable. 
+
+vibee.co.il
++1
+
+
+
+
+Our official company name should remain Viby. But descriptive text around it should consistently explain that this is וייבי (Viby), an Israeli technology company providing digital customer-retention tools for businesses.
+
+This is much better than repeating וייבי dozens of times without context.
+
+7. A newly identified gap: two Viby domains
+joinviby.co.il
+Primary marketing site
+
+Current canonical marketing pages, metadata and structured data.
+myviby.co.il
+Requires review
+
+Separate product/login site with a public homepage describing customer retention, digital punch cards and other Viby solutions.
+I checked the rendered HTML of myviby.co.il. Its homepage currently has a commercial SEO title, describes many of the same Viby products, and I did not find an explicit canonical tag or a page-level noindex directive.
+
+It also links to https://www.joinviby.co.il/ rather than the preferred non-www origin.
+
+This is a more substantial issue to investigate than simply adding a LinkedIn link. We potentially have two domains competing for similar branded and commercial searches.
+
+However, the pages aren't necessarily duplicates, and we must preserve the app's login and customer flows. Google recommends checking actual canonical selection before deciding how to consolidate similar content. 
+
+developers.google.com
+
+
+
+
+My preferred direction is to establish distinct roles: joinviby.co.il should be the main product-discovery and sales website; myviby.co.il should primarily serve the product experience and business login. Its public homepage can remain accessible, but should have an intentional indexing and keyword strategy.
+
+We should not automatically redirect or noindex the app's homepage. First, determine whether it brings valuable branded traffic and how Google currently treats it.
+8. Search Console baseline — saved
+I created a reusable workbook with the current search-performance baseline, keyword ownership, identity findings and recommended actions.
+
+Viby Phase 1 — Part 2 SEO Baseline
+
+Five worksheets · Snapshot October 22, 2026
+
+Download the SEO baseline workbook
+
+
+The workbook contains the page-by-page baseline, the actual Google queries and their landing pages, the company identity findings, an action plan, and source/methodology notes.
+
+A few numbers are worth preserving:
+339
+Site-level search impressions
+
+28
+Google Search clicks
+
+15
+Clicks on visible query “viby”
+
+
+There were 324 impressions from Israel, and 21 of the 28 clicks were on mobile.
+
+Importantly, only 15 clicks are attributable to the explicitly reported viby query. We cannot simply classify the remaining 13 clicks as non-branded: Search Console anonymizes some low-volume queries. 
+
+developers.google.com
+
+
+
+When do we measure again?
+The key October SEO changes were released around October 19–21, so the historical data above is primarily a pre-release baseline.
+Oct 22
+
+Baseline captured
+
+Record current query distribution, identity schema and priority URL status.
+
+
+
+Oct 28–30
+
+Early verification
+
+Recheck indexing, last crawl dates and sitemap processing. Don't judge ranking impact yet.
+
+
+
+Nov 20+
+
+First meaningful post-release review
+
+Compare a complete 28-day period with the prior equivalent period, while noting when Google actually recrawled the pages.
+
+
+
+Google says search data typically has a processing lag, and recrawling can take days or weeks. We shouldn't interpret a lack of immediate movement as evidence that a change failed. 
+
+Search Console Help
++1
+
+
+
+9. My recommended Part 2 execution order
+Priority	Task	Who	Expected effort
+P1	Fix LinkedIn website URLs and add Hebrew localization	You, LinkedIn	Low
+P1	Verify Instagram profile's website, bio and branding	You, Instagram	Very low
+P1	Add LinkedIn to sameAs and website footer/About links	Codex	Very low
+P1	Investigate overlapping positioning of myviby.co.il	Read-only audit	Low–medium
+P2	Validate Organization logo and complete schema	Codex	Low
+P2	Verify indexing of About and customer-retention	Search Console	Low
+P2	Review branded and commercial search changes after recrawl	Search Console	Ongoing
+Later	Adjust commercial page copy based on enough search evidence	Codex	Only if justified
+For the first code change, I'd keep the scope exceptionally small: src/lib/site.ts, src/components/ProductStructuredData.tsx, the existing website/footer components, and the SEO regression assertions. No homepage copy rewrite and no new schema definitions.
+
+The profile changes are separate manual edits in LinkedIn and Instagram; the code fixes can follow once the public profile URLs are confirmed.
+
+Where I would spend our effort first: fix the cross-profile identity gaps, investigate the two-domain issue, then assess the commercial keyword results once Google has processed the October changes.
+
+That gives Part 2 a real outcome: a consistent, recognizable Viby identity and a clean baseline for whether Google is beginning to find the right business customers—not just more SEO tags.
+
+
+
+
+
+
+
+
+
+
+
+
+Do you like this personality?
