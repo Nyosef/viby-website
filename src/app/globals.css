@@ -6808,9 +6808,9 @@ details p {
 
 .v2-footer .v2-shell {
   display: grid;
-  grid-template-columns: minmax(180px, 0.7fr) minmax(220px, 1.3fr) minmax(180px, 1fr);
+  grid-template-columns: minmax(150px, 0.8fr) minmax(190px, 1.1fr) minmax(210px, 1.2fr) minmax(180px, 1fr);
   align-items: start;
-  gap: clamp(2rem, 5vw, 5rem);
+  gap: clamp(1.5rem, 3vw, 3rem);
   opacity: 1;
   transform: none;
 }
@@ -7069,7 +7069,7 @@ details p {
   }
 
   .v2-footer .v2-shell {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .v2-footer-brand {

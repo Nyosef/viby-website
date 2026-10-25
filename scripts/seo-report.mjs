@@ -20,6 +20,8 @@ const routes = [
   "/viby-tap",
   "/viby-up",
   "/customer-retention",
+  "/industries/cafes",
+  "/industries/car-washes",
   "/about",
   "/how-it-works",
   "/support",
@@ -210,6 +212,22 @@ const aboutDescription =
 const customerRetentionTitle = "מועדון לקוחות דיגיטלי לעסקים | וייבי Viby";
 const customerRetentionDescription =
   "מועדון לקוחות דיגיטלי לעסקים: השוו בין כרטיסיות ניקוב, פרסים וכרטיסי מתנה. בדקו עלויות, תהליך הקמה והתאמה לעסק עם וייבי (Viby).";
+const industryExpectations = new Map([
+  ["/industries/cafes", {
+    title: "כרטיסיית ניקוב דיגיטלית לבית קפה ולעגלת קפה | Viby",
+    description: "כרטיסייה דיגיטלית לבתי קפה ולעגלות קפה. הלקוחות סורקים QR, צוברים ניקובים ושומרים את הכרטיסייה ב־Apple Wallet או Google Wallet. הכירו את Viby.",
+    h1: "כרטיסיית ניקוב דיגיטלית לבית קפה",
+    terms: ["קפה עשירי במתנה", "גם כשיש תור ליד המכונה", "עובד מורשה", "דוגמה להמחשה"],
+    photo: "/social_proof_businesses/lihi-coffee-card-800.webp",
+  }],
+  ["/industries/car-washes", {
+    title: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב | Viby",
+    description: "כרטיסיית נאמנות דיגיטלית לשטיפת רכב: לקוחות צוברים ניקובים אחרי ביקורים מזכים ושומרים את הכרטיסייה בארנק הדיגיטלי. הכירו את Viby.",
+    h1: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב",
+    terms: ["שדרוג שירות אחרי 5 שטיפות", "הניקוב נשאר בשליטת הצוות", "חבילת שטיפות שנקנתה מראש", "דוגמה להמחשה"],
+    photo: "/social_proof_businesses/magicwash-carwash-card-800.webp",
+  }],
+]);
 const customerRetentionH1 = "מועדון לקוחות דיגיטלי לעסקים: בוחרים את הכלים שמתאימים לעסק שלכם";
 const customerRetentionHeadings = [
   "מה זה מועדון לקוחות דיגיטלי?",
@@ -434,6 +452,33 @@ async function checkPage(pathname, titles) {
     assert(video?.publisher?.logo?.url === organizationLogoUrl, "/how-it-works: wrong publisher logo URL");
   }
 
+  if (industryExpectations.has(pathname)) {
+    const expected = industryExpectations.get(pathname);
+    const visible = textContent(html);
+    assert(title === expected.title, `${pathname}: wrong title`);
+    assert(descriptions[0]?.[1] === expected.description, `${pathname}: wrong description`);
+    assert(textContent(headings[0]?.[1] ?? "") === expected.h1, `${pathname}: wrong H1`);
+    for (const term of expected.terms) {
+      assert(visible.includes(term), `${pathname}: missing industry content ${term}`);
+    }
+    assert(html.includes(encodeURIComponent(expected.photo)), `${pathname}: missing industry photo`);
+    assert(!/<meta name="robots" content="[^"]*noindex/.test(html), `${pathname}: robots noindex`);
+    const nodes = parsedJsonLd.flatMap((document) => document?.["@graph"] ?? [document]);
+    const webpage = nodes.find((node) => node?.["@type"] === "WebPage");
+    assert(nodes.length === 1 && webpage?.url === expectedCanonical(pathname), `${pathname}: wrong WebPage schema`);
+    assert(webpage?.inLanguage === "he-IL", `${pathname}: wrong WebPage language`);
+    assert(webpage?.publisher?.["@id"] === `${canonicalOrigin}/#organization`, `${pathname}: wrong WebPage publisher`);
+    const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "";
+    const ctas = matches(main, /<a\b[^>]*href="https:\/\/wa\.me\/[^\"]+"[^>]*>/g).map((match) => match[0]);
+    for (const location of ["hero", "final_cta"]) {
+      assert(ctas.some((cta) => cta.includes(`data-analytics-location="${location}"`)), `${pathname}: missing ${location} WhatsApp CTA`);
+    }
+    assert(ctas.length === 2, `${pathname}: expected two WhatsApp CTAs, got ${ctas.length}`);
+    for (const href of ["/", "/how-it-works", "/support", "/terms", "/privacy"]) {
+      assert(main.includes(`href="${href}"`), `${pathname}: missing ${href} link`);
+    }
+  }
+
   if (productRoutes.has(pathname) && pathname !== "/viby-up") {
     const expectation = productExpectationByPath.get(pathname);
     const description = descriptions[0]?.[1];
@@ -565,7 +610,7 @@ async function checkPage(pathname, titles) {
       const mobileHero = heroHtml.match(/<p class="v2-hero-text v2-mobile-only">([\s\S]*?)<\/p>/)?.[1] ?? "";
       const desktopHero = heroHtml.match(/<p class="v2-hero-text v2-desktop-only">([\s\S]*?)<\/p>/)?.[1] ?? "";
       assert(
-        includesIgnoringWhitespace(textContent(mobileHero), "עם וייבי (Viby), הלקוחות סורקים, צוברים הטבות ושומרים כרטיסייה בארנק הדיגיטלי. בלי אפליקציה."),
+        includesIgnoringWhitespace(textContent(mobileHero), "עם וייבי (Viby), הלקוחות מצטרפים בסריקה, צוברים ניקובים ושומרים כרטיסייה בארנק הדיגיטלי. בלי להוריד אפליקציה."),
         "/: approved mobile brand introduction missing from server-rendered hero",
       );
       assert(
@@ -727,6 +772,11 @@ async function checkPage(pathname, titles) {
 
   if (productRoutes.has(pathname)) {
     assert(/<a\b[^>]*href="\/customer-retention"[^>]*>מועדון לקוחות דיגיטלי לעסקים<\/a>/.test(html), `${pathname}: missing customer-retention footer link`);
+    if (pathname === "/") {
+      for (const route of industryExpectations.keys()) {
+        assert(html.includes(`href="${route}"`), `${pathname}: missing industry footer link ${route}`);
+      }
+    }
     const contextualLink = /<a\b[^>]*href="\/customer-retention"[^>]*>איך לבחור מועדון לקוחות דיגיטלי לעסק<\/a>/.test(html);
     assert(contextualLink === (pathname === "/"), `${pathname}: homepage contextual link has wrong scope`);
   }
@@ -837,6 +887,12 @@ async function run() {
       sitemapEntries.filter((entry) => entry.includes(`<loc>${canonicalOrigin}/customer-retention</loc>`)).length === 1,
       "sitemap: /customer-retention must occur exactly once",
     );
+    for (const route of industryExpectations.keys()) {
+      assert(
+        sitemapEntries.filter((entry) => entry.includes(`<loc>${expectedCanonical(route)}</loc>`)).length === 1,
+        `sitemap: ${route} must occur exactly once`,
+      );
+    }
     assert(sitemapEntries.length === routes.length, `sitemap: expected ${routes.length} public URLs, got ${sitemapEntries.length}`);
 
     const robots = await (await fetch(`${origin}/robots.txt`)).text();

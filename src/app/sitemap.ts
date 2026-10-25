@@ -27,6 +27,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${siteConfig.url}/industries/cafes`,
+      // Set lastModified to the actual publication date when this page is approved for deployment.
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: `${siteConfig.url}/industries/car-washes`,
+      // Set lastModified to the actual publication date when this page is approved for deployment.
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
       url: `${siteConfig.url}/about`,
       lastModified: "2026-10-20",
       changeFrequency: "monthly",

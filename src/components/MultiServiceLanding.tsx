@@ -1113,6 +1113,14 @@ export function MultiServiceLanding({
             </div>
           </nav>
 
+          <nav className="v2-footer-group" aria-label="פתרונות לפי סוג העסק">
+            <strong>פתרונות לפי סוג העסק</strong>
+            <div>
+              <Link href="/industries/cafes">כרטיסייה דיגיטלית לבתי קפה</Link>
+              <Link href="/industries/car-washes">כרטיסיית ניקוב דיגיטלית לשטיפת רכב</Link>
+            </div>
+          </nav>
+
           <nav className="v2-footer-group" aria-label="קישורים שימושיים">
             <strong>קישורים שימושיים</strong>
             <div>
