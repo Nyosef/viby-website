@@ -1,0 +1,412 @@
+.page {
+  --industry-accent: #d91668;
+  --industry-soft: #ffe5ef;
+  direction: rtl;
+  min-width: 0;
+  overflow: clip;
+  background: #fff8fb;
+  color: var(--ink);
+  line-height: 1.65;
+}
+
+.carWash {
+  --industry-accent: #553b86;
+  --industry-soft: #e9e2f7;
+  background: #faf8ff;
+}
+
+.shell {
+  width: min(1120px, calc(100% - 3rem));
+  margin-inline: auto;
+}
+
+.header {
+  display: flex;
+  min-height: 94px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.header img,
+.footer img {
+  display: block;
+  width: auto;
+  height: auto;
+}
+
+.homeLink {
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-block: clamp(2rem, 5vw, 4.5rem) clamp(4rem, 8vw, 7rem);
+}
+
+.carWash .hero {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+}
+
+.eyebrow {
+  margin: 0 0 0.7rem;
+  color: var(--industry-accent);
+  font-weight: 900;
+}
+
+.hero h1 {
+  max-width: 14ch;
+  margin: 0;
+  font-size: clamp(2.7rem, 5.3vw, 5rem);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 1.12;
+}
+
+.lead {
+  max-width: 51ch;
+  margin: 1.4rem 0 0;
+  color: var(--muted);
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+}
+
+.action {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.7rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  background: var(--industry-accent);
+  box-shadow: 0 12px 30px rgba(70, 30, 80, 0.16);
+  color: #fff;
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+}
+
+.action:hover {
+  filter: brightness(0.94);
+}
+
+.action:focus-visible,
+.footer a:focus-visible,
+.header a:focus-visible {
+  outline: 3px solid var(--industry-accent);
+  outline-offset: 4px;
+}
+
+.heroVisual {
+  position: relative;
+  min-width: 0;
+  min-height: 550px;
+}
+
+.photo {
+  position: absolute;
+  inset: 0 17% 7% 0;
+  overflow: hidden;
+  border-radius: 34px;
+  background: var(--industry-soft);
+  box-shadow: 0 26px 60px rgba(42, 24, 48, 0.14);
+}
+
+.photo img {
+  object-fit: cover;
+  object-position: 65% 45%;
+}
+
+.photoCaption {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  max-width: calc(100% - 2rem);
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ink);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.demoCard {
+  position: absolute;
+  right: 43%;
+  bottom: 0;
+  width: min(270px, 55%);
+  padding: 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 25px;
+  background: #fff;
+  box-shadow: 0 22px 55px rgba(42, 24, 48, 0.22);
+  transform: rotate(-4deg);
+}
+
+.demoLabel {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: var(--industry-soft);
+  color: var(--industry-accent);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.demoTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.demoTop strong {
+  font-weight: 900;
+}
+
+.demoTop span {
+  font-size: 2rem;
+}
+
+.stamps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+  margin-block: 1rem;
+}
+
+.stamps span {
+  display: grid;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--industry-soft);
+  color: var(--industry-accent);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.stamps .filled {
+  background: var(--industry-accent);
+  color: #fff;
+}
+
+.demoCard p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.demoCard small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.section {
+  padding-block: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid var(--line);
+}
+
+.section h2,
+.finalSection h2 {
+  max-width: 20ch;
+  margin: 0 0 0.8rem;
+  font-size: clamp(2rem, 3.5vw, 3.35rem);
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+}
+
+.section p,
+.finalSection p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+.twoColumn {
+  display: grid;
+  grid-template-columns: 1fr 0.75fr;
+  align-items: center;
+  gap: clamp(2rem, 6vw, 6rem);
+}
+
+.reward {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 28px;
+  background: var(--industry-soft);
+  text-align: center;
+}
+
+.reward span {
+  display: block;
+  font-size: 2.7rem;
+}
+
+.reward strong {
+  display: block;
+  margin-block: 0.5rem;
+  color: var(--ink);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+}
+
+.reward small {
+  color: var(--muted);
+}
+
+.concern {
+  background: #fff;
+}
+
+.concernInner {
+  display: grid;
+  grid-template-columns: 0.75fr 1fr;
+  align-items: center;
+  gap: clamp(2rem, 6vw, 6rem);
+}
+
+.concernNumber {
+  display: grid;
+  width: min(100%, 290px);
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--industry-soft);
+  color: var(--industry-accent);
+  font-size: clamp(4rem, 9vw, 7rem);
+  font-weight: 900;
+}
+
+.finalSection {
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+  text-align: center;
+}
+
+.finalSection h2,
+.finalSection p {
+  margin-inline: auto;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1.6rem 2.3rem;
+  border-top: 1px solid var(--line);
+}
+
+.footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.2rem;
+}
+
+.footer a,
+.footer button {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.carWash .heroVisual {
+  min-height: 520px;
+}
+
+.carWash .photo {
+  inset: 11% 0 0 23%;
+  border-radius: 120px 34px 34px 34px;
+}
+
+.carWash .photo img {
+  object-position: 50% 40%;
+}
+
+.carWash .demoCard {
+  right: 0;
+  bottom: 13%;
+  transform: rotate(4deg);
+}
+
+.carWash .reward {
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+@media (max-width: 800px) {
+  .hero,
+  .carWash .hero,
+  .twoColumn,
+  .concernInner {
+    grid-template-columns: 1fr;
+  }
+
+  .heroVisual,
+  .carWash .heroVisual {
+    min-height: 500px;
+  }
+
+  .concernNumber {
+    width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .shell {
+    width: min(100% - 2rem, 440px);
+  }
+
+  .header {
+    min-height: 78px;
+  }
+
+  .homeLink {
+    font-size: 0.8rem;
+  }
+
+  .hero {
+    padding-top: 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.35rem, 10vw, 3.25rem);
+  }
+
+  .heroVisual,
+  .carWash .heroVisual {
+    min-height: 430px;
+  }
+
+  .photo {
+    inset: 0 8% 14% 0;
+  }
+
+  .demoCard {
+    right: 34%;
+    width: min(220px, 62%);
+    padding: 0.8rem;
+  }
+
+  .carWash .photo {
+    inset: 10% 0 9% 15%;
+  }
+
+  .carWash .demoCard {
+    right: 0;
+    width: min(225px, 63%);
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
