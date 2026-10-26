@@ -31,7 +31,7 @@ test("customer-retention guide fits RTL mobile and desktop with accessible compa
     await expect(page.getByRole("heading", { level: 2 })).toHaveCount(9);
     await expect(page.locator("[data-retention-decision]")).toHaveCount(3);
     await expect(page.locator("[data-retention-product]")).toHaveCount(6);
-    await expect(page.locator("details")).toHaveCount(8);
+    await expect(page.locator("details")).toHaveCount(11);
     expect(await page.locator("[data-retention-product]").evaluateAll((links) =>
       links.map((link) => link.getAttribute("href")),
     )).toEqual(productPaths);

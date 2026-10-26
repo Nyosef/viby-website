@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PhoneIcon } from "@/components/PhoneIcon";
 import { createPageMetadata } from "@/lib/seo";
+import { generalVibyFaqs, punchCardTypesFaq } from "@/lib/faq";
 import { siteConfig } from "@/lib/site";
 
 const supportSeo = {
@@ -65,6 +66,8 @@ const supportFaqs = [
     answer:
       "כן. אפשר לפנות גם בשאלות תפעוליות של צוות, כמו מימוש הטבות או הסבר קצר על תהליך העבודה.",
   },
+  punchCardTypesFaq,
+  ...generalVibyFaqs,
 ];
 
 export default function SupportPage() {

@@ -6,6 +6,12 @@ const canonicalOrigin = "https://joinviby.co.il";
 const instagramUrl = "https://www.instagram.com/viby.il/";
 const linkedinUrl = "https://www.linkedin.com/company/vibyil/";
 const organizationLogoUrl = `${canonicalOrigin}/icon.png`;
+const englishCafePath = "/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026";
+const generalFaqQuestions = [
+  "איזו תמיכה מקבלים וכמה זמן מתחייבים?",
+  "האם Viby מתאימה גם לעסק קטן מחוץ למרכז?",
+];
+const punchCardTypesQuestion = "כמה סוגי כרטיסיות ניקוב אפשר ליצור?";
 const configuredOrigin = process.env.SEO_REPORT_ORIGIN;
 const buildDirectory = process.env.NEXT_DIST_DIR || ".next";
 const productionMode = Boolean(configuredOrigin);
@@ -21,7 +27,10 @@ const routes = [
   "/viby-up",
   "/customer-retention",
   "/industries/cafes",
+  englishCafePath,
   "/industries/car-washes",
+  "/industries/bakeries",
+  "/industries/hair-salons",
   "/about",
   "/how-it-works",
   "/support",
@@ -217,15 +226,29 @@ const industryExpectations = new Map([
     title: "כרטיסיית ניקוב דיגיטלית לבית קפה ולעגלת קפה | Viby",
     description: "כרטיסייה דיגיטלית לבתי קפה ולעגלות קפה. הלקוחות סורקים QR, צוברים ניקובים ושומרים את הכרטיסייה ב־Apple Wallet או Google Wallet. הכירו את Viby.",
     h1: "כרטיסיית ניקוב דיגיטלית לבית קפה",
-    terms: ["קפה עשירי במתנה", "גם כשיש תור ליד המכונה", "עובד מורשה", "דוגמה להמחשה"],
+    terms: ["קפה עשירי במתנה", "גם כשיש תור ליד המכונה", "עובד מורשה", "איך מנקבים גם כשהדלפק עמוס?", "דוגמה להמחשה"],
     photo: "/social_proof_businesses/lihi-coffee-card-800.webp",
   }],
   ["/industries/car-washes", {
     title: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב | Viby",
     description: "כרטיסיית נאמנות דיגיטלית לשטיפת רכב: לקוחות צוברים ניקובים אחרי ביקורים מזכים ושומרים את הכרטיסייה בארנק הדיגיטלי. הכירו את Viby.",
     h1: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב",
-    terms: ["שדרוג שירות אחרי 5 שטיפות", "הניקוב נשאר בשליטת הצוות", "חבילת שטיפות שנקנתה מראש", "דוגמה להמחשה"],
+    terms: ["שדרוג שירות אחרי 5 שטיפות", "הניקוב נשאר בשליטת הצוות", "חבילת שטיפות שנקנתה מראש", "מתי נספרת שטיפה, והאם זו חבילה מראש?", "דוגמה להמחשה"],
     photo: "/social_proof_businesses/magicwash-carwash-card-800.webp",
+  }],
+  ["/industries/bakeries", {
+    title: "כרטיסייה דיגיטלית למאפייה ולקונדיטוריה | Viby",
+    description: "כרטיסיית ניקוב דיגיטלית למאפיות ולקונדיטוריות. לקוחות צוברים ניקובים והטבות בכל קנייה מזכה ושומרים את הכרטיסייה בארנק הדיגיטלי. הכירו את וייבי.",
+    h1: "כרטיסייה דיגיטלית למאפייה ולקונדיטוריה",
+    terms: ["אחרי 8 קניות — מאפה לבחירה במתנה", "גם כשהדלפק עמוס בבוקר", "עובד מורשה", "איך מצטרפים ומקבלים ניקוב במאפייה?", "כמה סוגי כרטיסיות ניקוב אפשר ליצור?", "דוגמה להמחשה"],
+    photo: "/industries/bakery-counter-illustrative.webp",
+  }],
+  ["/industries/hair-salons", {
+    title: "כרטיסייה דיגיטלית למספרה ולברברשופ | Viby",
+    description: "כרטיסיית ניקוב דיגיטלית למספרות וברברשופס. לקוחות צוברים ניקובים בביקורים מזכים ושומרים כרטיס נאמנות בארנק הדיגיטלי, בלי להוריד אפליקציה.",
+    h1: "כרטיסייה דיגיטלית למספרה ולברברשופ",
+    terms: ["אחרי 5 ביקורים — טיפול שיער במתנה", "בין תספורות עשויים לעבור שבועות", "עובד מורשה", "מתי נוסף ניקוב ומה קורה בין תספורות?", "כמה סוגי כרטיסיות ניקוב אפשר ליצור?", "דוגמה להמחשה"],
+    photo: "/industries/salon-chair-illustrative.webp",
   }],
 ]);
 const customerRetentionH1 = "מועדון לקוחות דיגיטלי לעסקים: בוחרים את הכלים שמתאימים לעסק שלכם";
@@ -348,7 +371,11 @@ async function checkPage(pathname, titles) {
   const response = await fetch(`${origin}${pathname}`);
   const html = await response.text();
   assert(response.status === 200, `${pathname}: expected 200, got ${response.status}`);
-  assert(/<html[^>]+lang="he-IL"[^>]+dir="rtl"/.test(html), `${pathname}: missing he-IL RTL document language`);
+  if (pathname === englishCafePath) {
+    assert(/<main[^>]+lang="en"[^>]+dir="ltr"/.test(html), `${pathname}: missing English LTR page language`);
+  } else {
+    assert(/<html[^>]+lang="he-IL"[^>]+dir="rtl"/.test(html), `${pathname}: missing he-IL RTL document language`);
+  }
 
   const titleTags = matches(html, /<title>([^<]+)<\/title>/g);
   const descriptions = matches(html, /<meta name="description" content="([^"]+)"\s*\/>/g);
@@ -477,6 +504,45 @@ async function checkPage(pathname, titles) {
     for (const href of ["/", "/how-it-works", "/support", "/terms", "/privacy"]) {
       assert(main.includes(`href="${href}"`), `${pathname}: missing ${href} link`);
     }
+    if (pathname === "/industries/cafes") {
+      assert(main.includes(`href="${englishCafePath}"`), `${pathname}: missing English café link`);
+      for (const [language, route] of [["en", englishCafePath], ["he-IL", "/industries/cafes"]]) {
+        assert(html.includes(`hrefLang="${language}" href="${expectedCanonical(route)}"`), `${pathname}: missing ${language} alternate`);
+      }
+    }
+  }
+
+  if (pathname === englishCafePath) {
+    const visible = textContent(html);
+    assert(title === "Digital punch card loyalty for cafes in Israel: providers and pricing (2026) | Viby", `${pathname}: wrong title`);
+    assert(textContent(headings[0]?.[1] ?? "") === "Digital punch card loyalty for cafes in Israel: providers and pricing in 2026", `${pathname}: wrong H1`);
+    for (const term of ["digital punch card", "loyalty", "cafes in Israel", "providers and pricing", "Viby", "Illustrative example"]) {
+      assert(visible.toLowerCase().includes(term.toLowerCase()), `${pathname}: missing English content ${term}`);
+    }
+    assert(html.includes(encodeURIComponent("/industries/cafe-counter-illustrative.webp")), `${pathname}: missing cafe image`);
+    const webpage = parsedJsonLd.flatMap((document) => document?.["@graph"] ?? [document]).find((node) => node?.["@type"] === "WebPage");
+    assert(webpage?.url === expectedCanonical(pathname) && webpage?.inLanguage === "en", `${pathname}: wrong English WebPage schema`);
+    for (const [language, route] of [["en", englishCafePath], ["he-IL", "/industries/cafes"]]) {
+      assert(html.includes(`hrefLang="${language}" href="${expectedCanonical(route)}"`), `${pathname}: missing ${language} alternate`);
+    }
+    for (const href of ["/industries/cafes", "/how-it-works", "/support", "/terms", "/privacy"]) {
+      assert(html.includes(`href="${href}"`), `${pathname}: missing ${href} link`);
+    }
+    const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "";
+    for (const location of ["hero", "final_cta"]) {
+      assert(main.includes(`data-analytics-location="${location}"`), `${pathname}: missing ${location} CTA attribution`);
+    }
+    assert(!/<meta name="robots" content="[^"]*noindex/.test(html), `${pathname}: robots noindex`);
+  }
+
+  if (productRoutes.has(pathname) || ["/support", "/customer-retention", ...industryExpectations.keys()].includes(pathname)) {
+    const visible = textContent(html);
+    for (const question of generalFaqQuestions) {
+      assert(visible.includes(question), `${pathname}: missing general FAQ ${question}`);
+    }
+    if (["/", "/support", "/customer-retention", ...industryExpectations.keys()].includes(pathname)) {
+      assert(visible.includes(punchCardTypesQuestion), `${pathname}: missing punch-card FAQ`);
+    }
   }
 
   if (productRoutes.has(pathname) && pathname !== "/viby-up") {
@@ -538,11 +604,16 @@ async function checkPage(pathname, titles) {
 
     const faqBlock = html.match(/<div\b[^>]*class="[^"]*\bv2-buying-faq-list\b[^"]*"[^>]*>([\s\S]*?)<\/div>/)?.[1] ?? "";
     const faqEntries = matches(faqBlock, /<details(?:\s[^>]*)?>([\s\S]*?)<\/details>/g);
-    assert(faqEntries.length === 6, `${pathname}: expected six visible FAQ entries, got ${faqEntries.length}`);
+    const expectedFaqCount = (buyingGuide?.faqs.length ?? 0) + 2 + (pathname === "/" ? 1 : 0);
+    assert(faqEntries.length === expectedFaqCount, `${pathname}: expected ${expectedFaqCount} visible FAQ entries, got ${faqEntries.length}`);
     const faqQuestions = faqEntries.map((entry) => {
       const summary = entry[1].match(/<summary(?:\s[^>]*)?>([\s\S]*?)<\/summary>/);
       return summary ? textContent(summary[1]) : "";
     });
+    for (const question of generalFaqQuestions) {
+      assert(faqQuestions.includes(question), `${pathname}: missing shared FAQ ${question}`);
+    }
+    if (pathname === "/") assert(faqQuestions.includes(punchCardTypesQuestion), "/: missing punch-card types FAQ");
     for (const question of buyingGuide?.faqs ?? []) {
       assert(faqQuestions.includes(question), `${pathname}: FAQ question is missing: ${question}`);
       const faqEntry = faqEntries.find((entry) => {
@@ -776,6 +847,7 @@ async function checkPage(pathname, titles) {
       for (const route of industryExpectations.keys()) {
         assert(html.includes(`href="${route}"`), `${pathname}: missing industry footer link ${route}`);
       }
+      assert(html.includes(`href="${englishCafePath}"`), `${pathname}: missing English café footer link`);
     }
     const contextualLink = /<a\b[^>]*href="\/customer-retention"[^>]*>איך לבחור מועדון לקוחות דיגיטלי לעסק<\/a>/.test(html);
     assert(contextualLink === (pathname === "/"), `${pathname}: homepage contextual link has wrong scope`);

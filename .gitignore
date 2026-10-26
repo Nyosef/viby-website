@@ -36,3 +36,6 @@ pnpm-debug.log*
 
 # Private source exports for dated SEO reviews; keep reviewed summaries in Git.
 /seo-runs/raw/
+
+# Unapproved local page drafts must stay out of releases.
+/drafts/

@@ -6,6 +6,7 @@ import { WhatsAppMark } from "./WhatsAppMark";
 import { CommercialDisclosure } from "./CommercialDisclosure";
 import { VideoConsentPlayer } from "./VideoConsentPlayer";
 import { monthlyPrice } from "@/lib/commercial";
+import { generalVibyFaqs, punchCardTypesFaq } from "@/lib/faq";
 import { SetupGiftSection } from "./SetupGiftSection";
 import { JourneyIllustration } from "./JourneyIllustration";
 import Link from "next/link";
@@ -1118,6 +1119,9 @@ export function MultiServiceLanding({
             <div>
               <Link href="/industries/cafes">כרטיסייה דיגיטלית לבתי קפה</Link>
               <Link href="/industries/car-washes">כרטיסיית ניקוב דיגיטלית לשטיפת רכב</Link>
+              <Link href="/industries/bakeries">כרטיסייה דיגיטלית למאפיות</Link>
+              <Link href="/industries/hair-salons">כרטיסייה דיגיטלית למספרות</Link>
+              <Link href="/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026" lang="en" dir="ltr">Digital punch cards for cafes (English)</Link>
             </div>
           </nav>
 
@@ -1321,12 +1325,12 @@ function BuyingGuideSection({ service }: { service: ServiceContent }) {
             <h2 id={faqId}>שאלות נפוצות על {seo.primaryIntent}</h2>
           </div>
           <div className="v2-buying-faq-list v2-reveal">
-            {guide.faqs.map((faq) => (
+            {[...guide.faqs, ...generalVibyFaqs, ...(service.id === "punch-card" ? [punchCardTypesFaq] : [])].map((faq) => (
               <details key={faq.question}>
                 <summary>{faq.question}</summary>
                 <p>
                   <MixedDirectionText text={faq.answer} />{" "}
-                  {faq.link ? <Link href={faq.link.href}>{faq.link.label}</Link> : null}
+                  {"link" in faq && faq.link ? <Link href={faq.link.href}>{faq.link.label}</Link> : null}
                 </p>
               </details>
             ))}

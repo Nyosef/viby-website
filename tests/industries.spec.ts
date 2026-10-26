@@ -14,7 +14,20 @@ const pages = [
     h1: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב",
     term: "הניקוב נשאר בשליטת הצוות",
   },
+  {
+    path: "/industries/bakeries",
+    slug: "bakeries",
+    h1: "כרטיסייה דיגיטלית למאפייה ולקונדיטוריה",
+    term: "אחרי 8 קניות — מאפה לבחירה במתנה",
+  },
+  {
+    path: "/industries/hair-salons",
+    slug: "hair-salons",
+    h1: "כרטיסייה דיגיטלית למספרה ולברברשופ",
+    term: "אחרי 5 ביקורים — טיפול שיער במתנה",
+  },
 ] as const;
+const englishCafePath = "/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026";
 
 for (const industry of pages) {
   test(`${industry.slug} renders crawlable content, contact links, and mobile layout`, async ({ page, request }, testInfo) => {
@@ -40,6 +53,28 @@ for (const industry of pages) {
       await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
       await expect(page.getByText(industry.term, { exact: false }).first()).toBeVisible();
       await expect(page.getByText("דוגמה להמחשה", { exact: true }).first()).toBeVisible();
+      if (industry.slug === "bakeries" || industry.slug === "hair-salons") {
+        const illustration = page.locator('main img[alt^="המחשה של"]');
+        await expect(illustration).toBeVisible();
+        expect(await illustration.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+      }
+      if (width === 390) {
+        const firstQuestion = {
+          cafes: "איך מנקבים גם כשהדלפק עמוס?",
+          "car-washes": "מתי נספרת שטיפה, והאם זו חבילה מראש?",
+          bakeries: "איך מצטרפים ומקבלים ניקוב במאפייה?",
+          "hair-salons": "מתי נוסף ניקוב ומה קורה בין תספורות?",
+        }[industry.slug];
+        const questions = [firstQuestion, "כמה סוגי כרטיסיות ניקוב אפשר ליצור?", "איזו תמיכה מקבלים וכמה זמן מתחייבים?", "האם Viby מתאימה גם לעסק קטן מחוץ למרכז?"];
+        await expect(page.locator("main details")).toHaveCount(4);
+        for (const question of questions) {
+          const disclosure = page.locator("main details").filter({ has: page.getByText(question, { exact: true }) });
+          await disclosure.locator("summary").click();
+          await expect(disclosure.locator("p")).toBeVisible();
+          await disclosure.locator("summary").click();
+          await expect(disclosure.locator("p")).toBeHidden();
+        }
+      }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       for (const location of ["hero", "final_cta"]) {
         const cta = page.locator(`main a[data-analytics-location="${location}"]`);
@@ -53,6 +88,9 @@ for (const industry of pages) {
       }
       if (width === 390) {
         await page.screenshot({ path: testInfo.outputPath(`${industry.slug}-mobile.png`), fullPage: true });
+      }
+      if (width === 1440) {
+        await page.screenshot({ path: testInfo.outputPath(`${industry.slug}-desktop.png`), fullPage: true });
       }
     }
     expect(pageErrors).toEqual([]);
@@ -105,7 +143,7 @@ test("existing commercial pages still load with their original headings", async 
   }
 });
 
-test("commercial footer groups the two industry links", async ({ page }, testInfo) => {
+test("commercial footer groups the industry links and English cafe route", async ({ page }, testInfo) => {
   await page.addInitScript(() => {
     localStorage.setItem("viby-analytics-consent", JSON.stringify({ version: 1, value: "denied", savedAt: Date.now() }));
   });
@@ -117,6 +155,9 @@ test("commercial footer groups the two industry links", async ({ page }, testInf
   await expect(industries.getByText("פתרונות לפי סוג העסק")).toBeVisible();
   await expect(industries.locator('a[href="/industries/cafes"]')).toHaveCount(1);
   await expect(industries.locator('a[href="/industries/car-washes"]')).toHaveCount(1);
+  await expect(industries.locator('a[href="/industries/bakeries"]')).toHaveCount(1);
+  await expect(industries.locator('a[href="/industries/hair-salons"]')).toHaveCount(1);
+  await expect(industries.locator(`a[href="${englishCafePath}"]`)).toHaveCount(1);
   await expect(solutions.locator('a[href^="/industries/"]')).toHaveCount(0);
   await expect(useful.locator('a[href^="/industries/"]')).toHaveCount(0);
   const desktopColumns = await Promise.all([solutions, industries, useful].map((nav) => nav.boundingBox()));
@@ -133,4 +174,59 @@ test("commercial footer groups the two industry links", async ({ page }, testInf
   const mobileRows = await Promise.all([solutions, industries, useful].map((nav) => nav.boundingBox()));
   expect(mobileRows[0]!.y).toBeLessThan(mobileRows[1]!.y);
   expect(mobileRows[1]!.y).toBeLessThan(mobileRows[2]!.y);
+});
+
+test("cafe copy keeps pricing and links to its English version", async ({ page, request }) => {
+  await page.goto("/industries/cafes");
+  await expect(page.getByText("המחיר מתחיל ב־79 ₪ לחודש", { exact: false })).toBeVisible();
+  await expect(page.locator('main a[href="/customer-retention#pricing-title"]')).toBeVisible();
+  await expect(page.getByText("כרטיסיית ניקוב דיגיטלית בית קפה עסק מערכת ישראל מחירים", { exact: false })).toHaveCount(0);
+  await expect(page.locator(`main a[href="${englishCafePath}"]`)).toHaveCount(1);
+  const english = await request.get(englishCafePath);
+  expect(english.status()).toBe(200);
+  const sitemap = await request.get("/sitemap.xml");
+  expect(await sitemap.text()).toContain(`https://joinviby.co.il${englishCafePath}`);
+});
+
+test("English cafe page keeps the long slug with natural copy and mobile layout", async ({ page, request }, testInfo) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("viby-analytics-consent", JSON.stringify({ version: 1, value: "denied", savedAt: Date.now() }));
+  });
+  const pageErrors: string[] = [];
+  page.on("pageerror", (error) => pageErrors.push(error.message));
+  const response = await request.get(englishCafePath);
+  const html = await response.text();
+  expect(response.status()).toBe(200);
+  expect(html).toContain("Digital punch card loyalty for cafes in Israel: providers and pricing in 2026");
+  expect(html).toContain(`https://joinviby.co.il${englishCafePath}`);
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(englishCafePath);
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page.locator("main")).toHaveAttribute("dir", "ltr");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Digital punch card loyalty for cafes in Israel: providers and pricing in 2026");
+    const illustration = page.locator('main img[alt^="Illustrative cafe counter"]');
+    await expect(illustration).toBeVisible();
+    expect(await illustration.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+    await expect(page.locator('main a[href="/industries/cafes"]')).toBeVisible();
+    for (const location of ["hero", "final_cta"]) {
+      const cta = page.locator(`main a[data-analytics-location="${location}"]`);
+      await expect(cta).toHaveCount(1);
+      expect(new URL((await cta.getAttribute("href"))!).pathname).toBe(`/${siteConfig.whatsappNumber}`);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath(`english-cafe-${width}.png`), fullPage: true });
+  }
+  expect(pageErrors).toEqual([]);
+});
+
+test("English cafe consent and privacy controls use English labels", async ({ page }) => {
+  await page.goto(englishCafePath);
+  const consent = page.getByRole("dialog", { name: "Analytics preferences" });
+  await expect(consent).toBeVisible();
+  await consent.getByRole("button", { name: "Continue without analytics" }).click();
+  await page.getByRole("button", { name: "Privacy settings" }).click();
+  const preferences = page.getByRole("dialog", { name: "Privacy preferences" });
+  await expect(preferences).toBeVisible();
+  await expect(preferences.getByText("Site analytics: off", { exact: false })).toBeVisible();
 });
