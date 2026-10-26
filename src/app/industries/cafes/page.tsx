@@ -3,18 +3,21 @@ import Link from "next/link";
 import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import { createPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
+import { commercialTerms, monthlyPrice } from "@/lib/commercial";
+import { generalVibyFaqs, punchCardTypesFaq } from "@/lib/faq";
 import styles from "../industry.module.css";
 
 const path = "/industries/cafes";
+const englishPath = "/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026";
 const title = "כרטיסיית ניקוב דיגיטלית לבית קפה ולעגלת קפה";
 const description =
   "כרטיסייה דיגיטלית לבתי קפה ולעגלות קפה. הלקוחות סורקים QR, צוברים ניקובים ושומרים את הכרטיסייה ב־Apple Wallet או Google Wallet. הכירו את Viby.";
 
-export const metadata = createPageMetadata({
-  path,
-  title,
-  description,
-});
+const baseMetadata = createPageMetadata({ path, title, description });
+export const metadata = {
+  ...baseMetadata,
+  alternates: { canonical: path, languages: { "he-IL": path, en: englishPath } },
+};
 
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("היי, אשמח לשמוע איך כרטיסיית Viby יכולה לעבוד בבית הקפה שלי.")}`;
 
@@ -47,7 +50,6 @@ export default function CafesPage() {
           <a className={styles.action} href={whatsappUrl} data-analytics-location="hero">רוצים כרטיסייה לבית הקפה?</a>
         </div>
         <div className={styles.heroVisual}>
-          {/* Publication gate: confirm permission for this existing customer photo before deployment. */}
           <div className={styles.photo}>
             <Image src="/social_proof_businesses/lihi-coffee-card-800.webp" alt="דלפק בית קפה עם שלט הצטרפות של Viby" fill sizes="(max-width: 800px) 85vw, 45vw" priority />
             <span className={styles.photoCaption}>Viby על הדלפק בבית קפה</span>
@@ -87,6 +89,15 @@ export default function CafesPage() {
       <section className={`${styles.finalSection} ${styles.shell}`} aria-labelledby="coffee-contact">
         <h2 id="coffee-contact">נראה איך זה יעבוד אצלכם</h2>
         <p>ספרו לנו איך נראים הביקורים בבית הקפה או בעגלת הקפה שלכם. נוכל להראות כרטיסייה שמתאימה לקצב השירות ולהטבה שתרצו להציע, בלי להניח שכל עסק עובד באותה הדרך.</p>
+        <p>ב־Viby הצוות מאשר קנייה מזכה, והכרטיסייה נשמרת בארנק הדיגיטלי. המחיר מתחיל ב־{monthlyPrice("punch-card")} ₪ לחודש, עם התחייבות ראשונית ל־{commercialTerms.initialMonths} חודשים; משלוח ותוספות מאושרות מתומחרים בנפרד. <Link href="/customer-retention#pricing-title">לפרטי התמחור וההתאמה</Link>.</p>
+        <div className={styles.faqList}>
+          <h3>שאלות נפוצות</h3>
+          <details>
+            <summary>איך מנקבים גם כשהדלפק עמוס?</summary>
+            <p>הלקוח מצטרף בסריקת QR. אחרי קנייה מזכה עובד מורשה מוסיף ניקוב; העסק קובע אילו קניות מזכות בהטבה.</p>
+          </details>
+          {[punchCardTypesFaq, ...generalVibyFaqs].map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </div>
         <a className={styles.action} href={whatsappUrl} data-analytics-location="final_cta">בואו נדבר על כרטיסייה לבית הקפה</a>
       </section>
 
@@ -97,6 +108,7 @@ export default function CafesPage() {
           <Link href="/support">תמיכה</Link>
           <Link href="/terms">תנאי שימוש</Link>
           <Link href="/privacy">מדיניות פרטיות</Link>
+          <Link href={englishPath} lang="en" dir="ltr">English: cafe punch cards</Link>
           <PrivacyPreferencesButton />
         </nav>
       </footer>

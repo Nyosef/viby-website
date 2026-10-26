@@ -188,13 +188,16 @@ Engineering owns implementation and technical checks. The Viby owner supplies co
 
 **Affected pages:** Existing product/category pages and, where justified, up to two additional guides during the 90-day period.
 
-**Dependencies:** Problem 2 reporting, published destination pages, and at least 14–28 days of useful post-change data for retargeting decisions. Sales questions may establish a need when query data is sparse. The two-page café and car-wash industry expansion is an explicit exception to this observation window; measure its new URLs independently without changing existing page content or SEO settings.
+**Dependencies:** Problem 2 reporting, published destination pages, and at least 14–28 days of useful post-change data for retargeting decisions. Sales questions may establish a need when query data is sparse. The café/car-wash and bakery/salon two-page industry expansions are explicit exceptions to this observation window; measure each new URL independently without changing existing page content or SEO settings.
 
 | Preferred page | Phrase families to investigate |
 |---|---|
 | `/` | `כרטיס ניקובים דיגיטלי`, `כרטיסיית נאמנות` and generic digital punch-card variants |
 | `/industries/cafes` | `כרטיסיית ניקוב דיגיטלית לבית קפה`, `כרטיסייה לבית קפה`, `כרטיסייה דיגיטלית לעגלת קפה`, `מועדון לקוחות לבית קפה` |
+| `/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026` | English café punch-card loyalty, Israel provider and pricing intent; translated counterpart of `/industries/cafes`, not owner of generic Hebrew punch-card terms |
 | `/industries/car-washes` | `כרטיסיית ניקוב דיגיטלית לשטיפת רכב`, `כרטיסייה לשטיפת רכב`, `מועדון לקוחות לשטיפת רכב`; exclude prepaid wash-package intent |
+| `/industries/bakeries` | `כרטיסייה דיגיטלית למאפייה` (primary), `כרטיסיית ניקוב למאפייה`, `כרטיס נאמנות למאפייה`, `כרטיסייה לקונדיטוריה` |
+| `/industries/hair-salons` | `כרטיסייה דיגיטלית למספרה` (primary), `כרטיסיית ניקוב למספרה`, `כרטיס נאמנות למספרה`, `מועדון לקוחות לברברשופ`; exclude booking and prepaid-package intent |
 | `/customer-retention` | `מערכת נאמנות לקוחות`, `איך להחזיר לקוחות לעסק`, `מועדון לקוחות ללא אפליקציה` |
 | `/digital-wallet` | `גיפט קארד לעסק`, `שובר מתנה דיגיטלי`, `מערכת כרטיסי מתנה` |
 | `/smart-wheel` | `גלגל מזל לעסק`, `גלגל פרסים דיגיטלי`, `משחק שיווקי לעסק` |
@@ -210,6 +213,14 @@ Search Console account `sc-domain:joinviby.co.il` was read for the complete 28-d
 Public search review found dedicated business-intent café pages for [digital loyalty cards](https://app.hakartisia.com/industries/coffee-shops) and [digital punch cards](https://punchy-loyalty-cards.com/digital-loyalty-card/coffee-shop). Car-wash results mix loyalty language with [prepaid wash packages](https://kartiya.co.il/digital-card-businesses/) and [consumer subscriptions](https://carwasher.co.il/terms/). This supports intent-focused page copy, not a volume estimate. Google Keyword Planner was not connected; no search-volume figure is claimed. The provisional primary phrases above should be revisited if future query data supports a better industry-qualified variant.
 
 Publication gate: verify that the named café and car-wash photo assets may be used on the new landing pages and verify any customer-specific punch-card association before making that claim. Illustrative reward cards are separate from those customer photos. Add each URL's actual publication date to its sitemap entry when the page is approved for deployment. Review indexing at week 2, query relevance at week 4, and relevant non-branded impressions, clicks and qualified contact actions at week 8; do not automatically add more pages.
+
+### Bakery and hair-salon expansion baseline — 26 October 2026
+
+The prelaunch [measurement snapshot](../seo-runs/2026-10-26-industry-pr2-prelaunch-baseline.md) records the latest accessible complete Search Console window, 27 September–24 October 2026. Available query rows showed no bakery or salon term; anonymized and unreturned rows prevent a zero-demand conclusion. Dedicated [bakery loyalty pages](https://app.hakartisia.com/industries/bakeries) and [bakery punch-card pages](https://punchy-loyalty-cards.com/digital-loyalty-card/bakery) support a distinct bakery intent. [Salon punch-card positioning](https://punchy-loyalty-cards.com/) and [salon booking-oriented results](https://loyalil.com/he/for/beauty-clinics) support a distinct visit-reward page while keeping Viby away from scheduling claims. Google Keyword Planner was unavailable; no search-volume figures are claimed.
+
+These two URLs were developed with neutral, labeled illustrative visuals and rewards. The owner approved that approach separately for bakery and salon on 26 October 2026; [the publication review](./seo-industry-pr2-release-review-2026-10-26.md) records the decision and keeps customer-specific punch-card claims unverified. Record actual publication dates in their sitemap entries only when deployment is approved. After publication, check indexing at week 2, query relevance at week 4, and technical health, relevant non-branded impressions, query coverage, clicks, and qualified contact actions at week 8. Leads are desirable, not mandatory; do not automatically add more pages.
+
+Later on 26 October, the owner requested restoration of the English café route at its original slug with naturalized copy and asked for concise business FAQs across relevant pages. This revision keeps the Hebrew café's primary intent and original headline; it adds reciprocal language links without changing other page titles, pricing, or conversion flows.
 
 ### Changes and tasks
 

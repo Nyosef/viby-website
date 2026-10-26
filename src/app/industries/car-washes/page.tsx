@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import { createPageMetadata } from "@/lib/seo";
+import { generalVibyFaqs, punchCardTypesFaq } from "@/lib/faq";
 import { siteConfig } from "@/lib/site";
 import styles from "../industry.module.css";
 
@@ -47,7 +48,6 @@ export default function CarWashesPage() {
           <a className={styles.action} href={whatsappUrl} data-analytics-location="hero">רוצים כרטיסיית שטיפות לעסק?</a>
         </div>
         <div className={styles.heroVisual}>
-          {/* Publication gate: confirm permission for this existing customer photo before deployment. */}
           <div className={styles.photo}>
             <Image src="/social_proof_businesses/magicwash-carwash-card-800.webp" alt="מתחם שטיפת רכב עם שלט הצטרפות של Viby" fill sizes="(max-width: 800px) 85vw, 45vw" priority />
             <span className={styles.photoCaption}>Viby במתחם שטיפת רכב</span>
@@ -87,6 +87,14 @@ export default function CarWashesPage() {
       <section className={`${styles.finalSection} ${styles.shell}`} aria-labelledby="wash-contact">
         <h2 id="wash-contact">תנו סיבה לחזור לשטיפה הבאה</h2>
         <p>ספרו לנו איך הצוות מאשר שטיפה שהושלמה ואיזו הטבה תתאים ללקוחות שלכם. נציג לכם דרך פשוטה להפעיל כרטיסיית ניקוב ולשמור את ההחלטה על הניקוב והמימוש בידי העובדים המורשים.</p>
+        <div className={styles.faqList}>
+          <h3>שאלות נפוצות</h3>
+          <details>
+            <summary>מתי נספרת שטיפה, והאם זו חבילה מראש?</summary>
+            <p>עובד מורשה מוסיף ניקוב רק אחרי שטיפה מזכה שהושלמה. הלקוח צובר הטבה לביקור עתידי; זו אינה חבילת שטיפות בתשלום מראש.</p>
+          </details>
+          {[punchCardTypesFaq, ...generalVibyFaqs].map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </div>
         <a className={styles.action} href={whatsappUrl} data-analytics-location="final_cta">בואו נדבר על כרטיסייה לשטיפת רכב</a>
       </section>
 

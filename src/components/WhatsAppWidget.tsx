@@ -78,7 +78,7 @@ export function WhatsAppWidget({
   }, []);
 
   useEffect(() => {
-    if (!visible || !analyticsEnabled || consent !== "granted") return;
+    if (!visible || pathname.startsWith("/en/") || !analyticsEnabled || consent !== "granted") return;
     if (getWhatsAppVisit().exposureTracked) return;
     if (
       trackAnalyticsEvent("whatsapp_widget_shown", {
@@ -143,7 +143,7 @@ export function WhatsAppWidget({
   }
 
   const offset = consent === null ? consentOffset : 0;
-  if (!visible) return null;
+  if (!visible || pathname.startsWith("/en/")) return null;
   return (
     <aside
       ref={widget}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import { ServiceIllustration } from "@/components/ServiceIllustration";
 import { commercialTerms, monthlyPrice, subscriptionPriceNotice } from "@/lib/commercial";
+import { generalVibyFaqs, punchCardTypesFaq } from "@/lib/faq";
 import { createPageMetadata, productSeoByService } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import { PhoneIcon } from "@/components/PhoneIcon";
@@ -125,6 +126,8 @@ const faqs = [
     question: "איך בעל העסק יכול לבדוק מה קורה אחרי ההפעלה?",
     answer: "בכרטיסייה ובכרטיסי המתנה קיימים כלי ניהול לפעילות הרלוונטית להם. גם בכלים אחרים אופן הצפייה והמדידה תלוי בשירות שנבחר ובמה שאושר בהזמנה. כדאי לקבוע מראש מה רוצים לעקוב אחריו ולבחון זאת יחד עם צוות Viby.",
   },
+  punchCardTypesFaq,
+  ...generalVibyFaqs,
 ] as const;
 
 function Price({ service }: { service: keyof typeof productSeoByService }) {

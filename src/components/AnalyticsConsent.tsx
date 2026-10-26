@@ -24,6 +24,7 @@ export function AnalyticsConsent({
   measurementId?: string;
 }) {
   const pathname = usePathname();
+  const englishPage = pathname.startsWith("/en/");
   const consent = useSyncExternalStore(
     subscribeToConsent,
     getAnalyticsConsent,
@@ -163,34 +164,32 @@ export function AnalyticsConsent({
       ) : null}
 
       {preferencesOpen ? (
-        <aside id="privacy-preferences" className="privacy-preferences-panel" aria-label="העדפות פרטיות" role="dialog" tabIndex={-1} ref={preferencesPanel}>
-          <h2>העדפות פרטיות</h2>
-          <p>{measurementId ? `מדידה באתר: ${consent === "granted" ? "מאושרת" : "כבויה"}. אפשר לשנות את הבחירה בכל עת; היא נשמרת עד 180 ימים.` : "אין מדידה פעילה באתר זה."} סרטוני Vimeo נטענים בנפרד, רק כשתבחרו לצפות. <Link href="/privacy#privacy-18">מדיניות הפרטיות</Link></p>
+        <aside id="privacy-preferences" className="privacy-preferences-panel" aria-label={englishPage ? "Privacy preferences" : "העדפות פרטיות"} role="dialog" tabIndex={-1} ref={preferencesPanel} lang={englishPage ? "en" : undefined} dir={englishPage ? "ltr" : undefined}>
+          <h2>{englishPage ? "Privacy preferences" : "העדפות פרטיות"}</h2>
+          <p>{englishPage ? (measurementId ? `Site analytics: ${consent === "granted" ? "on" : "off"}. You can change this choice at any time; it is saved for up to 180 days.` : "Analytics are not active on this site.") : (measurementId ? `מדידה באתר: ${consent === "granted" ? "מאושרת" : "כבויה"}. אפשר לשנות את הבחירה בכל עת; היא נשמרת עד 180 ימים.` : "אין מדידה פעילה באתר זה.")} {englishPage ? "Vimeo videos load separately only when you choose to watch." : "סרטוני Vimeo נטענים בנפרד, רק כשתבחרו לצפות."} <Link href="/privacy#privacy-18">{englishPage ? "Privacy policy (Hebrew)" : "מדיניות הפרטיות"}</Link></p>
           {measurementId ? <div>
-            <button type="button" onClick={() => chooseConsent("granted")}>אישור מדידה</button>
-            <button type="button" onClick={() => chooseConsent("denied")}>הפסקת מדידה</button>
+            <button type="button" onClick={() => chooseConsent("granted")}>{englishPage ? "Allow analytics" : "אישור מדידה"}</button>
+            <button type="button" onClick={() => chooseConsent("denied")}>{englishPage ? "Turn off analytics" : "הפסקת מדידה"}</button>
           </div> : null}
-          <button type="button" onClick={() => { setPreferencesOpen(false); preferencesTrigger.current?.focus(); }}>סגירה</button>
+          <button type="button" onClick={() => { setPreferencesOpen(false); preferencesTrigger.current?.focus(); }}>{englishPage ? "Close" : "סגירה"}</button>
         </aside>
       ) : null}
       {measurementId && consent === null && !preferencesOpen ? (
         <aside
           className="analytics-consent"
-          aria-label="העדפות מדידה"
+          aria-label={englishPage ? "Analytics preferences" : "העדפות מדידה"}
+          lang={englishPage ? "en" : undefined}
+          dir={englishPage ? "ltr" : undefined}
           role="dialog"
           aria-live="polite"
         >
-          <p>
-            אנו משתמשים ב־Google Analytics רק בהסכמתכם כדי להבין איך האתר עובד
-            ולשפר אותו. לא נשלחים שמות או מספרי טלפון.
-            <Link href="/privacy">למדיניות הפרטיות</Link>
-          </p>
+          <p>{englishPage ? "We use Google Analytics only with your consent to understand and improve the site. Names and phone numbers are not sent." : "אנו משתמשים ב־Google Analytics רק בהסכמתכם כדי להבין איך האתר עובד ולשפר אותו. לא נשלחים שמות או מספרי טלפון."} <Link href="/privacy">{englishPage ? "Privacy policy (Hebrew)" : "למדיניות הפרטיות"}</Link></p>
           <div>
             <button type="button" onClick={() => chooseConsent("granted")}>
-              אישור מדידה
+              {englishPage ? "Allow analytics" : "אישור מדידה"}
             </button>
             <button type="button" onClick={() => chooseConsent("denied")}>
-              המשך ללא מדידה
+              {englishPage ? "Continue without analytics" : "המשך ללא מדידה"}
             </button>
           </div>
         </aside>

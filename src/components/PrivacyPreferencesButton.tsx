@@ -2,7 +2,7 @@
 
 export const PRIVACY_PREFERENCES_EVENT = "viby:open-privacy-preferences";
 
-export function PrivacyPreferencesButton() {
+export function PrivacyPreferencesButton({ label = "העדפות פרטיות" }: { label?: string }) {
   return (
     <button
       type="button"
@@ -11,7 +11,7 @@ export function PrivacyPreferencesButton() {
       aria-controls="privacy-preferences"
       onClick={event => window.dispatchEvent(new CustomEvent(PRIVACY_PREFERENCES_EVENT, { detail: event.currentTarget }))}
     >
-      העדפות פרטיות
+      {label}
     </button>
   );
 }

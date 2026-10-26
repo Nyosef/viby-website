@@ -1,6 +1,7 @@
 import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
 import { CommercialDisclosure } from "./CommercialDisclosure";
 import { commercialTerms } from "@/lib/commercial";
+import { generalVibyFaqs } from "@/lib/faq";
 import Image from "next/image";
 import { SetupGiftSection } from "./SetupGiftSection";
 import Link from "next/link";
@@ -182,7 +183,7 @@ export function VibyUpLanding() {
         <span className="up-kicker">לפני שמתחילים</span>
         <h2>שאלות טובות. תשובות פשוטות.</h2>
         <p>{commercialTerms.setup} הערכות AI עשויות להיות שגויות; אין הבטחה לכמות ביקורות, לדירוג או לתוצאה עסקית.</p>
-        {upFaqs.map(([question, answer]) => (
+        {[...upFaqs, ...generalVibyFaqs.map((faq) => [faq.question, faq.answer] as const)].map(([question, answer]) => (
           <details key={question}>
             <summary>
               {question}

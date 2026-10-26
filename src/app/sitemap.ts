@@ -31,9 +31,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
       // Set lastModified to the actual publication date when this page is approved for deployment.
       changeFrequency: "monthly",
       priority: 0.75,
+      alternates: { languages: {
+        "he-IL": `${siteConfig.url}/industries/cafes`,
+        en: `${siteConfig.url}/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026`,
+      } },
+    },
+    {
+      url: `${siteConfig.url}/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+      alternates: { languages: {
+        "he-IL": `${siteConfig.url}/industries/cafes`,
+        en: `${siteConfig.url}/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026`,
+      } },
     },
     {
       url: `${siteConfig.url}/industries/car-washes`,
+      // Set lastModified to the actual publication date when this page is approved for deployment.
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: `${siteConfig.url}/industries/bakeries`,
+      // Set lastModified to the actual publication date when this page is approved for deployment.
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: `${siteConfig.url}/industries/hair-salons`,
       // Set lastModified to the actual publication date when this page is approved for deployment.
       changeFrequency: "monthly",
       priority: 0.75,
