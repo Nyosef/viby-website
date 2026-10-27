@@ -1131,6 +1131,7 @@ export function MultiServiceLanding({
               <Link href="/how-it-works">איך Viby עובדת</Link>
               <Link href="/about">אודות וייבי</Link>
               <Link href="/customer-retention">מועדון לקוחות דיגיטלי לעסקים</Link>
+              <Link href="/business-faq">שאלות נפוצות לעסקים</Link>
               <Link href="/support">תמיכה</Link>
               <a
                 className="v2-instagram-link"
@@ -1335,6 +1336,11 @@ function BuyingGuideSection({ service }: { service: ServiceContent }) {
               </details>
             ))}
           </div>
+          {service.id === "punch-card" ? (
+            <p className="v2-buying-faq-more">
+              יש לכם עוד שאלות? <Link href="/business-faq">לכל השאלות הנפוצות לבעלי עסקים</Link>
+            </p>
+          ) : null}
         </section>
       </div>
     </section>
