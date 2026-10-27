@@ -6733,6 +6733,26 @@ details p {
   line-height: 1.75;
 }
 
+.v2-buying-faq-more {
+  margin: 1.5rem 0 0;
+  color: var(--v2-muted);
+  font-size: 1rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.v2-buying-faq-more a {
+  color: var(--v2-pink);
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.v2-buying-faq-more a:focus-visible {
+  outline: 3px solid var(--v2-yellow);
+  outline-offset: 3px;
+}
+
 .v2-buying-guide bdi {
   unicode-bidi: isolate;
 }

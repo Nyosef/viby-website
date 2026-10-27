@@ -26,6 +26,9 @@ const routes = [
   "/viby-tap",
   "/viby-up",
   "/customer-retention",
+  "/business-faq",
+  "/business-faq/free-digital-punch-card",
+  "/business-faq/printable-vs-digital-punch-card",
   "/industries/cafes",
   englishCafePath,
   "/industries/car-washes",
@@ -221,6 +224,29 @@ const aboutDescription =
 const customerRetentionTitle = "מועדון לקוחות דיגיטלי לעסקים | וייבי Viby";
 const customerRetentionDescription =
   "מועדון לקוחות דיגיטלי לעסקים: השוו בין כרטיסיות ניקוב, פרסים וכרטיסי מתנה. בדקו עלויות, תהליך הקמה והתאמה לעסק עם וייבי (Viby).";
+const faqExpectations = new Map([
+  ["/business-faq", {
+    title: "שאלות נפוצות לבעלי עסקים | וייבי Viby",
+    h1: "שאלות נפוצות לבעלי עסקים",
+    description: "שאלות נפוצות לבעלי עסקים על כרטיסיות ניקוב דיגיטליות, פתרונות חינמיים וכרטיסיות להדפסה. תשובות קצרות שיעזרו לבחור פתרון מתאים לעסק.",
+  }],
+  ["/business-faq/free-digital-punch-card", {
+    title: "כרטיסייה דיגיטלית בחינם לעסק: מה האפשרויות? | וייבי Viby",
+    h1: "האם אפשר לקבל כרטיסייה דיגיטלית לעסק בחינם?",
+    description: "כרטיסייה דיגיטלית בחינם לעסק: מה אפשר לעשות לבד, מתי צריך מערכת בתשלום, ומה מקבלים בוייבי? הסבר קצר ומחיר התחלתי ברור.",
+    terms: ["פתרון חינמי שדורש עבודה ידנית", "79 ₪ לחודש לכלי", "237 ₪ למנוי בתקופה הראשונה", "משלוח ותוספות מאושרות מתומחרים בנפרד."],
+    photo: "/phase_1.jpg",
+    related: "/business-faq/printable-vs-digital-punch-card",
+  }],
+  ["/business-faq/printable-vs-digital-punch-card", {
+    title: "כרטיסיית ניקוב להדפסה או דיגיטלית? השוואה לעסק | וייבי Viby",
+    h1: "כרטיסיית ניקוב להדפסה או דיגיטלית: מה עדיף לעסק?",
+    description: "מתלבטים בין כרטיסיית ניקוב להדפסה לכרטיסייה דיגיטלית? היתרונות, החסרונות והעלויות שכל בעל עסק צריך להכיר לפני שבוחרים.",
+    terms: ["כרטיסיית ניקוב להדפסה", "כרטיסייה דיגיטלית דורשת בדרך כלל מערכת בתשלום", "הצוות מעדכן ניקובים דרך אפליקציה ייעודית", "נייר יכול להספיק"],
+    photo: "/phase3_new.jpg",
+    related: "/business-faq/free-digital-punch-card",
+  }],
+]);
 const industryExpectations = new Map([
   ["/industries/cafes", {
     title: "כרטיסיית ניקוב דיגיטלית לבית קפה ולעגלת קפה | Viby",
@@ -411,7 +437,7 @@ async function checkPage(pathname, titles) {
   }
 
   const title = titleTags[0]?.[1];
-  const expectedTitleSuffix = ["/", "/customer-retention"].includes(pathname) ? " | וייבי Viby" : " | Viby";
+  const expectedTitleSuffix = ["/", "/customer-retention"].includes(pathname) || faqExpectations.has(pathname) ? " | וייבי Viby" : " | Viby";
   assert(title?.endsWith(expectedTitleSuffix), `${pathname}: title must end with ${expectedTitleSuffix}`);
   assert(Boolean(title) && !titles.has(title), `${pathname}: duplicate or missing title ${title ?? ""}`);
   if (title) titles.add(title);
@@ -477,6 +503,42 @@ async function checkPage(pathname, titles) {
   if (pathname === "/how-it-works") {
     const video = parsedJsonLd.find((document) => document?.["@type"] === "VideoObject");
     assert(video?.publisher?.logo?.url === organizationLogoUrl, "/how-it-works: wrong publisher logo URL");
+  }
+
+  if (faqExpectations.has(pathname)) {
+    const expected = faqExpectations.get(pathname);
+    const visible = textContent(html);
+    assert(title === expected.title, `${pathname}: wrong FAQ title`);
+    assert(descriptions[0]?.[1] === expected.description, `${pathname}: wrong FAQ description`);
+    assert(textContent(headings[0]?.[1] ?? "") === expected.h1, `${pathname}: wrong FAQ H1`);
+    assert(!response.headers.get("x-robots-tag")?.includes("noindex"), `${pathname}: X-Robots-Tag noindex`);
+    assert(!/<meta name="robots" content="[^"]*noindex/.test(html), `${pathname}: robots noindex`);
+    const nodes = parsedJsonLd.flatMap((document) => document?.["@graph"] ?? [document]);
+    const webpage = nodes.find((node) => node?.["@type"] === "WebPage");
+    assert(nodes.length === 1 && webpage?.url === expectedCanonical(pathname), `${pathname}: wrong FAQ WebPage schema`);
+    assert(webpage?.inLanguage === "he-IL", `${pathname}: wrong FAQ WebPage language`);
+    assert(webpage?.publisher?.["@id"] === `${canonicalOrigin}/#organization`, `${pathname}: wrong FAQ publisher reference`);
+    assert(!nodes.some((node) => node?.["@type"] === "FAQPage"), `${pathname}: unexpected FAQPage schema`);
+    for (const href of ["/", "/business-faq", "/support", "/terms", "/privacy"]) {
+      assert(html.includes(`href="${href}"`), `${pathname}: missing internal link ${href}`);
+    }
+    if (pathname === "/business-faq") {
+      assert(visible.includes("כרטיסיות ניקוב לעסקים"), `${pathname}: missing category heading`);
+      const cards = matches(html, /<a\b[^>]*class="[^"]*questionCard[^"]*"[^>]*href="([^"]+)"[^>]*>/g).map((match) => match[1]);
+      for (const route of faqExpectations.keys()) {
+        if (route !== pathname) assert(cards.filter((href) => href === route).length === 1, `${pathname}: missing or duplicate linked card ${route}`);
+      }
+      assert(cards.length === 2, `${pathname}: expected two linked FAQ cards`);
+    } else {
+      const answerSection = html.match(/<section\b[^>]*data-faq-answer(?:="[^"]*")?[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
+      const paragraphs = matches(answerSection, /<p(?:\s[^>]*)?>([\s\S]*?)<\/p>/g);
+      const words = paragraphs.flatMap(([, paragraph]) => textContent(paragraph).split(/\s+/).filter(Boolean));
+      assert(paragraphs.length === 4, `${pathname}: expected four approved answer paragraphs`);
+      assert(words.length >= 100 && words.length <= 140, `${pathname}: answer word count ${words.length} is outside 100–140`);
+      for (const term of expected.terms ?? []) assert(visible.includes(term), `${pathname}: missing approved answer ${term}`);
+      assert(html.includes(encodeURIComponent(expected.photo)), `${pathname}: missing Viby FAQ photo ${expected.photo}`);
+      assert(html.includes(`href="${expected.related}"`), `${pathname}: missing related question link`);
+    }
   }
 
   if (industryExpectations.has(pathname)) {
@@ -613,7 +675,10 @@ async function checkPage(pathname, titles) {
     for (const question of generalFaqQuestions) {
       assert(faqQuestions.includes(question), `${pathname}: missing shared FAQ ${question}`);
     }
-    if (pathname === "/") assert(faqQuestions.includes(punchCardTypesQuestion), "/: missing punch-card types FAQ");
+    if (pathname === "/") {
+      assert(faqQuestions.includes(punchCardTypesQuestion), "/: missing punch-card types FAQ");
+      assert(/<p\b[^>]*class="v2-buying-faq-more"[^>]*>[\s\S]*?<a\b[^>]*href="\/business-faq"[^>]*>/.test(html), "/: missing FAQ hub link after the homepage FAQ");
+    }
     for (const question of buyingGuide?.faqs ?? []) {
       assert(faqQuestions.includes(question), `${pathname}: FAQ question is missing: ${question}`);
       const faqEntry = faqEntries.find((entry) => {
@@ -843,6 +908,9 @@ async function checkPage(pathname, titles) {
 
   if (productRoutes.has(pathname)) {
     assert(/<a\b[^>]*href="\/customer-retention"[^>]*>מועדון לקוחות דיגיטלי לעסקים<\/a>/.test(html), `${pathname}: missing customer-retention footer link`);
+    if (pathname !== "/viby-up") {
+      assert(/<a\b[^>]*href="\/business-faq"[^>]*>שאלות נפוצות לעסקים<\/a>/.test(html), `${pathname}: missing FAQ hub footer link`);
+    }
     if (pathname === "/") {
       for (const route of industryExpectations.keys()) {
         assert(html.includes(`href="${route}"`), `${pathname}: missing industry footer link ${route}`);
@@ -960,6 +1028,12 @@ async function run() {
       "sitemap: /customer-retention must occur exactly once",
     );
     for (const route of industryExpectations.keys()) {
+      assert(
+        sitemapEntries.filter((entry) => entry.includes(`<loc>${expectedCanonical(route)}</loc>`)).length === 1,
+        `sitemap: ${route} must occur exactly once`,
+      );
+    }
+    for (const route of faqExpectations.keys()) {
       assert(
         sitemapEntries.filter((entry) => entry.includes(`<loc>${expectedCanonical(route)}</loc>`)).length === 1,
         `sitemap: ${route} must occur exactly once`,

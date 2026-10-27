@@ -26,6 +26,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    ...[
+      "/business-faq",
+      "/business-faq/free-digital-punch-card",
+      "/business-faq/printable-vs-digital-punch-card",
+    ].map((path) => ({
+      url: `${siteConfig.url}${path}`,
+      changeFrequency: "monthly" as const,
+      priority: path === "/business-faq" ? 0.7 : 0.65,
+    })),
     {
       url: `${siteConfig.url}/industries/cafes`,
       // Set lastModified to the actual publication date when this page is approved for deployment.
