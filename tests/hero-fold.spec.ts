@@ -6,7 +6,8 @@ test("homepage mobile hero keeps companies in the fold and preserves the full ph
   for (const [width, height] of [[1440, 900], [1366, 768], [768, 1024], [761, 1024], [760, 1024], [528, 812], [430, 932], [390, 844], [390, 780], [360, 800], [320, 640], [375, 667], [360, 640]]) {
     await page.setViewportSize({ width, height });
     await page.goto("/");
-    await expect(page.locator("h1")).toHaveText(width <= 760 ? "הלקוחות כבר מגיעים. תנו להם סיבה לחזור." : "הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור.", { useInnerText: true });
+    await expect(page.locator("h1")).toHaveText("כרטיסיות ניקוב דיגיטליות לעסק");
+    await expect(page.locator(".v2-hero-slogan")).toHaveText(width <= 760 ? "הלקוחות כבר מגיעים. תנו להם סיבה לחזור." : "הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור.", { useInnerText: true });
     const brandIntro = page.locator(width <= 760 ? ".v2-hero-text.v2-mobile-only" : ".v2-hero-text.v2-desktop-only");
     await expect(brandIntro).toBeVisible();
     await expect(brandIntro).toBeInViewport({ ratio: 1 });
@@ -17,7 +18,7 @@ test("homepage mobile hero keeps companies in the fold and preserves the full ph
       await expect(brandIntro).toHaveCSS("font-size", "16px");
       await expect(brandIntro).toHaveCSS("font-weight", "500");
       await expect(page.locator(".v2-company-line")).toBeHidden();
-      await expect(page.locator("h1")).toHaveCSS("font-weight", "800");
+      await expect(page.locator(".v2-hero-slogan")).toHaveCSS("font-weight", "800");
     } else {
       await expect(brandIntro).toContainText("עם וייבי (Viby), בונים קשר עם הלקוחות");
       await expect(brandIntro.locator("bdi")).toHaveText("Viby");
@@ -137,7 +138,7 @@ test("homepage journey shows registration, Wallet and staff-assisted redemption"
     const images = page.locator(".journey-artwork img");
     await expect(images).toHaveCount(3);
     for (let index = 0; index < 3; index++) {
-      await expect(images.nth(index)).toHaveAttribute("src", new RegExp(["phase_1", "phase2_new", "phase3_new"][index]));
+      await expect(images.nth(index)).toHaveAttribute("src", new RegExp(["kartisiyot-nikuv-digitaliyot-qr", "phase2_new", "phase3_new"][index]));
       await images.nth(index).scrollIntoViewIfNeeded();
       const alignment = await cards.nth(index).locator("h3").evaluate(heading => {
         const range = document.createRange();

@@ -66,7 +66,7 @@ test("customer-retention guide fits RTL mobile and desktop with accessible compa
 test("guide product and incoming homepage links navigate without changing the hero", async ({ page }) => {
   await setConsent(page, "denied");
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור.");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("כרטיסיות ניקוב דיגיטליות לעסק");
   await page.getByRole("link", { name: "איך לבחור מועדון לקוחות דיגיטלי לעסק" }).click();
   await expect(page).toHaveURL(/\/customer-retention$/);
   await page.locator('[data-retention-product][href="/smart-wheel"]').click();

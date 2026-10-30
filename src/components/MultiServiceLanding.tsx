@@ -6,7 +6,7 @@ import { WhatsAppMark } from "./WhatsAppMark";
 import { CommercialDisclosure } from "./CommercialDisclosure";
 import { VideoConsentPlayer } from "./VideoConsentPlayer";
 import { monthlyPrice } from "@/lib/commercial";
-import { generalVibyFaqs, punchCardTypesFaq } from "@/lib/faq";
+import { generalVibyFaqs, punchCardSeoFaqs, punchCardTypesFaq } from "@/lib/faq";
 import { SetupGiftSection } from "./SetupGiftSection";
 import { JourneyIllustration } from "./JourneyIllustration";
 import Link from "next/link";
@@ -71,6 +71,9 @@ const rotatingRewards = [
     progressText: "עוד 3 ביקורים לפיצה מתנה",
   },
 ] as const;
+
+const homeDefinitionText =
+  "זו הגרסה בטלפון של כרטיסיית ״קנה תשעה, העשירי עלינו״. הלקוח מצטרף בסריקת QR, שומר את הכרטיסייה ב־Apple Wallet או Google Wallet, ועובד מורשה מוסיף ניקוב אחרי ביקור מזכה. בכרטיסיות ניקוב דיגיטליות הלקוח רואה כמה נשאר עד ההטבה והעסק רואה פעילות של לקוחות חוזרים. ב־Viby המחיר מתחיל ב־79 ₪ לחודש לכלי, והשירות הדיגיטלי מופעל תוך עד שלושה ימי עסקים לאחר קבלת פרטי העסק, ההרשאות והאישורים הדרושים.";
 
 const serviceHeaderIcons: Record<ServiceId, string> = {
   "viby-up": "↗",
@@ -628,6 +631,7 @@ export function MultiServiceLanding({
   const announcementTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const service = services[activeId];
   const isCompactHero = compactHero && activeId === "punch-card";
+  const homeHeadings = isCompactHero ? productSeoByService["punch-card"].homeHeadings : undefined;
   const walletPromo = walletPromoContent[activeId];
   const priceHighlights = starterHighlights[activeId];
   const howSteps = isCompactHero ? [
@@ -786,8 +790,9 @@ export function MultiServiceLanding({
             <div className="v2-hero-copy" key={`copy-${activeId}`}>
               {isCompactHero ? (
                 <>
+                  <h1 className="v2-home-h1">{homeHeadings?.hero}</h1>
                   <p className="v2-company-line"><span className="v2-desktop-only">מועדון לקוחות חכם לעסקים</span><span className="v2-mobile-only">מועדון לקוחות דיגיטלי לעסקים</span></p>
-                  <h1><span className="v2-hero-first-line">הלקוחות כבר מגיעים<span className="v2-desktop-only"> אליכם</span>.</span>{" "}<span>תנו להם סיבה לחזור.</span></h1>
+                  <p className="v2-hero-slogan"><span className="v2-hero-first-line">הלקוחות כבר מגיעים<span className="v2-desktop-only"> אליכם</span>.</span>{" "}<span>תנו להם סיבה לחזור.</span></p>
                   <p className="v2-hero-text v2-mobile-only">עם וייבי (<bdi>Viby</bdi>), הלקוחות מצטרפים בסריקה, צוברים ניקובים ושומרים כרטיסייה בארנק הדיגיטלי. בלי להוריד אפליקציה.</p>
                   <p className="v2-hero-text v2-desktop-only">הלקוחות מצטרפים בסריקה, צוברים הטבות בכל ביקור ושומרים את הכרטיסייה בארנק הדיגיטלי. אתם, עם וייבי (<bdi>Viby</bdi>), בונים קשר עם הלקוחות — ואנחנו דואגים לכל ההקמה.</p>
                 </>
@@ -830,7 +835,7 @@ export function MultiServiceLanding({
             </div>
 
             <div className="v2-hero-art" key={`art-${activeId}`}>
-              {isCompactHero ? <><div className="v2-compact-art-inner"><HeroProductVisual service={service} /></div><NfcHeroNote modern /><div className="v2-mobile-hero-photo v2-mobile-only"><Image src="/phase_1.jpg" alt="המחשה: סריקת שלט Viby בטלפון להצטרפות לכרטיסייה דיגיטלית" width={1448} height={1086} sizes="(max-width: 760px) calc(100vw - 40px), 1px" loading="eager" /></div></> : <><HeroProductVisual service={service} /><NfcHeroNote /></>}
+              {isCompactHero ? <><div className="v2-compact-art-inner"><HeroProductVisual service={service} /></div><NfcHeroNote modern /><div className="v2-mobile-hero-photo v2-mobile-only"><Image src="/kartisiyot-nikuv-digitaliyot-qr.jpg" alt="כרטיסיות ניקוב דיגיטליות — הצטרפות בסריקת שלט QR בעסק" width={1448} height={1086} sizes="(max-width: 760px) calc(100vw - 40px), 1px" loading="eager" /></div></> : <><HeroProductVisual service={service} /><NfcHeroNote /></>}
             </div>
             {isCompactHero ? <ul className="v2-hero-mobile-reassurance v2-mobile-only"><li>הקמה מלאה עלינו</li><li>תמיכה טכנית</li><li>ללא התחייבות לטווח ארוך</li></ul> : null}
           </div>
@@ -838,6 +843,35 @@ export function MultiServiceLanding({
         </div>
         {isCompactHero ? <HeroTrustStrip /> : null}
       </section>
+
+      {isCompactHero ? (
+        <div className="v2-home-answers">
+          <section className="v2-home-answer" aria-labelledby="digital-punch-card-definition">
+            <div className="v2-shell">
+              <h2 id="digital-punch-card-definition">מה זה כרטיס ניקוב דיגיטלי?</h2>
+              <div className="v2-home-answer-content">
+                <p><MixedDirectionText text={homeDefinitionText} /></p>
+                <figure className="v2-home-card-figure">
+                  <Image
+                    src="/kartis-nikuv-digitali.jpg"
+                    alt="כרטיס ניקוב דיגיטלי עם 7 מתוך 10 ניקובים"
+                    width={1200}
+                    height={840}
+                    sizes="(max-width: 760px) calc(100vw - 40px), 350px"
+                  />
+                  <figcaption>המחשה בלבד</figcaption>
+                </figure>
+              </div>
+            </div>
+          </section>
+          <section className="v2-home-answer" aria-labelledby="loyalty-or-prepaid">
+            <div className="v2-shell">
+              <h2 id="loyalty-or-prepaid">כרטיסיית הטבות או כרטיסייה ששולמה מראש?</h2>
+              <p>כרטיסיות ניקוב דיגיטליות יכולות לשרת שתי מטרות שונות. כרטיסיית הטבות מתגמלת קניות או ביקורים מזכים: הלקוח צובר ניקובים ומקבל הטבה. בכרטיסייה ששולמה מראש הלקוח קונה מספר שימושים, למשל עשרה שיעורים או עשר שטיפות, והצוות מפחית שימוש בכל ביקור. Viby תומכת גם בחבילות ביקורים ששולמו מראש. אם הלקוח קונה סכום כסף למימוש, זהו <Link href="/digital-wallet">כרטיס מתנה או יתרה דיגיטלית</Link> — מוצר נפרד. מנויים מוגדרים בהתאם לתנאי העסק.</p>
+            </div>
+          </section>
+        </div>
+      ) : null}
 
       <div className="v2-story">
         <div className="v2-selector-wrap">
@@ -896,8 +930,8 @@ export function MultiServiceLanding({
 
             <div className="v2-wallet-promo-media">
               <Image
-                src="/apple-wallet-google-wallet.jpg"
-                alt="הוספת כרטיס העסק ל-Apple Wallet ול-Google Wallet"
+                src={isCompactHero ? "/kartisiyat-nikuv-digitalit-wallet.jpg" : "/apple-wallet-google-wallet.jpg"}
+                alt={isCompactHero ? "כרטיסיית ניקוב דיגיטלית ב־Apple Wallet וב־Google Wallet" : "הוספת כרטיס העסק ל-Apple Wallet ול-Google Wallet"}
                 width={1828}
                 height={1028}
                 sizes="(max-width: 760px) 88vw, 620px"
@@ -934,7 +968,7 @@ export function MultiServiceLanding({
                     <div className="journey-step-label"><span>{index + 1}</span><span>{["ההצטרפות", "הכרטיסייה", "ההטבה"][index]}</span></div>
                     <div className="journey-artwork">
                       <Image
-                        src={["/phase_1.jpg", "/phase2_new.jpg", "/phase3_new.jpg"][index]}
+                        src={[isCompactHero ? "/kartisiyot-nikuv-digitaliyot-qr.jpg" : "/phase_1.jpg", "/phase2_new.jpg", "/phase3_new.jpg"][index]}
                         alt={[
                           "סריקת קוד QR בשלט Viby להצטרפות לכרטיסייה",
                           "כרטיסיית Viby בארנק הדיגיטלי בטלפון iPhone ובטלפון Android",
@@ -979,7 +1013,7 @@ export function MultiServiceLanding({
           <div className="v2-shell">
             <SectionHeading
               eyebrow="למה זה עובד לעסק"
-              title={`הערך מאחורי ${service.label}`}
+              title={homeHeadings?.benefits ?? `הערך מאחורי ${service.label}`}
               text={
                 service.group === "retention"
                   ? "לא רק חוויה ללקוח — גם מאגר מסודר, פעילות שאפשר להבין וקשר שאפשר להמשיך."
@@ -1051,7 +1085,7 @@ export function MultiServiceLanding({
 
         <ServiceDetail service={service} />
 
-        <BuyingGuideSection service={service} />
+        <BuyingGuideSection service={service} homeHeadings={homeHeadings} />
 
         <RelatedSolutions activeId={activeId} />
       </div>
@@ -1227,7 +1261,7 @@ function MixedDirectionText({ text }: { text: string }) {
   );
 }
 
-function BuyingGuideSection({ service }: { service: ServiceContent }) {
+function BuyingGuideSection({ service, homeHeadings }: { service: ServiceContent; homeHeadings?: typeof productSeoByService["punch-card"]["homeHeadings"] }) {
   const guide = service.buyingGuide;
   const seo = productSeoByService[service.id];
   const sectionId = `buying-guide-${service.id}`;
@@ -1242,7 +1276,7 @@ function BuyingGuideSection({ service }: { service: ServiceContent }) {
       <div className="v2-shell">
         <div className="v2-buying-intro v2-reveal">
           <span>לפני שמתחילים</span>
-          <h2 id={sectionId}>כל מה שחשוב לדעת על {service.label}</h2>
+          <h2 id={sectionId}>{homeHeadings?.buyingGuide ?? `כל מה שחשוב לדעת על ${service.label}`}</h2>
           <h3>{guide.definition.title}</h3>
           <p>
             <MixedDirectionText text={guide.definition.text} />
@@ -1288,7 +1322,7 @@ function BuyingGuideSection({ service }: { service: ServiceContent }) {
         </section>
 
         <section className="v2-buying-block" aria-labelledby={`${sectionId}-facts`}>
-          <h3 id={`${sectionId}-facts`}>מחיר, התאמה והקמה</h3>
+          <h3 id={`${sectionId}-facts`}>{homeHeadings?.facts ?? "מחיר, התאמה והקמה"}</h3>
           <dl className="v2-buying-facts v2-reveal">
             {guide.purchaseFacts.map((fact) => (
               <div key={fact.label}>
@@ -1303,7 +1337,7 @@ function BuyingGuideSection({ service }: { service: ServiceContent }) {
         </section>
 
         <section className="v2-buying-block" aria-labelledby={`${sectionId}-comparison`}>
-          <h3 id={`${sectionId}-comparison`}>מה ההבדל מהפתרון הרגיל</h3>
+          <h3 id={`${sectionId}-comparison`}>{homeHeadings?.comparison ?? "מה ההבדל מהפתרון הרגיל"}</h3>
           <div className="v2-buying-comparison v2-reveal">
             <article>
               <span>החלופה הפשוטה</span>
@@ -1326,7 +1360,7 @@ function BuyingGuideSection({ service }: { service: ServiceContent }) {
             <h2 id={faqId}>שאלות נפוצות על {seo.primaryIntent}</h2>
           </div>
           <div className="v2-buying-faq-list v2-reveal">
-            {[...guide.faqs, ...generalVibyFaqs, ...(service.id === "punch-card" ? [punchCardTypesFaq] : [])].map((faq) => (
+            {[...guide.faqs, ...generalVibyFaqs, ...(service.id === "punch-card" ? [punchCardTypesFaq, ...punchCardSeoFaqs] : [])].map((faq) => (
               <details key={faq.question}>
                 <summary>{faq.question}</summary>
                 <p>
@@ -1337,9 +1371,15 @@ function BuyingGuideSection({ service }: { service: ServiceContent }) {
             ))}
           </div>
           {service.id === "punch-card" ? (
-            <p className="v2-buying-faq-more">
-              יש לכם עוד שאלות? <Link href="/business-faq">לכל השאלות הנפוצות לבעלי עסקים</Link>
-            </p>
+            <>
+              <nav className="v2-buying-faq-articles" aria-label="מאמרים נוספים על כרטיסיות ניקוב">
+                <Link href="/business-faq/free-digital-punch-card">האם אפשר להתחיל עם כרטיסייה דיגיטלית בחינם?</Link>
+                <Link href="/business-faq/printable-vs-digital-punch-card">כרטיסיית נייר או דיגיטלית: מה מתאים לעסק?</Link>
+              </nav>
+              <p className="v2-buying-faq-more">
+                יש לכם עוד שאלות? <Link href="/business-faq">לכל השאלות הנפוצות לבעלי עסקים</Link>
+              </p>
+            </>
           ) : null}
         </section>
       </div>

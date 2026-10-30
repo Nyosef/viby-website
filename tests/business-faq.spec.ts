@@ -41,6 +41,8 @@ for (const faq of faqRoutes) {
         }
       } else {
         await expect(page.locator("[data-faq-answer] p")).toHaveCount(4);
+        await expect(page.locator('main a[href="/"]').filter({ hasText: faq.path.includes("free-digital") ? "כרטיס ניקוב דיגיטלי לעסק" : "כרטיסיית ניקוב דיגיטלית לעסק" })).toHaveCount(1);
+        await expect(page.locator('footer a[href="/"]')).toHaveText("כרטיסייה דיגיטלית לעסק");
         const other = faqRoutes.slice(1).find((candidate) => candidate.path !== faq.path)!;
         await expect(page.locator(`main a[href="${other.path}"]`)).toBeVisible();
         await expect(page.getByText("המחשה בלבד")).toBeVisible();
@@ -68,7 +70,7 @@ test("FAQ URLs occur once in the sitemap, and existing commercial pages retain t
     expect(sitemap.match(new RegExp(`<loc>https://joinviby.co.il${faq.path}</loc>`, "g")) ?? []).toHaveLength(1);
   }
   for (const [path, heading] of [
-    ["/", "הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור."],
+    ["/", "כרטיסיות ניקוב דיגיטליות לעסק"],
     ["/smart-wheel", "גלגל מזל דיגיטלי שהופך כל קנייה לסיבה לחזור"],
     ["/digital-wallet", "כרטיס מתנה דיגיטלי לעסק שנשמר ישר בטלפון"],
   ]) {
@@ -80,4 +82,8 @@ test("FAQ URLs occur once in the sitemap, and existing commercial pages retain t
   await page.goto("/");
   await expect(page.locator('footer.v2-footer nav[aria-label="קישורים שימושיים"] a[href="/business-faq"]')).toHaveText("שאלות נפוצות לעסקים");
   await expect(page.locator('.v2-buying-faq a[href="/business-faq"]')).toHaveText("לכל השאלות הנפוצות לבעלי עסקים");
+  await expect(page.locator('.v2-buying-faq-list details')).toHaveCount(12);
+  for (const path of ["/business-faq/free-digital-punch-card", "/business-faq/printable-vs-digital-punch-card"]) {
+    await expect(page.locator(`.v2-buying-faq-articles a[href="${path}"]`)).toBeVisible();
+  }
 });
