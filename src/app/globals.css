@@ -6741,6 +6741,26 @@ details p {
   text-align: center;
 }
 
+.v2-buying-faq-articles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.v2-buying-faq-articles a {
+  color: var(--v2-pink);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+.v2-buying-faq-articles a:focus-visible {
+  outline: 3px solid var(--v2-yellow);
+  outline-offset: 3px;
+}
+
 .v2-buying-faq-more a {
   color: var(--v2-pink);
   font-weight: 900;

@@ -12,6 +12,11 @@ const generalFaqQuestions = [
   "האם Viby מתאימה גם לעסק קטן מחוץ למרכז?",
 ];
 const punchCardTypesQuestion = "כמה סוגי כרטיסיות ניקוב אפשר ליצור?";
+const punchCardSeoQuestions = [
+  "כמה עולה כרטיס ניקוב דיגיטלי לעסק?",
+  "איך עובדת כרטיסיית ניקוב דיגיטלית ביום־יום?",
+  "מה ההבדל בין כרטיס ניקובים דיגיטלי לכרטיסיית נייר?",
+];
 const configuredOrigin = process.env.SEO_REPORT_ORIGIN;
 const buildDirectory = process.env.NEXT_DIST_DIR || ".next";
 const productionMode = Boolean(configuredOrigin);
@@ -44,18 +49,24 @@ const productExpectations = [
   {
     path: "/",
     label: "כרטיסייה דיגיטלית לעסק",
-    title: "כרטיסייה דיגיטלית לעסק | וייבי Viby",
-    schemaName: "כרטיסייה דיגיטלית לעסק",
-    h1: "הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור.",
+    title: "כרטיסייה דיגיטלית לעסק | כרטיסיות ניקוב דיגיטליות | וייבי Viby",
+    schemaName: "כרטיסיות ניקוב דיגיטליות לעסקים",
+    h1: "כרטיסיות ניקוב דיגיטליות לעסק",
     description:
       "כרטיסייה דיגיטלית לעסק שמחליפה כרטיס ניקוב מנייר, נשמרת ב־Apple Wallet או Google Wallet ועוזרת להחזיר לקוחות — בלי אפליקציה.",
     metadataDescription:
-      "וייבי (Viby) מציעה כרטיסייה דיגיטלית לעסק שמחליפה כרטיס ניקוב מנייר, נשמרת ב־Apple Wallet או Google Wallet ועוזרת להחזיר לקוחות — בלי אפליקציה.",
+      "כרטיסיות ניקוב דיגיטליות לעסק החל מ־79 ₪ לחודש: כרטיס ניקוב דיגיטלי שנשמר ב־Apple Wallet או Google Wallet, בלי אפליקציה ללקוחות. כרטיסייה דיגיטלית לעסק עם הקמה בליווי Viby.",
     primaryIntent: "כרטיסייה דיגיטלית לעסק",
     requiredVisibleTerms: [
       "מועדון לקוחות חכם לעסקים",
       "כרטיסיית נאמנות דיגיטלית",
       "כרטיסיית נייר",
+      "מה זה כרטיס ניקוב דיגיטלי?",
+      "כרטיסיית הטבות או כרטיסייה ששולמה מראש?",
+      "למה כרטיסיות ניקוב דיגיטליות מחזירות לקוחות",
+      "כל מה שחשוב לדעת לפני שבוחרים כרטיסיית ניקוב דיגיטלית",
+      "כמה עולה כרטיס ניקוב דיגיטלי?",
+      "כרטיס ניקובים דיגיטלי או כרטיסיית נייר?",
     ],
     buyingGuide: {
       definitionHeading: "כרטיסייה דיגיטלית לעסקים עם ביקורים חוזרים",
@@ -71,9 +82,10 @@ const productExpectations = [
         "אילו פרטי לקוח נשמרים בכרטיסייה?",
         "מה קורה אם הלקוח מחליף או מאבד את הטלפון?",
         "כמה עולה הכרטיסייה וכמה זמן לוקח להתחיל?",
+        ...punchCardSeoQuestions,
       ],
     },
-    alternateName: "כרטיסיות דיגיטליות",
+    alternateName: ["כרטיסיית ניקוב דיגיטלית", "כרטיס ניקוב דיגיטלי", "כרטיסייה דיגיטלית לעסק", "כרטיס ניקובים דיגיטלי"],
   },
   {
     path: "/smart-wheel",
@@ -415,6 +427,7 @@ async function checkPage(pathname, titles) {
   assert(canonicals.length === 1, `${pathname}: expected one canonical, got ${canonicals.length}`);
   assert(canonicals[0]?.[1] === expectedCanonical(pathname), `${pathname}: canonical is ${canonicals[0]?.[1] ?? "missing"}`);
   assert(headings.length === 1, `${pathname}: expected one H1, got ${headings.length}`);
+  assert(!/<meta\b[^>]*\bname="keywords"/i.test(html), `${pathname}: meta keywords must be absent`);
   assert(jsonLd.length >= 1, `${pathname}: missing structured data`);
   const contactAnchors = matches(
     html,
@@ -645,8 +658,8 @@ async function checkPage(pathname, titles) {
     );
     assert(visibleText.includes("מה העסק מקבל"), `${pathname}: buying-guide deliverables heading is missing`);
     assert(visibleText.includes("כך עובדים עם המוצר ביום־יום"), `${pathname}: operations heading is missing`);
-    assert(visibleText.includes("מחיר, התאמה והקמה"), `${pathname}: purchase-facts heading is missing`);
-    assert(visibleText.includes("מה ההבדל מהפתרון הרגיל"), `${pathname}: comparison heading is missing`);
+    assert(visibleText.includes(pathname === "/" ? "כמה עולה כרטיס ניקוב דיגיטלי?" : "מחיר, התאמה והקמה"), `${pathname}: purchase-facts heading is missing`);
+    assert(visibleText.includes(pathname === "/" ? "כרטיס ניקובים דיגיטלי או כרטיסיית נייר?" : "מה ההבדל מהפתרון הרגיל"), `${pathname}: comparison heading is missing`);
     assert(visibleText.includes(guidedSetupPromise), `${pathname}: guided setup promise is missing`);
     assert(
       includesIgnoringWhitespace(visibleText, buyingGuide?.price ?? ""),
@@ -678,6 +691,12 @@ async function checkPage(pathname, titles) {
     if (pathname === "/") {
       assert(faqQuestions.includes(punchCardTypesQuestion), "/: missing punch-card types FAQ");
       assert(/<p\b[^>]*class="v2-buying-faq-more"[^>]*>[\s\S]*?<a\b[^>]*href="\/business-faq"[^>]*>/.test(html), "/: missing FAQ hub link after the homepage FAQ");
+      for (const question of punchCardSeoQuestions) {
+        assert(faqQuestions.includes(question), `/: missing new FAQ ${question}`);
+      }
+      for (const href of ["/business-faq/free-digital-punch-card", "/business-faq/printable-vs-digital-punch-card"]) {
+        assert(html.includes(`href="${href}"`), `/: missing direct FAQ article link ${href}`);
+      }
     }
     for (const question of buyingGuide?.faqs ?? []) {
       assert(faqQuestions.includes(question), `${pathname}: FAQ question is missing: ${question}`);
@@ -706,17 +725,33 @@ async function checkPage(pathname, titles) {
     const structuredNodes = parsedJsonLd.flatMap((document) =>
       Array.isArray(document?.["@graph"]) ? document["@graph"] : [document],
     );
-    assert(
-      !structuredNodes.some((node) => node?.["@type"] === "FAQPage"),
-      `${pathname}: product pages must not add FAQPage structured data`,
-    );
+    const faqPageNode = structuredNodes.find((node) => node?.["@type"] === "FAQPage");
+    if (pathname === "/") {
+      assert(Boolean(faqPageNode), "/: missing FAQPage schema");
+      assert(
+        JSON.stringify(faqPageNode?.mainEntity?.map((entry) => entry.name)) === JSON.stringify(faqQuestions),
+        "/: FAQPage questions differ from visible FAQ",
+      );
+      for (const [index, entry] of (faqPageNode?.mainEntity ?? []).entries()) {
+        const visibleAnswer = textContent(faqEntries[index]?.[1].match(/<p(?:\s[^>]*)?>([\s\S]*?)<\/p>/)?.[1] ?? "");
+        assert(entry?.acceptedAnswer?.["@type"] === "Answer" && typeof entry.acceptedAnswer.text === "string" && includesIgnoringWhitespace(visibleAnswer, entry.acceptedAnswer.text), `/: FAQPage answer differs from visible answer: ${entry.name}`);
+      }
+    } else {
+      assert(!faqPageNode, `${pathname}: unexpected FAQPage schema`);
+    }
     const serviceNode = structuredNodes.find((node) => node?.["@type"] === "Service");
     assert(Boolean(serviceNode), `${pathname}: missing Service structured data`);
     assert(serviceNode?.name === (expectation?.schemaName ?? expectation?.title.replace(/ \| Viby$/, "")), `${pathname}: wrong Service schema name`);
-    assert(serviceNode?.alternateName === expectation?.alternateName, `${pathname}: wrong Service schema alternateName`);
+    assert(JSON.stringify(serviceNode?.alternateName) === JSON.stringify(expectation?.alternateName), `${pathname}: wrong Service schema alternateName`);
     assert(serviceNode?.description === expectation?.description, `${pathname}: wrong Service schema description`);
     assert(serviceNode?.url === expectedCanonical(pathname), `${pathname}: wrong Service schema URL`);
     assert(serviceNode?.inLanguage === "he-IL", `${pathname}: wrong Service schema language`);
+    if (pathname === "/") {
+      assert(serviceNode?.offers?.["@type"] === "Offer", "/: missing Service Offer");
+      assert(serviceNode?.offers?.price === 79 && serviceNode?.offers?.priceCurrency === "ILS", "/: wrong Service Offer price");
+      assert(serviceNode?.offers?.priceSpecification?.billingDuration === "P1M", "/: Offer must be monthly");
+      assert(serviceNode?.offers?.description?.includes("מחיר סופי; לא נגבה מע״מ — עוסק פטור."), "/: Offer VAT wording differs from visible terms");
+    }
 
     for (const product of productLinks) {
       const href = product.path;
@@ -916,6 +951,14 @@ async function checkPage(pathname, titles) {
         assert(html.includes(`href="${route}"`), `${pathname}: missing industry footer link ${route}`);
       }
       assert(html.includes(`href="${englishCafePath}"`), `${pathname}: missing English café footer link`);
+      assert(/<a\b[^>]*href="\/"[^>]*>כרטיסייה דיגיטלית לעסק<\/a>/.test(html), "/: protected footer product link changed");
+      const visibleMain = textContent(html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "");
+      for (const [term, ceiling] of [["כרטיסיות ניקוב דיגיטליות", 6], ["כרטיסיית ניקוב דיגיטלית", 3], ["כרטיס ניקוב דיגיטלי", 3], ["כרטיס ניקובים דיגיטלי", 3]]) {
+        assert(visibleMain.split(term).length - 1 <= ceiling, `/: excessive visible use of ${term}`);
+      }
+      for (const image of ["/kartisiyat-nikuv-digitalit-wallet.jpg", "/kartisiyot-nikuv-digitaliyot-qr.jpg", "/kartis-nikuv-digitali.jpg"]) {
+        assert(html.includes(encodeURIComponent(image)), `/: missing descriptive image ${image}`);
+      }
     }
     const contextualLink = /<a\b[^>]*href="\/customer-retention"[^>]*>איך לבחור מועדון לקוחות דיגיטלי לעסק<\/a>/.test(html);
     assert(contextualLink === (pathname === "/"), `${pathname}: homepage contextual link has wrong scope`);

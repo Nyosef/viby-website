@@ -37,7 +37,7 @@ export default function CarWashesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
       <header className={`${styles.header} ${styles.shell}`}>
         <Link href="/" aria-label="וייבי — דף הבית"><Image src="/viby_transparent.png" alt="Viby" width={96} height={64} priority /></Link>
-        <Link className={styles.homeLink} href="/">לכרטיסייה הדיגיטלית</Link>
+        <Link className={styles.homeLink} href="/">לכרטיס ניקוב דיגיטלי לעסק</Link>
       </header>
 
       <section className={`${styles.hero} ${styles.shell}`} aria-labelledby="car-washes-title">

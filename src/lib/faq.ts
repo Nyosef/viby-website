@@ -1,4 +1,4 @@
-import { commercialTerms } from "./commercial";
+import { commercialTerms, monthlyPrice } from "./commercial";
 
 export const generalVibyFaqs = [
   {
@@ -15,3 +15,20 @@ export const punchCardTypesFaq = {
   question: "כמה סוגי כרטיסיות ניקוב אפשר ליצור?",
   answer: "אפשר ליצור סוגי כרטיסיות שונים למוצרים, שירותים או לקוחות, ללא מגבלה מערכתית על מספר הסוגים. היקף השירות והמחיר מפורטים בהזמנה המאושרת.",
 } as const;
+
+const punchCardPrice = monthlyPrice("punch-card")!;
+
+export const punchCardSeoFaqs = [
+  {
+    question: "כמה עולה כרטיס ניקוב דיגיטלי לעסק?",
+    answer: `החל מ־${punchCardPrice} ₪ לחודש לכלי, בהתחייבות ראשונית ל־${commercialTerms.initialMonths} חודשים (${punchCardPrice * commercialTerms.initialMonths} ₪ למנוי בתקופה הראשונה), ולאחר מכן חידוש חודשי. ההקמה הדיגיטלית בליווי Viby; שלט ממותג אחד כלול בהצטרפות לאחר אימות התשלום. ${commercialTerms.vatNotice} ${commercialTerms.delivery} תוספות מאושרות מתומחרות בנפרד.`,
+  },
+  {
+    question: "איך עובדת כרטיסיית ניקוב דיגיטלית ביום־יום?",
+    answer: "הלקוח מצטרף בסריקת QR ושומר את הכרטיסייה ב־Apple Wallet או Google Wallet. עובד מורשה מוסיף ניקוב אחרי קנייה או ביקור מזכה דרך אפליקציית הצוות. כשהכרטיסייה מתמלאת, הצוות מאמת את מימוש ההטבה.",
+  },
+  {
+    question: "מה ההבדל בין כרטיס ניקובים דיגיטלי לכרטיסיית נייר?",
+    answer: "בכרטיס ניקובים דיגיטלי ההתקדמות נשמרת במערכת, עובד מורשה מוסיף ניקובים והלקוח רואה כמה נשאר עד ההטבה. העסק יכול לראות פעילות של לקוחות חוזרים; כרטיסיית נייר עלולה ללכת לאיבוד ואינה מספקת תיעוד כזה מעצמה.",
+  },
+] as const;

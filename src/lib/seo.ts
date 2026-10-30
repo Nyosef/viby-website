@@ -14,6 +14,15 @@ export type ProductSeo = {
   primaryIntent: string;
   supportingIntents: readonly string[];
   schemaId: string;
+  schemaName?: string;
+  schemaAlternateNames?: readonly string[];
+  homeHeadings?: {
+    hero: string;
+    benefits: string;
+    buyingGuide: string;
+    facts: string;
+    comparison: string;
+  };
   lastModified: string;
 };
 
@@ -22,12 +31,12 @@ export const productSeoByService = {
     serviceId: "punch-card",
     path: "/",
     title: "כרטיסייה דיגיטלית לעסק",
-    metadataTitle: "כרטיסייה דיגיטלית לעסק | וייבי Viby",
+    metadataTitle: "כרטיסייה דיגיטלית לעסק | כרטיסיות ניקוב דיגיטליות | וייבי Viby",
     internalLinkLabel: "כרטיסייה דיגיטלית לעסק",
     description:
       "כרטיסייה דיגיטלית לעסק שמחליפה כרטיס ניקוב מנייר, נשמרת ב־Apple Wallet או Google Wallet ועוזרת להחזיר לקוחות — בלי אפליקציה.",
     metadataDescription:
-      "וייבי (Viby) מציעה כרטיסייה דיגיטלית לעסק שמחליפה כרטיס ניקוב מנייר, נשמרת ב־Apple Wallet או Google Wallet ועוזרת להחזיר לקוחות — בלי אפליקציה.",
+      "כרטיסיות ניקוב דיגיטליות לעסק החל מ־79 ₪ לחודש: כרטיס ניקוב דיגיטלי שנשמר ב־Apple Wallet או Google Wallet, בלי אפליקציה ללקוחות. כרטיסייה דיגיטלית לעסק עם הקמה בליווי Viby.",
     primaryIntent: "כרטיסייה דיגיטלית לעסק",
     supportingIntents: [
       "כרטיס ניקוב דיגיטלי",
@@ -35,6 +44,20 @@ export const productSeoByService = {
       "כרטיסיית נייר",
     ],
     schemaId: "digital-punch-card",
+    schemaName: "כרטיסיות ניקוב דיגיטליות לעסקים",
+    schemaAlternateNames: [
+      "כרטיסיית ניקוב דיגיטלית",
+      "כרטיס ניקוב דיגיטלי",
+      "כרטיסייה דיגיטלית לעסק",
+      "כרטיס ניקובים דיגיטלי",
+    ],
+    homeHeadings: {
+      hero: "כרטיסיות ניקוב דיגיטליות לעסק",
+      benefits: "למה כרטיסיות ניקוב דיגיטליות מחזירות לקוחות",
+      buyingGuide: "כל מה שחשוב לדעת לפני שבוחרים כרטיסיית ניקוב דיגיטלית",
+      facts: "כמה עולה כרטיס ניקוב דיגיטלי?",
+      comparison: "כרטיס ניקובים דיגיטלי או כרטיסיית נייר?",
+    },
     lastModified: "2026-10-19",
   },
   "smart-wheel": {

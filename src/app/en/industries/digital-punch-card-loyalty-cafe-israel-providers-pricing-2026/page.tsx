@@ -17,7 +17,6 @@ const baseMetadata = createPageMetadata({ path, title, description });
 
 export const metadata = {
   ...baseMetadata,
-  keywords: ["digital punch card for cafes", "cafe loyalty card Israel", "coffee shop punch card", "cafe loyalty pricing"],
   alternates: {
     canonical: path,
     languages: { en: path, "he-IL": hebrewPath },

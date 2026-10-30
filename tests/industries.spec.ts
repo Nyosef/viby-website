@@ -128,7 +128,7 @@ for (const industry of pages) {
 
 test("existing commercial pages still load with their original headings", async ({ request }) => {
   for (const [path, heading] of [
-    ["/", "הלקוחות כבר מגיעים אליכם. תנו להם סיבה לחזור."],
+    ["/", "כרטיסיות ניקוב דיגיטליות לעסק"],
     ["/smart-wheel", "גלגל מזל דיגיטלי שהופך כל קנייה לסיבה לחזור"],
     ["/digital-wallet", "כרטיס מתנה דיגיטלי לעסק שנשמר ישר בטלפון"],
   ]) {

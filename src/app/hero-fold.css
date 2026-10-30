@@ -98,15 +98,28 @@
   line-height: 1.5;
   text-align: start;
 }
-.landing-v2.compact-home-hero .v2-hero h1 {
+/* The H1 is the product line; the slogan keeps the headline styling as a paragraph. */
+.landing-v2.compact-home-hero .v2-hero .v2-home-h1 {
+  max-width: 620px;
+  margin: 0 0 6px;
+  color: #351b35;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-align: start;
+}
+.landing-v2.compact-home-hero .v2-hero .v2-hero-slogan {
   max-width: 620px;
   margin: 0 0 19px;
+  color: white;
+  font-weight: 900;
   font-size: clamp(2.1rem, 3.4vw, 3.2rem);
   line-height: 1.12;
   letter-spacing: -.045em;
   text-wrap: balance;
 }
-.landing-v2.compact-home-hero .v2-hero h1 > span {
+.landing-v2.compact-home-hero .v2-hero .v2-hero-slogan > span {
   display: block;
   color: #351b35;
 }
@@ -188,7 +201,7 @@
 @media (min-width: 761px) and (max-width: 1023px) {
   .landing-v2.compact-home-hero .v2-hero-art { height: 390px; }
   .landing-v2.compact-home-hero .v2-compact-art-inner { transform: translate(-50%, -50%) scale(.45); }
-  .landing-v2.compact-home-hero .v2-hero h1 { font-size: clamp(1.7rem, 3.5vw, 2.2rem); }
+  .landing-v2.compact-home-hero .v2-hero .v2-hero-slogan { font-size: clamp(1.7rem, 3.5vw, 2.2rem); }
   .landing-v2.compact-home-hero .v2-hero-text { font-size: .95rem; }
 }
 @media (max-width: 760px) {
@@ -204,7 +217,7 @@
   .landing-v2.compact-home-hero .service-chooser--header .service-chooser-trigger > svg { width: 25px; height: 25px; margin-inline-start: 0; }
   .landing-v2.compact-home-hero .v2-hero-grid { grid-template-columns: minmax(0,1fr); gap: 2px; padding-block: 12px 0; }
   .landing-v2.compact-home-hero .v2-company-line { margin-bottom: 9px; font-size: .8rem; }
-  .landing-v2.compact-home-hero .v2-hero h1 { font-size: clamp(1.5rem, 7.5vw, 3rem); margin-bottom: 13px; line-height: 1.12; }
+  .landing-v2.compact-home-hero .v2-hero .v2-hero-slogan { font-size: clamp(1.5rem, 7.5vw, 3rem); margin-bottom: 13px; line-height: 1.12; }
   .landing-v2.compact-home-hero .v2-hero-text { font-size: .92rem; line-height: 1.65; }
   .landing-v2.compact-home-hero .v2-hero .v2-actions { gap: 10px; margin-top: 14px; }
   .landing-v2.compact-home-hero .v2-hero .v2-button { min-height: 46px; padding: 9px 12px; font-size: .89rem; }
@@ -363,13 +376,13 @@
 
 @media (max-width: 360px) {
   .landing-v2.compact-home-hero .v2-hero-grid { gap: 14px; padding-top: 8px; }
-  .landing-v2.compact-home-hero .v2-hero h1 { margin-bottom: 9px; }
+  .landing-v2.compact-home-hero .v2-hero .v2-hero-slogan { margin-bottom: 9px; }
   .landing-v2.compact-home-hero .v2-hero-text { line-height: 1.55; }
 }
 
 /* The phone layout has its own copy, compact picker and product photograph. */
 .landing-v2.compact-home-hero .v2-mobile-only { display: none; }
-.landing-v2.compact-home-hero .v2-hero h1 > .v2-hero-first-line { color: #fff; }
+.landing-v2.compact-home-hero .v2-hero .v2-hero-slogan > .v2-hero-first-line { color: #fff; }
 @media (max-width: 760px) {
   .landing-v2.compact-home-hero .v2-desktop-only { display: none; }
   .landing-v2.compact-home-hero .v2-mobile-only { display: block; }
@@ -397,7 +410,8 @@
   .landing-v2.compact-home-hero .v2-hero-grid { display: grid; flex: 1; min-height: min-content; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(100px, 1fr) auto; gap: 12px; padding-block: 8px 0; }
   .landing-v2.compact-home-hero .v2-hero-copy { width: 100%; flex-shrink: 0; }
   .landing-v2.compact-home-hero .v2-company-line { display: none; }
-  .landing-v2.compact-home-hero .v2-hero h1 { font-size: clamp(2rem, 10vw, 2.75rem); font-weight: 800; line-height: 1.1; margin-bottom: 12px; letter-spacing: -.035em; }
+  .landing-v2.compact-home-hero .v2-hero .v2-home-h1 { margin-bottom: 4px; font-size: .9rem; line-height: 1.35; }
+  .landing-v2.compact-home-hero .v2-hero .v2-hero-slogan { font-size: clamp(2rem, 10vw, 2.75rem); font-weight: 800; line-height: 1.1; margin-bottom: 12px; letter-spacing: -.035em; }
   .landing-v2.compact-home-hero .v2-hero-text { font-size: 1rem; font-weight: 500; line-height: 1.5; color: var(--v2-plum); }
   .landing-v2.compact-home-hero .v2-hero .v2-actions { flex-direction: column; gap: 8px; margin-top: 12px; }
   .landing-v2.compact-home-hero .v2-hero-primary-actions { display: flex; width: 100%; align-items: stretch; gap: 8px; }
@@ -430,7 +444,7 @@
   .landing-v2.compact-home-hero .v2-brand-row { height: 52px; min-height: 52px; }
   .landing-v2.compact-home-hero .v2-hero > .v2-shell { padding-bottom: 4px; }
   .landing-v2.compact-home-hero .v2-hero-grid { gap: 6px; padding-top: 4px; }
-  .landing-v2.compact-home-hero .v2-hero h1 { font-size: clamp(26px, 7.8vw, 32px); margin-bottom: 8px; }
+  .landing-v2.compact-home-hero .v2-hero .v2-hero-slogan { font-size: clamp(26px, 7.8vw, 32px); margin-bottom: 8px; }
   .landing-v2.compact-home-hero .v2-hero .v2-actions { margin-top: 8px; }
   .landing-v2.compact-home-hero .v2-mobile-demo-link { min-height: 22px; font-size: .85rem; }
   .landing-v2.compact-home-hero .v2-trust-in-hero { padding-block: 4px; }
@@ -439,3 +453,77 @@
 }
 
 .landing-v2.compact-home-hero #demo-player-punch-card { scroll-margin-block: 112px 24px; }
+
+.landing-v2.compact-home-hero .v2-home-answers {
+  background: #fffafc;
+  color: #351b35;
+}
+
+.landing-v2.compact-home-hero .v2-home-answer {
+  padding-block: clamp(32px, 5vw, 60px);
+}
+
+.landing-v2.compact-home-hero .v2-home-answer + .v2-home-answer {
+  border-top: 1px solid #eadce6;
+}
+
+.landing-v2.compact-home-hero .v2-home-answer h2 {
+  max-width: 760px;
+  margin: 0 0 16px;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.25;
+}
+
+.landing-v2.compact-home-hero .v2-home-answer p {
+  max-width: 850px;
+  margin: 0;
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  line-height: 1.85;
+}
+
+.landing-v2.compact-home-hero .v2-home-answer-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 350px);
+  align-items: center;
+  gap: clamp(20px, 4vw, 52px);
+}
+
+.landing-v2.compact-home-hero .v2-home-card-figure {
+  margin: 0;
+}
+
+.landing-v2.compact-home-hero .v2-home-card-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+}
+
+.landing-v2.compact-home-hero .v2-home-card-figure figcaption {
+  margin-top: 6px;
+  color: #765d70;
+  font-size: .8rem;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .landing-v2.compact-home-hero .v2-home-answer-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .landing-v2.compact-home-hero .v2-home-card-figure {
+    max-width: 420px;
+  }
+}
+
+.landing-v2.compact-home-hero .v2-home-answer a {
+  color: #ad1768;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+.landing-v2.compact-home-hero .v2-home-answer a:focus-visible {
+  outline: 3px solid #351b35;
+  outline-offset: 3px;
+}

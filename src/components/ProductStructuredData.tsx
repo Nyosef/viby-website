@@ -1,10 +1,12 @@
-import { serviceCatalog, serviceIds, type ServiceId } from "@/lib/services";
-import { productSeoByService } from "@/lib/seo";
+import { serviceCatalog, serviceIds, services, type ServiceId } from "@/lib/services";
+import { productSeoByService, type ProductSeo } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
+import { commercialTerms, monthlyPrice, subscriptionPriceNotice } from "@/lib/commercial";
+import { generalVibyFaqs, punchCardSeoFaqs, punchCardTypesFaq } from "@/lib/faq";
 
 export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
   const service = serviceCatalog[serviceId];
-  const seo = productSeoByService[serviceId];
+  const seo: ProductSeo = productSeoByService[serviceId];
   const pageUrl = `${siteConfig.url}${seo.path === "/" ? "" : seo.path}`;
   const organizationId = `${siteConfig.url}/#organization`;
   const websiteId = `${siteConfig.url}/#website`;
@@ -60,10 +62,12 @@ export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
     {
       "@type": "Service",
       "@id": `${siteConfig.url}/#${seo.schemaId}`,
-      name: seo.title,
-      ...(service.label !== seo.title
-        ? { alternateName: service.label }
-        : {}),
+      name: seo.schemaName ?? seo.title,
+      ...(seo.schemaAlternateNames
+        ? { alternateName: seo.schemaAlternateNames }
+        : service.label !== seo.title
+          ? { alternateName: service.label }
+          : {}),
       description: seo.description,
       url: pageUrl,
       inLanguage: siteConfig.language,
@@ -74,6 +78,38 @@ export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
   ];
 
   if (serviceId === "punch-card") {
+    const monthly = monthlyPrice("punch-card")!;
+    const serviceNode = graph.find((node) => node["@type"] === "Service")!;
+    serviceNode.offers = {
+      "@type": "Offer",
+      url: pageUrl,
+      price: monthly,
+      priceCurrency: "ILS",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: monthly,
+        priceCurrency: "ILS",
+        billingDuration: "P1M",
+      },
+      description: `${subscriptionPriceNotice("punch-card")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${commercialTerms.delivery}`,
+    };
+
+    const visibleFaqs = [
+      ...services["punch-card"].buyingGuide.faqs,
+      ...generalVibyFaqs,
+      punchCardTypesFaq,
+      ...punchCardSeoFaqs,
+    ];
+    graph.push({
+      "@type": "FAQPage",
+      "@id": `${pageUrl}/#faq`,
+      mainEntity: visibleFaqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    });
+
     graph.push({
       "@type": "ItemList",
       name: "פתרונות Viby לעסקים",

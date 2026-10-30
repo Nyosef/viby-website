@@ -337,8 +337,10 @@ test("only the second mobile chooser shrinks after scrolling and expands on retu
     expect((await header.boundingBox())!.height).toBe(44);
     const headingTop = await page.locator(".social-proof-heading").evaluate((el) => el.getBoundingClientRect().top + scrollY);
     const heroBottom = await page.locator(".v2-hero, .up-hero").evaluate((el) => el.getBoundingClientRect().bottom + scrollY);
+    // The homepage answer sections sit between the hero and the body chooser.
+    const chooserTop = await body.evaluate((el) => el.getBoundingClientRect().top + scrollY);
 
-    await page.evaluate((top) => window.scrollTo(0, top), heroBottom + 180);
+    await page.evaluate((top) => window.scrollTo(0, top), Math.max(heroBottom, chooserTop) + 180);
     await expect.poll(() => body.evaluate((el) => el.getBoundingClientRect().height)).toBe(44);
     await expect(body).toBeInViewport();
     expect((await header.boundingBox())!.height).toBe(44);
