@@ -19,7 +19,7 @@ checks recorded there remain outstanding; publication does not mark them complet
   mandatory rights; no separate sign/setup penalty.
 - Punch cards: ₪79/month, ₪237 initial subscription total. Other fixed-price
   tools: from ₪49/month, from ₪147 initial subscription total. UP: personal quote.
-  The business is an עוסק פטור: final prices, no VAT charged.
+  Show subscription prices and the full amount payable before an order is approved; omit the business's tax classification from the public website.
 - Digital setup within three business days after required details/approvals.
   Sunday–Thursday excluding Israeli public holidays. Production/delivery separate.
 - One standard branded sign per initial order, included at joining after payment

@@ -259,7 +259,7 @@ const faqExpectations = new Map([
     title: "כרטיסייה דיגיטלית בחינם: אפשרויות, מגבלות ומחיר | וייבי Viby",
     h1: "האם אפשר לקבל כרטיסייה דיגיטלית בחינם?",
     description: "כרטיסייה דיגיטלית בחינם לעסק: מה אפשר לעשות לבד, מתי צריך מערכת בתשלום, ומה מקבלים בוייבי? הסבר קצר ומחיר התחלתי ברור.",
-    terms: ["פתרון חינמי שדורש עבודה ידנית", "79 ₪ לחודש לכלי", "237 ₪ למנוי בתקופה הראשונה", "מחיר סופי; לא נגבה מע״מ", "משלוח בתשלום נפרד"],
+    terms: ["פתרון חינמי שדורש עבודה ידנית", "79 ₪ לחודש לכלי", "237 ₪ למנוי בתקופה הראשונה", "מחירי המנוי המוצגים", "משלוח בתשלום נפרד"],
     photo: "/phase_1.jpg",
     related: "/business-faq/printable-vs-digital-punch-card",
   }],
@@ -422,6 +422,7 @@ async function checkPage(pathname, titles) {
   const response = await fetch(`${origin}${pathname}`);
   const html = await response.text();
   assert(response.status === 200, `${pathname}: expected 200, got ${response.status}`);
+  assert(!html.includes("עוסק פטור") && !html.includes("לא נגבה מע״מ"), `${pathname}: public page exposes business tax status`);
   if (pathname === englishCafePath) {
     assert(/<main[^>]+lang="en"[^>]+dir="ltr"/.test(html), `${pathname}: missing English LTR page language`);
   } else {
@@ -787,7 +788,7 @@ async function checkPage(pathname, titles) {
       assert(serviceNode?.offers?.["@type"] === "Offer", "/: missing Service Offer");
       assert(serviceNode?.offers?.price === 79 && serviceNode?.offers?.priceCurrency === "ILS", "/: wrong Service Offer price");
       assert(serviceNode?.offers?.priceSpecification?.billingDuration === "P1M", "/: Offer must be monthly");
-      assert(serviceNode?.offers?.description?.includes("מחיר סופי; לא נגבה מע״מ — עוסק פטור."), "/: Offer VAT wording differs from visible terms");
+      assert(serviceNode?.offers?.description?.includes("מחירי המנוי המוצגים הם מחירים סופיים למנוי"), "/: Offer price wording differs from visible terms");
     }
 
     for (const product of productLinks) {
@@ -1051,6 +1052,19 @@ async function run() {
     if (!productionMode) await waitForServer();
     const titles = new Set();
     for (const route of routes) await checkPage(route, titles);
+    for (const route of [
+      "/terms/versions/2026-07-02",
+      "/terms/versions/2026-10-08",
+      "/terms/versions/2026-10-19",
+      "/privacy/versions/2026-08-10",
+      "/privacy/versions/2026-10-08",
+      "/privacy/versions/2026-10-19",
+    ]) {
+      const response = await fetch(`${origin}${route}`);
+      const html = await response.text();
+      assert(response.status === 200, `${route}: expected readable legal archive`);
+      assert(!html.includes("עוסק פטור") && !html.includes("לא נגבה מע״מ"), `${route}: archive exposes business tax status`);
+    }
 
     const logoResponse = await fetch(`${origin}/icon.png`);
     assert(logoResponse.status === 200, `Organization logo: expected 200, got ${logoResponse.status}`);

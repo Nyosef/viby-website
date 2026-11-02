@@ -3,7 +3,7 @@ import type { ServiceId } from "./services";
 export const commercialTerms = {
   initialMonths: 3,
   setupBusinessDays: 3,
-  vatNotice: "מחיר סופי; לא נגבה מע״מ — עוסק פטור.",
+  priceNotice: "מחירי המנוי המוצגים הם מחירים סופיים למנוי; סכום ההזמנה הכולל יוצג לאישור מראש.",
   commitment: "מנוי בהתחייבות ראשונית ל־3 חודשים; לאחר מכן חידוש חודשי.",
   delivery: "משלוח בתשלום נפרד, שיימסר לאישור מראש.",
   sign: "שלט ממותג אחד כלול בהצטרפות ל־3 חודשים, לאחר אימות התשלום. המפרט מאושר בהזמנה; תוספות בתשלום באישור מראש.",
@@ -22,5 +22,5 @@ export function subscriptionPriceNotice(service: ServiceId): string {
 }
 
 export function leadPlanDescription() {
-  return `כרטיסייה דיגיטלית — ${monthlyPrice("punch-card")} ₪ לחודש; תקופה ראשונית: ${commercialTerms.initialMonths} חודשים, סה״כ ${monthlyPrice("punch-card")! * commercialTerms.initialMonths} ₪ למנוי. ${commercialTerms.vatNotice} ${commercialTerms.delivery} בקשת חזרה בלבד — אינה הזמנה או אישור חיוב.`;
+  return `כרטיסייה דיגיטלית — ${monthlyPrice("punch-card")} ₪ לחודש; תקופה ראשונית: ${commercialTerms.initialMonths} חודשים, סה״כ ${monthlyPrice("punch-card")! * commercialTerms.initialMonths} ₪ למנוי. ${commercialTerms.priceNotice} ${commercialTerms.delivery} בקשת חזרה בלבד — אינה הזמנה או אישור חיוב.`;
 }

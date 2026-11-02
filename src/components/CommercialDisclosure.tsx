@@ -6,7 +6,7 @@ export function CommercialDisclosure({ service, compact = false }: { service: Se
   return (
     <p className="commercial-disclosure">
       {commercialTerms.commitment}{" "}
-      {!compact ? <>{subscriptionPriceNotice(service)} {commercialTerms.vatNotice}{" "}</> : null}
+      {!compact ? <>{subscriptionPriceNotice(service)} {commercialTerms.priceNotice}{" "}</> : null}
       {commercialTerms.delivery}{" "}
       <Link href="/terms#terms-8">לתנאי ההצטרפות והביטול</Link>
     </p>
