@@ -3,19 +3,16 @@ import { commercialTerms, monthlyPrice } from "@/lib/commercial";
 const punchCardPrice = monthlyPrice("punch-card");
 if (punchCardPrice === null) throw new Error("The punch-card price must be published before rendering the FAQ.");
 
-const initialMonths = commercialTerms.initialMonths;
-const initialMonthsText = initialMonths === 3 ? "שלושה" : String(initialMonths);
-
 export const faqPages = {
   free: {
     path: "/business-faq/free-digital-punch-card",
-    title: "האם אפשר לקבל כרטיסייה דיגיטלית לעסק בחינם?",
-    metadataTitle: "כרטיסייה דיגיטלית בחינם לעסק: מה האפשרויות? | וייבי Viby",
+    title: "האם אפשר לקבל כרטיסייה דיגיטלית בחינם?",
+    metadataTitle: "כרטיסייה דיגיטלית בחינם: אפשרויות, מגבלות ומחיר | וייבי Viby",
     description: "כרטיסייה דיגיטלית בחינם לעסק: מה אפשר לעשות לבד, מתי צריך מערכת בתשלום, ומה מקבלים בוייבי? הסבר קצר ומחיר התחלתי ברור.",
     answer: [
       "אפשר ליצור כרטיסייה בסיסית לעסק בלי לשלם על מערכת, למשל באמצעות גיליון לניהול ניקובים או תבנית שמכינים לבד. אבל חשוב להבדיל בין פתרון חינמי שדורש עבודה ידנית לבין כרטיסייה דיגיטלית עם מערכת שמנהלת את הצבירה והמימוש.",
       "בכרטיסייה מנוהלת, לקוחות יכולים להצטרף בסריקת QR, לשמור את הכרטיסייה בטלפון ולראות את ההתקדמות. הצוות מוסיף ניקובים, ובעל העסק מקבל תמונה מסודרת של הפעילות.",
-      `ב־Viby הכרטיסייה נשמרת ב־Apple Wallet או Google Wallet, בלי שהלקוח צריך להוריד אפליקציית Viby. המחיר מתחיל ב־${punchCardPrice} ₪ לחודש לכלי, בהתחייבות ראשונית של ${initialMonthsText} חודשים (${punchCardPrice * initialMonths} ₪ למנוי בתקופה הראשונה). משלוח ותוספות מאושרות מתומחרים בנפרד.`,
+      `ב־Viby הכרטיסייה נשמרת ב־Apple Wallet או Google Wallet, בלי שהלקוח צריך להוריד אפליקציית Viby. המחיר מתחיל ב־${punchCardPrice} ₪ לחודש לכלי. ${commercialTerms.commitment} ${punchCardPrice * commercialTerms.initialMonths} ₪ למנוי בתקופה הראשונה. ${commercialTerms.vatNotice} ${commercialTerms.delivery} תוספות מאושרות מתומחרות בנפרד.`,
       "אם אתם רק בודקים רעיון, פתרון ידני עשוי להספיק. אם אתם רוצים להפעיל תוכנית נאמנות קבועה ונוחה לעסק וללקוחות, כדאי לשקול מערכת ייעודית.",
     ],
     ctaHeading: "רוצים להכיר את האפשרות הדיגיטלית?",
@@ -37,7 +34,7 @@ export const faqPages = {
     ],
     ctaHeading: "רוצים לראות איך כרטיסייה דיגיטלית עובדת?",
     ctaLabel: "הכירו כרטיסיית ניקוב דיגיטלית לעסק ב־Viby",
-    relatedLabel: "האם אפשר לקבל כרטיסייה דיגיטלית לעסק בחינם?",
+    relatedLabel: "האם אפשר לקבל כרטיסייה דיגיטלית בחינם?",
     relatedPath: "/business-faq/free-digital-punch-card",
     visual: "comparison",
   },

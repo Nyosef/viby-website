@@ -43,3 +43,9 @@ If the target SERP is dominated by comparison or provider-list pages, a dedicate
 ## Café page
 
 The café query/page pair is monitored separately. Any future Phase 2 café copy is limited to additions below its hero. Its URL, title, H1, metadata, canonical, hero, and existing links stay unchanged. A persistent qualifying drop after that release triggers rollback of the café additions only.
+
+## SEO R1 publication record
+
+SEO R1 adds contextual links to `/` from `/business-faq`, both FAQ articles, and `/how-it-works`. It does not change the homepage content, title, H1, metadata, or links. Record the R1 production publication date after the separately authorized deployment: `____`. If it is later than 2026-11-01, update the R1 `lastmod` in `src/app/sitemap.ts` and its expectation in `scripts/seo-report.mjs` before publishing. Use the publication date when reviewing subsequent homepage ranking changes; the R1 links are a second possible influence after the homepage release.
+
+Before publishing R1, confirm that Search Console URL Inspection's **indexed-version View crawled page** shows the homepage's current H1, `כרטיסיות ניקוב דיגיטליות לעסק`. A live URL test does not satisfy this check. After publication, request indexing once for the hub, both FAQ articles, and `/how-it-works`.

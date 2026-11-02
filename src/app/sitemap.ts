@@ -3,6 +3,9 @@ import { productSeoEntries } from "@/lib/seo";
 import { legalDocuments } from "@/lib/legal-content";
 import { siteConfig } from "@/lib/site";
 
+// Replace with R1's actual production publication date if it ships after this content date.
+const r1LastModified = "2026-11-01";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const productPages: MetadataRoute.Sitemap = productSeoEntries.map(
     (entry) => ({
@@ -32,12 +35,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       "/business-faq/printable-vs-digital-punch-card",
     ].map((path) => ({
       url: `${siteConfig.url}${path}`,
+      lastModified: r1LastModified,
       changeFrequency: "monthly" as const,
       priority: path === "/business-faq" ? 0.7 : 0.65,
     })),
     {
       url: `${siteConfig.url}/industries/cafes`,
-      // Set lastModified to the actual publication date when this page is approved for deployment.
+      lastModified: "2026-10-26",
       changeFrequency: "monthly",
       priority: 0.75,
       alternates: { languages: {
@@ -47,6 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteConfig.url}/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026`,
+      lastModified: "2026-10-26",
       changeFrequency: "monthly",
       priority: 0.7,
       alternates: { languages: {
@@ -56,19 +61,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteConfig.url}/industries/car-washes`,
-      // Set lastModified to the actual publication date when this page is approved for deployment.
+      lastModified: "2026-10-30",
       changeFrequency: "monthly",
       priority: 0.75,
     },
     {
       url: `${siteConfig.url}/industries/bakeries`,
-      // Set lastModified to the actual publication date when this page is approved for deployment.
+      lastModified: "2026-10-30",
       changeFrequency: "monthly",
       priority: 0.75,
     },
     {
       url: `${siteConfig.url}/industries/hair-salons`,
-      // Set lastModified to the actual publication date when this page is approved for deployment.
+      lastModified: "2026-10-30",
       changeFrequency: "monthly",
       priority: 0.75,
     },
@@ -80,12 +85,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteConfig.url}/support`,
+      lastModified: "2026-10-26",
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${siteConfig.url}/how-it-works`,
-      lastModified: "2026-10-08",
+      lastModified: r1LastModified,
       changeFrequency: "monthly",
       priority: 0.75,
     },
