@@ -21,7 +21,7 @@ const punchCardPrice = monthlyPrice("punch-card")!;
 export const punchCardSeoFaqs = [
   {
     question: "כמה עולה כרטיס ניקוב דיגיטלי לעסק?",
-    answer: `החל מ־${punchCardPrice} ₪ לחודש לכלי, בהתחייבות ראשונית ל־${commercialTerms.initialMonths} חודשים (${punchCardPrice * commercialTerms.initialMonths} ₪ למנוי בתקופה הראשונה), ולאחר מכן חידוש חודשי. ההקמה הדיגיטלית בליווי Viby; שלט ממותג אחד כלול בהצטרפות לאחר אימות התשלום. ${commercialTerms.vatNotice} ${commercialTerms.delivery} תוספות מאושרות מתומחרות בנפרד.`,
+    answer: `החל מ־${punchCardPrice} ₪ לחודש לכלי, בהתחייבות ראשונית ל־${commercialTerms.initialMonths} חודשים (${punchCardPrice * commercialTerms.initialMonths} ₪ למנוי בתקופה הראשונה), ולאחר מכן חידוש חודשי. ההקמה הדיגיטלית בליווי Viby; שלט ממותג אחד כלול בהצטרפות לאחר אימות התשלום. ${commercialTerms.priceNotice} ${commercialTerms.delivery} תוספות מאושרות מתומחרות בנפרד.`,
   },
   {
     question: "איך עובדת כרטיסיית ניקוב דיגיטלית ביום־יום?",

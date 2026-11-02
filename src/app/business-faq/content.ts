@@ -12,7 +12,7 @@ export const faqPages = {
     answer: [
       "אפשר ליצור כרטיסייה בסיסית לעסק בלי לשלם על מערכת, למשל באמצעות גיליון לניהול ניקובים או תבנית שמכינים לבד. אבל חשוב להבדיל בין פתרון חינמי שדורש עבודה ידנית לבין כרטיסייה דיגיטלית עם מערכת שמנהלת את הצבירה והמימוש.",
       "בכרטיסייה מנוהלת, לקוחות יכולים להצטרף בסריקת QR, לשמור את הכרטיסייה בטלפון ולראות את ההתקדמות. הצוות מוסיף ניקובים, ובעל העסק מקבל תמונה מסודרת של הפעילות.",
-      `ב־Viby הכרטיסייה נשמרת ב־Apple Wallet או Google Wallet, בלי שהלקוח צריך להוריד אפליקציית Viby. המחיר מתחיל ב־${punchCardPrice} ₪ לחודש לכלי. ${commercialTerms.commitment} ${punchCardPrice * commercialTerms.initialMonths} ₪ למנוי בתקופה הראשונה. ${commercialTerms.vatNotice} ${commercialTerms.delivery} תוספות מאושרות מתומחרות בנפרד.`,
+      `ב־Viby הכרטיסייה נשמרת ב־Apple Wallet או Google Wallet, בלי שהלקוח צריך להוריד אפליקציית Viby. המחיר מתחיל ב־${punchCardPrice} ₪ לחודש לכלי. ${commercialTerms.commitment} ${punchCardPrice * commercialTerms.initialMonths} ₪ למנוי בתקופה הראשונה. ${commercialTerms.priceNotice} ${commercialTerms.delivery} תוספות מאושרות מתומחרות בנפרד.`,
       "אם אתם רק בודקים רעיון, פתרון ידני עשוי להספיק. אם אתם רוצים להפעיל תוכנית נאמנות קבועה ונוחה לעסק וללקוחות, כדאי לשקול מערכת ייעודית.",
     ],
     ctaHeading: "רוצים להכיר את האפשרות הדיגיטלית?",

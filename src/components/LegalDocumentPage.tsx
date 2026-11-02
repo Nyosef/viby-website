@@ -19,12 +19,20 @@ function linkedContactText(text: string) {
   );
 }
 
+function publicArchiveText(text: string) {
+  return text
+    .replaceAll(", עוסק פטור, שמענו ", ". כתובת העסק: ")
+    .replaceAll("מחיר סופי; לא נגבה מע״מ — עוסק פטור.", "המחיר הסופי יוצג לפני אישור ההזמנה.")
+    .replaceAll("שינוי במעמד המס אינו מתיר שינוי בדיעבד של מחיר שאושר", "מחיר שכבר אושר לא ישונה בדיעבד");
+}
+
 type LegalDocumentPageProps = {
   documentKey: LegalDocumentKey;
   archivedDocument?: LegalDocument;
 };
 export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocumentPageProps) {
   const document: LegalDocument = archivedDocument ?? currentLegalDocument(documentKey);
+  const displayText = (text: string) => archivedDocument ? publicArchiveText(text) : text;
   const isTerms = documentKey === "terms";
   const currentPath = isTerms ? "/terms" : "/privacy";
   const path = archivedDocument ? `${currentPath}/versions/${document.version}` : currentPath;
@@ -80,7 +88,7 @@ export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocume
         {isTerms && !archivedDocument && document.sections.some((section) => section.id === "terms-8a") ? <Link className="legal-relief-jump" href="#terms-8a">למדיניות הסיוע לעסקים בחירום</Link> : null}
         <span>עודכן לאחרונה: {document.updated}</span>
         <p className="legal-version">גרסה: <bdi>{document.version}</bdi> · תאריך תחילה: {document.effectiveDate.split("-").reverse().join(".")}</p>
-        {archivedDocument ? <><p className="legal-status">גרסה שמורה לעיון. <Link href={currentPath}>למסמך העדכני</Link></p>{["2026-10-08", "2026-10-19"].includes(document.version) ? <p className="legal-status">פרטי הקשר בגרסה זו תוקנו ב־21.10.2026 כדי להסיר מספר אישי.</p> : null}</> : (
+        {archivedDocument ? <><p className="legal-status">גרסה שמורה לעיון. <Link href={currentPath}>למסמך העדכני</Link></p>{["2026-10-08", "2026-10-19"].includes(document.version) ? <><p className="legal-status">פרטי הקשר בגרסה זו תוקנו ב־21.10.2026 כדי להסיר מספר אישי.</p><p className="legal-status">פרטים מסחריים מסוימים הוסרו מתצוגת הארכיון; עותק המקור נשמר.</p></> : null}</> : (
           <p className="legal-status"><Link href={`${currentPath}/versions/${latestLegalArchive(documentKey).version}`}>לגרסה הקודמת</Link></p>
         )}
         {!archivedDocument && missingLegalIdentity().length ? <p className="legal-draft-notice">טיוטה לתצוגה מקדימה — פרטי העוסק וערוץ הפניות יושלמו לפני פרסום.</p> : null}
@@ -111,12 +119,12 @@ export function LegalDocumentPage({ documentKey, archivedDocument }: LegalDocume
               <div className="legal-text">
                 {section.blocks.map((block, index) => {
                   const key = `${section.id}-${index}`;
-                  if (block.type === "heading") return <h3 key={key}>{block.text}</h3>;
-                  if (block.type === "paragraph") return <p key={key}>{linkedContactText(block.text)}</p>;
-                  if (block.type === "link") return <p key={key}><a href={block.href}>{block.text}</a></p>;
+                  if (block.type === "heading") return <h3 key={key}>{displayText(block.text)}</h3>;
+                  if (block.type === "paragraph") return <p key={key}>{linkedContactText(displayText(block.text))}</p>;
+                  if (block.type === "link") return <p key={key}><a href={block.href}>{displayText(block.text)}</a></p>;
                   if (block.type === "list") {
                     const List = block.ordered ? "ol" : "ul";
-                    return <List key={key}>{block.items.map((item, i) => <li key={i}>{item}</li>)}</List>;
+                    return <List key={key}>{block.items.map((item, i) => <li key={i}>{displayText(item)}</li>)}</List>;
                   }
                 })}
               </div>

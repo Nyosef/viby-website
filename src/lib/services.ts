@@ -265,7 +265,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: `${subscriptionPriceNotice("punch-card")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} התאמה לכמה סניפים מתומחרת בנפרד.`,
+          value: `${subscriptionPriceNotice("punch-card")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} התאמה לכמה סניפים מתומחרת בנפרד.`,
         },
         {
           label: "זמן הקמה",
@@ -322,7 +322,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה הכרטיסייה וכמה זמן לוקח להתחיל?",
-          answer: `${subscriptionPriceNotice("punch-card")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${guidedSetupPromise} התאמה לכמה סניפים נסגרת בנפרד לפני ההפעלה.`,
+          answer: `${subscriptionPriceNotice("punch-card")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} ${guidedSetupPromise} התאמה לכמה סניפים נסגרת בנפרד לפני ההפעלה.`,
         },
       ],
     },
@@ -459,7 +459,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: `${subscriptionPriceNotice("smart-wheel")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} התאמה לכמה סניפים מתומחרת בנפרד.`,
+          value: `${subscriptionPriceNotice("smart-wheel")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} התאמה לכמה סניפים מתומחרת בנפרד.`,
         },
         { label: "זמן הקמה", value: guidedSetupPromise },
         {
@@ -513,7 +513,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה הגלגל וכמה זמן לוקח להפעיל אותו?",
-          answer: `${subscriptionPriceNotice("smart-wheel")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${guidedSetupPromise} התאמה לכמה סניפים מתומחרת בנפרד.`,
+          answer: `${subscriptionPriceNotice("smart-wheel")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} ${guidedSetupPromise} התאמה לכמה סניפים מתומחרת בנפרד.`,
         },
       ],
     },
@@ -651,7 +651,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: `${subscriptionPriceNotice("wallet")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} עמלות סליקה או הסדרי תשלום נמסרים לאישור לפני ההפעלה.`,
+          value: `${subscriptionPriceNotice("wallet")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} עמלות סליקה או הסדרי תשלום נמסרים לאישור לפני ההפעלה.`,
         },
         { label: "זמן הקמה", value: guidedSetupPromise },
         {
@@ -704,7 +704,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה המערכת וכמה זמן לוקח להתחיל?",
-          answer: `${subscriptionPriceNotice("wallet")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${guidedSetupPromise} סכומים ותנאי תשלום מאושרים מראש; עמלות סליקה אינן מובטחות כחלק מהמחיר.`,
+          answer: `${subscriptionPriceNotice("wallet")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} ${guidedSetupPromise} סכומים ותנאי תשלום מאושרים מראש; עמלות סליקה אינן מובטחות כחלק מהמחיר.`,
         },
       ],
     },
@@ -845,7 +845,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: `${subscriptionPriceNotice("viby-rate")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${commercialTerms.sign} ${commercialTerms.delivery}`,
+          value: `${subscriptionPriceNotice("viby-rate")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} ${commercialTerms.sign} ${commercialTerms.delivery}`,
         },
         {
           label: "הגדרה ומשלוח",
@@ -900,7 +900,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה VibyRate ומתי הוא מוכן לשימוש?",
-          answer: `${subscriptionPriceNotice("viby-rate")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${guidedSetupPromise} ${commercialTerms.sign} ${commercialTerms.delivery}`,
+          answer: `${subscriptionPriceNotice("viby-rate")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} ${guidedSetupPromise} ${commercialTerms.sign} ${commercialTerms.delivery}`,
         },
       ],
     },
@@ -1054,7 +1054,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
       purchaseFacts: [
         {
           label: "מחיר התחלתי",
-          value: `${subscriptionPriceNotice("viby-tap")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${commercialTerms.sign} ${commercialTerms.delivery}`,
+          value: `${subscriptionPriceNotice("viby-tap")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} ${commercialTerms.sign} ${commercialTerms.delivery}`,
         },
         {
           label: "הגדרה ומשלוח",
@@ -1108,7 +1108,7 @@ export const services: Record<LegacyServiceId, ServiceContent> = {
         },
         {
           question: "כמה עולה VibyTap וכמה זמן לוקח להקים ולקבל אותו?",
-          answer: `${subscriptionPriceNotice("viby-tap")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${guidedSetupPromise} ${commercialTerms.sign} ${commercialTerms.delivery}`,
+          answer: `${subscriptionPriceNotice("viby-tap")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} ${guidedSetupPromise} ${commercialTerms.sign} ${commercialTerms.delivery}`,
         },
       ],
     },

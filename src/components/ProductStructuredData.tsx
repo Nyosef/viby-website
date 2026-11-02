@@ -91,7 +91,7 @@ export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
         priceCurrency: "ILS",
         billingDuration: "P1M",
       },
-      description: `${subscriptionPriceNotice("punch-card")} ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${commercialTerms.delivery}`,
+      description: `${subscriptionPriceNotice("punch-card")} ${commercialTerms.commitment} ${commercialTerms.priceNotice} ${commercialTerms.delivery}`,
     };
 
     const visibleFaqs = [

@@ -66,12 +66,14 @@ test("secondary-page headers keep their logo, navigation and action in one deskt
 });
 
 for (const [path, total] of [["/", "237"], ["/smart-wheel", "147"], ["/digital-wallet", "147"], ["/viby-rate", "147"], ["/viby-tap", "147"], ["/viby-up", null]] as const) {
-  test(`${path}: minimum, VAT, sign and delivery agree`, async ({ page }) => {
+  test(`${path}: minimum, total price, sign and delivery agree`, async ({ page }) => {
     await storeChoice(page);
     await page.goto(path);
     const disclosure = page.locator(path === "/viby-up" ? ".up-hero .commercial-disclosure" : ".v2-price-strip .commercial-disclosure");
     await expect(disclosure).toContainText("3 חודשים");
-    await expect(disclosure).toContainText("לא נגבה מע״מ");
+    await expect(disclosure).toContainText("מחירי המנוי המוצגים הם מחירים סופיים למנוי");
+    await expect(disclosure).not.toContainText("עוסק פטור");
+    await expect(disclosure).not.toContainText("לא נגבה מע״מ");
     await expect(disclosure).toContainText("משלוח בתשלום נפרד");
     if (total) await expect(disclosure).toContainText(`${total} ₪`);
     else await expect(disclosure).toContainText("הצעת מחיר אישית");
@@ -195,6 +197,8 @@ for (const [key, version, oldDate] of [["terms", "2026-07-02", "02.07.2026"], ["
     await page.goto(`/${key}`);
     await expect(page.locator(".legal-version")).toContainText("2026-10-21");
     await expect(page.locator(".legal-document")).toContainText("055-263-9957");
+    await expect(page.locator(".legal-document")).not.toContainText("עוסק פטור");
+    await expect(page.locator(".legal-document")).not.toContainText("לא נגבה מע״מ");
     await expect(page.locator('.legal-document a[href="tel:+972552639957"]').first()).toBeVisible();
     await page.locator(`.legal-toc a[href="#${key}-8"]`).click();
     await expect(page).toHaveURL(new RegExp(`#${key}-8$`));
@@ -260,6 +264,9 @@ for (const key of ["terms", "privacy"] as const) {
       await expect(page.locator(".legal-hero")).toContainText(date);
       await expect(page.locator(".legal-hero")).toContainText("פרטי הקשר בגרסה זו תוקנו");
       await expect(page.locator(".legal-document")).toContainText("055-263-9957");
+      await expect(page.locator(".legal-document")).not.toContainText("עוסק פטור");
+      await expect(page.locator(".legal-document")).not.toContainText("לא נגבה מע״מ");
+      await expect(page.locator(".legal-hero")).toContainText("עותק המקור נשמר");
       await expect(page.locator('.legal-document a[href="tel:+972552639957"]').first()).toBeVisible();
       if (key === "terms" && version === "2026-10-08") await expect(page.locator("#terms-8a")).toHaveCount(0);
       expect(sitemap).not.toContain(`/${key}/versions/${version}`);

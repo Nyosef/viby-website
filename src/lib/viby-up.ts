@@ -43,6 +43,6 @@ export const upFaqs = [
   ],
   [
     "כמה עולה Viby UP?",
-    `המחיר, מכסות ועלויות ספק נוספות נמסרים בהצעה אישית לפני האישור. ${commercialTerms.commitment} ${commercialTerms.vatNotice} ${commercialTerms.delivery}`,
+    `המחיר, מכסות ועלויות ספק נוספות נמסרים בהצעה אישית לפני האישור. ${commercialTerms.commitment} ${commercialTerms.priceNotice} ${commercialTerms.delivery}`,
   ],
 ] as const;

@@ -301,7 +301,7 @@ export default function CustomerRetentionPage() {
                 ))}
               </ul>
               <p>{subscriptionPriceNotice("viby-up")}</p>
-              <p>{commercialTerms.commitment} {commercialTerms.vatNotice}</p>
+              <p>{commercialTerms.commitment} {commercialTerms.priceNotice}</p>
             </div>
             <div className={styles.pricingFacts}>
               <h3>מה צריך להביא בחשבון?</h3>
