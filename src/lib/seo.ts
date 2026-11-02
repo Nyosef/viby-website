@@ -58,7 +58,7 @@ export const productSeoByService = {
       facts: "כמה עולה כרטיס ניקוב דיגיטלי?",
       comparison: "כרטיס ניקובים דיגיטלי או כרטיסיית נייר?",
     },
-    lastModified: "2026-10-19",
+    lastModified: "2026-10-30",
   },
   "smart-wheel": {
     serviceId: "smart-wheel",

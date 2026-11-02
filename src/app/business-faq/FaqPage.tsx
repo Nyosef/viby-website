@@ -70,7 +70,7 @@ function AnswerVisual({ variant }: { variant: FaqAnswer["visual"] }) {
   );
 }
 
-export function FaqAnswerPage({ faq }: { faq: FaqAnswer }) {
+export function FaqAnswerPage({ faq, children }: { faq: FaqAnswer; children?: ReactNode }) {
   return (
     <FaqFrame path={faq.path} title={faq.metadataTitle} description={faq.description}>
       <div className={`${styles.shell} ${styles.answerShell}`}>
@@ -81,6 +81,7 @@ export function FaqAnswerPage({ faq }: { faq: FaqAnswer }) {
             <h1>{faq.title}</h1>
             <section className={styles.answerBody} data-faq-answer aria-label="התשובה">
               {faq.answer.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              {children}
             </section>
             <div className={styles.ctaBlock}>
               <h2>{faq.ctaHeading}</h2>

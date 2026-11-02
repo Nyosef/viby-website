@@ -220,10 +220,23 @@ const productExpectationByPath = new Map(
 const guidedSetupPromise =
   "לאחר קבלת פרטי העסק, ההרשאות והאישורים הנדרשים, Viby מפעילה את השירות הדיגיטלי תוך עד 3 ימי עסקים. ימי עסקים: ראשון–חמישי, למעט חגים בישראל. ייצור השלט והמשלוח מתואמים בנפרד.";
 const commercialLastModified = "2026-10-08";
-const brandReleaseLastModified = "2026-10-19";
+const r1LastModified = "2026-11-01";
 const legalReleaseLastModified = "2026-10-21";
 const aboutLastModified = "2026-10-20";
 const customerRetentionLastModified = "2026-10-20";
+const sitemapLastModifiedByRoute = new Map([
+  ["/", "2026-10-30"],
+  ["/business-faq", r1LastModified],
+  ["/business-faq/free-digital-punch-card", r1LastModified],
+  ["/business-faq/printable-vs-digital-punch-card", r1LastModified],
+  ["/industries/cafes", "2026-10-26"],
+  ["/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026", "2026-10-26"],
+  ["/industries/car-washes", "2026-10-30"],
+  ["/industries/bakeries", "2026-10-30"],
+  ["/industries/hair-salons", "2026-10-30"],
+  ["/support", "2026-10-26"],
+  ["/how-it-works", r1LastModified],
+]);
 const todayInIsrael = new Intl.DateTimeFormat("sv-SE", {
   timeZone: "Asia/Jerusalem",
   year: "numeric",
@@ -238,15 +251,15 @@ const customerRetentionDescription =
   "מועדון לקוחות דיגיטלי לעסקים: השוו בין כרטיסיות ניקוב, פרסים וכרטיסי מתנה. בדקו עלויות, תהליך הקמה והתאמה לעסק עם וייבי (Viby).";
 const faqExpectations = new Map([
   ["/business-faq", {
-    title: "שאלות נפוצות לבעלי עסקים | וייבי Viby",
-    h1: "שאלות נפוצות לבעלי עסקים",
+    title: "שאלות נפוצות על כרטיסיות ניקוב ומועדון לקוחות לעסק | וייבי Viby",
+    h1: "שאלות נפוצות לבעלי עסקים: כרטיסיות ניקוב ומועדון לקוחות",
     description: "שאלות נפוצות לבעלי עסקים על כרטיסיות ניקוב דיגיטליות, פתרונות חינמיים וכרטיסיות להדפסה. תשובות קצרות שיעזרו לבחור פתרון מתאים לעסק.",
   }],
   ["/business-faq/free-digital-punch-card", {
-    title: "כרטיסייה דיגיטלית בחינם לעסק: מה האפשרויות? | וייבי Viby",
-    h1: "האם אפשר לקבל כרטיסייה דיגיטלית לעסק בחינם?",
+    title: "כרטיסייה דיגיטלית בחינם: אפשרויות, מגבלות ומחיר | וייבי Viby",
+    h1: "האם אפשר לקבל כרטיסייה דיגיטלית בחינם?",
     description: "כרטיסייה דיגיטלית בחינם לעסק: מה אפשר לעשות לבד, מתי צריך מערכת בתשלום, ומה מקבלים בוייבי? הסבר קצר ומחיר התחלתי ברור.",
-    terms: ["פתרון חינמי שדורש עבודה ידנית", "79 ₪ לחודש לכלי", "237 ₪ למנוי בתקופה הראשונה", "משלוח ותוספות מאושרות מתומחרים בנפרד."],
+    terms: ["פתרון חינמי שדורש עבודה ידנית", "79 ₪ לחודש לכלי", "237 ₪ למנוי בתקופה הראשונה", "מחיר סופי; לא נגבה מע״מ", "משלוח בתשלום נפרד"],
     photo: "/phase_1.jpg",
     related: "/business-faq/printable-vs-digital-punch-card",
   }],
@@ -450,6 +463,13 @@ async function checkPage(pathname, titles) {
   }
 
   const title = titleTags[0]?.[1];
+  const mainPunchCardPhrase = "כרטיסיות ניקוב דיגיטליות";
+  const visibleMain = textContent(html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "");
+  assert(visibleMain.split(mainPunchCardPhrase).length - 1 <= 8, `${pathname}: excessive visible use of ${mainPunchCardPhrase}`);
+  if (pathname !== "/") {
+    assert(title?.split(" | ")[0] !== mainPunchCardPhrase, `${pathname}: homepage phrase used alone as title`);
+    assert(textContent(headings[0]?.[1] ?? "") !== mainPunchCardPhrase, `${pathname}: homepage phrase used alone as H1`);
+  }
   const expectedTitleSuffix = ["/", "/customer-retention"].includes(pathname) || faqExpectations.has(pathname) ? " | וייבי Viby" : " | Viby";
   assert(title?.endsWith(expectedTitleSuffix), `${pathname}: title must end with ${expectedTitleSuffix}`);
   assert(Boolean(title) && !titles.has(title), `${pathname}: duplicate or missing title ${title ?? ""}`);
@@ -514,6 +534,7 @@ async function checkPage(pathname, titles) {
   }
 
   if (pathname === "/how-it-works") {
+    assert(/<a\b[^>]*href="\/"[^>]*>כרטיס ניקוב דיגיטלי<\/a>/.test(html), "/how-it-works: missing contextual punch-card link");
     const video = parsedJsonLd.find((document) => document?.["@type"] === "VideoObject");
     assert(video?.publisher?.logo?.url === organizationLogoUrl, "/how-it-works: wrong publisher logo URL");
   }
@@ -537,6 +558,11 @@ async function checkPage(pathname, titles) {
     }
     if (pathname === "/business-faq") {
       assert(visible.includes("כרטיסיות ניקוב לעסקים"), `${pathname}: missing category heading`);
+      const intro = html.match(/<section\b[^>]*class="[^"]*hubHero[^"]*"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
+      const introParagraph = intro.match(/<p(?:\s[^>]*)?>([\s\S]*?)<\/p>/g)?.at(-1) ?? "";
+      const introWords = textContent(introParagraph).split(/\s+/).filter(Boolean).length;
+      assert(introWords >= 100 && introWords <= 150, `${pathname}: intro word count ${introWords} is outside 100–150`);
+      assert((introParagraph.match(/href="\/"/g) ?? []).length === 1 && /<a\b[^>]*href="\/"[^>]*>כרטיסיות ניקוב דיגיטליות<\/a>/.test(introParagraph), `${pathname}: missing single contextual homepage link`);
       const cards = matches(html, /<a\b[^>]*class="[^"]*questionCard[^"]*"[^>]*href="([^"]+)"[^>]*>/g).map((match) => match[1]);
       for (const route of faqExpectations.keys()) {
         if (route !== pathname) assert(cards.filter((href) => href === route).length === 1, `${pathname}: missing or duplicate linked card ${route}`);
@@ -546,11 +572,22 @@ async function checkPage(pathname, titles) {
       const answerSection = html.match(/<section\b[^>]*data-faq-answer(?:="[^"]*")?[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
       const paragraphs = matches(answerSection, /<p(?:\s[^>]*)?>([\s\S]*?)<\/p>/g);
       const words = paragraphs.flatMap(([, paragraph]) => textContent(paragraph).split(/\s+/).filter(Boolean));
-      assert(paragraphs.length === 4, `${pathname}: expected four approved answer paragraphs`);
-      assert(words.length >= 100 && words.length <= 140, `${pathname}: answer word count ${words.length} is outside 100–140`);
+      const freeArticle = pathname === "/business-faq/free-digital-punch-card";
+      assert(paragraphs.length === (freeArticle ? 12 : 5), `${pathname}: unexpected answer paragraph count ${paragraphs.length}`);
+      assert(words.length >= (freeArticle ? 600 : 130) && words.length <= (freeArticle ? 800 : 210), `${pathname}: answer word count ${words.length} is outside the route's range`);
       for (const term of expected.terms ?? []) assert(visible.includes(term), `${pathname}: missing approved answer ${term}`);
       assert(html.includes(encodeURIComponent(expected.photo)), `${pathname}: missing Viby FAQ photo ${expected.photo}`);
       assert(html.includes(`href="${expected.related}"`), `${pathname}: missing related question link`);
+      const contextualHomeLinks = matches(answerSection, /<a\b[^>]*href="\/"[^>]*>([\s\S]*?)<\/a>/g);
+      assert(contextualHomeLinks.length === 1, `${pathname}: expected one contextual homepage link`);
+      assert(textContent(contextualHomeLinks[0][1]) === (freeArticle ? "כרטיס ניקובים דיגיטלי" : "כרטיסיית ניקוב דיגיטלית"), `${pathname}: wrong contextual homepage link text`);
+      if (freeArticle) {
+        assert(textContent(answerSection).split("כרטיסיה דיגיטלית חינם").length - 1 === 1, `${pathname}: free spelling variant must occur once`);
+        assert(!expected.title.includes("כרטיסייה דיגיטלית לעסק") && !expected.h1.includes("כרטיסייה דיגיטלית לעסק"), `${pathname}: protected homepage phrase in free article title or H1`);
+      } else {
+        assert(answerSection.includes('href="/business-faq/free-digital-punch-card"'), `${pathname}: missing free-article link in new paragraph`);
+        assert(!/האם אפשר לקבל כרטיסייה דיגיטלית לעסק בחינם\?/.test(visible), `${pathname}: old related label remains`);
+      }
     }
   }
 
@@ -1035,17 +1072,15 @@ async function run() {
       const canonical = expectedCanonical(route);
       const entry = sitemapEntries.find((candidate) => candidate.includes(`<loc>${canonical}</loc>`));
       const lastModified = entry?.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
-      const expectedLastModified = ["/terms", "/privacy"].includes(route)
+      const expectedLastModified = sitemapLastModifiedByRoute.get(route) ?? (["/terms", "/privacy"].includes(route)
         ? legalReleaseLastModified
-        : route === "/"
-        ? brandReleaseLastModified
         : route === "/customer-retention"
           ? customerRetentionLastModified
         : route === "/about"
           ? aboutLastModified
-        : productRoutes.has(route) || route === "/how-it-works"
+        : productRoutes.has(route)
           ? commercialLastModified
-          : undefined;
+          : undefined);
       if (expectedLastModified) {
         assert(
           lastModified === expectedLastModified,

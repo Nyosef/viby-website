@@ -178,6 +178,8 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
+      <p className="section-shell">לפרטים על צבירת ביקורים והטבות, קראו איך עובד <Link href="/">כרטיס ניקוב דיגיטלי</Link> בעסק.</p>
+
       <footer className="site-footer">
         <Image src="/viby_transparent.png" alt="Viby" width={130} height={87} />
         <div>
