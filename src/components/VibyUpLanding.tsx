@@ -6,6 +6,7 @@ import Image from "next/image";
 import { SetupGiftSection } from "./SetupGiftSection";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site";
+import { blackFridayPath } from "@/lib/black-friday";
 import { productSeoEntries } from "@/lib/seo";
 import { upFaqs } from "@/lib/viby-up";
 import { UpConversation } from "./UpConversation";
@@ -154,6 +155,7 @@ export function VibyUpLanding() {
           <div className="up-inline-links">
             <Link href="/">כרטיסייה דיגיטלית לעסק ←</Link>
             <Link href="/smart-wheel">גלגל מזל דיגיטלי לעסקים ←</Link>
+            <Link href={blackFridayPath}>מבצעי בלאק פריידי לעסקים ←</Link>
           </div>
         </div>
       </section>

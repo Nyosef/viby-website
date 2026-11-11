@@ -2,12 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { isServiceId } from "@/lib/services";
 import { getProductPath } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
+import { blackFridayPath } from "@/lib/black-friday";
 
 const CANONICAL_HOST = new URL(siteConfig.url).host;
 const REDIRECT_HOSTS = new Set([
   `www.${CANONICAL_HOST}`,
   "viby-website.vercel.app",
 ]);
+
+function isBlackFridayPath(pathname: string) {
+  try {
+    return decodeURI(pathname) === blackFridayPath;
+  } catch {
+    return false;
+  }
+}
 
 export function proxy(request: NextRequest) {
   const forwardedHost = request.headers.get("x-forwarded-host");
@@ -35,11 +44,20 @@ export function proxy(request: NextRequest) {
     }
   }
 
+  if (destination.pathname === "/black-friday") {
+    destination.pathname = blackFridayPath;
+    shouldRedirect = true;
+  }
+
   if (shouldRedirect) {
     return NextResponse.redirect(destination, 308);
   }
 
-  const response = NextResponse.next();
+  const blackFridayRewrite = isBlackFridayPath(destination.pathname);
+  if (blackFridayRewrite) destination.pathname = "/black-friday";
+  const response = blackFridayRewrite
+    ? NextResponse.rewrite(destination)
+    : NextResponse.next();
   const isPreviewHost =
     hostname.endsWith(".vercel.app") && hostname !== "viby-website.vercel.app";
 
