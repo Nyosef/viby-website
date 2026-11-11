@@ -10,6 +10,7 @@ import { generalVibyFaqs, punchCardSeoFaqs, punchCardTypesFaq } from "@/lib/faq"
 import { SetupGiftSection } from "./SetupGiftSection";
 import { JourneyIllustration } from "./JourneyIllustration";
 import Link from "next/link";
+import { blackFridayPath } from "@/lib/black-friday";
 import { useRouter } from "next/navigation";
 import {
   services,
@@ -1165,6 +1166,7 @@ export function MultiServiceLanding({
               <Link href="/how-it-works">איך Viby עובדת</Link>
               <Link href="/about">אודות וייבי</Link>
               <Link href="/customer-retention">מועדון לקוחות דיגיטלי לעסקים</Link>
+              <Link href={blackFridayPath}>מבצעי בלאק פריידי לכרטיסיות ניקוב דיגיטליות</Link>
               <Link href="/business-faq">שאלות נפוצות לעסקים</Link>
               <Link href="/support">תמיכה</Link>
               <a

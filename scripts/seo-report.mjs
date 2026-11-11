@@ -7,6 +7,8 @@ const instagramUrl = "https://www.instagram.com/viby.il/";
 const linkedinUrl = "https://www.linkedin.com/company/vibyil/";
 const organizationLogoUrl = `${canonicalOrigin}/icon.png`;
 const englishCafePath = "/en/industries/digital-punch-card-loyalty-cafe-israel-providers-pricing-2026";
+const blackFridayPath = "/מבצעי-בלאק-פריידי-לכרטיסיות-ניקוב-דיגיטליות";
+const blackFridayPhrase = "מבצעי בלאק פריידי לכרטיסיות ניקוב דיגיטליות";
 const generalFaqQuestions = [
   "איזו תמיכה מקבלים וכמה זמן מתחייבים?",
   "האם Viby מתאימה גם לעסק קטן מחוץ למרכז?",
@@ -31,6 +33,7 @@ const routes = [
   "/viby-tap",
   "/viby-up",
   "/customer-retention",
+  blackFridayPath,
   "/business-faq",
   "/business-faq/free-digital-punch-card",
   "/business-faq/printable-vs-digital-punch-card",
@@ -439,7 +442,8 @@ async function checkPage(pathname, titles) {
   assert(titleTags.length === 1, `${pathname}: expected one title, got ${titleTags.length}`);
   assert(descriptions.length === 1, `${pathname}: expected one description, got ${descriptions.length}`);
   assert(canonicals.length === 1, `${pathname}: expected one canonical, got ${canonicals.length}`);
-  assert(canonicals[0]?.[1] === expectedCanonical(pathname), `${pathname}: canonical is ${canonicals[0]?.[1] ?? "missing"}`);
+  const expectedCanonicalLink = pathname === "/" ? expectedCanonical(pathname) : new URL(expectedCanonical(pathname)).href;
+  assert(canonicals[0]?.[1] === expectedCanonicalLink, `${pathname}: canonical is ${canonicals[0]?.[1] ?? "missing"}`);
   assert(headings.length === 1, `${pathname}: expected one H1, got ${headings.length}`);
   assert(!/<meta\b[^>]*\bname="keywords"/i.test(html), `${pathname}: meta keywords must be absent`);
   assert(jsonLd.length >= 1, `${pathname}: missing structured data`);
@@ -531,6 +535,30 @@ async function checkPage(pathname, titles) {
     assert(service?.provider?.["@id"] === `${canonicalOrigin}/#organization`, "UP: wrong Organization reference");
     for (const { path, label } of productLinks) {
       assert(html.includes(`href="${path}"`) && visible.includes(label), `UP: missing product link ${path}`);
+    }
+    assert(html.includes(`href="${blackFridayPath}"`), "UP: missing Black Friday link");
+  }
+
+  if (pathname === blackFridayPath) {
+    const visible = textContent(html);
+    const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "";
+    const firstLead = main.match(/<p\b[^>]*class="[^"]*lead[^"]*"[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? "";
+    const pageNode = parsedJsonLd.flatMap((node) => node?.["@graph"] ?? [node]).find((node) => node?.["@type"] === "WebPage");
+    const active = todayInIsrael <= "2026-11-29";
+    assert(title === `${blackFridayPhrase} | Viby`, "Black Friday: wrong title");
+    assert(textContent(headings[0]?.[1] ?? "") === blackFridayPhrase, "Black Friday: wrong H1");
+    assert(textContent(firstLead).startsWith(blackFridayPhrase), "Black Friday: first sentence does not start with target phrase");
+    assert(pageNode?.url === expectedCanonical(pathname) && pageNode?.inLanguage === "he-IL", "Black Friday: wrong WebPage schema");
+    assert(visible.includes("מבצעי בלאק פריידי לעסקים קטנים ובינוניים"), "Black Friday: missing secondary query");
+    assert(visible.includes("055-263-9957") && main.includes('href="tel:+972552639957"'), "Black Friday: missing prominent phone link");
+    assert(main.includes(`href="https://wa.me/972552639957?text=`), "Black Friday: missing WhatsApp link");
+    if (active) {
+      assert(visible.includes("269 ₪ לחודש") && !visible.includes("807 ₪"), "Black Friday: incorrect offer price or unwanted initial total");
+      assert(visible.includes("המחיר נשמר לכל חיי המנוי הפעיל"), "Black Friday: missing price promise");
+      assert(visible.includes("הצטרפות עד 29.11.2026"), "Black Friday: missing signup deadline");
+    } else {
+      assert(!visible.includes("269 ₪") && !visible.includes("807 ₪"), "Black Friday: expired price is visible");
+      assert(visible.includes("מבצע 2026 הסתיים") && visible.includes("הצעה עדכנית"), "Black Friday: expired state missing");
     }
   }
 
@@ -985,6 +1013,7 @@ async function checkPage(pathname, titles) {
       assert(/<a\b[^>]*href="\/business-faq"[^>]*>שאלות נפוצות לעסקים<\/a>/.test(html), `${pathname}: missing FAQ hub footer link`);
     }
     if (pathname === "/") {
+      assert(html.includes(`href="${blackFridayPath}"`), "/: missing Black Friday link");
       for (const route of industryExpectations.keys()) {
         assert(html.includes(`href="${route}"`), `${pathname}: missing industry footer link ${route}`);
       }
@@ -1031,7 +1060,7 @@ async function checkRedirect(url, expectedPath, host = "joinviby.co.il") {
   assert(response.status === 308, `${url} on ${host}: expected 308, got ${response.status}`);
   const location = response.headers.get("location");
   const absoluteLocation = location ? new URL(location, canonicalOrigin).href : null;
-  assert(absoluteLocation === `${canonicalOrigin}${expectedPath}`, `${url} on ${host}: redirect is ${location}`);
+  assert(absoluteLocation === new URL(`${canonicalOrigin}${expectedPath}`).href, `${url} on ${host}: redirect is ${location}`);
 }
 
 async function run() {
@@ -1141,6 +1170,7 @@ async function run() {
     await checkRedirect("/?service=smart-wheel&utm_source=test", "/smart-wheel?utm_source=test");
     await checkRedirect("/support?utm_source=test", "/support?utm_source=test", "www.joinviby.co.il");
     await checkRedirect("/viby-rate", "/viby-rate", "viby-website.vercel.app");
+    await checkRedirect("/black-friday", blackFridayPath);
 
     const preview = productionMode
       ? await fetch("https://viby-website.vercel.app/support", { redirect: "manual" })
