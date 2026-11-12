@@ -6841,6 +6841,11 @@ details p {
 }
 
 .v2-footer {
+  --v2-deep-pink: #d91668;
+  --v2-plum: #2a1830;
+  --v2-muted: #705d75;
+  --v2-yellow: #ffd13d;
+  --v2-line: rgba(42, 24, 48, 0.12);
   padding: 2.2rem 0;
   border-top: 1px solid var(--v2-line);
   background: #fff;
@@ -6922,6 +6927,7 @@ details p {
   outline-offset: 4px;
 }
 
+.v2-footer img.v2-instagram-image,
 .landing-v2 .v2-footer img.v2-instagram-image {
   width: 24px;
   max-width: 100%;

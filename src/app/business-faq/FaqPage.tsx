@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
+import { SiteFooter } from "@/components/SiteFooter";
 import { siteConfig } from "@/lib/site";
 import type { ReactNode } from "react";
 import type { FaqAnswer } from "./content";
@@ -34,15 +34,7 @@ export function FaqFrame({ path, title, description, children }: {
         <Link href={hubPath}>שאלות נפוצות לעסקים</Link>
       </header>
       {children}
-      <footer className={`${styles.footer} ${styles.shell}`}>
-        <Link href="/">כרטיסייה דיגיטלית לעסק</Link>
-        <nav aria-label="קישורים שימושיים">
-          <Link href="/support">תמיכה</Link>
-          <Link href="/terms">תנאי שימוש</Link>
-          <Link href="/privacy">מדיניות פרטיות</Link>
-          <PrivacyPreferencesButton />
-        </nav>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

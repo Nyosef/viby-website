@@ -1,4 +1,4 @@
-import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
+import { SiteFooter } from "@/components/SiteFooter";
 import { VideoConsentPlayer } from "@/components/VideoConsentPlayer";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -180,20 +180,7 @@ export default function HowItWorksPage() {
 
       <p className="section-shell">לפרטים על צבירת ביקורים והטבות, קראו איך עובד <Link href="/">כרטיס ניקוב דיגיטלי</Link> בעסק.</p>
 
-      <footer className="site-footer">
-        <Image src="/viby_transparent.png" alt="Viby" width={130} height={87} />
-        <div>
-          <Link href="/">בית</Link>
-          <Link href="/how-it-works">איך זה עובד</Link>
-          <Link href="/about">אודות וייבי</Link>
-          <Link href="/support">תמיכה</Link>
-          <Link href="/terms">תנאי שימוש</Link>
-          <Link href="/privacy">מדיניות פרטיות</Link>
-          <PrivacyPreferencesButton />
-
-          <a href={whatsappUrl} data-analytics-location="how_it_works">WhatsApp</a>
-        </div>
-      </footer>
+      <SiteFooter />
 
       <a
         className="whatsapp-float"

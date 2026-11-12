@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...productPages,
     {
       url: `${siteConfig.url}${blackFridayPath}`,
+      lastModified: "2026-11-11",
       changeFrequency: "yearly",
       priority: 0.8,
     },
