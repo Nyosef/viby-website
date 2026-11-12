@@ -1,4 +1,4 @@
-import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
+import { SiteFooter } from "@/components/SiteFooter";
 import Image from "next/image";
 import Link from "next/link";
 import { PhoneIcon } from "@/components/PhoneIcon";
@@ -217,21 +217,7 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <footer className="site-footer">
-        <Image src="/viby_transparent.png" alt="Viby" width={130} height={87} />
-        <div>
-          <Link href="/">בית</Link>
-          <Link href="/how-it-works">איך זה עובד</Link>
-          <Link href="/about">אודות וייבי</Link>
-          <Link href="/#pricing">מחירים</Link>
-          <Link href="/support">תמיכה</Link>
-          <Link href="/terms">תנאי שימוש</Link>
-          <Link href="/privacy">מדיניות פרטיות</Link>
-          <PrivacyPreferencesButton />
-
-          <a href={whatsappUrl} data-analytics-location="support_page">WhatsApp</a>
-        </div>
-      </footer>
+      <SiteFooter />
 
       <a
         className="whatsapp-float"

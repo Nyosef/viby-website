@@ -229,6 +229,7 @@ const aboutLastModified = "2026-10-20";
 const customerRetentionLastModified = "2026-10-20";
 const sitemapLastModifiedByRoute = new Map([
   ["/", "2026-10-30"],
+  [blackFridayPath, "2026-11-11"],
   ["/business-faq", r1LastModified],
   ["/business-faq/free-digital-punch-card", r1LastModified],
   ["/business-faq/printable-vs-digital-punch-card", r1LastModified],

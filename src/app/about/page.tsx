@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
+import { SiteFooter } from "@/components/SiteFooter";
 import { ServiceIllustration } from "@/components/ServiceIllustration";
 import { PhoneIcon } from "@/components/PhoneIcon";
 import { createPageMetadata } from "@/lib/seo";
@@ -206,15 +206,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <footer className={`${styles.footer} ${styles.shell}`}>
-        <Link href="/" aria-label="וייבי — דף הבית"><Image src="/viby_transparent.png" alt="Viby" width={96} height={64} /></Link>
-        <nav aria-label="ניווט תחתון">
-          <Link href="/support">תמיכה</Link>
-          <Link href="/privacy">מדיניות פרטיות</Link>
-          <Link href="/terms">תנאי שימוש</Link>
-          <PrivacyPreferencesButton />
-        </nav>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

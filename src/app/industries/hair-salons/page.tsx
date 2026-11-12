@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
+import { SiteFooter } from "@/components/SiteFooter";
 import { createPageMetadata } from "@/lib/seo";
 import { generalVibyFaqs, punchCardTypesFaq } from "@/lib/faq";
 import { siteConfig } from "@/lib/site";
@@ -94,16 +94,7 @@ export default function HairSalonsPage() {
         <a className={styles.action} href={whatsappUrl} data-analytics-location="final_cta">בואו נדבר על כרטיסייה למספרה</a>
       </section>
 
-      <footer className={`${styles.footer} ${styles.shell}`}>
-        <Link href="/" aria-label="וייבי — דף הבית"><Image src="/viby_transparent.png" alt="Viby" width={92} height={62} /></Link>
-        <nav aria-label="קישורים שימושיים">
-          <Link href="/how-it-works">איך Viby עובדת</Link>
-          <Link href="/support">תמיכה</Link>
-          <Link href="/terms">תנאי שימוש</Link>
-          <Link href="/privacy">מדיניות פרטיות</Link>
-          <PrivacyPreferencesButton />
-        </nav>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
