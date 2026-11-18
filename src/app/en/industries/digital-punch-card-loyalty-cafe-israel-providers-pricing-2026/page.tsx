@@ -13,7 +13,7 @@ const title = "Digital punch card loyalty for cafes in Israel: providers and pri
 const description =
   "Compare digital punch card loyalty for cafes in Israel. See how Viby handles QR signup, staff-controlled stamps, wallet cards, example rewards, and starting pricing.";
 
-const baseMetadata = createPageMetadata({ path, title, description });
+const baseMetadata = createPageMetadata({ path, title, metadataTitle: `${title} | Viby`, description });
 
 export const metadata = {
   ...baseMetadata,

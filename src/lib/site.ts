@@ -1,7 +1,9 @@
 export const siteConfig = {
   name: "Viby",
   nameHebrew: "וייבי",
-  title: "כרטיסי Apple Wallet ו-Google Wallet לעסקים | Viby",
+  nameHebrewAlternate: "ויבי",
+  titleBrand: "וייבי Viby",
+  title: "כרטיסי Apple Wallet ו-Google Wallet לעסקים | וייבי Viby",
   description:
     "Viby מחזירה לקוחות עם כרטיסי Apple Wallet ו-Google Wallet, כרטיסיות דיגיטליות, משחקי פרס ומועדון לקוחות ללא הורדת אפליקציה.",
   url: getSiteUrl(),

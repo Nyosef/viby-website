@@ -6,7 +6,7 @@ export type ProductSeo = {
   serviceId: ServiceId;
   path: "/" | `/${string}`;
   title: string;
-  // A complete rendered title; do not append the default " | Viby" suffix.
+  // A complete rendered title; do not append the default brand suffix.
   metadataTitle?: string;
   internalLinkLabel: string;
   description: string;
@@ -58,7 +58,7 @@ export const productSeoByService = {
       facts: "כמה עולה כרטיס ניקוב דיגיטלי?",
       comparison: "כרטיס ניקובים דיגיטלי או כרטיסיית נייר?",
     },
-    lastModified: "2026-10-30",
+    lastModified: "2026-11-18",
   },
   "smart-wheel": {
     serviceId: "smart-wheel",
@@ -153,7 +153,7 @@ export function createPageMetadata(
   seo: Pick<ProductSeo, "path" | "title" | "description" | "metadataTitle" | "metadataDescription">,
   image = siteConfig.ogImage,
 ): Metadata {
-  const brandedTitle = seo.metadataTitle ?? `${seo.title} | ${siteConfig.name}`;
+  const brandedTitle = seo.metadataTitle ?? `${seo.title} | ${siteConfig.titleBrand}`;
   const description = seo.metadataDescription ?? seo.description;
 
   return {

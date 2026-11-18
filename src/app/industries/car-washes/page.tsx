@@ -25,7 +25,7 @@ export default function CarWashesPage() {
     "@type": "WebPage",
     "@id": `${siteConfig.url}${path}#webpage`,
     url: `${siteConfig.url}${path}`,
-    name: `${title} | Viby`,
+    name: `${title} | וייבי Viby`,
     description,
     inLanguage: siteConfig.language,
     isPartOf: { "@id": `${siteConfig.url}/#website` },

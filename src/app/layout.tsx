@@ -21,8 +21,8 @@ const heebo = Heebo({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${productSeoByService["punch-card"].title} | ${siteConfig.name}`,
-    template: `%s | ${siteConfig.name}`,
+    default: `${productSeoByService["punch-card"].title} | ${siteConfig.titleBrand}`,
+    template: `%s | ${siteConfig.titleBrand}`,
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,

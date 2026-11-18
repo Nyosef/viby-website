@@ -16,7 +16,7 @@ export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
       "@type": "Organization",
       "@id": organizationId,
       name: siteConfig.name,
-      alternateName: siteConfig.nameHebrew,
+      alternateName: [siteConfig.nameHebrew, siteConfig.nameHebrewAlternate],
       url: siteConfig.url,
       logo: {
         "@type": "ImageObject",
@@ -41,7 +41,7 @@ export function ProductStructuredData({ serviceId }: { serviceId: ServiceId }) {
       "@type": "WebSite",
       "@id": websiteId,
       name: siteConfig.name,
-      alternateName: siteConfig.nameHebrew,
+      alternateName: [siteConfig.nameHebrew, siteConfig.nameHebrewAlternate],
       url: siteConfig.url,
       inLanguage: siteConfig.language,
       publisher: { "@id": organizationId },

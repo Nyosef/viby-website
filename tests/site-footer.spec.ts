@@ -2,16 +2,16 @@ import { expect, test } from "@playwright/test";
 import { blackFridayPath } from "../src/lib/black-friday";
 
 const routes = [
-  { path: "/industries/cafes", title: "כרטיסיית ניקוב דיגיטלית לבית קפה ולעגלת קפה | Viby", h1: "כרטיסיית ניקוב דיגיטלית לבית קפה" },
-  { path: "/industries/car-washes", title: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב | Viby", h1: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב" },
-  { path: "/industries/bakeries", title: "כרטיסייה דיגיטלית למאפייה ולקונדיטוריה | Viby", h1: "כרטיסייה דיגיטלית למאפייה ולקונדיטוריה" },
-  { path: "/industries/hair-salons", title: "כרטיסייה דיגיטלית למספרה ולברברשופ | Viby", h1: "כרטיסייה דיגיטלית למספרה ולברברשופ" },
+  { path: "/industries/cafes", title: "כרטיסיית ניקוב דיגיטלית לבית קפה ולעגלת קפה | וייבי Viby", h1: "כרטיסיית ניקוב דיגיטלית לבית קפה" },
+  { path: "/industries/car-washes", title: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב | וייבי Viby", h1: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב" },
+  { path: "/industries/bakeries", title: "כרטיסייה דיגיטלית למאפייה ולקונדיטוריה | וייבי Viby", h1: "כרטיסייה דיגיטלית למאפייה ולקונדיטוריה" },
+  { path: "/industries/hair-salons", title: "כרטיסייה דיגיטלית למספרה ולברברשופ | וייבי Viby", h1: "כרטיסייה דיגיטלית למספרה ולברברשופ" },
   { path: "/business-faq", title: "שאלות נפוצות על כרטיסיות ניקוב ומועדון לקוחות לעסק | וייבי Viby", h1: "שאלות נפוצות לבעלי עסקים: כרטיסיות ניקוב ומועדון לקוחות" },
   { path: "/business-faq/free-digital-punch-card", title: "כרטיסייה דיגיטלית בחינם: אפשרויות, מגבלות ומחיר | וייבי Viby", h1: "האם אפשר לקבל כרטיסייה דיגיטלית בחינם?" },
   { path: "/business-faq/printable-vs-digital-punch-card", title: "כרטיסיית ניקוב להדפסה או דיגיטלית? השוואה לעסק | וייבי Viby", h1: "כרטיסיית ניקוב להדפסה או דיגיטלית: מה עדיף לעסק?" },
-  { path: "/how-it-works", title: "איך Viby עובדת | Viby", h1: "איך Viby עובדת בפועל." },
-  { path: "/support", title: "תמיכה | Viby", h1: "תמיכה ב-Viby" },
-  { path: "/about", title: "אודות וייבי | Viby", h1: "טכנולוגיה של הגדולים. בשביל כולם." },
+  { path: "/how-it-works", title: "איך המערכת עובדת | וייבי Viby", h1: "איך Viby עובדת בפועל." },
+  { path: "/support", title: "תמיכה | וייבי Viby", h1: "תמיכה ב-Viby" },
+  { path: "/about", title: "אודות | וייבי Viby", h1: "טכנולוגיה של הגדולים. בשביל כולם." },
 ] as const;
 
 const expectedInternalLinks = [

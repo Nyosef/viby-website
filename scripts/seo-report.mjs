@@ -17,7 +17,7 @@ const punchCardTypesQuestion = "כמה סוגי כרטיסיות ניקוב אפ
 const punchCardSeoQuestions = [
   "כמה עולה כרטיס ניקוב דיגיטלי לעסק?",
   "איך עובדת כרטיסיית ניקוב דיגיטלית ביום־יום?",
-  "מה ההבדל בין כרטיס ניקובים דיגיטלי לכרטיסיית נייר?",
+  "מה ההבדל בין כרטיסיית ניקוב דיגיטלית לכרטיסיית נייר?",
 ];
 const configuredOrigin = process.env.SEO_REPORT_ORIGIN;
 const buildDirectory = process.env.NEXT_DIST_DIR || ".next";
@@ -93,7 +93,7 @@ const productExpectations = [
   {
     path: "/smart-wheel",
     label: "גלגל מזל דיגיטלי לעסקים",
-    title: "גלגל מזל דיגיטלי לעסקים | Viby",
+    title: "גלגל מזל דיגיטלי לעסקים | וייבי Viby",
     h1: "גלגל מזל דיגיטלי שהופך כל קנייה לסיבה לחזור",
     description:
       "גלגל מזל דיגיטלי לעסקים שמופעל בסריקת QR, מעניק פרסים שהעסק מגדיר והופך כל קנייה לסיבה לחזור בביקור הבא.",
@@ -125,7 +125,7 @@ const productExpectations = [
   {
     path: "/digital-wallet",
     label: "כרטיס מתנה דיגיטלי לעסק",
-    title: "כרטיס מתנה דיגיטלי לעסק | Viby",
+    title: "כרטיס מתנה דיגיטלי לעסק | וייבי Viby",
     h1: "כרטיס מתנה דיגיטלי לעסק שנשמר ישר בטלפון",
     description:
       "מערכת כרטיסי מתנה דיגיטליים לעסק: מוכרים מתנה או יתרה עם בונוס, ושומרים את הכרטיס ב־Apple Wallet או Google Wallet — בלי אפליקציה.",
@@ -157,7 +157,7 @@ const productExpectations = [
   {
     path: "/viby-rate",
     label: "כרטיס NFC לביקורות גוגל",
-    title: "כרטיס NFC לביקורות גוגל לעסק | Viby",
+    title: "כרטיס NFC לביקורות גוגל לעסק | וייבי Viby",
     h1: "כרטיס NFC לביקורות גוגל — טאפ אחד והלקוח מדרג",
     description:
       "כרטיס NFC לביקורות גוגל שמוביל לקוחות ישירות לעמוד הדירוג של העסק ומקצר את הדרך לביקורת אמיתית — בלי חיפוש ובלי הקלדה.",
@@ -188,7 +188,7 @@ const productExpectations = [
   {
     path: "/viby-tap",
     label: "שלט NFC ועמוד קישורים לעסק",
-    title: "שלט NFC ועמוד קישורים לעסק | Viby",
+    title: "שלט NFC ועמוד קישורים לעסק | וייבי Viby",
     h1: "שלט NFC לעסק שמרכז את כל הקישורים במקום אחד",
     description:
       "שלט NFC לעסק עם QR שפותח עמוד קישורים ממותג לביקורות גוגל, Instagram, WhatsApp, Waze ואתר העסק — בעמוד אחד שניתן לעדכן.",
@@ -227,9 +227,16 @@ const r1LastModified = "2026-11-01";
 const legalReleaseLastModified = "2026-10-21";
 const aboutLastModified = "2026-10-20";
 const customerRetentionLastModified = "2026-10-20";
+const todayInIsrael = new Intl.DateTimeFormat("sv-SE", {
+  timeZone: "Asia/Jerusalem",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(new Date());
 const sitemapLastModifiedByRoute = new Map([
-  ["/", "2026-10-30"],
-  [blackFridayPath, "2026-11-11"],
+  ["/", "2026-11-18"],
+  // Keep in sync with blackFridayContentUpdatedDate in src/lib/black-friday.ts.
+  [blackFridayPath, todayInIsrael <= "2026-11-29" ? "2026-11-18" : "2026-11-30"],
   ["/business-faq", r1LastModified],
   ["/business-faq/free-digital-punch-card", r1LastModified],
   ["/business-faq/printable-vs-digital-punch-card", r1LastModified],
@@ -241,13 +248,7 @@ const sitemapLastModifiedByRoute = new Map([
   ["/support", "2026-10-26"],
   ["/how-it-works", r1LastModified],
 ]);
-const todayInIsrael = new Intl.DateTimeFormat("sv-SE", {
-  timeZone: "Asia/Jerusalem",
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-}).format(new Date());
-const aboutTitle = "אודות וייבי | Viby";
+const aboutTitle = "אודות | וייבי Viby";
 const aboutDescription =
   "הכירו את וייבי (Viby), מערכת ישראלית שמנגישה טכנולוגיה מתקדמת לעסקים קטנים ובינוניים. כרטיסיות דיגיטליות, גלגל מזל, כרטיסי מתנה, NFC וקשרי לקוחות.";
 const customerRetentionTitle = "מועדון לקוחות דיגיטלי לעסקים | וייבי Viby";
@@ -278,28 +279,28 @@ const faqExpectations = new Map([
 ]);
 const industryExpectations = new Map([
   ["/industries/cafes", {
-    title: "כרטיסיית ניקוב דיגיטלית לבית קפה ולעגלת קפה | Viby",
+    title: "כרטיסיית ניקוב דיגיטלית לבית קפה ולעגלת קפה | וייבי Viby",
     description: "כרטיסייה דיגיטלית לבתי קפה ולעגלות קפה. הלקוחות סורקים QR, צוברים ניקובים ושומרים את הכרטיסייה ב־Apple Wallet או Google Wallet. הכירו את Viby.",
     h1: "כרטיסיית ניקוב דיגיטלית לבית קפה",
     terms: ["קפה עשירי במתנה", "גם כשיש תור ליד המכונה", "עובד מורשה", "איך מנקבים גם כשהדלפק עמוס?", "דוגמה להמחשה"],
     photo: "/social_proof_businesses/lihi-coffee-card-800.webp",
   }],
   ["/industries/car-washes", {
-    title: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב | Viby",
+    title: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב | וייבי Viby",
     description: "כרטיסיית נאמנות דיגיטלית לשטיפת רכב: לקוחות צוברים ניקובים אחרי ביקורים מזכים ושומרים את הכרטיסייה בארנק הדיגיטלי. הכירו את Viby.",
     h1: "כרטיסיית ניקוב דיגיטלית לשטיפת רכב",
     terms: ["שדרוג שירות אחרי 5 שטיפות", "הניקוב נשאר בשליטת הצוות", "חבילת שטיפות שנקנתה מראש", "מתי נספרת שטיפה, והאם זו חבילה מראש?", "דוגמה להמחשה"],
     photo: "/social_proof_businesses/magicwash-carwash-card-800.webp",
   }],
   ["/industries/bakeries", {
-    title: "כרטיסייה דיגיטלית למאפייה ולקונדיטוריה | Viby",
+    title: "כרטיסייה דיגיטלית למאפייה ולקונדיטוריה | וייבי Viby",
     description: "כרטיסיית ניקוב דיגיטלית למאפיות ולקונדיטוריות. לקוחות צוברים ניקובים והטבות בכל קנייה מזכה ושומרים את הכרטיסייה בארנק הדיגיטלי. הכירו את וייבי.",
     h1: "כרטיסייה דיגיטלית למאפייה ולקונדיטוריה",
     terms: ["אחרי 8 קניות — מאפה לבחירה במתנה", "גם כשהדלפק עמוס בבוקר", "עובד מורשה", "איך מצטרפים ומקבלים ניקוב במאפייה?", "כמה סוגי כרטיסיות ניקוב אפשר ליצור?", "דוגמה להמחשה"],
     photo: "/industries/bakery-counter-illustrative.webp",
   }],
   ["/industries/hair-salons", {
-    title: "כרטיסייה דיגיטלית למספרה ולברברשופ | Viby",
+    title: "כרטיסייה דיגיטלית למספרה ולברברשופ | וייבי Viby",
     description: "כרטיסיית ניקוב דיגיטלית למספרות וברברשופס. לקוחות צוברים ניקובים בביקורים מזכים ושומרים כרטיס נאמנות בארנק הדיגיטלי, בלי להוריד אפליקציה.",
     h1: "כרטיסייה דיגיטלית למספרה ולברברשופ",
     terms: ["אחרי 5 ביקורים — טיפול שיער במתנה", "בין תספורות עשויים לעבור שבועות", "עובד מורשה", "מתי נוסף ניקוב ומה קורה בין תספורות?", "כמה סוגי כרטיסיות ניקוב אפשר ליצור?", "דוגמה להמחשה"],
@@ -476,8 +477,9 @@ async function checkPage(pathname, titles) {
     assert(title?.split(" | ")[0] !== mainPunchCardPhrase, `${pathname}: homepage phrase used alone as title`);
     assert(textContent(headings[0]?.[1] ?? "") !== mainPunchCardPhrase, `${pathname}: homepage phrase used alone as H1`);
   }
-  const expectedTitleSuffix = ["/", "/customer-retention"].includes(pathname) || faqExpectations.has(pathname) ? " | וייבי Viby" : " | Viby";
+  const expectedTitleSuffix = pathname === englishCafePath ? " | Viby" : " | וייבי Viby";
   assert(title?.endsWith(expectedTitleSuffix), `${pathname}: title must end with ${expectedTitleSuffix}`);
+  assert(title?.split(" | וייבי Viby").length === (pathname === englishCafePath ? 1 : 2), `${pathname}: duplicate or missing brand suffix`);
   assert(Boolean(title) && !titles.has(title), `${pathname}: duplicate or missing title ${title ?? ""}`);
   if (title) titles.add(title);
   assert(!html.includes("www.joinviby.co.il"), `${pathname}: contains forbidden www hostname`);
@@ -495,7 +497,7 @@ async function checkPage(pathname, titles) {
       assert(matching.length === 1, `${pathname}: expected exactly one ${type} node, got ${matching.length}`);
       assert(matching[0]?.["@id"] === id, `${pathname}: ${type} @id changed`);
       assert(matching[0]?.name === "Viby", `${pathname}: ${type} name changed`);
-      assert(matching[0]?.alternateName === "וייבי", `${pathname}: ${type} Hebrew alternateName missing`);
+      assert(JSON.stringify(matching[0]?.alternateName) === JSON.stringify(["וייבי", "ויבי"]), `${pathname}: ${type} Hebrew alternate names changed`);
     }
     const organization = nodes.find((node) => node?.["@type"] === "Organization");
     assert(
@@ -516,7 +518,7 @@ async function checkPage(pathname, titles) {
 
   if (pathname === "/viby-up") {
     const visible = textContent(html);
-    assert(title === "Viby UP — קשרי לקוחות ב־WhatsApp בעזרת AI | Viby", "UP: wrong title");
+    assert(title === "Viby UP — קשרי לקוחות ב־WhatsApp בעזרת AI | וייבי Viby", "UP: wrong title");
     assert(textContent((headings[0]?.[1] ?? "").replace(/<\/?bdi\b[^>]*>/g, "")) === "ה־AI שעובד בשביל העסק גם אחרי שהלקוח יוצא.", "UP: wrong H1");
     for (const term of ["ביקורות אמיתיות", "Google Maps", "חיפוש מבוסס AI", "SEO", "הזדמנות להשתפר"]) {
       assert(visible.includes(term), `UP: missing growth messaging ${term}`);
@@ -546,10 +548,15 @@ async function checkPage(pathname, titles) {
     const firstLead = main.match(/<p\b[^>]*class="[^"]*lead[^"]*"[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? "";
     const pageNode = parsedJsonLd.flatMap((node) => node?.["@graph"] ?? [node]).find((node) => node?.["@type"] === "WebPage");
     const active = todayInIsrael <= "2026-11-29";
-    assert(title === `${blackFridayPhrase} | Viby`, "Black Friday: wrong title");
-    assert(textContent(headings[0]?.[1] ?? "") === blackFridayPhrase, "Black Friday: wrong H1");
-    assert(textContent(firstLead).startsWith(blackFridayPhrase), "Black Friday: first sentence does not start with target phrase");
+    assert(title === (active
+      ? "בלאק פריידי 2026: כרטיסיות ניקוב דיגיטליות + Viby UP | וייבי Viby"
+      : "מבצע בלאק פריידי 2026 הסתיים | וייבי Viby"), "Black Friday: wrong title");
+    assert(textContent(headings[0]?.[1] ?? "") === (active
+      ? "מבצעי בלאק פריידי 2026 לכרטיסיות ניקוב דיגיטליות"
+      : "מבצע בלאק פריידי 2026 הסתיים"), "Black Friday: wrong H1");
+    assert(textContent(firstLead).startsWith(active ? blackFridayPhrase : "עדיין אפשר לתת ללקוחות סיבה לחזור"), "Black Friday: wrong first sentence");
     assert(pageNode?.url === expectedCanonical(pathname) && pageNode?.inLanguage === "he-IL", "Black Friday: wrong WebPage schema");
+    assert(pageNode?.name === title, "Black Friday: WebPage name differs from title");
     assert(visible.includes("מבצעי בלאק פריידי לעסקים קטנים ובינוניים"), "Black Friday: missing secondary query");
     assert(visible.includes("055-263-9957") && main.includes('href="tel:+972552639957"'), "Black Friday: missing prominent phone link");
     assert(main.includes(`href="https://wa.me/972552639957?text=`), "Black Friday: missing WhatsApp link");
@@ -557,9 +564,14 @@ async function checkPage(pathname, titles) {
       assert(visible.includes("269 ₪ לחודש") && !visible.includes("807 ₪"), "Black Friday: incorrect offer price or unwanted initial total");
       assert(visible.includes("המחיר נשמר לכל חיי המנוי הפעיל"), "Black Friday: missing price promise");
       assert(visible.includes("הצטרפות עד 29.11.2026"), "Black Friday: missing signup deadline");
+      for (const question of ["עד מתי אפשר להצטרף למבצע?", "מה כלול ב־269 ₪ לחודש?", "מה קורה בסוף התקופה הראשונית?"]) {
+        assert(visible.includes(question), `Black Friday: missing FAQ ${question}`);
+      }
     } else {
       assert(!visible.includes("269 ₪") && !visible.includes("807 ₪"), "Black Friday: expired price is visible");
-      assert(visible.includes("מבצע 2026 הסתיים") && visible.includes("הצעה עדכנית"), "Black Friday: expired state missing");
+      assert(visible.includes("הצעה עדכנית") && /<a\b[^>]*href="\/"[^>]*>הכירו את כרטיסיות הניקוב הדיגיטליות לעסק<\/a>/.test(main), "Black Friday: expired state missing offer request or current-product link");
+      assert(textContent(main).split("הסתיים").length - 1 === 1, "Black Friday: expired wording repeated");
+      assert(!visible.includes("מה כלול ב־269 ₪ לחודש?"), "Black Friday: expired FAQ is visible");
     }
   }
 
@@ -761,6 +773,8 @@ async function checkPage(pathname, titles) {
       for (const question of punchCardSeoQuestions) {
         assert(faqQuestions.includes(question), `/: missing new FAQ ${question}`);
       }
+      const paperComparisonFaq = faqEntries.find((entry) => textContent(entry[1]).includes("מה ההבדל בין כרטיסיית ניקוב דיגיטלית לכרטיסיית נייר?"));
+      assert(paperComparisonFaq?.[1].includes('href="/business-faq/printable-vs-digital-punch-card"'), "/: paper comparison FAQ lacks its contextual link");
       for (const href of ["/business-faq/free-digital-punch-card", "/business-faq/printable-vs-digital-punch-card"]) {
         assert(html.includes(`href="${href}"`), `/: missing direct FAQ article link ${href}`);
       }
@@ -808,7 +822,7 @@ async function checkPage(pathname, titles) {
     }
     const serviceNode = structuredNodes.find((node) => node?.["@type"] === "Service");
     assert(Boolean(serviceNode), `${pathname}: missing Service structured data`);
-    assert(serviceNode?.name === (expectation?.schemaName ?? expectation?.title.replace(/ \| Viby$/, "")), `${pathname}: wrong Service schema name`);
+    assert(serviceNode?.name === (expectation?.schemaName ?? expectation?.title.replace(/ \| וייבי Viby$/, "")), `${pathname}: wrong Service schema name`);
     assert(JSON.stringify(serviceNode?.alternateName) === JSON.stringify(expectation?.alternateName), `${pathname}: wrong Service schema alternateName`);
     assert(serviceNode?.description === expectation?.description, `${pathname}: wrong Service schema description`);
     assert(serviceNode?.url === expectedCanonical(pathname), `${pathname}: wrong Service schema URL`);
@@ -1021,7 +1035,7 @@ async function checkPage(pathname, titles) {
       assert(html.includes(`href="${englishCafePath}"`), `${pathname}: missing English café footer link`);
       assert(/<a\b[^>]*href="\/"[^>]*>כרטיסייה דיגיטלית לעסק<\/a>/.test(html), "/: protected footer product link changed");
       const visibleMain = textContent(html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "");
-      for (const [term, ceiling] of [["כרטיסיות ניקוב דיגיטליות", 6], ["כרטיסיית ניקוב דיגיטלית", 3], ["כרטיס ניקוב דיגיטלי", 3], ["כרטיס ניקובים דיגיטלי", 3]]) {
+      for (const [term, ceiling] of [["כרטיסיות ניקוב דיגיטליות", 6], ["כרטיסיית ניקוב דיגיטלית", 4], ["כרטיס ניקוב דיגיטלי", 3], ["כרטיס ניקובים דיגיטלי", 3]]) {
         assert(visibleMain.split(term).length - 1 <= ceiling, `/: excessive visible use of ${term}`);
       }
       for (const image of ["/kartisiyat-nikuv-digitalit-wallet.jpg", "/kartisiyot-nikuv-digitaliyot-qr.jpg", "/kartis-nikuv-digitali.jpg"]) {
