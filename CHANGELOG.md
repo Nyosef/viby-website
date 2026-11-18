@@ -2,6 +2,10 @@
 
 All notable changes to the Viby website are documented here.
 
+## Unreleased — Shared legal release metadata
+
+- Expose the current terms and privacy versions and version-specific document URLs from the same legal content used by the published pages. The native owner agreement backend reads this manifest, so later legal releases require updating the website legal documents only. A minimal versioned HTML view serves the same content inside the native legal sheet without website navigation or consent overlays; archived versions reuse the public archive redactions. TypeScript, scoped ESLint, legal runtime tests, and local manifest/embedded-terms HTTP checks passed. No website deployment was performed.
+
 ## [Search baseline and organic conversion measurement] — 2026-08-17
 
 ### Organic conversion instrumentation
