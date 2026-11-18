@@ -7,6 +7,7 @@ import { siteConfig } from "@/lib/site";
 import { previousLegalDocuments } from "@/lib/legal-history";
 import { currentLegalDocument, latestLegalArchive } from "@/lib/legal-versions";
 import { legalIdentity, missingLegalIdentity } from "@/lib/legal-identity";
+import { publicArchiveText } from "@/lib/legal-archive-display";
 import { PrintLegalDocument } from "./PrintLegalDocument";
 import { PhoneIcon } from "./PhoneIcon";
 
@@ -17,13 +18,6 @@ function linkedContactText(text: string) {
       ? [part]
       : [part, <a key={index} href={`tel:+${siteConfig.whatsappNumber}`} data-analytics-location="support_page"><bdi dir="ltr">{siteConfig.whatsappDisplay}</bdi></a>],
   );
-}
-
-function publicArchiveText(text: string) {
-  return text
-    .replaceAll(", עוסק פטור, שמענו ", ". כתובת העסק: ")
-    .replaceAll("מחיר סופי; לא נגבה מע״מ — עוסק פטור.", "המחיר הסופי יוצג לפני אישור ההזמנה.")
-    .replaceAll("שינוי במעמד המס אינו מתיר שינוי בדיעבד של מחיר שאושר", "מחיר שכבר אושר לא ישונה בדיעבד");
 }
 
 type LegalDocumentPageProps = {
