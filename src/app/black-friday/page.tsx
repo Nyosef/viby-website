@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { PrivacyPreferencesButton } from "@/components/PrivacyPreferencesButton";
@@ -8,19 +9,20 @@ import { createPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import { socialProofBusinesses } from "@/lib/social-proof";
 import {
+  blackFridayLastSignupDisplay,
   blackFridayMonthlyPrice,
   blackFridayPreviousMonthlyPrice,
   blackFridayPath,
   blackFridayPhrase,
-  isBlackFridayOfferActive,
+  getBlackFridayPresentation,
 } from "@/lib/black-friday";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
-const title = `${blackFridayPhrase} | Viby`;
-const activeDescription = `${blackFridayPhrase}: כרטיסיית ניקוב דיגיטלית + Viby UP, סוכני AI לשיחות עם לקוחות ולביקורות אמיתיות, ב־269 ₪ לחודש למצטרפים עד 29.11.2026.`;
+const activeDescription = `${blackFridayPhrase}: כרטיסיית ניקוב דיגיטלית + Viby UP, סוכני AI לשיחות עם לקוחות ולביקורות אמיתיות, ב־${blackFridayMonthlyPrice} ₪ לחודש למצטרפים עד ${blackFridayLastSignupDisplay}.`;
 const endedDescription = `${blackFridayPhrase}: מבצע 2026 הסתיים. הכירו את Viby ובקשו הצעה עדכנית לעסק שלכם.`;
+const getRequestPresentation = cache(() => getBlackFridayPresentation());
 const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 const whatsappMessage = "היי, הגעתי מעמוד הבלאק פריידי של Viby ואשמח לשמוע על החבילה לעסק שלי.";
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -41,23 +43,25 @@ const featuredBusinesses = featuredBusinessMoments.map(({ id, line }) => {
 });
 
 export function generateMetadata(): Metadata {
+  const offer = getRequestPresentation();
   return createPageMetadata({
     path: blackFridayPath,
-    title: blackFridayPhrase,
-    metadataTitle: title,
-    description: isBlackFridayOfferActive() ? activeDescription : endedDescription,
+    title: offer.heading,
+    metadataTitle: offer.title,
+    description: offer.active ? activeDescription : endedDescription,
   });
 }
 
 export default function BlackFridayPage() {
-  const active = isBlackFridayOfferActive();
+  const offer = getRequestPresentation();
+  const active = offer.active;
   const description = active ? activeDescription : endedDescription;
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "@id": `${siteConfig.url}${blackFridayPath}#webpage`,
     url: `${siteConfig.url}${blackFridayPath}`,
-    name: title,
+    name: offer.title,
     description,
     inLanguage: siteConfig.language,
     isPartOf: { "@id": `${siteConfig.url}/#website` },
@@ -78,17 +82,17 @@ export default function BlackFridayPage() {
         <section className={`${styles.hero} ${styles.shell}`} aria-labelledby="black-friday-title">
           <div className={styles.heroCopy}>
             <p className={styles.kicker}>מבצעי בלאק פריידי לעסקים קטנים ובינוניים</p>
-            <h1 id="black-friday-title">{blackFridayPhrase}</h1>
+            <h1 id="black-friday-title">{offer.heading}</h1>
             <p className={styles.lead}>
-              {blackFridayPhrase} {active
-                ? "נועדו לעזור לעסק להרוויח יותר מהלקוחות שכבר מכירים אותו."
-                : "של Viby לשנת 2026 הסתיימו. עדיין אפשר לתת ללקוחות סיבה לחזור; בקשו הצעה עדכנית לעסק שלכם."}
+              {active
+                ? `${blackFridayPhrase} נועדו לעזור לעסק להרוויח יותר מהלקוחות שכבר מכירים אותו.`
+                : "עדיין אפשר לתת ללקוחות סיבה לחזור; בקשו הצעה עדכנית לעסק שלכם."}
             </p>
 
             <div className={styles.offer} aria-label={active ? "פרטי מבצע בלאק פריידי" : "עדכון על המבצע"}>
               {active ? (
                 <>
-                  <span className={styles.offerBadge}>הצטרפות עד 29.11.2026</span>
+                  <span className={styles.offerBadge}>{`הצטרפות עד ${blackFridayLastSignupDisplay}`}</span>
                   <div className={styles.offerBundle} aria-label="החבילה כוללת כרטיסיית ניקוב דיגיטלית ו־Viby UP">
                     <div className={styles.offerPart}>
                       <strong>כרטיסיית ניקוב דיגיטלית</strong>
@@ -115,8 +119,8 @@ export default function BlackFridayPage() {
                 </>
               ) : (
                 <>
-                  <span className={styles.offerBadge}>מבצע 2026 הסתיים</span>
-                  <p className={styles.endedText}>ספרו לנו על העסק, ונציע פתרון ומחיר עדכניים.</p>
+                  <span className={styles.offerBadge}>מחפשים פתרון לעסק?</span>
+                  <p className={styles.endedText}><Link href="/">הכירו את כרטיסיות הניקוב הדיגיטליות לעסק</Link> או ספרו לנו על העסק, ונציע פתרון ומחיר עדכניים.</p>
                 </>
               )}
             </div>
@@ -163,6 +167,26 @@ export default function BlackFridayPage() {
           </div>
         </section>
       </div>
+
+      {active ? (
+        <section className={`${styles.faq} ${styles.shell}`} aria-labelledby="black-friday-faq-title">
+          <h2 id="black-friday-faq-title">שאלות על מבצע בלאק פריידי 2026</h2>
+          <div className={styles.faqList}>
+            <details>
+              <summary>עד מתי אפשר להצטרף למבצע?</summary>
+              <p>{`אפשר להצטרף עד ${blackFridayLastSignupDisplay}, כולל. ההצטרפות והתנאים הסופיים כפופים להזמנה המאושרת.`}</p>
+            </details>
+            <details>
+              <summary>{`מה כלול ב־${blackFridayMonthlyPrice} ₪ לחודש?`}</summary>
+              <p>{`כרטיסיית ניקוב דיגיטלית ו־Viby UP ב־${blackFridayMonthlyPrice} ₪ לחודש לשניהם. הקמה, ליווי ושלט ממותג אחד כלולים לאחר אימות התשלום. היקף השימוש בכל שירות נקבע בהזמנה המאושרת; משלוח, תוספות ושימוש מעבר להיקף שאושר מתומחרים מראש.`}</p>
+            </details>
+            <details>
+              <summary>מה קורה בסוף התקופה הראשונית?</summary>
+              <p>לאחר תקופת התחייבות ראשונית של {commercialTerms.initialMonths} חודשים, המנוי מתחדש מדי חודש. מחיר המבצע נשמר כל עוד המנוי פעיל, בכפוף לתנאי ההזמנה. <Link href="/terms#terms-8">לתנאי ההצטרפות והביטול</Link>.</p>
+            </details>
+          </div>
+        </section>
+      ) : null}
 
       <section className={styles.proof} aria-labelledby="proof-title">
         <div className={styles.shell}>

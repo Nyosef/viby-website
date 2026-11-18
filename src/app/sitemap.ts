@@ -2,7 +2,9 @@ import type { MetadataRoute } from "next";
 import { productSeoEntries } from "@/lib/seo";
 import { legalDocuments } from "@/lib/legal-content";
 import { siteConfig } from "@/lib/site";
-import { blackFridayPath } from "@/lib/black-friday";
+import { blackFridayPath, getBlackFridayPresentation } from "@/lib/black-friday";
+
+export const dynamic = "force-dynamic";
 
 // Replace with R1's actual production publication date if it ships after this content date.
 const r1LastModified = "2026-11-01";
@@ -26,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...productPages,
     {
       url: `${siteConfig.url}${blackFridayPath}`,
-      lastModified: "2026-11-11",
+      lastModified: getBlackFridayPresentation().sitemapLastModified,
       changeFrequency: "yearly",
       priority: 0.8,
     },

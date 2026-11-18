@@ -9,6 +9,7 @@
     "lint": "eslint",
     "seo:report": "node scripts/seo-report.mjs",
     "seo:report:production": "SEO_REPORT_ORIGIN=https://joinviby.co.il node scripts/seo-report.mjs",
+    "test:black-friday-expiry": "node --test tests/black-friday-expiry.test.mjs",
     "test:refresh": "playwright test",
     "test:legal-runtime": "node --test tests/legal-runtime.test.mjs"
   },

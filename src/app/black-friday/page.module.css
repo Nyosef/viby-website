@@ -274,6 +274,49 @@
   font-weight: 800;
 }
 
+.endedText a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.faq {
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+.faq h2 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.faqList {
+  display: grid;
+  gap: 0.7rem;
+  max-width: 850px;
+}
+
+.faqList details {
+  padding: 1rem 1.2rem;
+  border: 1px solid #e7ccdc;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.faqList summary {
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.faqList p {
+  margin: 0.75rem 0 0;
+}
+
+.faqList a {
+  color: #70345d;
+  font-weight: 800;
+}
+
 .heroActions {
   display: flex;
   gap: 0.7rem;
@@ -794,6 +837,28 @@
 }
 
 @media (max-width: 359px) {
+  .hero {
+    padding-top: 0.75rem;
+    row-gap: 1rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .lead {
+    margin-top: 0.45rem;
+  }
+
+  .offer {
+    margin-top: 0.55rem;
+    padding-block: 0.55rem;
+  }
+
+  .heroActions {
+    margin-top: 0.45rem;
+  }
+
   .brandLogos {
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }

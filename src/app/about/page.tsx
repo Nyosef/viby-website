@@ -10,6 +10,7 @@ import styles from "./about.module.css";
 const aboutSeo = {
   path: "/about" as const,
   title: "אודות וייבי",
+  metadataTitle: "אודות | וייבי Viby",
   description:
     "הכירו את וייבי (Viby), מערכת ישראלית שמנגישה טכנולוגיה מתקדמת לעסקים קטנים ובינוניים. כרטיסיות דיגיטליות, גלגל מזל, כרטיסי מתנה, NFC וקשרי לקוחות.",
 };

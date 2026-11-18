@@ -25,7 +25,7 @@ export function findLegalVersion(key: LegalDocumentKey, version: string) {
 export function legalVersionMetadata(key: LegalDocumentKey, version: string): Metadata {
   const document = findLegalVersion(key, version);
   return {
-    title: document ? `${document.title} — גרסה ${version}` : "גרסה לא נמצאה",
+    title: { absolute: document ? `${document.title} — גרסה ${version} | Viby` : "גרסה לא נמצאה | Viby" },
     description: document?.description,
     alternates: { canonical: `${siteConfig.url}/${key}/versions/${version}` },
     robots: { index: false, follow: false, noarchive: true, googleBot: { index: false, follow: false, noarchive: true } },

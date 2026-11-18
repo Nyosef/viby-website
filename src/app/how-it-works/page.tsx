@@ -13,6 +13,7 @@ const vimeoPreviewImage = `${siteConfig.url}/video-og.jpg`;
 const howItWorksSeo = {
   path: "/how-it-works" as const,
   title: "איך Viby עובדת",
+  metadataTitle: "איך המערכת עובדת | וייבי Viby",
   description:
     "סרטון הסבר מלא על Viby לעובדים, לקוחות פוטנציאליים ובעלי עסקים שרוצים להבין איך המערכת עובדת בפועל.",
 };
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     ...baseMetadata.openGraph,
     type: "video.other",
-    title: "איך Viby עובדת | Viby",
+    title: howItWorksSeo.metadataTitle,
     description:
       "צפו בהסבר מלא על זרימת הלקוח, עבודת הצוות, מימוש הטבות והפעלת Viby בעסק.",
     url: "/how-it-works",

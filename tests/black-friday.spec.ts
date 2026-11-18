@@ -1,7 +1,12 @@
 import { expect, test } from "@playwright/test";
 import {
+  blackFridayActiveHeading,
+  blackFridayActiveTitle,
+  blackFridayEndedHeading,
+  blackFridayEndedTitle,
   blackFridayPath,
   blackFridayPhrase,
+  getBlackFridayPresentation,
   isBlackFridayOfferActive,
 } from "../src/lib/black-friday";
 import { siteConfig } from "../src/lib/site";
@@ -9,6 +14,16 @@ import { siteConfig } from "../src/lib/site";
 test("Black Friday offer expires at midnight in Israel", () => {
   expect(isBlackFridayOfferActive(new Date("2026-11-29T21:59:59.000Z"))).toBe(true);
   expect(isBlackFridayOfferActive(new Date("2026-11-29T22:00:00.000Z"))).toBe(false);
+  expect(getBlackFridayPresentation(new Date("2026-11-29T21:59:59.999Z"))).toMatchObject({
+    title: blackFridayActiveTitle,
+    heading: blackFridayActiveHeading,
+    sitemapLastModified: "2026-11-18",
+  });
+  expect(getBlackFridayPresentation(new Date("2026-11-29T22:00:00.000Z"))).toMatchObject({
+    title: blackFridayEndedTitle,
+    heading: blackFridayEndedHeading,
+    sitemapLastModified: "2026-11-30",
+  });
 });
 
 test("Hebrew Black Friday page has exact search phrase, contact actions, and responsive layout", async ({ page, request }, testInfo) => {
@@ -19,18 +34,18 @@ test("Hebrew Black Friday page has exact search phrase, contact actions, and res
   const response = await request.get(blackFridayPath);
   expect(response.status()).toBe(200);
   const html = await response.text();
-  expect(html).toContain(blackFridayPhrase);
+  expect(html).toContain(isBlackFridayOfferActive() ? blackFridayActiveHeading : blackFridayEndedHeading);
   expect(html).not.toMatch(/<meta name="robots" content="[^"]*noindex/);
 
   for (const width of [320, 390, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(blackFridayPath, { waitUntil: "domcontentloaded" });
-    await expect(page).toHaveTitle(`${blackFridayPhrase} | Viby`);
+    await expect(page).toHaveTitle(isBlackFridayOfferActive() ? blackFridayActiveTitle : blackFridayEndedTitle);
     await expect(page.locator("html")).toHaveAttribute("lang", "he-IL");
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page.locator("h1")).toHaveCount(1);
-    await expect(page.locator("h1")).toHaveText(blackFridayPhrase);
-    expect((await page.locator('main p[class*="lead"]').textContent())?.trim().startsWith(blackFridayPhrase)).toBe(true);
+    await expect(page.locator("h1")).toHaveText(isBlackFridayOfferActive() ? blackFridayActiveHeading : blackFridayEndedHeading);
+    expect((await page.locator('main p[class*="lead"]').textContent())?.trim().startsWith(isBlackFridayOfferActive() ? blackFridayPhrase : "עדיין אפשר לתת ללקוחות סיבה לחזור")).toBe(true);
 
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
     expect(decodeURI(new URL(canonical!).pathname)).toBe(blackFridayPath);
@@ -98,14 +113,17 @@ test("Hebrew Black Friday page has exact search phrase, contact actions, and res
     await expect(page.locator('main del')).toHaveText("329 ₪");
     expect(mainText).not.toContain("807 ₪");
     await expect(page.locator('main [class*="offerDetails"]')).toContainText("תקופה ראשונית של 3 חודשים");
+    await expect(page.locator('main [class*="faqList"] details')).toHaveCount(3);
+    await expect(page.locator('main [class*="faqList"]')).toContainText("מה כלול ב־269 ₪ לחודש?");
     expect(mainText).toContain("המחיר נשמר לכל חיי המנוי הפעיל");
     expect(mainText).toContain("הצטרפות עד 29.11.2026");
   } else {
     expect(mainText).not.toContain("269 ₪");
     expect(mainText).not.toContain("329 ₪");
     expect(mainText).not.toContain("807 ₪");
-    expect(mainText).toContain("מבצע 2026 הסתיים");
     expect(mainText).toContain("הצעה עדכנית");
+    await expect(page.locator('main [class*="endedText"] a[href="/"]')).toHaveText("הכירו את כרטיסיות הניקוב הדיגיטליות לעסק");
+    await expect(page.locator('main [class*="faqList"] details')).toHaveCount(0);
   }
 });
 
