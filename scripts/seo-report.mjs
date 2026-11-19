@@ -33,6 +33,8 @@ const routes = [
   "/viby-tap",
   "/viby-up",
   "/customer-retention",
+  "/why-customers-dont-return",
+  "/black-friday-small-business",
   blackFridayPath,
   "/business-faq",
   "/business-faq/free-digital-punch-card",
@@ -226,7 +228,7 @@ const commercialLastModified = "2026-10-08";
 const r1LastModified = "2026-11-01";
 const legalReleaseLastModified = "2026-10-21";
 const aboutLastModified = "2026-10-20";
-const customerRetentionLastModified = "2026-10-20";
+const customerRetentionLastModified = "2026-11-18";
 const todayInIsrael = new Intl.DateTimeFormat("sv-SE", {
   timeZone: "Asia/Jerusalem",
   year: "numeric",
@@ -235,9 +237,11 @@ const todayInIsrael = new Intl.DateTimeFormat("sv-SE", {
 }).format(new Date());
 const sitemapLastModifiedByRoute = new Map([
   ["/", "2026-11-18"],
+  ["/why-customers-dont-return", "2026-11-18"],
+  ["/black-friday-small-business", "2026-11-18"],
   // Keep in sync with blackFridayContentUpdatedDate in src/lib/black-friday.ts.
   [blackFridayPath, todayInIsrael <= "2026-11-29" ? "2026-11-18" : "2026-11-30"],
-  ["/business-faq", r1LastModified],
+  ["/business-faq", "2026-11-18"],
   ["/business-faq/free-digital-punch-card", r1LastModified],
   ["/business-faq/printable-vs-digital-punch-card", r1LastModified],
   ["/industries/cafes", "2026-10-26"],
@@ -254,6 +258,20 @@ const aboutDescription =
 const customerRetentionTitle = "מועדון לקוחות דיגיטלי לעסקים | וייבי Viby";
 const customerRetentionDescription =
   "מועדון לקוחות דיגיטלי לעסקים: השוו בין כרטיסיות ניקוב, פרסים וכרטיסי מתנה. בדקו עלויות, תהליך הקמה והתאמה לעסק עם וייבי (Viby).";
+const editorialExpectations = new Map([
+  ["/why-customers-dont-return", {
+    title: "למה לקוחות לא חוזרים לעסק? איך מחזירים אותם | וייבי Viby",
+    h1: "למה הלקוח ההוא לא חזר? מדריך לעסקים קטנים ובינוניים",
+    description: "למה לקוחות לא חוזרים לעסק? מדריך מעשי לעסקים קטנים ובינוניים על ביקורים חוזרים, כרטיסיות דיגיטליות וקשר אישי עם לקוחות.",
+    image: `${canonicalOrigin}/og.jpg`,
+  }],
+  ["/black-friday-small-business", {
+    title: "בלאק פריידי 2026 לעסקים: 5 רעיונות ללקוחות חוזרים | וייבי Viby",
+    h1: "בלאק פריידי 2026 לעסקים קטנים ובינוניים: איך הופכים מבצע ללקוחות שחוזרים?",
+    description: "חמישה רעיונות לבלאק פריידי 2026 לעסקים קטנים ובינוניים: הצעות משתלמות, הצטרפות למועדון לקוחות ומדידת ביקורים חוזרים.",
+    image: undefined,
+  }],
+]);
 const faqExpectations = new Map([
   ["/business-faq", {
     title: "שאלות נפוצות על כרטיסיות ניקוב ומועדון לקוחות לעסק | וייבי Viby",
@@ -560,6 +578,7 @@ async function checkPage(pathname, titles) {
     assert(visible.includes("מבצעי בלאק פריידי לעסקים קטנים ובינוניים"), "Black Friday: missing secondary query");
     assert(visible.includes("055-263-9957") && main.includes('href="tel:+972552639957"'), "Black Friday: missing prominent phone link");
     assert(main.includes(`href="https://wa.me/972552639957?text=`), "Black Friday: missing WhatsApp link");
+    assert(main.includes('href="/black-friday-small-business"'), "Black Friday: missing editorial guide link");
     if (active) {
       assert(visible.includes("269 ₪ לחודש") && !visible.includes("807 ₪"), "Black Friday: incorrect offer price or unwanted initial total");
       assert(visible.includes("המחיר נשמר לכל חיי המנוי הפעיל"), "Black Friday: missing price promise");
@@ -572,6 +591,41 @@ async function checkPage(pathname, titles) {
       assert(visible.includes("הצעה עדכנית") && /<a\b[^>]*href="\/"[^>]*>הכירו את כרטיסיות הניקוב הדיגיטליות לעסק<\/a>/.test(main), "Black Friday: expired state missing offer request or current-product link");
       assert(textContent(main).split("הסתיים").length - 1 === 1, "Black Friday: expired wording repeated");
       assert(!visible.includes("מה כלול ב־269 ₪ לחודש?"), "Black Friday: expired FAQ is visible");
+    }
+  }
+
+  if (editorialExpectations.has(pathname)) {
+    const expected = editorialExpectations.get(pathname);
+    const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? "";
+    const body = main.match(/<div\b[^>]*data-article-body(?:="")?[^>]*>([\s\S]*?)<\/div>/)?.[1] ?? "";
+    const nodes = parsedJsonLd.flatMap((document) => document?.["@graph"] ?? [document]);
+    const articles = nodes.filter((node) => node?.["@type"] === "Article");
+    const article = articles[0];
+    assert(title === expected.title, `${pathname}: wrong editorial title`);
+    assert(descriptions[0]?.[1] === expected.description, `${pathname}: wrong editorial description`);
+    assert(textContent(headings[0]?.[1] ?? "") === expected.h1, `${pathname}: wrong editorial H1`);
+    assert(nodes.length === 1 && articles.length === 1, `${pathname}: expected one Article and no duplicate entities`);
+    assert(article?.["@id"] === `${expectedCanonical(pathname)}#article`, `${pathname}: wrong Article ID`);
+    assert(article?.url === expectedCanonical(pathname), `${pathname}: wrong Article URL`);
+    assert(article?.mainEntityOfPage === expectedCanonical(pathname), `${pathname}: wrong Article main page`);
+    assert(article?.headline === expected.h1 && article?.description === expected.description, `${pathname}: wrong Article text`);
+    assert(article?.inLanguage === "he-IL", `${pathname}: wrong Article language`);
+    assert(article?.datePublished === "2026-11-18" && article?.dateModified === "2026-11-18", `${pathname}: wrong Article dates`);
+    assert(article?.image === expected.image, `${pathname}: wrong Article image`);
+    assert(article?.author?.["@id"] === `${canonicalOrigin}/#organization` && article?.author?.name === "Viby" && article?.publisher?.["@id"] === `${canonicalOrigin}/#organization`, `${pathname}: wrong author or publisher reference`);
+    assert(article?.isPartOf?.["@id"] === `${canonicalOrigin}/#website`, `${pathname}: wrong WebSite reference`);
+    assert(html.includes('<meta property="og:type" content="article"'), `${pathname}: wrong social article type`);
+    assert(html.includes(`<meta property="og:image" content="${canonicalOrigin}/og.jpg"`), `${pathname}: wrong social image`);
+    assert(/<time\b[^>]*datetime="2026-11-18"/i.test(main), `${pathname}: missing visible publication date`);
+    assert(main.includes('data-article-body') && textContent(body).split(/\s+/).length >= 450, `${pathname}: article missing from server HTML`);
+    assert(!/ביקורות גוגל|Google Reviews|חמישה כוכבים/.test(textContent(body)), `${pathname}: unwanted reviews advice`);
+    assert(/<a\b[^>]*href="\/"[^>]*>כרטיסייה דיגיטלית לעסק<\/a>/.test(body), `${pathname}: missing contextual homepage link`);
+    assert(main.includes('href="/viby-up"') && includesIgnoringWhitespace(textContent(main), "הפתרון המלא לנוכחות העסק בגוגל וב־AI"), `${pathname}: wrong Viby UP CTA`);
+    if (pathname === "/why-customers-dont-return") {
+      assert(body.includes('href="/customer-retention"'), `${pathname}: missing commercial guide link`);
+    } else {
+      assert(body.includes('href="/why-customers-dont-return"'), `${pathname}: missing retention article link`);
+      assert(textContent(body).includes("דוגמה להמחשה"), `${pathname}: margin example is not labeled`);
     }
   }
 
@@ -605,11 +659,19 @@ async function checkPage(pathname, titles) {
       const introWords = textContent(introParagraph).split(/\s+/).filter(Boolean).length;
       assert(introWords >= 100 && introWords <= 150, `${pathname}: intro word count ${introWords} is outside 100–150`);
       assert((introParagraph.match(/href="\/"/g) ?? []).length === 1 && /<a\b[^>]*href="\/"[^>]*>כרטיסיות ניקוב דיגיטליות<\/a>/.test(introParagraph), `${pathname}: missing single contextual homepage link`);
-      const cards = matches(html, /<a\b[^>]*class="[^"]*questionCard[^"]*"[^>]*href="([^"]+)"[^>]*>/g).map((match) => match[1]);
+      const faqSection = html.match(/<section\b[^>]*aria-labelledby="punch-card-questions"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
+      const cards = matches(faqSection, /<a\b[^>]*class="[^"]*questionCard[^"]*"[^>]*href="([^"]+)"[^>]*>/g).map((match) => match[1]);
       for (const route of faqExpectations.keys()) {
         if (route !== pathname) assert(cards.filter((href) => href === route).length === 1, `${pathname}: missing or duplicate linked card ${route}`);
       }
       assert(cards.length === 2, `${pathname}: expected two linked FAQ cards`);
+      const guideSection = html.match(/<section\b[^>]*aria-labelledby="business-guides"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
+      assert(textContent(guideSection).includes("מדריכים לבעלי עסקים"), `${pathname}: missing separate guides section`);
+      const guideCards = matches(guideSection, /<a\b[^>]*class="[^"]*questionCard[^"]*"[^>]*href="([^"]+)"[^>]*>/g).map((match) => match[1]);
+      for (const route of editorialExpectations.keys()) {
+        assert(guideCards.filter((href) => href === route).length === 1, `${pathname}: missing or duplicate guide ${route}`);
+      }
+      assert(guideCards.length === 2, `${pathname}: expected two editorial guide cards`);
     } else {
       const answerSection = html.match(/<section\b[^>]*data-faq-answer(?:="[^"]*")?[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
       const paragraphs = matches(answerSection, /<p(?:\s[^>]*)?>([\s\S]*?)<\/p>/g);
@@ -1007,6 +1069,7 @@ async function checkPage(pathname, titles) {
       assert(body.includes(`href="${path}"`), `/customer-retention: missing ${path} link`);
     }
     assert(body.includes('href="/terms#terms-8"'), "/customer-retention: missing verified subscription terms link");
+    assert(body.includes('href="/why-customers-dont-return"'), "/customer-retention: missing editorial link");
     for (const claim of ["החל מ־79 ₪ לחודש", "החל מ־49 ₪ לחודש", "3 חודשים", "הצעה אישית", "עמלות סליקה", "היתרים נדרשים", "הזמנה המאושרת"]) {
       assert(visible.includes(claim), `/customer-retention: missing approved commercial qualification ${claim}`);
     }
@@ -1163,6 +1226,9 @@ async function run() {
       sitemapEntries.filter((entry) => entry.includes(`<loc>${canonicalOrigin}/customer-retention</loc>`)).length === 1,
       "sitemap: /customer-retention must occur exactly once",
     );
+    for (const route of editorialExpectations.keys()) {
+      assert(sitemapEntries.filter((entry) => entry.includes(`<loc>${expectedCanonical(route)}</loc>`)).length === 1, `sitemap: ${route} must occur exactly once`);
+    }
     for (const route of industryExpectations.keys()) {
       assert(
         sitemapEntries.filter((entry) => entry.includes(`<loc>${expectedCanonical(route)}</loc>`)).length === 1,

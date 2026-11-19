@@ -3,6 +3,7 @@ import { productSeoEntries } from "@/lib/seo";
 import { legalDocuments } from "@/lib/legal-content";
 import { siteConfig } from "@/lib/site";
 import { blackFridayPath, getBlackFridayPresentation } from "@/lib/black-friday";
+import { editorialArticles } from "@/lib/editorial";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...productPages,
+    ...Object.values(editorialArticles).map((article) => ({
+      url: `${siteConfig.url}${article.path}`,
+      lastModified: article.modifiedDate,
+      changeFrequency: "yearly" as const,
+      priority: 0.7,
+    })),
     {
       url: `${siteConfig.url}${blackFridayPath}`,
       lastModified: getBlackFridayPresentation().sitemapLastModified,
@@ -34,7 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteConfig.url}/customer-retention`,
-      lastModified: "2026-10-20",
+      lastModified: "2026-11-18",
       changeFrequency: "monthly",
       priority: 0.8,
     },
@@ -44,7 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       "/business-faq/printable-vs-digital-punch-card",
     ].map((path) => ({
       url: `${siteConfig.url}${path}`,
-      lastModified: r1LastModified,
+      lastModified: path === "/business-faq" ? "2026-11-18" : r1LastModified,
       changeFrequency: "monthly" as const,
       priority: path === "/business-faq" ? 0.7 : 0.65,
     })),

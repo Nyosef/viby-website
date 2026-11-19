@@ -36,6 +36,9 @@ for (const faq of faqRoutes) {
       }
       if (faq.path === "/business-faq") {
         await expect(page.getByRole("heading", { level: 2, name: "כרטיסיות ניקוב לעסקים" })).toBeVisible();
+        await expect(page.getByRole("heading", { level: 2, name: "מדריכים לבעלי עסקים" })).toBeVisible();
+        await expect(page.locator('section[aria-labelledby="punch-card-questions"] a[class*="questionCard"]')).toHaveCount(2);
+        await expect(page.locator('[data-editorial-guides] a')).toHaveCount(2);
         const intro = page.locator('section[aria-labelledby="faq-hub-title"] p').last();
         const introWords = (await intro.innerText()).trim().split(/\s+/).length;
         expect(introWords).toBeGreaterThanOrEqual(100);

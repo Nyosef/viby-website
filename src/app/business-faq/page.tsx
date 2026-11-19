@@ -15,6 +15,10 @@ const cards = [
   { ...faqPages.free, summary: "מה אפשר לעשות ללא עלות, מה ההבדל בין ניהול ידני למערכת דיגיטלית ומה המחיר של פתרון מנוהל?" },
   { ...faqPages.comparison, summary: "השוואה פשוטה בין כרטיסיות נייר לכרטיסיות דיגיטליות, עם יתרונות וחסרונות לכל פתרון." },
 ];
+const guides = [
+  { path: "/why-customers-dont-return", title: "למה לקוחות לא חוזרים לעסק?", summary: "מה אפשר ללמוד מביקור שלא הפך להרגל, ואיך נותנים ללקוחות סיבה לחזור." },
+  { path: "/black-friday-small-business", title: "בלאק פריידי 2026 לעסקים קטנים ובינוניים", summary: "חמישה רעיונות למבצע שמתחשב גם ברווחיות וגם בביקור הבא." },
+] as const;
 
 export default function BusinessFaqHub() {
   return (
@@ -31,6 +35,16 @@ export default function BusinessFaqHub() {
             <h3>{card.title}</h3>
             <p>{card.summary}</p>
             <span>קראו את התשובה <span aria-hidden="true">←</span></span>
+          </Link>)}
+        </div>
+      </section>
+      <section className={`${styles.shell} ${styles.hubSection}`} aria-labelledby="business-guides">
+        <h2 id="business-guides">מדריכים לבעלי עסקים</h2>
+        <div className={styles.cardGrid} data-editorial-guides>
+          {guides.map((guide) => <Link className={styles.questionCard} href={guide.path} key={guide.path}>
+            <h3>{guide.title}</h3>
+            <p>{guide.summary}</p>
+            <span>קראו את המדריך <span aria-hidden="true">←</span></span>
           </Link>)}
         </div>
       </section>
