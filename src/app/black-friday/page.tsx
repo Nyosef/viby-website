@@ -188,6 +188,10 @@ export default function BlackFridayPage() {
         </section>
       ) : null}
 
+      <aside className={`${styles.guideLink} ${styles.shell}`} aria-label="מדריך לבלאק פריידי לעסקים">
+        <p>מתכננים מבצע משלכם? <Link href="/black-friday-small-business">5 רעיונות לבלאק פריידי 2026 לעסקים קטנים ובינוניים</Link> יעזרו לחשוב גם על היום שאחרי.</p>
+      </aside>
+
       <section className={styles.proof} aria-labelledby="proof-title">
         <div className={styles.shell}>
           <h2 id="proof-title">כמה מהעסקים שאיתנו</h2>

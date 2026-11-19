@@ -45,6 +45,7 @@ test("Hebrew Black Friday page has exact search phrase, contact actions, and res
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator("h1")).toHaveText(isBlackFridayOfferActive() ? blackFridayActiveHeading : blackFridayEndedHeading);
+    await expect(page.locator('main a[href="/black-friday-small-business"]')).toBeVisible();
     expect((await page.locator('main p[class*="lead"]').textContent())?.trim().startsWith(isBlackFridayOfferActive() ? blackFridayPhrase : "עדיין אפשר לתת ללקוחות סיבה לחזור")).toBe(true);
 
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");

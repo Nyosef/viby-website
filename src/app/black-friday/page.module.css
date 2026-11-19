@@ -863,3 +863,16 @@
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
+.guideLink {
+  margin-block: clamp(1.5rem, 4vw, 3rem);
+  padding: 1.1rem 1.4rem;
+  border: 1px solid #f4c7dc;
+  border-radius: 18px;
+  background: #fff8fc;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+.guideLink p { margin: 0; }
+.guideLink a { color: var(--brand-strong); font-weight: 800; text-underline-offset: .2em; }
+.guideLink a:focus-visible { outline: 3px solid var(--brand-strong); outline-offset: 4px; }
