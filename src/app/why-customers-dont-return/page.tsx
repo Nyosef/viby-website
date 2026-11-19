@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import { EditorialArticle } from "@/components/EditorialArticle";
+import styles from "@/components/EditorialArticle.module.css";
 import { editorialArticles, editorialMetadata } from "@/lib/editorial";
 
 const article = editorialArticles.retention;
@@ -13,6 +15,16 @@ export default function WhyCustomersDontReturnPage() {
       showDivider
       afterCta="תאריך הפרסום בקוד עדיין מוגדר ל־18 בנובמבר 2026; יש לעדכן אותו אם הפרסום בפועל יהיה מאוחר יותר."
     >
+      <figure className={styles.leadImage}>
+        <Image
+          src="/editorial/why-customers-dont-return-hero.webp"
+          alt="איור של בעלת בית קפה שחושבת על לקוח שעזב, לצד סימני ביקורים בכרטיסיית קפה"
+          width={1600}
+          height={900}
+          sizes="(max-width: 800px) calc(100vw - 2rem), 760px"
+          priority
+        />
+      </figure>
       <h2>הסצנה שאתם מכירים</h2>
       <p>השעה 10:47 בבוקר. אתם עומדים מאחורי הדלפק וחושבים: ״רגע, איפה הלקוח עם האמריקנו וחלב השקדים?״</p>
       <p>הוא היה פה כמעט כל יום במשך שבועיים. ואז — בום. נעלם. אולי עבר דירה. אולי התאהב בבית קפה אחר. אולי נחטף בידי חייזרים. מי יודע.</p>
@@ -30,6 +42,15 @@ export default function WhyCustomersDontReturnPage() {
       <h2>כרטיסיית הנייר נמצאת אצל הלקוח. מה העסק יודע?</h2>
       <p>נוסטלגיה זה דבר נחמד. אבל כרטיסיית הקרטון עם החותמת הכחולה לא תמיד עוזרת לעסק להבין מי חוזר. הלקוח עלול לשכוח אותה בבית או לאבד אותה, והעסק רואה את הכרטיסייה רק כשהיא מגיעה לדלפק.</p>
       <p>כרטיסיית ניקוב דיגיטלית יכולה לתעד את ההתקדמות והביקורים שנרשמו במערכת, בהתאם למידע שהעסק אוסף. היא לא מספרת לבד למה מישהו הפסיק להגיע, והיא לא מחליפה שיחה עם הלקוחות או החלטה על הטבה טובה.</p>
+      <figure className={styles.inlinePhoto}>
+        <Image
+          src="/editorial/why-customers-dont-return-cafe.webp"
+          alt="דלפק בית קפה פעיל עם שלט וייבי וקוד QR להצטרפות"
+          width={1200}
+          height={1600}
+          sizes="(max-width: 600px) calc(100vw - 2rem), 560px"
+        />
+      </figure>
 
       <h2>כל האנרגיה על לקוחות חדשים. ומה עם הקיימים?</h2>
       <p>הרבה עסקים משקיעים בפרסום, בפוסטים ובבדיקה של כמה אנשים חדשים נכנסו בדלת. אבל מה קורה אחרי שאותו אדם כבר קנה, שילם ואולי אפילו נהנה?</p>

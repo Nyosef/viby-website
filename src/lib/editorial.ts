@@ -19,7 +19,8 @@ export const editorialArticles = {
     byline: "וייבי",
     publishedDate: retentionFirstPublished,
     modifiedDate: retentionFirstPublished,
-    schemaImage: `${siteConfig.url}${siteConfig.ogImage}`,
+    socialImage: "/editorial/why-customers-dont-return-social.webp",
+    schemaImage: `${siteConfig.url}/editorial/why-customers-dont-return-hero.webp`,
   },
   blackFriday: {
     path: "/black-friday-small-business",
@@ -27,10 +28,11 @@ export const editorialArticles = {
     heading: "בלאק פריידי 2026 לעסקים קטנים ובינוניים: איך הופכים מבצע ללקוחות שחוזרים?",
     description: "חמישה רעיונות לבלאק פריידי 2026 לעסקים קטנים ובינוניים: הצעות משתלמות, הצטרפות למועדון לקוחות ומדידת ביקורים חוזרים.",
     subtitle: "חמישה רעיונות לבעלי עסקים שרוצים להרוויח מהמבצע גם אחרי שההנחות נגמרות.",
-    byline: "מאת מערכת וייבי",
+    byline: "וייבי",
     publishedDate: blackFridayFirstPublished,
     modifiedDate: blackFridayContentModified,
-    schemaImage: undefined,
+    schemaImage: `${siteConfig.url}/editorial/black-friday-small-business-hero.webp`,
+    socialImage: "/editorial/black-friday-small-business-social.webp",
   },
 } as const;
 
@@ -42,7 +44,7 @@ export function editorialMetadata(article: EditorialArticle): Metadata {
     title: article.heading,
     metadataTitle: article.title,
     description: article.description,
-  });
+  }, article.socialImage);
   return {
     ...metadata,
     openGraph: {
