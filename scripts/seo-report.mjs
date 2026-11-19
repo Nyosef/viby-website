@@ -263,13 +263,15 @@ const editorialExpectations = new Map([
     title: "למה לקוחות לא חוזרים לעסק? איך מחזירים אותם | וייבי Viby",
     h1: "למה הלקוח ההוא לא חזר? מדריך לעסקים קטנים ובינוניים",
     description: "למה לקוחות לא חוזרים לעסק? מדריך מעשי לעסקים קטנים ובינוניים על ביקורים חוזרים, כרטיסיות דיגיטליות וקשר אישי עם לקוחות.",
-    image: `${canonicalOrigin}/og.jpg`,
+    image: `${canonicalOrigin}/editorial/why-customers-dont-return-hero.webp`,
+    socialImage: `${canonicalOrigin}/editorial/why-customers-dont-return-social.webp`,
   }],
   ["/black-friday-small-business", {
     title: "בלאק פריידי 2026 לעסקים: 5 רעיונות ללקוחות חוזרים | וייבי Viby",
     h1: "בלאק פריידי 2026 לעסקים קטנים ובינוניים: איך הופכים מבצע ללקוחות שחוזרים?",
     description: "חמישה רעיונות לבלאק פריידי 2026 לעסקים קטנים ובינוניים: הצעות משתלמות, הצטרפות למועדון לקוחות ומדידת ביקורים חוזרים.",
-    image: undefined,
+    image: `${canonicalOrigin}/editorial/black-friday-small-business-hero.webp`,
+    socialImage: `${canonicalOrigin}/editorial/black-friday-small-business-social.webp`,
   }],
 ]);
 const faqExpectations = new Map([
@@ -615,7 +617,12 @@ async function checkPage(pathname, titles) {
     assert(article?.author?.["@id"] === `${canonicalOrigin}/#organization` && article?.author?.name === "Viby" && article?.publisher?.["@id"] === `${canonicalOrigin}/#organization`, `${pathname}: wrong author or publisher reference`);
     assert(article?.isPartOf?.["@id"] === `${canonicalOrigin}/#website`, `${pathname}: wrong WebSite reference`);
     assert(html.includes('<meta property="og:type" content="article"'), `${pathname}: wrong social article type`);
-    assert(html.includes(`<meta property="og:image" content="${canonicalOrigin}/og.jpg"`), `${pathname}: wrong social image`);
+    assert(html.includes(`<meta property="og:image" content="${expected.socialImage}"`), `${pathname}: wrong social image`);
+    if (pathname === "/why-customers-dont-return") {
+      assert(main.includes("why-customers-dont-return-hero.webp") && main.includes("why-customers-dont-return-cafe.webp"), `${pathname}: missing article images`);
+    } else {
+      assert(main.includes("black-friday-small-business-hero.webp"), `${pathname}: missing article image`);
+    }
     assert(/<time\b[^>]*datetime="2026-11-18"/i.test(main), `${pathname}: missing visible publication date`);
     assert(main.includes('data-article-body') && textContent(body).split(/\s+/).length >= 450, `${pathname}: article missing from server HTML`);
     assert(!/ביקורות גוגל|Google Reviews|חמישה כוכבים/.test(textContent(body)), `${pathname}: unwanted reviews advice`);

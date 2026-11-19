@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import { EditorialArticle } from "@/components/EditorialArticle";
+import styles from "@/components/EditorialArticle.module.css";
 import { editorialArticles, editorialMetadata } from "@/lib/editorial";
 
 const article = editorialArticles.blackFriday;
@@ -8,6 +10,16 @@ export const metadata = editorialMetadata(article);
 export default function BlackFridaySmallBusinessPage() {
   return (
     <EditorialArticle article={article} transition="מבצע טוב יכול לפתוח דלת ללקוח חדש. אחרי שהשלט יורד מהחלון, כדאי לחשוב גם על הנוכחות של העסק במקום שבו לקוחות מחפשים אותו.">
+      <figure className={styles.leadImage}>
+        <Image
+          src="/editorial/black-friday-small-business-hero.webp"
+          alt="איור של בעל עסק מקומי בבלאק פריידי 2026, עם כרטיסיית ביקורים ללקוחות חוזרים"
+          width={1600}
+          height={900}
+          sizes="(max-width: 800px) calc(100vw - 2rem), 760px"
+          priority
+        />
+      </figure>
       <h2>כולם רצים להוריד מחירים. מי דואג ליום שאחרי?</h2>
       <p>בלאק פריידי 2026 התחיל בשישי, 27 בנובמבר. סביבו קל לשמוע ״50% הנחה!״ ו״רק היום!״. בעל עסק קטן או בינוני עשוי לשאול שאלה פשוטה: אם גם אנחנו נוריד כל כך הרבה מהמחיר, מה יישאר בסוף?</p>
       <p>לרשת גדולה יש תקציב פרסום גדול. לעסק מקומי יש יתרון אחר: הוא יכול להפוך עסקה חד־פעמית להיכרות שממשיכה גם אחרי סוף השבוע. אלה חמישה רעיונות לבניית מבצע בלי לשכוח את הביקור הבא.</p>
